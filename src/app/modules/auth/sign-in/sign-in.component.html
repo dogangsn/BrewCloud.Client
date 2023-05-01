@@ -2,28 +2,19 @@
     <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
-            <div class="w-12">
+            <!-- <div class="w-12">
                 <img src="assets/images/logo/logo.svg">
-            </div>
+            </div> -->
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
+            <!-- <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div> -->
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Don't have an account?</div>
+                <div>Hayla Üye Değil Misiniz?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-up']">Sign up
+                    [routerLink]="['/auth/sign-up']">Üye Ol
                 </a>
             </div>
-
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="'info'">
-                You are browsing <strong>Fuse Demo</strong>. Click on the "Sign in" button to access the Demo and Documentation.
-            </fuse-alert>
 
             <!-- Alert -->
             <fuse-alert
@@ -44,7 +35,7 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>E-Posta</mat-label>
                     <input
                         id="email"
                         matInput
@@ -59,7 +50,7 @@
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Parola</mat-label>
                     <input
                         id="password"
                         matInput
@@ -91,11 +82,11 @@
                         class="-ml-2"
                         [color]="'primary'"
                         [formControlName]="'rememberMe'">
-                        Remember me
+                        Beni Hatırla
                     </mat-checkbox>
                     <a
                         class="text-md font-medium text-primary-500 hover:underline"
-                        [routerLink]="['/forgot-password']">Forgot password?
+                        [routerLink]="['/forgot-password']">Parolamı Unuttum?
                     </a>
                 </div>
 
@@ -107,7 +98,7 @@
                     [disabled]="signInForm.disabled"
                     (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
-                        Sign in
+                        Giriş Yap
                     </span>
                     <mat-progress-spinner
                         *ngIf="signInForm.disabled"
@@ -118,7 +109,7 @@
                 <!-- Separator -->
                 <div class="flex items-center mt-8">
                     <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Or continue with</div>
+                    <div class="mx-2 text-secondary">Veya</div>
                     <div class="flex-auto mt-px border-t"></div>
                 </div>
 
@@ -174,7 +165,7 @@
         </svg>
         <!-- @formatter:on -->
         <!-- Content -->
-        <div class="z-10 relative w-full max-w-2xl">
+        <!-- <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
                 <div>Welcome to</div>
                 <div>our community</div>
@@ -200,6 +191,6 @@
                 </div>
                 <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

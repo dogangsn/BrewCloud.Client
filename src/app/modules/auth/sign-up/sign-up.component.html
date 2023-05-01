@@ -1,18 +1,14 @@
 <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
     <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-            <!-- Logo -->
-            <div class="w-12">
-                <img src="assets/images/logo/logo.svg">
-            </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Hoşgeldiniz!</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Already have an account?</div>
+                <div>Zaten Üyemisin?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-in']">Sign in
+                    [routerLink]="['/auth/sign-in']">Giriş Yap
                 </a>
             </div>
 
@@ -35,19 +31,34 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Adı Soyadı</mat-label>
                     <input
                         id="name"
                         matInput
                         [formControlName]="'name'">
                     <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Full name is required
+                        Ad Soyad Boş Olamaz
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>E-Posta</mat-label>
+                    <input
+                        id="email"
+                        matInput
+                        [formControlName]="'email'">
+                    <mat-error *ngIf="signUpForm.get('email').hasError('required')">
+                        Email address is required
+                    </mat-error>
+                    <mat-error *ngIf="signUpForm.get('email').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field>
+
+                   <!-- Phone field -->
+                   <mat-form-field class="w-full">
+                    <mat-label>Cep Telefonu</mat-label>
                     <input
                         id="email"
                         matInput
@@ -62,7 +73,7 @@
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Parola</mat-label>
                     <input
                         id="password"
                         matInput
@@ -90,12 +101,21 @@
 
                 <!-- Company field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Company</mat-label>
+                    <mat-label>Firma İsmi</mat-label>
                     <input
                         id="company-confirm"
                         matInput
                         [formControlName]="'company'">
                 </mat-form-field>
+
+                <div class="inline-flex items-end w-full mt-1.5">
+                    <mat-checkbox
+                        class="-ml-2"
+                        [color]="'primary'"
+                        [formControlName]="'agreements'">
+                        <span>KAMPANYA KODUM VAR</span>
+                    </mat-checkbox>
+                </div>
 
                 <!-- ToS and PP -->
                 <div class="inline-flex items-end w-full mt-1.5">
@@ -103,16 +123,7 @@
                         class="-ml-2"
                         [color]="'primary'"
                         [formControlName]="'agreements'">
-                        <span>I agree with</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Terms
-                        </a>
-                        <span>and</span>
-                        <a
-                            class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Privacy Policy
-                        </a>
+                        <span>KULLANIM KOŞULLARINI OKUDUM KABUL EDİYORUM</span>
                     </mat-checkbox>
                 </div>
 
@@ -157,7 +168,7 @@
         </svg>
         <!-- @formatter:on -->
         <!-- Content -->
-        <div class="z-10 relative w-full max-w-2xl">
+        <!-- <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
                 <div>Welcome to</div>
                 <div>our community</div>
@@ -183,6 +194,6 @@
                 </div>
                 <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
