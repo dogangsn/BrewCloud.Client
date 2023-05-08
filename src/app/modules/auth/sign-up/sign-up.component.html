@@ -35,8 +35,8 @@
                     <input
                         id="name"
                         matInput
-                        [formControlName]="'name'">
-                    <mat-error *ngIf="signUpForm.get('name').hasError('required')">
+                        [formControlName]="'username'">
+                    <mat-error *ngIf="signUpForm.get('username').hasError('required')">
                         Ad Soyad Boş Olamaz
                     </mat-error>
                 </mat-form-field>
@@ -57,19 +57,13 @@
                 </mat-form-field>
 
                    <!-- Phone field -->
-                   <mat-form-field class="w-full">
-                    <mat-label>Cep Telefonu</mat-label>
-                    <input
-                        id="email"
-                        matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="signUpForm.get('email').hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
-                </mat-form-field>
+                <mat-form-field
+                        class="w-full">
+                   <mat-label>Phone</mat-label>
+                   <input
+                       [formControlName]="'phone'"
+                       matInput>
+               </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
@@ -112,7 +106,7 @@
                     <mat-checkbox
                         class="-ml-2"
                         [color]="'primary'"
-                        [formControlName]="'agreements'">
+                        [formControlName]="'campaigncode'">
                         <span>KAMPANYA KODUM VAR</span>
                     </mat-checkbox>
                 </div>
@@ -135,7 +129,7 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                        Üyeliği Oluştur
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"

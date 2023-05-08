@@ -7,4 +7,8 @@ export const endPoints = {
         signUp: 'identityserver/api/user/SignUp',
         unlockSession: 'api/auth/unlock-session',
     },
+    account :{
+        createaccount: 'identityserver/api/account/create',
+        complateactivation: 'identityserver/api/account/complateactivation'
+    }
 }
