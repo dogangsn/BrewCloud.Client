@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -51,19 +51,20 @@ export class AuthSignUpComponent implements OnInit
     {
         debugger;
         var model = {
+            email : this.getFormValueByName("email"),
             company : this.getFormValueByName("company"),
             username : this.getFormValueByName("username"),
             Password : this.getFormValueByName("password"),
             Phone: this.getFormValueByName("phone"),
             host: window.location.host,
         }
-
         this.signUpForm.disable();
         this.showAlert = false;
 
         this._accountService.createaccount(model)
             .subscribe(
                 (response) => {
+                    localStorage.setItem('email', model.email);
                     this._router.navigateByUrl('auth/confirmation-required');
                 },
                 (response) => {

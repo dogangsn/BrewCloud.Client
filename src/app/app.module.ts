@@ -11,6 +11,9 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { FormsModule } from '@angular/forms';
+import { CustomerListModule } from './modules/admin/customer/customerlist/customerlist.module';
+import { CustomerModule } from './modules/admin/customer/customer.module';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -36,6 +39,7 @@ const routerConfig: ExtraOptions = {
 
         // Layout module of your application
         LayoutModule
+
     ],
     bootstrap   : [
         AppComponent
