@@ -207,7 +207,6 @@ export class AuthService {
      * Check the authentication status
      */
     check(): Observable<boolean> {
-        debugger;
         console.log(this._authenticated);
         // Check if the user is logged in
         if (this._authenticated) {

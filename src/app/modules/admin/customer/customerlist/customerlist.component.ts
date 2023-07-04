@@ -10,25 +10,25 @@ import { customersDto } from './models/customersDto';
     encapsulation: ViewEncapsulation.None,
 })
 export class CustomersListComponent {
-    displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    //dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
+    displayedColumns: string[] = ['fisrName', 'lastName', 'phoneNumber', 'phoneNumber2'];
+    
     @ViewChild(MatPaginator) paginator: MatPaginator;
     erpdepotcards: customersDto[] = [];
-
+    dataSource = new MatTableDataSource<customersDto>(this.erpdepotcards);
+    
     constructor(private _CustomerListService: CustomerService) {}
-
+    
     ngOnInit() {
         this.getCustomerList();
     }
-
+    
     getCustomerList() {
         this._CustomerListService.getcustomerlist().subscribe((response) => {
             this.erpdepotcards = response.data;
-         
+            console.log(this.erpdepotcards);
         });
     }
-
+    
     // showSweetAlert(type: string): void {
     //     if (type === 'success') {
     //         const sweetAlertDto = new SweetAlertDto(

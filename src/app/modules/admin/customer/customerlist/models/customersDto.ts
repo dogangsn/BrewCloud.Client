@@ -1,7 +1,7 @@
 export class customersDto {
-    FisrName:string;
-    LastName: string;
-    PhoneNumber:Number;
-    PhoneNumber2: Number;
-    EMail:string;
+    fisrname:string;
+    lastname: string;
+    phonenumber:Number;
+    phonenumber2: Number;
+    email:string;
 }
