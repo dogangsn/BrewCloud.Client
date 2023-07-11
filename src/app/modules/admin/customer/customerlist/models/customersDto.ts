@@ -3,5 +3,6 @@ export class customersDto {
     lastname: string;
     phonenumber:Number;
     phonenumber2: Number;
-    email:string;
+    eMail:string;
+    note:string;
 }
