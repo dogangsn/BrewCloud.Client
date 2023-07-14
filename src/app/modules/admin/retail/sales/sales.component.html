@@ -1,10 +1,66 @@
-<div class="flex flex-col flex-auto min-w-0">
+<!-- Main -->
+<div class="flex-auto p-6 sm:p-10">
+  <fuse-card class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+    <div class="text-4xl font-extrabold tracking-tight leading-none">Satışlar</div>
 
-  <!-- Main -->
-  <div class="flex-auto p-6 sm:p-10">
-
-      <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
-          <h1>Satıs</h1>
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+      <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+        <!-- Search -->
+        <div class="flex-auto">
+          <mat-form-field class="fuse-mat-dense fuse-mat-rounded w-full min-w-50" subscriptSizing="dynamic">
+            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input matInput [formControl]="searchInputControl" [autocomplete]="'off'" [placeholder]="'Satış Ara'">
+          </mat-form-field>
+        </div>
+        <!-- Add contact button -->
+        <button class="ml-4" mat-flat-button [color]="'primary'" (click)="createsales()">
+          <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+          <span class="ml-2 mr-1">Parakende Satış</span>
+        </button>
+        <button class="ml-4" mat-flat-button [color]="'primary'" (click)="createsales()">
+          <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+          <span class="ml-2 mr-1">Kayıtlı Müşteriye Satış</span>
+        </button>
       </div>
-  </div>
+
+      <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef> Weight </th>
+          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Symbol </th>
+          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+      </div>
+
+
+    </div>
+
+  </fuse-card>
 </div>

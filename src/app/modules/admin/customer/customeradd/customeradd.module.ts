@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const root: Route[] = [
     {
@@ -27,6 +29,9 @@ const root: Route[] = [
         ReactiveFormsModule,
         FuseCardModule,
         MatMenuModule,
+        MatSelectModule,
+        MatIconModule,
+        MatCheckboxModule,
         RouterModule.forChild(root),
      
     ],
