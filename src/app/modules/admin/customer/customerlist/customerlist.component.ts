@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { customersDto } from './models/customersDto';
+import { customersListDto } from './models/customersListDto';
 
 @Component({
     selector: 'customerslist',
@@ -10,11 +10,11 @@ import { customersDto } from './models/customersDto';
     encapsulation: ViewEncapsulation.None,
 })
 export class CustomersListComponent {
-    displayedColumns: string[] = ['fisrName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note'];
+    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note'];
     
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    erpdepotcards: customersDto[] = [];
-    dataSource = new MatTableDataSource<customersDto>(this.erpdepotcards);
+    erpdepotcards: customersListDto[] = [];
+    dataSource = new MatTableDataSource<customersListDto>(this.erpdepotcards);
     
     constructor(private _CustomerListService: CustomerService) {}
     

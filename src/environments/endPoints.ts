@@ -12,7 +12,8 @@ export const endPoints = {
         complateactivation: 'identityserver/api/account/complateactivation'
     },
     customers:{
-        customerslist: 'vet/Customers/CustomersList'
+        customerslist: 'vet/Customers/CustomersList',
+        createCustomers: 'vet/Customers/CreateCustomer'
     }
 
 }

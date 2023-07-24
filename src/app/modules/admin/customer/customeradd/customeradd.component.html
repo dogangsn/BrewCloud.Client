@@ -1,192 +1,212 @@
 <div class="flex flex-col flex-auto min-w-0">
 
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'./..'">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  Müşteri Ekle
+                </h2>
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- <button mat-stroked-button>
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                Yeni Tedarikçiden Alış
+            </button> -->
+            <button
+                class="ml-3"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="addCustomers()" >
+                <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                Kaydet
+            </button>
+        </div>
+    </div>
+  
     <!-- Main -->
-    <div class="flex-auto p-6 sm:p-10">
+    <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+        <form [formGroup]="accountForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
 
-        <!-- <fuse-card class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8"> -->
-            <!-- <div class="text-xl font-semibold">Müşteri Ekle</div> -->
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3">
+                    <mat-label>Hasta Sahibi Adı</mat-label>
+                    <input matInput
+                        [formControlName]="'firstName'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pl-3">
+                    <mat-label>Hasta Sahibi Soyadı</mat-label>
+                    <input matInput [formControlName] = "'lastName'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3">
+                    <mat-label>Telefon Numarası</mat-label>
+                    <input matInput [formControlName] = "'phoneNumber'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pl-3">
+                    <mat-label>Telefon Numarası 2</mat-label>
+                    <input matInput [formControlName] = "'phoneNumber2'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3">
+                    <mat-label>E-Mail</mat-label>
+                    <input matInput [formControlName] = "'eMail'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pl-3">
+                    <mat-label>Vergi Dairesi</mat-label>
+                    <input matInput [formControlName] = "'taxOffice'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field
+                    class="flex-auto gt-xs:pr-3">
+                    <mat-label>Not</mat-label>
+                    <input matInput [formControlName] = "'note'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pl-3">
+                    <mat-label>VN/T.C Numarası</mat-label>
+                    <input matInput [formControlName] = "'vKNTCNo'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+            </div>
 
-            <form [formGroup]="accountForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
-
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field
-                        class="flex-auto gt-xs:pr-3">
-                        <mat-label>Hasta Sahibi Adı</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-xs:pl-3">
-                        <mat-label>Hasta Sahibi Soyadı</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field
-                        class="flex-auto gt-xs:pr-3">
-                        <mat-label>Telefon Numarası</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-xs:pl-3">
-                        <mat-label>Telefon Numarası 2</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field
-                        class="flex-auto gt-xs:pr-3">
-                        <mat-label>E-Mail</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-xs:pl-3">
-                        <mat-label>Vergi Dairesi</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field
-                        class="flex-auto gt-xs:pr-3">
-                        <mat-label>Not</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-xs:pl-3">
-                        <mat-label>VN/T.C Numarası</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                </div>
-
-                <div class="flex flex-col gt-md:flex-row">
-                    <mat-form-field
-                        class="flex-auto gt-md:pr-3">
-                        <mat-label>İl</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-md:pl-3">
-                        <mat-label>İlçe</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex">
-                    <mat-form-field
-                        class="flex-auto">
-                        <mat-label>Addres</mat-label>
-                        <textarea
-                            matInput
-                            cdkTextareaAutosize
-                            [cdkAutosizeMinRows]="3"></textarea>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field class="flex-auto gt-xs:pr-3">
-                        <mat-label>Müşteri Grubu</mat-label>
-                        <mat-select [placeholder]="'Müşteri Grubu'">
-                            <mat-option value="">Country 1</mat-option>
-                            <mat-option value="">Country 2</mat-option>
-                            <mat-option value="">Country 3</mat-option>
-                        </mat-select>
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field
-                        class="flex-auto gt-xs:pl-3">
-                        <mat-label>Müşteri İndirim Kodu</mat-label>
-                        <input matInput>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-sm:flex-row">
+            <div class="flex flex-col gt-md:flex-row">
+                <mat-form-field
+                    class="flex-auto gt-md:pr-3">
+                    <mat-label>İl</mat-label>
+                    <input matInput [formControlName] = "'province'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-md:pl-3">
+                    <mat-label>İlçe</mat-label>
+                    <input matInput  [formControlName] = "'district'">
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field
+                    class="flex-auto">
+                    <mat-label>Addres</mat-label>
+                    <textarea
+                        matInput
+                        cdkTextareaAutosize
+                        [cdkAutosizeMinRows]="3" [formControlName] = "'longAdress'"></textarea>
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <mat-label>Müşteri Grubu</mat-label>
+                    <mat-select [placeholder]="'Müşteri Grubu'">
+                        <mat-option value="">Country 1</mat-option>
+                        <mat-option value="">Country 2</mat-option>
+                        <mat-option value="">Country 3</mat-option>
+                    </mat-select>
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                </mat-form-field>
+                <mat-form-field
+                    class="flex-auto gt-xs:pl-3">
+                    <mat-label>Müşteri İndirim Kodu</mat-label>
+                    <input matInput>
+                    <mat-icon
+                        class="icon-size-5"
+                        matSuffix
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-sm:flex-row">
+                <div class="flex flex-col">
+                    <span class="font-semibold mb-2">Bildirim</span>
                     <div class="flex flex-col">
-                        <span class="font-semibold mb-2">Bildirim</span>
-                        <div class="flex flex-col">
-                            <mat-checkbox
-                                class="mb-2"
-                                [checked]="true"
-                                [color]="'primary'">
-                                SMS Bildirimi
-                            </mat-checkbox>
-                            <mat-checkbox
-                                class="mb-2"
-                                [color]="'primary'">
-                                E-Posta Bildirimi
-                            </mat-checkbox>
-                        </div>
+                        <mat-checkbox
+                            class="mb-2"
+                            [checked]="true"
+                            [color]="'primary'">
+                            SMS Bildirimi
+                        </mat-checkbox>
+                        <mat-checkbox
+                            class="mb-2"
+                            [color]="'primary'">
+                            E-Posta Bildirimi
+                        </mat-checkbox>
                     </div>
                 </div>
-                <!-- <div class="flex">
-                    <mat-form-field
-                        class="flex-auto">
-                        <mat-label>Postal code</mat-label>
-                        <input
-                            matInput
-                            maxlength="5"
-                            #postalCode>
-                        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-                        <mat-icon
-                            class="icon-size-5"
-                            matSuffix
-                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                    </mat-form-field>
-                </div> -->
-            </form>
-        <!-- </fuse-card> -->
-        <br>
-        <br>
-        <fuse-card class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-            <div class="text-xl font-semibold">Hasta Bilgileri</div>
-
-        </fuse-card>
-
+            </div>
+        </form>
     </div>
-</div>
+  
+  </div>
+  
