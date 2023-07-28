@@ -125,6 +125,7 @@ export class InventoryService
     getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: InventoryPagination; products: InventoryProduct[] }>
     {
+        debugger;
         return this._httpClient.get<{ pagination: InventoryPagination; products: InventoryProduct[] }>('api/apps/ecommerce/inventory/products', {
             params: {
                 page: '' + page,
