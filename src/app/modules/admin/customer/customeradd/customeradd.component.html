@@ -7,8 +7,8 @@
             <!-- <div class="text-xl font-semibold">Müşteri Ekle</div> -->
 
             <form [formGroup]="accountForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
-
-                <div class="flex flex-col gt-xs:flex-row">
+            <div    class = "float : left flex  gt-xs:flex-row">
+                <!-- <div class="flex flex-col gt-xs:flex-row"> -->
                     <mat-form-field
                         class="flex-auto gt-xs:pr-3">
                         <mat-label>Hasta Sahibi Adı</mat-label>
@@ -27,8 +27,9 @@
                             matSuffix
                             [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                     </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
+                <!-- </div> -->
+            </div>
+                <div class="flex float : left gt-xs:flex-row">
                     <mat-form-field
                         class="flex-auto gt-xs:pr-3">
                         <mat-label>Telefon Numarası</mat-label>
@@ -48,7 +49,7 @@
                             [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                     </mat-form-field>
                 </div>
-                <div class="flex flex-col gt-xs:flex-row">
+                <div class="flex float : left gt-xs:flex-row">
                     <mat-form-field
                         class="flex-auto gt-xs:pr-3">
                         <mat-label>E-Mail</mat-label>
@@ -68,7 +69,7 @@
                             [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                     </mat-form-field>
                 </div>
-                <div class="flex flex-col gt-xs:flex-row">
+                <div class="flex float : left gt-xs:flex-row">
                     <mat-form-field
                         class="flex-auto gt-xs:pr-3">
                         <mat-label>Not</mat-label>
@@ -89,7 +90,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="flex flex-col gt-md:flex-row">
+                <div class="flex float : left gt-md:flex-row">
                     <mat-form-field
                         class="flex-auto gt-md:pr-3">
                         <mat-label>İl</mat-label>
@@ -123,7 +124,7 @@
                             [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                     </mat-form-field>
                 </div>
-                <div class="flex flex-col gt-xs:flex-row">
+                <div class="flex float : left gt-xs:flex-row">
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>Müşteri Grubu</mat-label>
                         <mat-select [placeholder]="'Müşteri Grubu'">
