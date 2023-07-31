@@ -1,5 +1,5 @@
-export class customersDto {
-    fisrname:string;
+export class customersListDto {
+    firstname:string;
     lastname: string;
     phonenumber:Number;
     phonenumber2: Number;

@@ -9,6 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { CreateEditProductDescriptionDialogComponent } from './dialogs/create-edit-productdescription';
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const root: Route[] = [
     {
@@ -31,10 +34,16 @@ const root: Route[] = [
         MatMenuModule,
         FormsModule,
         MatTableModule,
+        CommonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatDialogModule,
+
         RouterModule.forChild(root)
     ],
     declarations: [
-        ProductdescriptionComponent
+        ProductdescriptionComponent,
+        CreateEditProductDescriptionDialogComponent
     ]
     
 })
