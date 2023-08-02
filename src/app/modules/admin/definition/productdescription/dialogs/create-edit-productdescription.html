@@ -13,13 +13,170 @@
         </div>
 
         <div class="modal-body mbody-productdescription">
-            
 
+            <div class="qm-pr-content">
+                <div class="container-fluid" [formGroup]="productdescription">
 
+                    <div class="row">
+                        <div class="col-sm-12">
 
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field>
+                                        <mat-label>Ürün Adı</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Birim</mat-label>
+                                        <mat-select [placeholder]="'Müşteri Grubu'">
+                                            <mat-option value="">Country 1</mat-option>
+                                            <mat-option value="">Country 2</mat-option>
+                                            <mat-option value="">Country 3</mat-option>
+                                        </mat-select>
+                                        <mat-icon class="icon-size-5" matPrefix
+                                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Kategori</mat-label>
+                                        <mat-select [placeholder]="'Müşteri Grubu'">
+                                            <mat-option value="">Country 1</mat-option>
+                                            <mat-option value="">Country 2</mat-option>
+                                            <mat-option value="">Country 3</mat-option>
+                                        </mat-select>
+                                        <mat-icon class="icon-size-5" matPrefix
+                                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Ürün Tipi</mat-label>
+                                        <mat-select [placeholder]="'Müşteri Grubu'">
+                                            <mat-option value="">Country 1</mat-option>
+                                            <mat-option value="">Country 2</mat-option>
+                                            <mat-option value="">Country 3</mat-option>
+                                        </mat-select>
+                                        <mat-icon class="icon-size-5" matPrefix
+                                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Tedarikçi</mat-label>
+                                        <mat-select [placeholder]="'Müşteri Grubu'">
+                                            <mat-option value="">Country 1</mat-option>
+                                            <mat-option value="">Country 2</mat-option>
+                                            <mat-option value="">Country 3</mat-option>
+                                        </mat-select>
+                                        <mat-icon class="icon-size-5" matPrefix
+                                            [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Ürün Barkod</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Ürün Kodu</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>KDV %</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Alış Fiyatı</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Satış Fiyatı</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-2">
+                                    <mat-form-field class="flex-auto gt-xs:pr-3">
+                                        <mat-label>Kritik Stok Miktarı</mat-label>
+                                        <input matInput>
+                                        <mat-icon class="icon-size-5" matSuffix
+                                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gt-sm:flex-row">
+                                <div class="flex flex-col">
+                                    <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'">
+                                        Aktif
+                                    </mat-checkbox>
+                                    <mat-checkbox class="mb-2" [color]="'primary'">
+                                        Ürün Satış Fiyatına KDV Dahil
+                                    </mat-checkbox>
+                                    <mat-checkbox class="mb-2" [color]="'primary'">
+                                        Ürün Alış Fiyatına KDV Dahil
+                                    </mat-checkbox>
+                                    <mat-checkbox class="mb-2" [color]="'primary'">
+                                        Miktarlı Satışlarda Fiyat Sabitlensin
+                                    </mat-checkbox>
+                                    <mat-checkbox class="mb-2" [color]="'primary'">
+                                        Seri Numaralı ve Son Kullanma Tarihli Ürün Takip Et
+                                    </mat-checkbox>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-
     </mat-dialog-content>
 </div>

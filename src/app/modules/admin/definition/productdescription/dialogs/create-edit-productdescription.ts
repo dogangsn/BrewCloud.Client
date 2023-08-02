@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDescriptionsDto } from '../models/ProductDescriptionsDto';
 import { MatDialogRef } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -9,6 +10,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CreateEditProductDescriptionDialogComponent implements OnInit {
 
   selectedProductdescription: ProductDescriptionsDto;
+
+  productdescription: FormGroup;
 
     ngOnInit(): void {
         throw new Error('Method not implemented.');
