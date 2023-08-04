@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 const root: Route[] = [
     {
         path     : '',
@@ -31,6 +31,7 @@ const root: Route[] = [
         MatMenuModule,
         FormsModule,
         MatTableModule,
+        FullCalendarModule,
         RouterModule.forChild(root)
     ],
     declarations: [
