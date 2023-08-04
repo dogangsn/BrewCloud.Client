@@ -24,6 +24,10 @@
 /* -------------------------------------------------------------------------- */
 .mat-accordion {
 
+    .mat-dialog-title {
+        font: 500 20px/32px Roboto, Helvetica Neue, sans-serif;
+        letter-spacing: normal;
+    }
     .mat-expansion-panel {
         margin-bottom: 24px;
         border-radius: 8px !important;

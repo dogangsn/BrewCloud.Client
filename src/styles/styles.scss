@@ -2,10 +2,416 @@
 /*  @ Import/write your custom styles here.
 /*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
 /* ----------------------------------------------------------------------------------------------------- */
+// .modalForm mat-label {
+//     font-size: 14px !important;
+// }
+
+.mat-mdc-form-field.mat-form-field-appearance-fill {
+    width: 100% !important;
+}
+
+@mixin shadow() {
+    box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.bg-gray-blue {
+    background-color: #2f3f47 !important;
+}
+
+.font-md {
+    font-size: 0.875rem !important;
+}
+
+.cdk-global-scrollblock {
+    position: relative !important;
+}
+
+.cdk-overlay-container {
+    z-index: 1500 !important;
+}
+
+.login-link {
+    color: #0a7fc2 !important;
+}
+
+.login-btn {
+    background-color: #0a7fc2 !important;
+    padding: 10px 20px;
+    color: #fff !important;
+    font-size: 14px !important;
+    @include shadow();
+}
+
+.login-btn:hover {
+    background-color: #006da0 !important;
+    color: #fff !important;
+}
+
+.mat-button-disabled,
+.mat-button-disabled:hover {
+    background-color: #ececec !important;
+}
+
+.login-content {
+    margin: auto 0;
+}
+
+.cntr {
+    justify-content: center !important;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+body.light .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+body .light .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+body .light .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #0a7fc2 !important;
+}
+
+
+.mat-tab-body.mat-tab-body-active {
+    overflow-y: inherit !important;
+}
+
+.mat-tab-body-wrapper {
+    overflow: inherit !important;
+}
+
+.mat-tab-body-content,
+.mat-tab-body {
+    overflow-y: inherit !important;
+    overflow-x: clip !important;
+}
+
+.table-responsive {
+    overflow-x: inherit !important;
+}
+
+
+
+/* MODAL FORM CUSTOM CSS */
+
+
+a {
+    cursor: pointer !important;
+}
+
+.mat-dialog-container {
+    position: relative !important;
+    padding: 24px 24px !important;
+}
+
+.mat-dialog-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: inherit !important;
+    overflow: inherit !important;
+}
+
+.mat-tab-body-content {
+    padding: 0 !important;
+}
+
+.mat-tab-label {
+    opacity: 1 !important;
+    height: 40px !important;
+    min-width: auto !important;
+    background-color: #f5f5f5 !important;
+    border: 1px solid #d4d4d4 !important;
+    margin: 0 2px !important;
+
+}
+
+.fuse-mat-rounded .mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
+    background-color: #0a7fc2 !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    padding: 5px 16px !important;
+}
+
+.qm-pr-content .row:first-child {
+    margin-top: 5px !important;
+}
+
+
+.mat-dialog-title {
+    text-align: right;
+    margin-bottom: 0 !important;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+
+}
+
+.mat-dialog-title .material-icons {
+    color: #1e293b;
+}
+
+
+.modal-dialog {
+    margin: 0 auto !important;
+
+}
+
+.modal-content {
+    border: none !important;
+    background-color: transparent;
+
+}
+
+.modal-header {
+    padding: 0 !important;
+    border-bottom: none !important;
+    margin-bottom: 5px !important;
+}
+
+.modal-body {
+    padding: 0 !important;
+    border: 1px solid #dedede !important;
+    padding: 10px !important;
+    border-radius: 5px;
+    width: 50vw;
+}
+
+
+.modal-body table {
+    width: 100%;
+
+}
+
+.modal-title {
+    font-weight: bold !important;
+    font-size: 20px;
+}
+
+.btn.focus,
+.btn:focus {
+    box-shadow: none !important;
+}
+
+
+.mat-primary .mat-icon {
+    color: #fff !important;
+}
+
+.mat-form-field .mat-icon,
+.p-datatable .mat-icon {
+    color: #64748b !important;
+}
+
+
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: var(--themeColor) !important;
+}
+
+.qr-menu-product-body {
+    ::ng-deep .mat-tab-header {
+        display: none;
+    }
+
+    .qm-pr-title {
+        font-size: 17px;
+        font-weight: 600;
+        padding: 10px 0 10px 20px;
+        border-bottom: 1px dotted #999;
+        position: relative;
+        color: #102835;
+        margin: 30px 0 15px 0;
+
+        &::before {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 80%;
+            width: 3px;
+            background-color: var(--themeColor);
+            content: "";
+        }
+    }
+}
+
+// MAT FORM
 .modalForm mat-label {
     font-size: 14px !important;
 }
 
 .modalForm .mat-form-field {
     width: 100% !important;
+}
+
+.contractForm .multiselect-dropdown .dropdown-list {
+    position: fixed !important;
+    width: fit-content;
+}
+
+.contractForm .multiselect-dropdown .dropdown-list ul {
+    max-height: inherit !important;
+}
+
+
+.contractForm .multiselect-dropdown .dropdown-btn {
+    padding: 0 0 11px 0 !important;
+}
+
+.branchdepartmentForm .multiselect-dropdown .dropdown-list {
+    position: fixed !important;
+    width: fit-content;
+}
+
+.branchtranscodeForm .multiselect-dropdown .dropdown-list {
+    position: fixed !important;
+    width: fit-content;
+}
+
+// MAT TAB
+.fuse-mat-rounded .mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+    border-radius: 5px !important;
+}
+
+
+
+.mat-tab-header {
+    border-color: transparent !important;
+    padding: 5px 0 !important;
+    margin-bottom: 10px;
+}
+
+
+.multiselect-dropdown .dropdown-btn {
+    border: none !important;
+    border-bottom: 1px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+    padding: 8px 12px !important;
+}
+
+.btn-filters-report {
+    min-height: 44px;
+    color: white !important;
+    background-color: #0a7fc2 !important;
+    border-radius: 5px !important;
+}
+
+.mat-form-field *,
+.mat-checkbox-label {
+    font-size: 15px !important;
+}
+
+#btnActiveLanguage {
+    max-width: 21px;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #0a7fc2 !important;
+}
+
+
+.v-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -15px !important;
+}
+
+.hcenter {
+    margin: 10px 0 10px 0;
+    height: 50px;
+}
+
+.mat-checkbox-inner-container {
+    height: 15px;
+    width: 15px;
+}
+
+.person-img {
+    width: fit-content;
+    margin: 30px auto 0 auto;
+    padding: 5px;
+    border: 1px dotted #d4d4d4;
+}
+
+.person-img img {
+    width: auto;
+    height: 200px;
+
+}
+
+.mainItems {
+    color: rgb(219, 58, 58) !important;
+}
+
+.form-head {
+    border-bottom: 1px solid #a5a5a5;
+    padding-bottom: 5px;
+}
+
+.dropdown-list {
+    overflow: hidden;
+    max-height: 300px;
+}
+
+.dropdown-list ul.item2 {
+    overflow: auto !important;
+    display: block;
+    height: 160px !important;
+}
+
+
+.swal2-container {
+    z-index: 9999999999 !important;
+}
+
+
+.mat-form-field-appearance-fill .mat-form-field-infix {
+    padding: 0px !important;
+}
+
+.mat-form-field *,
+.mat-checkbox-label {
+    font-size: 13px !important;
+}
+
+.mat-form-field-wrapper {
+    margin-top: -8px !important;
+}
+
+.card-header {
+    font-size: 13px !important;
+    line-height: 5px !important;
+    padding-left: 5px !important;
+}
+
+
+.custom-dx-table>.dx-datagrid .dx-row:not(.dx-datagrid-filter-row)>td:not(.cell-highlighted) {
+    padding: 5px 8px !important;
+    font-size: 13px !important;
+    line-height: 15px !important;
+}
+.custom-dx-table>.dx-datagrid .dx-row:not(.dx-datagrid-filter-row)>td.cell-highlighted.dx-editor-cell.dx-editor-inline-block:not(.dx-command-select)::before {
+    padding: 0px 5px;
+}
+.dx-texteditor.dx-editor-underlined{
+    border-bottom: 1px solid rgba(222, 222, 222, 0.849)  !important;
+}
+.dx-texteditor.dx-editor-underlined::after {
+    border-bottom: 1px solid rgba(222, 222, 222, 0.178)  !important;
+}
+.dx-texteditor.dx-editor-underlined.dx-state-hover::after {
+    border-bottom: 1px solid rgba(222, 222, 222, 0.712) !important;
+  }
+
+dx-check-box {
+    color:rgba(117,117,117,.87) !important;
+}
+dx-checkbox-icon{
+    color:rgb(222 222 222) !important;
 }
