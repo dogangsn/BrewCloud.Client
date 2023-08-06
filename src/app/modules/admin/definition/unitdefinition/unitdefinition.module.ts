@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProductcategoryComponent } from './productcategory.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-import { CreateEditProductCategoriesDialogComponent } from './dialogs/create-edit-productcategory';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -21,12 +19,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UnitComponent } from './unitdefinition.component';
+import { CreateEditUnitDefinitionDialogComponent } from './dialogs/create-edit-unitdefinition';
 
 
 const root: Route[] = [
     {
         path     : '',
-        component: ProductcategoryComponent
+        component: UnitComponent
     }
 ];
 
@@ -76,12 +76,12 @@ const root: Route[] = [
         RouterModule.forChild(root)
     ],
     declarations: [
-        ProductcategoryComponent,
-        CreateEditProductCategoriesDialogComponent
+        UnitComponent,
+        CreateEditUnitDefinitionDialogComponent
         
     ]
     
 })
-export class ProductcategoryModule
+export class UnitDefinitionModule
 {
 }

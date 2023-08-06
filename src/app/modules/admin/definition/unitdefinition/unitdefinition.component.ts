@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateEditProductCategoriesDialogComponent } from './dialogs/create-edit-productcategory';
+import { CreateEditUnitDefinitionDialogComponent } from './dialogs/create-edit-unitdefinition';
 
 @Component({
-  selector: 'app-productcategory',
-  templateUrl: './productcategory.component.html',
-  styleUrls: ['./productcategory.component.css']
+  selector: 'app-Unit',
+  templateUrl: './unitdefinition.component.html',
+  styleUrls: ['./unitdefinition.component.scss']
 })
-export class ProductcategoryComponent implements OnInit {
+export class UnitComponent implements OnInit {
 
   constructor(private _dialog: MatDialog) { }
 
@@ -21,7 +21,7 @@ export class ProductcategoryComponent implements OnInit {
     //this.isUpdateButtonActive = false;
 
     const dialog = this._dialog
-        .open(CreateEditProductCategoriesDialogComponent, {
+        .open(CreateEditUnitDefinitionDialogComponent, {
             maxWidth: '100vw !important',
             disableClose: true,
             data: null,

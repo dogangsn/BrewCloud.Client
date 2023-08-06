@@ -278,6 +278,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'unitdefinition',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/unitdefinition/unitdefinition.module').then(
+                        (m) => m.UnitDefinitionModule
+                    ),
+            },
+            {
                 path: 'productcategory',
                 loadChildren: () =>
                     import('app/modules/admin/definition/productcategory/productcategory.module').then(

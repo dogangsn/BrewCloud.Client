@@ -161,6 +161,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/casingdefinition'
             },
             {
+                id   : 'unitdefinition',
+                title: 'Birim',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-check',
+                link : '/unitdefinition'
+            },
+            {
                 id   : 'productcategory',
                 title: 'Ürün Kategorisi Ekle',
                 type : 'basic',

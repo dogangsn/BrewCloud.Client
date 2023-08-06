@@ -14,6 +14,13 @@ export const endPoints = {
     customers:{
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer'
+    },
+    productdescription:{
+        productdescriptionList: 'vet/Definition/ProductDescriptionList',
+    },
+    productcategory: {
+        productcategoryList: 'vet/Definition/ProductCategoryList',
+        createProductCategory : 'vet/Definition/CreateProductCategories'
     }
 
 }
