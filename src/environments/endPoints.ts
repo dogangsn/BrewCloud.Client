@@ -21,6 +21,10 @@ export const endPoints = {
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
         createProductCategory : 'vet/Definition/CreateProductCategories'
+    },
+    units : {
+        UnitsList : 'vet/Definition/UnitsList',
+        CreateUnits : 'vet/Definition/CreateUnits'
     }
 
 }

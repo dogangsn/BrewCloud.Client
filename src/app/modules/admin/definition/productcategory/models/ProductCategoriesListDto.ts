@@ -1,5 +1,4 @@
-export class ProductCategoriesListDto
-{
+export class ProductCategoriesListDto {
+    categoryCode: string;
     name: string;
-    categoryCode : string;
 }

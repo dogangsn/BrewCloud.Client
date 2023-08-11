@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
+import { CreateProductCategoriesCommand } from "app/modules/admin/definition/productcategory/models/CreateProductCategoriesCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -12,6 +13,10 @@ export class ProductCategoryService {
 
     getProductCategoryList() : Observable<any>{
         return this._httpService.getRequest(endPoints.productcategory.productcategoryList);
+    }
+
+    createProductCategory(model: CreateProductCategoriesCommand): Observable<any> {
+        return this._httpService.post(endPoints.productcategory.createProductCategory, model);
     }
 
 
