@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>
+    <button class="dialog-close-button" mat-dialog-close>
+      <span class="material-icons"> highlight_off </span>
+    </button>
+  </h1>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title mb-4">
+          Dialog Title
+        </h5>
+      </div>
+      <div class="modal-body">
+        <mat-dialog-content>
+          <mat-form-field appearance="legacy">
+            <mat-label>Dialog Input</mat-label>
+            <input matInput placeholder="" #inputValue />
+            <div matSuffix>*</div>
+            <mat-hint></mat-hint>
+          </mat-form-field>
+          <br>
+          <button type="button" (click)="dialogSave()" class="btn oph-btn-blue mt-1 mb-1">
+            Kaydet ve Çık
+          </button>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>

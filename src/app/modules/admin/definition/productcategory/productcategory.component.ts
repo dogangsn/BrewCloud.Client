@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
     styleUrls: ['./productcategory.component.css'],
 })
 export class ProductcategoryComponent implements OnInit {
-    displayedColumns: string[] = ['name', 'categoryCode'];
+    displayedColumns: string[] = [ 'name', 'categoryCode', 'update', 'delete'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     productcategories: ProductCategoriesListDto[] = [];
@@ -20,6 +20,7 @@ export class ProductcategoryComponent implements OnInit {
         this.productcategories
     );
     
+    isUpdateButtonActive: boolean;
 
     constructor(private _dialog: MatDialog,private _productcategoryservice: ProductCategoryService) {}
 
@@ -38,7 +39,7 @@ export class ProductcategoryComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
-        //this.isUpdateButtonActive = false;
+        this.isUpdateButtonActive = false;
         const dialog = this._dialog
             .open(CreateEditProductCategoriesDialogComponent, {
                 maxWidth: '100vw !important',
@@ -48,8 +49,41 @@ export class ProductcategoryComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getErpFinanceMonitors();
+                    this.ProductCategoryList();
                 }
             });
     }
+
+    editProductCategories(model: ProductCategoriesListDto): void {
+        this.isUpdateButtonActive = true;
+
+        // this._productcategoryservice.getDeviceInfoId(model).subscribe((response) => {
+        //     if (response.isSuccessful) {
+        //         this.selectedPdksDeviceInfo = response.data;
+        //         const dialog = this._dialog.open(CreateEditPdksDeviceInfoDialogComponent, {
+        //             maxWidth: '100vw !important',
+        //             disableClose: true,
+        //             data: this.selectedPdksDeviceInfo
+        //         }).afterClosed().subscribe((err) => {
+        //             if (err.status) {
+        //                 this.getPdksDeviceInfos();
+        //             }
+        //         });
+
+        //     } else {
+        //         //başarısız
+        //     }
+        // });
+    }
+
+    public redirectToUpdate = (id: string) => {
+
+    }
+
+    public redirectToDelete = (id: string) => {
+      
+    }
+
+
+
 }
