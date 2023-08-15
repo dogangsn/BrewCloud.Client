@@ -35,16 +35,24 @@
 
                 </div>
             </div>
-               <!-- Add / Edit Button -->
-               <div class="row mt-3">
-                <div class="col-12">
-                    <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addunitdefinition()">
-                        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                        Kaydet
-                    </button>
-                </div>
+            <div class="flex items-center mt-4 sm:mt-0">
+                <!-- Discard -->
+                <button
+                    class="ml-auto sm:ml-0"
+                    mat-stroked-button
+                    (click)="closeDialog()">
+                    Vazgeç
+                </button>
+                <!-- Save as draft -->
+                <!-- Send -->
+                <button
+                    class="order-first sm:order-last"
+                    mat-flat-button
+                    [color]="'primary'"
+                    (click)="addunitdefinition()">
+                    Kaydet
+                </button>
             </div>
-            <!-- End -->
         </div>
 
           

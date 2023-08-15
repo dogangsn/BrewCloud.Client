@@ -40,20 +40,24 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
 
     addproductcategories(): void {
 
+        
         const productCategoryItem = new CreateProductCategoriesCommand( 
             this.getFormValueByName('name'),
             this.getFormValueByName('categoryCode')
-        );
+            );
+            
+            this._productcategory.createProductCategory(productCategoryItem).subscribe(
+                (response) => {
+                    
+                    debugger;
 
-        this._productcategory.createProductCategory(productCategoryItem).subscribe(
-            (response) => {
                 if (response.isSuccessful) {
-                    // this.showSweetAlert('success');
+                    this.showSweetAlert('success');
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                    // this.showSweetAlert('error');
+                     this.showSweetAlert('error');
                 }
             },
             (err) => {
