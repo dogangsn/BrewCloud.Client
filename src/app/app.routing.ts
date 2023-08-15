@@ -291,6 +291,13 @@ export const appRoutes: Route[] = [
                         (m) => m.ProductcategoryModule
                     ),
             },
+            {
+                path: 'customergroup',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/customergroup/customergroup.module').then(
+                        (m) => m.CustomergroupModule
+                    ),
+            },
         ],
     },
 ];
