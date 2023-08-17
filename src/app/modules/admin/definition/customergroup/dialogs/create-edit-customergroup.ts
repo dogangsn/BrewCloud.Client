@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupListDto } from '../models/customerGroupListDto';
 import { CreateCustomerGroupCommand } from '../models/CreateCustomerGroupCommand';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 
 @Component({
     selector: 'app-create-edit-customergroup-dialog',
@@ -23,7 +23,7 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
-        private _productcategory: ProductCategoryService,
+        private _customergroup: CustomerGroupService,
         private _translocoService: TranslocoService,
         @Inject(MAT_DIALOG_DATA) public data: CustomerGroupListDto
     ) {
@@ -46,10 +46,10 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
         
         const productCategoryItem = new CreateCustomerGroupCommand( 
             this.getFormValueByName('name'),
-            this.getFormValueByName('categoryCode')
+            this.getFormValueByName('code')
             );
             
-            this._productcategory.createProductCategory(productCategoryItem).subscribe(
+            this._customergroup.createcustomerGroupDef(productCategoryItem).subscribe(
                 (response) => {
                     
                     debugger;

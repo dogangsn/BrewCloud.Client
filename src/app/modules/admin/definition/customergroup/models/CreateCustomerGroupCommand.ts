@@ -1,9 +1,9 @@
 export class CreateCustomerGroupCommand {
     name: string;
-    categoryCode: string;
+    code: string;
 
-    constructor(name: string, categoryCode: string) {
+    constructor(name: string, code: string) {
         this.name = name;
-        this.categoryCode = categoryCode;
+        this.code = code;
     }
 }

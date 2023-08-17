@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerGroupListDto } from './models/customerGroupListDto';
 import { CreateEditCustomerGroupDialogComponent } from './dialogs/create-edit-customergroup';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 
 @Component({
     selector: 'app-customergroup',
@@ -12,28 +12,28 @@ import { CreateEditCustomerGroupDialogComponent } from './dialogs/create-edit-cu
     styleUrls: ['./customergroup.component.css'],
 })
 export class CustomergroupComponent implements OnInit {
-    displayedColumns: string[] = [ 'name', 'categoryCode', 'update', 'delete'];
+    displayedColumns: string[] = [ 'name', 'code', 'update', 'delete'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    productcategories: CustomerGroupListDto[] = [];
+    customergroup: CustomerGroupListDto[] = [];
     dataSource = new MatTableDataSource<CustomerGroupListDto>(
-        this.productcategories
+        this.customergroup
     );
     
     isUpdateButtonActive: boolean;
 
-    constructor(private _dialog: MatDialog,private _productcategoryservice: ProductCategoryService) {}
+    constructor(private _dialog: MatDialog,private _customergroup: CustomerGroupService) {}
 
     ngOnInit() {
-        //this.ProductCategoryList();
+        this.CustomerGroupList();
     }
 
-    ProductCategoryList() {
-        this._productcategoryservice
-            .getProductCategoryList()
+    CustomerGroupList() {
+        this._customergroup
+            .getcustomerGroupList()
             .subscribe((response) => {
-                this.productcategories = response.data;
-                console.log(this.productcategories);
+                this.customergroup = response.data;
+                console.log(this.customergroup);
             });
     }
 
@@ -49,7 +49,7 @@ export class CustomergroupComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    this.ProductCategoryList();
+                    this.CustomerGroupList();
                 }
             });
     }

@@ -25,6 +25,11 @@ export const endPoints = {
     units : {
         UnitsList : 'vet/Definition/UnitsList',
         CreateUnits : 'vet/Definition/CreateUnits'
+    },
+    customergroup : {
+        customerGroupList: 'vet/Definition/CustomerGroupList',
+        createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef'
+
     }
 
 }

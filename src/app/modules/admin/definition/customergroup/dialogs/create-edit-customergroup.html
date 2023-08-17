@@ -8,8 +8,8 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="selectedproductcategory">Müşteri Grubu Ekle</span>
-                <span *ngIf="!selectedproductcategory">Müşteri Grubu Güncelle</span>
+                <span *ngIf="selectedcustomergroup">Müşteri Grubu Ekle</span>
+                <span *ngIf="!selectedcustomergroup">Müşteri Grubu Güncelle</span>
             </h5>
         </div>
 
@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
-                                <mat-label>Kategori Adı</mat-label>
+                                <mat-label>Müşteri Grubu Adı</mat-label>
                                 <input matInput [formControlName]="'name'" >
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
@@ -28,8 +28,8 @@
                         </div>
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
-                                <mat-label>Kategori Kodu</mat-label>
-                                <input matInput [formControlName]="'categoryCode'" >
+                                <mat-label>Müşteri Grubu Kodu</mat-label>
+                                <input matInput [formControlName]="'code'" >
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>

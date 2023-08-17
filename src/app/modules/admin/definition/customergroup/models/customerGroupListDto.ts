@@ -1,5 +1,5 @@
 export class CustomerGroupListDto{
     id: string;
-    categoryCode: string;
+    code: string;
     name: string;
 }
