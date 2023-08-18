@@ -25,6 +25,22 @@ export const endPoints = {
     units : {
         UnitsList : 'vet/Definition/UnitsList',
         CreateUnits : 'vet/Definition/CreateUnits'
+    },
+    casedefinition : {
+        casedefinitionList : 'vet/Definition/CasingDefinitionList',
+        Createcasedefinition : 'vet/Definition/CreateCasingDefinition',
+        Updatecasedefinition : 'vet/Definition/UpdateCasingDefinition',
+        Deletecasedefinition : 'vet/Definition/DeleteCasingDefinition'
+    },
+    customergroup : {
+        customerGroupList: 'vet/Definition/CustomerGroupList',
+        createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef'
+    },
+    store:{
+        storeList : 'vet/Store/StoreList',
+        createStore: 'vet/Store/CreateStore',
+        updateStore : 'vet/Store/UpdateStore',
+        deleteStore : 'vet/Store/DeleteStore'
     }
 
 
