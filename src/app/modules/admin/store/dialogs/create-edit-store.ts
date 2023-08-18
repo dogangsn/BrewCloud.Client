@@ -5,35 +5,35 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
-import { CustomerGroupListDto } from '../models/customerGroupListDto';
-import { CreateCustomerGroupCommand } from '../models/CreateCustomerGroupCommand';
-import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { StoreListDto } from '../models/StoreListDto';
+import { CreateStoreCommand } from '../models/CreateStoreCommand';
+import { StoreService } from 'app/core/services/store/store.service';
 
 @Component({
-    selector: 'app-create-edit-customergroup-dialog',
-    styleUrls: ['./create-edit-customergroup.scss'],
-    templateUrl: './create-edit-customergroup.html',
+    selector: 'app-create-edit-store-dialog',
+    styleUrls: ['./create-edit-store.scss'],
+    templateUrl: './create-edit-store.html',
 })
-export class CreateEditCustomerGroupDialogComponent implements OnInit {
-    selectedcustomergroup: CustomerGroupListDto;
-    productcategory: FormGroup;
+export class CreateEditStoreDialogComponent implements OnInit {
+    selectedstore: StoreListDto;
+    store: FormGroup;
     isUpdateButtonActive: Boolean;
-
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
-        private _customergroup: CustomerGroupService,
         private _translocoService: TranslocoService,
-        @Inject(MAT_DIALOG_DATA) public data: CustomerGroupListDto
+        private _storeservice: StoreService,
+        @Inject(MAT_DIALOG_DATA) public data: StoreListDto
     ) {
-        this.selectedcustomergroup = data;
+        this.selectedstore = data;
     }
 
     ngOnInit(): void {
-        this.productcategory = this._formBuilder.group({
-            name: ['', Validators.required],
-            code: ['', Validators.required]
+        this.store = this._formBuilder.group({
+            depotCode: ['', Validators.required],
+            depotName: ['', Validators.required],
+            active : [true]
         });
     }
 
@@ -41,15 +41,14 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
 
-    addproductcategories(): void {
-
-        
-        const productCategoryItem = new CreateCustomerGroupCommand( 
-            this.getFormValueByName('name'),
-            this.getFormValueByName('code')
+    addstore(): void {
+        const storeItem = new CreateStoreCommand( 
+            this.getFormValueByName('depotCode'),
+            this.getFormValueByName('depotName'),
+            this.getFormValueByName('active')
             );
             
-            this._customergroup.createcustomerGroupDef(productCategoryItem).subscribe(
+            this._storeservice.createStores(storeItem).subscribe(
                 (response) => {
                     
                     debugger;
@@ -71,7 +70,7 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
     }
 
     getFormValueByName(formName: string): any {
-        return this.productcategory.get(formName).value;
+        return this.store.get(formName).value;
     }
 
     showSweetAlert(type: string): void {

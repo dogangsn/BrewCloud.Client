@@ -46,6 +46,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
 
 @Component({
     selector: 'customeradd',
@@ -78,6 +80,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     customers: CreateCustomerCommand[] = [];
     accountForm: FormGroup;
 
+    customergroupList: CustomerGroupListDto[] = [];
     //
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -95,7 +98,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     tagsEditMode: boolean = false;
     vendors: InventoryVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    selectedValue: string;
     //
 
     constructor(
@@ -104,10 +107,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _translocoService: TranslocoService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _inventoryService: InventoryService
+        private _inventoryService: InventoryService,
+        private _customergroup: CustomerGroupService
     ) {}
 
     ngOnInit() {
+
+        this.getCustomerGroupList();
+
         this.accountForm = this._formBuilder.group({
             firstName: [''],
             lastName: [''],
@@ -258,6 +265,12 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    getCustomerGroupList() {
+        this._customergroup.getcustomerGroupList().subscribe((response) => {
+            this.customergroupList = response.data;
+        });
     }
 
     /**

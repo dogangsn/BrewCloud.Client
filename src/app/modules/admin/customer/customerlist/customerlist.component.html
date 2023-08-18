@@ -1,57 +1,91 @@
 <div class="flex flex-col flex-auto min-w-0">
 
-  <!-- Main -->
-  <div class="flex-auto p-6 sm:p-10">
-    <fuse-card class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-      <div class="text-xl font-semibold">Müşteri Listesi</div>
-
-      <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-        <table mat-table [dataSource]="erpdepotcards">
-
-          <!-- Position Column -->
-          <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef> İsim. </th>
-            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-          </ng-container>
-
-          <!-- Name Column -->
-          <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef> Soyisim </th>
-            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-          </ng-container>
-
-          <!-- Weight Column -->
-          <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef> Tel.No </th>
-            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="phoneNumber2">
-            <th mat-header-cell *matHeaderCellDef> Tel.No2 </th>
-            <td mat-cell *matCellDef="let element"> {{element.phoneNumber2}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="eMail">
-            <th mat-header-cell *matHeaderCellDef> E-Posta </th>
-            <td mat-cell *matCellDef="let element"> {{element.eMail}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="note">
-            <th mat-header-cell *matHeaderCellDef> Note </th>
-            <td mat-cell *matCellDef="let element"> {{element.note}} </td>
-          </ng-container>
-          
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
-        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                               showFirstLastButtons
-                               aria-label="Select page of periodic elements">
-                </mat-paginator> -->
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div>
+              <div class="flex sm:hidden">
+                  <a
+                      class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                      [routerLink]="'./..'">
+                      <mat-icon
+                          class="icon-size-5 text-secondary"
+                          [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                      <span class="ml-1">Back</span>
+                  </a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  Müşteri Listesi
+              </h2>
+          </div>
+          <div class="font-medium tracking-tight text-secondary">Ziyaret Eden Misafir Listesi</div>
       </div>
-
-    </fuse-card>
+      <!-- Actions -->
+      <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+          <!-- <button mat-stroked-button>
+              <mat-icon
+                  class="icon-size-5 mr-2"
+                  [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+              Yeni Tedarikçiden Alış
+          </button>
+          <button
+              class="ml-3"
+              mat-flat-button
+              [color]="'primary'">
+              <mat-icon
+                  class="icon-size-5 mr-2"
+                  [svgIcon]="'heroicons_solid:link'"></mat-icon>
+              Kayıtlı Tedarikçiden Alış
+          </button> -->
+      </div>
   </div>
+
+  <!-- Main -->
+  <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+      <!-- CONTENT GOES HERE -->
+      <table mat-table [dataSource]="erpdepotcards" class="mat-elevation-z8"> 
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef> İsim. </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef> Soyisim </th>
+          <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef> Tel.No </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="phoneNumber2">
+          <th mat-header-cell *matHeaderCellDef> Tel.No2 </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNumber2}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="eMail">
+          <th mat-header-cell *matHeaderCellDef> E-Posta </th>
+          <td mat-cell *matCellDef="let element"> {{element.eMail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="note">
+          <th mat-header-cell *matHeaderCellDef> Note </th>
+          <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+
 </div>

@@ -23,13 +23,19 @@ export const endPoints = {
         createProductCategory : 'vet/Definition/CreateProductCategories'
     },
     units : {
-        UnitsList : 'vet/Definition/UnitsList',
-        CreateUnits : 'vet/Definition/CreateUnits'
+        unitsList : 'vet/Definition/UnitsList',
+        createUnits : 'vet/Definition/CreateUnits'
     },
     customergroup : {
         customerGroupList: 'vet/Definition/CustomerGroupList',
         createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef'
-
+    },
+    store:{
+        storeList : 'vet/Store/StoreList',
+        createStore: 'vet/Store/CreateStore',
+        updateStore : 'vet/Store/UpdateStore',
+        deleteStore : 'vet/Store/DeleteStore'
     }
+
 
 }
