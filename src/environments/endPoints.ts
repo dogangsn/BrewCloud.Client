@@ -23,8 +23,8 @@ export const endPoints = {
         createProductCategory : 'vet/Definition/CreateProductCategories'
     },
     units : {
-        UnitsList : 'vet/Definition/UnitsList',
-        CreateUnits : 'vet/Definition/CreateUnits'
+        unitsList : 'vet/Definition/UnitsList',
+        createUnits : 'vet/Definition/CreateUnits'
     },
     casedefinition : {
         casedefinitionList : 'vet/Definition/CasingDefinitionList',
