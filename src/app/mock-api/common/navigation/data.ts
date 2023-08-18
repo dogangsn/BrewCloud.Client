@@ -168,12 +168,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/unitdefinition'
             },
             {
+                id   : 'customergroup',
+                title: 'Müşteri Grubu',
+                type : 'basic',
+                icon : 'heroicons_outline:clipboard-check',
+                link : '/customergroup'
+            },
+            {
                 id   : 'productcategory',
-                title: 'Ürün Kategorisi Ekle',
+                title: 'Ürün Kategorisi',
                 type : 'basic',
                 icon : 'heroicons_outline:clipboard-check',
                 link : '/productcategory'
             },
+
         ]
         
     },

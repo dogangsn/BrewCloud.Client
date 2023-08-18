@@ -31,24 +31,65 @@
                   class="icon-size-5 mr-2"
                   [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
               Yeni Tedarikçiden Alış
-          </button>
+          </button>-->
           <button
               class="ml-3"
               mat-flat-button
-              [color]="'primary'">
+              [color]="'primary'" (click)="addPanelOpen()"> 
               <mat-icon
                   class="icon-size-5 mr-2"
-                  [svgIcon]="'heroicons_solid:link'"></mat-icon>
-              Kayıtlı Tedarikçiden Alış
-          </button> -->
+                  [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+             Yeni Depo
+          </button> 
       </div>
   </div>
 
   <!-- Main -->
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
       <!-- CONTENT GOES HERE -->
-      <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
+      <table mat-table [dataSource]="storeList" class="mat-elevation-z8"> 
+          
+        <!-- Position Column -->
+        <ng-container matColumnDef="depotCode">
+          <th mat-header-cell *matHeaderCellDef> Depo Kodu </th>
+          <td mat-cell *matCellDef="let element"> {{element.depotCode}} </td>
+        </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="depotName">
+          <th mat-header-cell *matHeaderCellDef> Depo Adı </th>
+          <td mat-cell *matCellDef="let element"> {{element.depotName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef> Aktif </th>
+            <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+          </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container matColumnDef="update">
+          <th mat-header-cell *matHeaderCellDef> Update </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                <mat-icon class="mat-18">system_update</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                  <mat-icon class="mat-18">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+<!-- 
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+
+      </table>
   </div>
 
 </div>

@@ -1,39 +1,39 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductCategoriesListDto } from '../models/ProductCategoriesListDto';
-import { CreateProductCategoriesCommand } from '../models/CreateProductCategoriesCommand';
-import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
+import { StoreListDto } from '../models/StoreListDto';
+import { CreateStoreCommand } from '../models/CreateStoreCommand';
+import { StoreService } from 'app/core/services/store/store.service';
 
 @Component({
-    selector: 'app-create-edit-productcategory-dialog',
-    styleUrls: ['./create-edit-productcategory.scss'],
-    templateUrl: './create-edit-productcategory.html',
+    selector: 'app-create-edit-store-dialog',
+    styleUrls: ['./create-edit-store.scss'],
+    templateUrl: './create-edit-store.html',
 })
-export class CreateEditProductCategoriesDialogComponent implements OnInit {
-    selectedproductcategory: ProductCategoriesListDto;
-    productcategory: FormGroup;
+export class CreateEditStoreDialogComponent implements OnInit {
+    selectedstore: StoreListDto;
+    store: FormGroup;
     isUpdateButtonActive: Boolean;
-
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
-        private _productcategory: ProductCategoryService,
         private _translocoService: TranslocoService,
-        @Inject(MAT_DIALOG_DATA) public data: ProductCategoriesListDto
+        private _storeservice: StoreService,
+        @Inject(MAT_DIALOG_DATA) public data: StoreListDto
     ) {
-        this.selectedproductcategory = data;
+        this.selectedstore = data;
     }
 
     ngOnInit(): void {
-        this.productcategory = this._formBuilder.group({
-            name: ['', Validators.required],
-            categoryCode: ['', Validators.required]
+        this.store = this._formBuilder.group({
+            depotCode: ['', Validators.required],
+            depotName: ['', Validators.required],
+            active : [true]
         });
     }
 
@@ -41,15 +41,14 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
 
-    addproductcategories(): void {
-
-        
-        const productCategoryItem = new CreateProductCategoriesCommand( 
-            this.getFormValueByName('name'),
-            this.getFormValueByName('categoryCode')
+    addstore(): void {
+        const storeItem = new CreateStoreCommand( 
+            this.getFormValueByName('depotCode'),
+            this.getFormValueByName('depotName'),
+            this.getFormValueByName('active')
             );
             
-            this._productcategory.createProductCategory(productCategoryItem).subscribe(
+            this._storeservice.createStores(storeItem).subscribe(
                 (response) => {
                     
                     debugger;
@@ -71,7 +70,7 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
     }
 
     getFormValueByName(formName: string): any {
-        return this.productcategory.get(formName).value;
+        return this.store.get(formName).value;
     }
 
     showSweetAlert(type: string): void {

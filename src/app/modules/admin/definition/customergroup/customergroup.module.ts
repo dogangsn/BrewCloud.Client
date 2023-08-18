@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StoreComponent } from './store.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,12 +19,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CreateEditStoreDialogComponent } from './dialogs/create-edit-store';
+import { CustomergroupComponent } from './customergroup.component';
+import { CreateEditCustomerGroupDialogComponent } from './dialogs/create-edit-customergroup';
+
 
 const root: Route[] = [
     {
         path     : '',
-        component: StoreComponent
+        component: CustomergroupComponent
     }
 ];
 
@@ -75,11 +76,12 @@ const root: Route[] = [
         RouterModule.forChild(root)
     ],
     declarations: [
-        StoreComponent,
-        CreateEditStoreDialogComponent
+        CustomergroupComponent,
+        CreateEditCustomerGroupDialogComponent
+        
     ]
     
 })
-export class StoreModule
+export class CustomergroupModule
 {
 }

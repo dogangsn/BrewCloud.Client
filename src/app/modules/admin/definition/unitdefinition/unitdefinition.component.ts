@@ -14,6 +14,7 @@ import { UnitsService } from 'app/core/services/definition/unitdefinition/units.
 export class UnitComponent implements OnInit {
     displayedColumns: string[] = ['unitCode', 'unitName'];
 
+    isUpdateButtonActive: boolean;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     units: unitdefinitionListDto[] = [];
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
@@ -36,7 +37,7 @@ export class UnitComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
-        //this.isUpdateButtonActive = false;
+        this.isUpdateButtonActive = false;
 
         const dialog = this._dialog
             .open(CreateEditUnitDefinitionDialogComponent, {
@@ -47,7 +48,7 @@ export class UnitComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getErpFinanceMonitors();
+                    this.UnitsList();
                 }
             });
     }

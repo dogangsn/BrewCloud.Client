@@ -1,21 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductCategoriesListDto } from '../models/ProductCategoriesListDto';
-import { CreateProductCategoriesCommand } from '../models/CreateProductCategoriesCommand';
-import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
+import { CustomerGroupListDto } from '../models/customerGroupListDto';
+import { CreateCustomerGroupCommand } from '../models/CreateCustomerGroupCommand';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 
 @Component({
-    selector: 'app-create-edit-productcategory-dialog',
-    styleUrls: ['./create-edit-productcategory.scss'],
-    templateUrl: './create-edit-productcategory.html',
+    selector: 'app-create-edit-customergroup-dialog',
+    styleUrls: ['./create-edit-customergroup.scss'],
+    templateUrl: './create-edit-customergroup.html',
 })
-export class CreateEditProductCategoriesDialogComponent implements OnInit {
-    selectedproductcategory: ProductCategoriesListDto;
+export class CreateEditCustomerGroupDialogComponent implements OnInit {
+    selectedcustomergroup: CustomerGroupListDto;
     productcategory: FormGroup;
     isUpdateButtonActive: Boolean;
 
@@ -23,17 +23,17 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
-        private _productcategory: ProductCategoryService,
+        private _customergroup: CustomerGroupService,
         private _translocoService: TranslocoService,
-        @Inject(MAT_DIALOG_DATA) public data: ProductCategoriesListDto
+        @Inject(MAT_DIALOG_DATA) public data: CustomerGroupListDto
     ) {
-        this.selectedproductcategory = data;
+        this.selectedcustomergroup = data;
     }
 
     ngOnInit(): void {
         this.productcategory = this._formBuilder.group({
             name: ['', Validators.required],
-            categoryCode: ['', Validators.required]
+            code: ['', Validators.required]
         });
     }
 
@@ -44,12 +44,12 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
     addproductcategories(): void {
 
         
-        const productCategoryItem = new CreateProductCategoriesCommand( 
+        const productCategoryItem = new CreateCustomerGroupCommand( 
             this.getFormValueByName('name'),
-            this.getFormValueByName('categoryCode')
+            this.getFormValueByName('code')
             );
             
-            this._productcategory.createProductCategory(productCategoryItem).subscribe(
+            this._customergroup.createcustomerGroupDef(productCategoryItem).subscribe(
                 (response) => {
                     
                     debugger;

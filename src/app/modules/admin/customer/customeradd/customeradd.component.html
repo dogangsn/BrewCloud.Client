@@ -210,10 +210,9 @@
                 <div class="flex float : left gt-xs:flex-row">
                     <mat-form-field class="flex-auto gt-xs:pr-3">
                         <mat-label>Müşteri Grubu</mat-label>
-                        <mat-select [placeholder]="'Müşteri Grubu'">
-                            <mat-option value="">Country 1</mat-option>
-                            <mat-option value="">Country 2</mat-option>
-                            <mat-option value="">Country 3</mat-option>
+                        <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let customergroup of customergroupList" [value]="customergroup.name">{{customergroup.name}}</mat-option>
                         </mat-select>
                         <mat-icon
                             class="icon-size-5"
@@ -641,7 +640,7 @@
         </ng-template>
 
         <ng-template #noProducts>
-            <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no products!
+            <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Hasta Kaydı Bulunamadı
             </div>
         </ng-template>
     </div>

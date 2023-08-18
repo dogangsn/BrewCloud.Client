@@ -12,11 +12,11 @@ export class UnitsService {
     constructor(private _httpService: HttpService) { }
 
     getUnitsList() : Observable<any>{
-        return this._httpService.getRequest(endPoints.units.UnitsList);
+        return this._httpService.getRequest(endPoints.units.unitsList);
     }
 
     createUnits(model: CreateUnitsCommand): Observable<any> {
-        return this._httpService.post(endPoints.units.CreateUnits, model);
+        return this._httpService.post(endPoints.units.createUnits, model);
     }
 
 
