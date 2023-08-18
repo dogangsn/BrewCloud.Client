@@ -25,6 +25,12 @@ export const endPoints = {
     units : {
         UnitsList : 'vet/Definition/UnitsList',
         CreateUnits : 'vet/Definition/CreateUnits'
+    },
+    casedefinition : {
+        casedefinitionList : 'vet/Definition/CasingDefinitionList',
+        Createcasedefinition : 'vet/Definition/CreateCasingDefinition',
+        Updatecasedefinition : 'vet/Definition/UpdateCasingDefinition',
+        Deletecasedefinition : 'vet/Definition/DeleteCasingDefinition'
     }
 
 }

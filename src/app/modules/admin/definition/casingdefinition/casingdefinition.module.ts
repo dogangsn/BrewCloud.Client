@@ -9,15 +9,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatTableModule } from '@angular/material/table';
+import { Routes } from "@angular/router";
 
 
-const root: Route[] = [
+// const root: Route[] = [
+//     {
+//         path     : '',
+//         component: CasingdefinitionComponent
+//     }
+// ];
+const routes: Routes = [
     {
-        path     : '',
-        component: CasingdefinitionComponent
-    }
-];
-
+        path: 'app-casingdefinition',
+        loadChildren: () =>
+            import(
+                'app/modules/admin/definition/casingdefinition/casingdefinition.module'  
+            ).then((m) => m.CasingdefinitionModule),
+    },
+]
 @NgModule({
 
     imports     : [
@@ -32,7 +41,7 @@ const root: Route[] = [
         MatMenuModule,
         FormsModule,
         MatTableModule,
-        RouterModule.forChild(root)
+        RouterModule.forChild(routes)
     ],
     declarations: [
         CasingdefinitionComponent

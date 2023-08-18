@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
 export class CustomerService {
     constructor(private _httpService: HttpService) { }
 
-    getcustomerlist() : Observable<any>{
+    getcustomerlist() : Observable<any>{    
         return this._httpService.getRequest(endPoints.customers.customerslist);
     }
 
