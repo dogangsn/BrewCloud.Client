@@ -42,4 +42,21 @@ export class GeneralService {
                 return 'success';
         }
     }
+
+    static sweetAlertOfQuestion(
+        model: SweetAlertDto
+    ): Promise<SweetAlertResult<any>> {
+        const sweetIcon = this.convertToSweetAlertIconType(model.icon);
+        return Swal.fire({
+            title: model.title,
+            text: model.text,
+            icon: sweetIcon,
+            confirmButtonText: 'Yes',
+            allowEnterKey: false,
+            showCancelButton: true,
+            confirmButtonColor: '#1878C6',
+            cancelButtonColor: '#DF3B3B',
+        });
+    }
+    
 }
