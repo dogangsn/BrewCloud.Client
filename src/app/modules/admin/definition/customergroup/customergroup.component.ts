@@ -54,7 +54,7 @@ export class CustomergroupComponent implements OnInit {
             });
     }
 
-    editProductCategories(model: CustomerGroupListDto): void {
+    editCaseDefinition(model: CustomerGroupListDto): void {
         this.isUpdateButtonActive = true;
 
         // this._productcategoryservice.getDeviceInfoId(model).subscribe((response) => {
