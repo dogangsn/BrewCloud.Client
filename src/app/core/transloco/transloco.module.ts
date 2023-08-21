@@ -21,8 +21,8 @@ import { TranslocoHttpLoader } from 'app/core/transloco/transloco.http-loader';
                         label: 'Turkish'
                     }
                 ],
-                defaultLang         : 'en',
-                fallbackLang        : 'en',
+                defaultLang         : 'tr',
+                fallbackLang        : 'tr',
                 reRenderOnLangChange: true,
                 prodMode            : true
             })

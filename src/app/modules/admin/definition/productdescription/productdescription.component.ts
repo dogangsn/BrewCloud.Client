@@ -5,6 +5,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ProductDescriptionsDto } from './models/ProductDescriptionsDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
     selector: 'app-productdescription',
@@ -25,23 +29,26 @@ export class ProductdescriptionComponent implements OnInit {
     dataSource = new MatTableDataSource<ProductDescriptionsDto>(
         this.productdescription
     );
-    private _productdescriptionService : ProductDescriptionService
+    isUpdateButtonActive: boolean;
+    
 
-    constructor(private _dialog: MatDialog) {}
+    constructor(
+        private _dialog: MatDialog,
+        private _productdescriptionService: ProductDescriptionService,
+        private _translocoService: TranslocoService) {
 
-    ngOnInit() {
+        }
 
+    ngOnInit() {}
+
+    getProductList() {
+        this._productdescriptionService
+            .GetProductDescriptionList()
+            .subscribe((response) => {
+                this.productdescription = response.data;
+                console.log(this.productdescription);
+            });
     }
-
-
-    getCustomerList() {
-      this._productdescriptionService.GetProductDescriptionList().subscribe((response) => {
-          this.productdescription = response.data;
-          console.log(this.productdescription);
-      });
-  }
-
-
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
@@ -60,4 +67,82 @@ export class ProductdescriptionComponent implements OnInit {
                 }
             });
     }
+
+    public redirectToUpdate = (id: string) => {
+        this.isUpdateButtonActive = true;
+        const selectedProduct = this.productdescription.find((product) => product.id === id);
+        if (selectedProduct) {
+            const dialogRef = this._dialog.open(
+                CreateEditProductDescriptionDialogComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: selectedProduct,
+                }
+            );
+
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getProductList();
+                }
+            });
+        }
+    };
+
+    public redirectToDelete = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._productdescriptionService
+                        .deleteProductDescription(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getProductList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate(
+                                        'sweetalert.transactionSuccessful'
+                                    ),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
+    };
+
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
+    
 }

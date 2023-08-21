@@ -17,6 +17,9 @@ export const endPoints = {
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
+        createProductDescriptions : 'vet/Definition/CreateProductDescription',
+        updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
+        deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
@@ -41,6 +44,12 @@ export const endPoints = {
         createStore: 'vet/Store/CreateStore',
         updateStore : 'vet/Store/UpdateStore',
         deleteStore : 'vet/Store/DeleteStore'
+    },
+    suppliers : {
+        suppliersList : 'vet/Suppliers/SuppliersList',
+        Createsuppliers : 'vet/Suppliers/CreateSuppliers',
+        Updatesuppliers : 'vet/Suppliers/UpdateSuppliers',
+        Deletesuppliers : 'vet/Suppliers/DeleteSuppliers'
     }
 
 

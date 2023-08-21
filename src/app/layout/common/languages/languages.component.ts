@@ -51,8 +51,8 @@ export class LanguagesComponent implements OnInit, OnDestroy
 
         // Set the country iso codes for languages for flags
         this.flagCodes = {
-            'en': 'us',
-            'tr': 'tr'
+            'tr': 'tr',
+            'en': 'us'
         };
     }
 

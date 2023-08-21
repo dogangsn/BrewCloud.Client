@@ -14,5 +14,17 @@ export class ProductDescriptionService {
         return this._httpService.getRequest(endPoints.productdescription.productdescriptionList);
     }
 
+    createProductDescription(model:  any): Observable<any> {
+        return this._httpService.post(endPoints.productdescription.createProductDescriptions, model);
+    }
+
+    deleteProductDescription(model: any): Observable<any> {
+        return this._httpService.post(endPoints.productdescription.deleteProductDescriptions, model);
+    }
+
+    updateProductDescription(model: any): Observable<any> {
+        return this._httpService.post(endPoints.productdescription.updateProductDescriptions, model);
+    }
+
 
 }
