@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { StoreListDto } from '../models/StoreListDto';
 import { CreateStoreCommand } from '../models/CreateStoreCommand';
 import { StoreService } from 'app/core/services/store/store.service';
+import { UpdateStoreCommand } from '../models/UpdateStoreCommand';
 
 @Component({
     selector: 'app-create-edit-store-dialog',
@@ -33,25 +34,43 @@ export class CreateEditStoreDialogComponent implements OnInit {
         this.store = this._formBuilder.group({
             depotCode: ['', Validators.required],
             depotName: ['', Validators.required],
-            active : [true]
+            active: [true],
         });
+
+        this.fillFormData(this.selectedstore);
+    }
+
+    fillFormData(selectedStore: StoreListDto) {
+        debugger;
+        if (this.selectedstore !== null) {
+            this.store.setValue({
+                depotCode: selectedStore.depotCode,
+                depotName: selectedStore.depotName,
+                active: selectedStore.active,
+            });
+        }
     }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
 
+    addOrUpdateStore(): void {
+        this.selectedstore
+            ? this.updatestore()
+            : this.addstore();
+    }
+
     addstore(): void {
-        const storeItem = new CreateStoreCommand( 
+        const storeItem = new CreateStoreCommand(
             this.getFormValueByName('depotCode'),
             this.getFormValueByName('depotName'),
             this.getFormValueByName('active')
-            );
-            
-            this._storeservice.createStores(storeItem).subscribe(
-                (response) => {
-                    
-                    debugger;
+        );
+
+        this._storeservice.createStores(storeItem).subscribe(
+            (response) => {
+                debugger;
 
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
@@ -59,14 +78,40 @@ export class CreateEditStoreDialogComponent implements OnInit {
                         status: true,
                     });
                 } else {
-                     this.showSweetAlert('error');
+                    this.showSweetAlert('error');
                 }
             },
             (err) => {
                 console.log(err);
             }
         );
+    }
 
+    updatestore(): void {
+        const storeItem = new UpdateStoreCommand(
+            this.selectedstore.id,
+            this.getFormValueByName('depotCode'),
+            this.getFormValueByName('depotName'),
+            this.getFormValueByName('active')
+        );
+
+        this._storeservice.updateStores(storeItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     getFormValueByName(formName: string): any {
@@ -94,8 +139,4 @@ export class CreateEditStoreDialogComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
-
-    
-
-
 }

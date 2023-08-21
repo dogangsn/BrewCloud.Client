@@ -8,8 +8,8 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="selectedstore">Depo Ekle</span>
-                <span *ngIf="!selectedstore">Depo Güncelle</span>
+                <span *ngIf="selectedstore">Depo Güncelle</span>
+                <span *ngIf="!selectedstore">Depo Ekle</span>
             </h5>
         </div>
 
@@ -86,7 +86,7 @@
                         class="order-first sm:order-last"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addstore()">
+                        (click)="addOrUpdateStore()">
                         Kaydet
                     </button>
                 </div>

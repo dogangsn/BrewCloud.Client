@@ -33,13 +33,12 @@ import {
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import {
     InventoryBrand,
-    InventoryCategory,
     InventoryPagination,
-    InventoryProduct,
     InventoryTag,
     InventoryVendor,
+    PatientDetails,
+    SexTYpe,
 } from './models/inventory.types';
-import { InventoryService } from './inventory.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { fuseAnimations } from '@fuse/animations';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -48,6 +47,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
+import { v4 as uuidv4 } from 'uuid';
+
 
 @Component({
     selector: 'customeradd',
@@ -84,16 +85,17 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     //
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    products: InventoryProduct[];
+
+    patients : PatientDetails[];
     brands: InventoryBrand[];
-    categories: InventoryCategory[];
+    sextype: SexTYpe[];
     filteredTags: InventoryTag[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: InventoryPagination;
     searchInputControl: UntypedFormControl = new UntypedFormControl();
-    selectedProduct: InventoryProduct | null = null;
-    selectedProductForm: UntypedFormGroup;
+    selectedPatients: PatientDetails | null = null;
+    selectedPatientDetailsForm: UntypedFormGroup;
     tags: InventoryTag[];
     tagsEditMode: boolean = false;
     vendors: InventoryVendor[];
@@ -107,12 +109,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _translocoService: TranslocoService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _inventoryService: InventoryService,
         private _customergroup: CustomerGroupService
     ) {}
 
     ngOnInit() {
-
         this.getCustomerGroupList();
 
         this.accountForm = this._formBuilder.group({
@@ -133,81 +133,30 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         //
-        this.selectedProductForm = this._formBuilder.group({
+        this.selectedPatientDetailsForm = this._formBuilder.group({
             id: [''],
-            category: [''],
             name: ['', [Validators.required]],
-            description: [''],
-            tags: [[]],
-            sku: [''],
-            barcode: [''],
-            brand: [''],
-            vendor: [''],
-            stock: [''],
-            reserved: [''],
-            cost: [''],
-            basePrice: [''],
-            taxPercent: [''],
-            price: [''],
-            weight: [''],
-            thumbnail: [''],
+            birthDate: [''],
+            chipNumber: [''],
+            sex: [''],
+            animalType: [''],
+            animalBreed: [''],
+            animalColor: [''],
+            reportNumber: [''],
+            specialNote: [''],
+            sterilization: [''],
             images: [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
             active: [false],
         });
 
-        // Get the brands
         this.brands = brands;
-
-        // Get the categories
-        this.categories = categories;
-
-        // Get the products
-        this.products = products;
-
-        // Get the tags
+        this.sextype = sextype;
+        this.patients = products;
         this.tags = tags;
-
-        // Get the vendors
         this.vendors = vendors;
 
-        // Subscribe to search input field value changes
-        this.searchInputControl.valueChanges
-            .pipe(
-                takeUntil(this._unsubscribeAll),
-                debounceTime(300),
-                switchMap((query) => {
-                    this.closeDetails();
-                    this.isLoading = true;
-                    return this._inventoryService.getProducts(
-                        0,
-                        10,
-                        'name',
-                        'asc',
-                        query
-                    );
-                }),
-                map(() => {
-                    this.isLoading = false;
-                })
-            )
-            .subscribe();
-        //
 
-        // this.fillFormData(this.selectedErpDepotCard);
     }
-
-    // fillFormData(selectedErpDepotCard: CreateCustomerCommand) {
-    //   if (this.selectedErpDepotCard !== null) {
-    //       this.erpdepotcardForm.setValue({
-    //           depotcode: selectedErpDepotCard.depotCode,
-    //           revenuename: selectedErpDepotCard.revenuename,
-    //           depottype: selectedErpDepotCard.depotType,
-    //           accDepartmentId: selectedErpDepotCard.accDepartmentId,
-    //           passive : selectedErpDepotCard.passive,
-    //           passivedate: selectedErpDepotCard.passiveDate
-    //       });
-    //   }
 
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;
@@ -273,281 +222,232 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    /**
-     * After view init
-     */
-    ngAfterViewInit(): void {
-        if (this._sort && this._paginator) {
-            // Set the initial sort
-            this._sort.sort({
-                id: 'name',
-                start: 'asc',
-                disableClear: true,
-            });
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-
-            // If the user changes the sort order...
-            this._sort.sortChange
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe(() => {
-                    // Reset back to the first page
-                    this._paginator.pageIndex = 0;
-
-                    // Close the details
-                    this.closeDetails();
-                });
-
-            // Get products if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page)
-                .pipe(
-                    switchMap(() => {
-                        this.closeDetails();
-                        this.isLoading = true;
-                        return this._inventoryService.getProducts(
-                            this._paginator.pageIndex,
-                            this._paginator.pageSize,
-                            this._sort.active,
-                            this._sort.direction
-                        );
-                    }),
-                    map(() => {
-                        this.isLoading = false;
-                    })
-                )
-                .subscribe();
-        }
+    createPatient(): void {
+        const newProductId = uuidv4();
+        const newPatient: PatientDetails = {
+            id: newProductId,
+            name: '',
+            birthDate: '',
+            chipNumber: '',
+            reportNumber: '',
+            specialNote: '',
+            sterilization: false,
+            sex: 0,
+            animalType: '',
+            animalBreed: '',
+            animalColor: '',
+            tags: [],
+            images: [],
+            active : true,
+            thumbnail: '',
+        };
+        this.patients.unshift(newPatient);
+        this.selectedPatients = newPatient;
+        this.selectedPatientDetailsForm.reset(newPatient);
+        this.tagsEditMode = true;
+        this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * On destroy
-     */
+    toggleDetails(productId: string): void {
+
+        if (this.selectedPatients && this.selectedPatients.id === productId) {
+            this.closeDetails();
+            return;
+        }
+            const selectedProduct = this.patients.find(product => product.id === productId);
+            if (selectedProduct) {
+                this.selectedPatients = selectedProduct;
+                this.selectedPatientDetailsForm.patchValue(selectedProduct);
+                this._changeDetectorRef.markForCheck();
+            }
+    }
+
+    deleteSelectedProduct(): void {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                const product = this.selectedPatientDetailsForm.getRawValue();
+                const productIndex = this.patients.findIndex(product => product.id === product.id);
+                if (productIndex !== -1) {
+                    this.patients.splice(productIndex, 1);
+                    if (this.selectedPatients && this.selectedPatients.id === product.id) {
+                        this.closeDetails();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                }
+            }
+        });
+    
+    }
+
+    closeDetails(): void {
+        this.selectedPatients = null;
+    }
+
     ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Toggle product details
-     *
-     * @param productId
-     */
-    toggleDetails(productId: string): void {
-        // If the product is already selected...
-        if (this.selectedProduct && this.selectedProduct.id === productId) {
-            // Close the details
-            this.closeDetails();
-            return;
-        }
-
-        // Get the product by id
-        this._inventoryService
-            .getProductById(productId)
-            .subscribe((product) => {
-                // Set the selected product
-                this.selectedProduct = product;
-
-                // Fill the form
-                this.selectedProductForm.patchValue(product);
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-    }
-
-    closeDetails(): void {
-        this.selectedProduct = null;
-    }
-
-    /**
-     * Cycle through images of selected product
-     */
-    cycleImages(forward: boolean = true): void {
-        // Get the image count and current image index
-        const count = this.selectedProductForm.get('images').value.length;
-        const currentIndex =
-            this.selectedProductForm.get('currentImageIndex').value;
-
-        // Calculate the next and previous index
-        const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
-        const prevIndex = currentIndex - 1 < 0 ? count - 1 : currentIndex - 1;
-
-        // If cycling forward...
-        if (forward) {
-            this.selectedProductForm
-                .get('currentImageIndex')
-                .setValue(nextIndex);
-        }
-        // If cycling backwards...
-        else {
-            this.selectedProductForm
-                .get('currentImageIndex')
-                .setValue(prevIndex);
-        }
-    }
-
-    /**
-     * Toggle the tags edit mode
-     */
     toggleTagsEditMode(): void {
         this.tagsEditMode = !this.tagsEditMode;
     }
 
-    /**
-     * Filter tags
-     *
-     * @param event
-     */
     filterTags(event): void {
-        // Get the value
         const value = event.target.value.toLowerCase();
-
-        // Filter the tags
         this.filteredTags = this.tags.filter((tag) =>
             tag.title.toLowerCase().includes(value)
         );
     }
 
-    /**
-     * Filter tags input key down event
-     *
-     * @param event
-     */
+    trackByFn(index: number, item: any): any {
+        return item.id || index;
+    }
+
+    ngAfterViewInit(): void {
+        if (this._sort && this._paginator) {
+            this._sort.sort({
+                id: 'name',
+                start: 'asc',
+                disableClear: true,
+            });
+            this._changeDetectorRef.markForCheck();
+            this._sort.sortChange
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe(() => {
+                    this._paginator.pageIndex = 0;
+                    this.closeDetails();
+                });
+
+            // Get products if sort or page changes
+            // merge(this._sort.sortChange, this._paginator.page)
+            //     .pipe(
+            //         switchMap(() => {
+            //             this.closeDetails();
+            //             this.isLoading = true;
+            //             return this._inventoryService.getProducts(
+            //                 this._paginator.pageIndex,
+            //                 this._paginator.pageSize,
+            //                 this._sort.active,
+            //                 this._sort.direction
+            //             );
+            //         }),
+            //         map(() => {
+            //             this.isLoading = false;
+            //         })
+            //     )
+            //     .subscribe();
+        }
+    }
+    
+    cycleImages(forward: boolean = true): void {
+        const count = this.selectedPatientDetailsForm.get('images').value.length;
+        const currentIndex =
+            this.selectedPatientDetailsForm.get('currentImageIndex').value;
+        const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
+        const prevIndex = currentIndex - 1 < 0 ? count - 1 : currentIndex - 1;
+
+        if (forward) {
+            this.selectedPatientDetailsForm
+                .get('currentImageIndex')
+                .setValue(nextIndex);
+        }
+        else {
+            this.selectedPatientDetailsForm
+                .get('currentImageIndex')
+                .setValue(prevIndex);
+        }
+    }
+
+    
     filterTagsInputKeyDown(event): void {
-        // Return if the pressed key is not 'Enter'
         if (event.key !== 'Enter') {
             return;
         }
-
-        // If there is no tag available...
         if (this.filteredTags.length === 0) {
-            // Create the tag
             this.createTag(event.target.value);
-
-            // Clear the input
             event.target.value = '';
-
-            // Return
             return;
         }
-
-        // If there is a tag...
         const tag = this.filteredTags[0];
-        const isTagApplied = this.selectedProduct.tags.find(
+        const isTagApplied = this.selectedPatients.tags.find(
             (id) => id === tag.id
         );
-
-        // If the found tag is already applied to the product...
         if (isTagApplied) {
-            // Remove the tag from the product
             this.removeTagFromProduct(tag);
         } else {
-            // Otherwise add the tag to the product
             this.addTagToProduct(tag);
         }
     }
 
-    /**
-     * Create a new tag
-     *
-     * @param title
-     */
     createTag(title: string): void {
         const tag = {
             title,
         };
 
         // Create tag on the server
-        this._inventoryService.createTag(tag).subscribe((response) => {
-            // Add the tag to the product
-            this.addTagToProduct(response);
-        });
+        // this._inventoryService.createTag(tag).subscribe((response) => {
+        //     // Add the tag to the product
+        //     this.addTagToProduct(response);
+        // });
     }
 
-    /**
-     * Update the tag title
-     *
-     * @param tag
-     * @param event
-     */
     updateTagTitle(tag: InventoryTag, event): void {
         // Update the title on the tag
         tag.title = event.target.value;
 
         // Update the tag on the server
-        this._inventoryService
-            .updateTag(tag.id, tag)
-            .pipe(debounceTime(300))
-            .subscribe();
+        // this._inventoryService
+        //     .updateTag(tag.id, tag)
+        //     .pipe(debounceTime(300))
+        //     .subscribe();
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Delete the tag
-     *
-     * @param tag
-     */
     deleteTag(tag: InventoryTag): void {
         // Delete the tag from the server
-        this._inventoryService.deleteTag(tag.id).subscribe();
+        // this._inventoryService.deleteTag(tag.id).subscribe();
 
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // // Mark for check
+        // this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Add tag to the product
-     *
-     * @param tag
-     */
     addTagToProduct(tag: InventoryTag): void {
         // Add the tag
-        this.selectedProduct.tags.unshift(tag.id);
+        this.selectedPatients.tags.unshift(tag.id);
 
         // Update the selected product form
-        this.selectedProductForm
+        this.selectedPatientDetailsForm
             .get('tags')
-            .patchValue(this.selectedProduct.tags);
+            .patchValue(this.selectedPatients.tags);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Remove tag from the product
-     *
-     * @param tag
-     */
     removeTagFromProduct(tag: InventoryTag): void {
         // Remove the tag
-        this.selectedProduct.tags.splice(
-            this.selectedProduct.tags.findIndex((item) => item === tag.id),
+        this.selectedPatients.tags.splice(
+            this.selectedPatients.tags.findIndex((item) => item === tag.id),
             1
         );
 
         // Update the selected product form
-        this.selectedProductForm
+        this.selectedPatientDetailsForm
             .get('tags')
-            .patchValue(this.selectedProduct.tags);
+            .patchValue(this.selectedPatients.tags);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
-    /**
-     * Toggle product tag
-     *
-     * @param tag
-     * @param change
-     */
     toggleProductTag(tag: InventoryTag, change: MatCheckboxChange): void {
         if (change.checked) {
             this.addTagToProduct(tag);
@@ -556,11 +456,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    /**
-     * Should the create tag button be visible
-     *
-     * @param inputValue
-     */
     shouldShowCreateTagButton(inputValue: string): boolean {
         return !!!(
             inputValue === '' ||
@@ -570,122 +465,33 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
-    /**
-     * Create product
-     */
-    createProduct(): void {
-        // Create the product
-        this._inventoryService.createProduct().subscribe((newProduct) => {
-            // Go to new product
-            this.selectedProduct = newProduct;
-            this.selectedProductForm.patchValue(newProduct);
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-
-    /**
-     * Update the selected product using the form data
-     */
-    updateSelectedProduct(): void {
-        // Get the product object
-        const product = this.selectedProductForm.getRawValue();
-
-        // Remove the currentImageIndex field
-        delete product.currentImageIndex;
-
-        // Update the product on the server
-        this._inventoryService
-            .updateProduct(product.id, product)
-            .subscribe(() => {
-                // Show a success message
-                this.showFlashMessage('success');
-            });
-    }
-
-    /**
-     * Delete the selected product using the form data
-     */
-    deleteSelectedProduct(): void {
-        // Open the confirmation dialog
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'Delete product',
-            message:
-                'Are you sure you want to remove this product? This action cannot be undone!',
-            actions: {
-                confirm: {
-                    label: 'Delete',
-                },
-            },
-        });
-
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            // If the confirm button pressed...
-            if (result === 'confirmed') {
-                // Get the product object
-                const product = this.selectedProductForm.getRawValue();
-
-                // Delete the product on the server
-                this._inventoryService
-                    .deleteProduct(product.id)
-                    .subscribe(() => {
-                        // Close the details
-                        this.closeDetails();
-                    });
-            }
-        });
-    }
-
-    /**
-     * Show flash message
-     */
     showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
         this.flashMessage = type;
-
-        // Mark for check
         this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
         setTimeout(() => {
             this.flashMessage = null;
-
-            // Mark for check
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
-    trackByFn(index: number, item: any): any {
-        return item.id || index;
-    }
 }
 
-export const categories = [
+export const sextype = [
     {
-        id: 'b899ec30-b85a-40ab-bb1f-18a596d5c6de',
+        id: '1',
         parentId: null,
-        name: 'Mens',
-        slug: 'mens',
+        name: 'Erkek',
+        slug: 'Erkek',
     },
     {
-        id: '07986d93-d4eb-4de1-9448-2538407f7254',
+        id: '2',
         parentId: null,
-        name: 'Ladies',
-        slug: 'ladies',
-    },
-    {
-        id: 'ad12aa94-3863-47f8-acab-a638ef02a3e9',
-        parentId: null,
-        name: 'Unisex',
-        slug: 'unisex',
+        name: 'Dişi',
+        slug: 'Dişi',
     },
 ];
+
+
+
 export const brands = [
     {
         id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
@@ -713,6 +519,9 @@ export const brands = [
         slug: 'zeon',
     },
 ];
+
+
+
 export const tags = [
     {
         id: '167190fa-51b4-45fc-a742-8ce1b33d24ea',

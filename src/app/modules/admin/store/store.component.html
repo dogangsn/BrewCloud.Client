@@ -1,95 +1,117 @@
 <div class="flex flex-col flex-auto min-w-0">
 
-  <!-- Header -->
-  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
-      <div class="flex-1 min-w-0">
-          <!-- Breadcrumbs -->
-          <div>
-              <div class="flex sm:hidden">
-                  <a
-                      class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                      [routerLink]="'./..'">
-                      <mat-icon
-                          class="icon-size-5 text-secondary"
-                          [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
-                      <span class="ml-1">Back</span>
-                  </a>
-              </div>
-          </div>
-          <!-- Title -->
-          <div class="mt-2">
-              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                  Depo
-              </h2>
-          </div>
-          <div class="font-medium tracking-tight text-secondary">Depo/Envanter Bilgileri</div>
-      </div>
-      <!-- Actions -->
-      <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-          <!-- <button mat-stroked-button>
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Depo
+                </h2>
+            </div>
+            <div class="font-medium tracking-tight text-secondary">Depo/Envanter Bilgileri</div>
+        </div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- <button mat-stroked-button>
               <mat-icon
                   class="icon-size-5 mr-2"
                   [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
               Yeni Tedarikçiden Alış
           </button>-->
-          <button
-              class="ml-3"
-              mat-flat-button
-              [color]="'primary'" (click)="addPanelOpen()"> 
-              <mat-icon
-                  class="icon-size-5 mr-2"
-                  [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-             Yeni Depo
-          </button> 
-      </div>
-  </div>
-
-  <!-- Main -->
-  <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-      <!-- CONTENT GOES HERE -->
-      <table mat-table [dataSource]="storeList" class="mat-elevation-z8"> 
-          
-        <!-- Position Column -->
-        <ng-container matColumnDef="depotCode">
-          <th mat-header-cell *matHeaderCellDef> Depo Kodu </th>
-          <td mat-cell *matCellDef="let element"> {{element.depotCode}} </td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="depotName">
-          <th mat-header-cell *matHeaderCellDef> Depo Adı </th>
-          <td mat-cell *matCellDef="let element"> {{element.depotName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="active">
-            <th mat-header-cell *matHeaderCellDef> Aktif </th>
-            <td mat-cell *matCellDef="let element"> {{element.active}} </td>
-          </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-        <ng-container matColumnDef="update">
-          <th mat-header-cell *matHeaderCellDef> Update </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
-                <mat-icon class="mat-18">system_update</mat-icon>
+            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                Yeni Depo
             </button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="delete">
-            <th mat-header-cell *matHeaderCellDef> Delete </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
-                  <mat-icon class="mat-18">delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-<!-- 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+        </div>
+    </div>
 
-      </table>
-  </div>
+    <!-- Main -->
+    <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+        <!-- CONTENT GOES HERE -->
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="storeList">
+
+                <ng-container matColumnDef="depotCode">
+                    <th mat-header-cell *matHeaderCellDef> Depo Kodu </th>
+                    <td mat-cell *matCellDef="let element"> {{element.depotCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="depotName">
+                    <th mat-header-cell *matHeaderCellDef> Depo Adı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.depotName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef> Aktif </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon *ngIf="element.active; else inactiveIcon" class="mat-18">check_box</mat-icon>
+                        <ng-template #inactiveIcon>
+                            <mat-icon class="mat-18">check_box_outline_blank</mat-icon>
+                        </ng-template>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                            <mat-icon aria-label="Edit">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                            <mat-icon class="mat-18">delete</mat-icon>
+                        </button>
+                    </td>
+
+                </ng-container>
+                <!-- <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef> Delete </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                            <mat-icon class="mat-18">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>
+                        <th mat-header-cell *matHeaderCellDef> Aktif </th>
+                    </mat-header-cell>
+              
+                    <mat-cell *matCellDef="let row; let i=index;">
+                      <button mat-icon-button color="accent" (click)="startEdit(element.id)">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                      </button>
+              
+                      <button mat-icon-button color="accent" (click)="redirectToDelete(element.id)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container> -->
+              
+            
+                
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements">
+            </mat-paginator>
+
+        </div>
+    </div>
 
 </div>

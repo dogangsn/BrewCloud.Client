@@ -19,5 +19,11 @@ export class StoreService {
         return this._httpService.post(endPoints.store.createStore, model);
     }
 
+    deletedStores(model: any): Observable<any> {
+        return this._httpService.post(endPoints.store.deleteStore, model);
+    }
 
+    updateStores(model: any): Observable<any> {
+        return this._httpService.post(endPoints.store.updateStore, model);
+    }
 }
