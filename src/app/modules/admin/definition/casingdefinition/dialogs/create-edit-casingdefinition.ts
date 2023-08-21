@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { casingDefinitionListDto } from '../models/casingDefinitionListDto';
 import { CreateCasingDefinitionCommand } from '../models/CreateCasingDefinitionCommand';
 import { CasingDefinitionService } from 'app/core/services/definition/CasingDefinition/casingdefinition.service';
+import { UpdateCasingDefinitionCommand } from '../models/UpdateCasingDefinitionCommand';
 
 @Component({
     selector: 'app-create-edit-casingdefinition-dialog',
@@ -35,12 +36,51 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
             casename: ['', Validators.required],
             active: [true]
         });
-    }
+        this.fillFormData(this.selectedcasingdefinition);
 
+    }
+    fillFormData(selectedCase: casingDefinitionListDto) {
+        debugger;
+        if (this.selectedcasingdefinition !== null) {
+            this.casingDefinition.setValue({
+                casename: selectedCase.casename,
+                active: selectedCase.active,
+            });
+        }
+    }
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
+    addOrUpdateStore(): void {
+        this.selectedcasingdefinition
+            ? this.updateCase()
+            : this.addcasingDefinitions();
+    }
+        updateCase(): void {
+        const caseItem = new UpdateCasingDefinitionCommand(
+            this.selectedcasingdefinition.id,
+            this.getFormValueByName('casename'),
+            this.getFormValueByName('active')
+        );
 
+        this._CasingDefinition.updateCasingDefinition(caseItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
     addcasingDefinitions(): void {
 
          

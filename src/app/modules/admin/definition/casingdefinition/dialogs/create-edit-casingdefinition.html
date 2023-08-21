@@ -8,8 +8,8 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="!isUpdateButtonActive">Kasa Tanımı Ekle</span>
-                <span *ngIf="isUpdateButtonActive">Kasa Tanımı Güncelle</span>
+                <span *ngIf="!selectedcasingdefinition">Kasa Tanımı Ekle</span>
+                <span *ngIf="selectedcasingdefinition">Kasa Tanımı Güncelle</span>
             </h5>
         </div>
 
@@ -26,18 +26,10 @@
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Durumu</mat-label>
-                                <input matInput [formControlName]="'active'" >
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div> -->
                         <div class="flex flex-col gt-sm:flex-row">
                             <div class="flex flex-col">
                                 <mat-checkbox class="mb-2" [checked]="true" [formControlName]="'active'"  [color]="'primary'">
-                                    Durum
+                                    Aktif
                                 </mat-checkbox>
 
                             </div>
@@ -50,29 +42,29 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                 <div class="-ml-2">
                     <!-- Attach file -->
-                    <!-- <button mat-icon-button>
+                     <button mat-icon-button>
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
-                    </button> -->
-                    <!-- Insert link -->
-                    <!-- <button mat-icon-button>
+                    </button> 
+                     Insert link 
+                     <button mat-icon-button>
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                    </button> -->
+                    </button> 
                     <!-- Insert emoji -->
-                    <!-- <button mat-icon-button>
+                     <button mat-icon-button>
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
-                    </button> -->
+                    </button> 
                     <!-- Insert image -->
-                    <!-- <button mat-icon-button>
+                        <button mat-icon-button>
                         <mat-icon
                             class="icon-size-5"
                             [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
-                    </button> -->
+                    </button> 
                 </div>
     
                 <div class="flex items-center mt-4 sm:mt-0">
@@ -89,7 +81,7 @@
                         class="order-first sm:order-last"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addcasingDefinitions()">
+                        (click)="addOrUpdateStore()">
                         Kaydet
                     </button>
                 </div>

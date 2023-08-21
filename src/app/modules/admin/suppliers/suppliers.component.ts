@@ -20,7 +20,7 @@ import { SuppliersService } from 'app/core/services/suppliers/suppliers.service'
   styleUrls: ['./suppliers.component.css']
 })
 export class SuppliersComponent {
-  displayedColumns: string[] = ['casename', 'active','update', 'id'];
+  displayedColumns: string[] = ['suppliername','email','phone' ,'active','update', 'id'];
   suppliers: FormGroup;
     
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -34,16 +34,16 @@ export class SuppliersComponent {
      ) {}
   
   ngOnInit() {
-      //this.getSuppliers();
+      this.getSuppliers();
   }
   isUpdateButtonActive: boolean;
 
-//   getSuppliers() {
-//       this._suppliersService.getSuppliersList().subscribe((response) => {
-//           this.suppliers = response.data;
-//           console.log(this.suppliers);
-//       });
-//   }
+  getSuppliers() {
+      this._suppliersService.getSuppliersList().subscribe((response) => {
+          this.suppliers = response.data;
+          console.log(this.suppliers);
+      });
+  }
   addPanelOpen(): void {
     //this.erpfinancemonitorForm.reset();
     this.isUpdateButtonActive = false;
@@ -56,7 +56,7 @@ export class SuppliersComponent {
         .afterClosed()
         .subscribe((response) => {
             if (response.status) {
-                //this.getSuppliers();
+                this.getSuppliers();
             }
         });
         

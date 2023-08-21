@@ -20,7 +20,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 })
 export class CasingdefinitionComponent {
-  displayedColumns: string[] = ['casename', 'active','update', 'id'];
+  displayedColumns: string[] = ['casename'
+  ,'active'
+  ,'actions',];
   casingDefinition: FormGroup;
     
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -62,45 +64,26 @@ export class CasingdefinitionComponent {
         });
         
 }
-public redirectToUpdate(): void {
-    debugger;
-    const casedefinitionItem = new UpdateCasingDefinitionCommand( 
-        this.getFormValueByName('id'),
-        this.getFormValueByName('casename'),
-        this.getFormValueByName('active')
-        );
-        this.isUpdateButtonActive = true;
-        const dialog = this._dialog
-            .open(CreateEditCasingDefinitionDialogComponent, {
+public redirectToUpdate = (id: string) => {
+    this.isUpdateButtonActive = true;
+    const selectedCase = this.casingcards.find((store) => store.id === id);
+    if (selectedCase) {
+        const dialogRef = this._dialog.open(
+            CreateEditCasingDefinitionDialogComponent,
+            {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: casedefinitionItem,
-            })
-            .afterClosed()
-            .subscribe((response) => {
-                if (response.status) {
-                    this.getCasingDefinition();
-                }
-            });
-        // this._casingdefinitionService.updateCasingDefinition(casedefinitionItem).subscribe(
-           
-        //         (response) => {
+                data: selectedCase
+            }
+        );
 
-        //             if (response.isSuccessful) {
-                       
-
-        //                 // this.getCasingDefinition();
-        //                  this.showSweetAlert('success');
-        //             } else {
-        //                 this.showSweetAlert('error');
-        //             }
-        //         },
-        //         (err) => {
-        //             console.log(err);
-        //         },
-        // );
-
-}
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response.status) {
+                this.getCasingDefinition();
+            }
+        });
+    }
+};
 
 public redirectToDelete = (id?: string) => {
     const casedefinitionItem = new DeleteCasingDefinitionCommand(id);

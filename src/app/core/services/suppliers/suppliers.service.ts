@@ -12,13 +12,13 @@ import { Observable } from "rxjs";
 export class SuppliersService {
     constructor(private _httpService: HttpService) { }
 
-    // getSuppliersList() : Observable<any>{
-    //     return this._httpService.getRequest(endPoints.suppliers.suppliersList);
-    // }
+    getSuppliersList() : Observable<any>{
+        return this._httpService.getRequest(endPoints.suppliers.suppliersList);
+    }
 
-    // createSuppliers(model: CreateSuppliersCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.suppliers.Createsuppliers, model);
-    // }
+    createSuppliers(model: CreateSuppliersCommand): Observable<any> {
+        return this._httpService.post(endPoints.suppliers.Createsuppliers, model);
+    }
     // deleteCasingDefinition(id: DeleteCasingDefinitionCommand): Observable<any> {
     //     return this._httpService.post(endPoints.casedefinition.Deletecasedefinition, id);
     // }

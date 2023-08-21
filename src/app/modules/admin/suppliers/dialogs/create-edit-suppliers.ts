@@ -51,25 +51,25 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
             this.getFormValueByName('active')
 
             );
-            
-            // this._Suppliers.createSuppliers(suppliersItem).subscribe(
-            //     (response) => {
+            debugger;
+            this._Suppliers.createSuppliers(suppliersItem).subscribe(
+                (response) => {
                     
-            //         debugger;
+                    debugger;
 
-            //     if (response.isSuccessful) {
-            //         this.showSweetAlert('success');
-            //         this._dialogRef.close({
-            //             status: true,
-            //         });
-            //     } else {
-            //          this.showSweetAlert('error');
-            //     }
-            // },
-            // (err) => {
-            //     console.log(err);
-            // }
-        //);
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                     this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
 
     }
 
