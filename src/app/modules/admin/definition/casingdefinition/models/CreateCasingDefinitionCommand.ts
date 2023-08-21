@@ -1,9 +1,9 @@
 export class CreateCasingDefinitionCommand {
-    kasa: string;
-    durumu: boolean;
+    casename: string;
+    active: boolean;
 
-    constructor(kasa: string, durumu: boolean) {
-        this.kasa = kasa;
-        this.durumu = durumu;
+    constructor(casename: string, active: boolean) {
+        this.casename = casename;
+        this.active = active;
     }
 }

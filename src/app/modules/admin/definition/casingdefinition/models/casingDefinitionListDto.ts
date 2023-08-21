@@ -1,5 +1,6 @@
 export class casingDefinitionListDto {
-    Kasa:string;
-    Durumu: boolean;
+    id: string;
+    casename:string;
+    active: boolean;
 
 }
