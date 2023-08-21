@@ -415,3 +415,17 @@ dx-check-box {
 dx-checkbox-icon{
     color:rgb(222 222 222) !important;
 }
+
+.mat-dialog-title{
+    text-align: right;
+    margin-bottom: 0!important;
+    position: absolute !important;
+    top: 0;
+    right: 5px;
+    z-index: 999;
+    margin: 0 0 16px;
+}
+
+.mdc-dialog__title {
+    margin: 25px 20px 1px !important;
+}
