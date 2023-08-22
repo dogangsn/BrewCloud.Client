@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { suppliersListDto } from '../models/suppliersListDto';
 import { CreateSuppliersCommand } from '../models/CreateSuppliersCommand';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
+import { UpdateSuppliersCommand } from '../models/UpdateSuppliersCommand';
 
 @Component({
     selector: 'app-create-edit-suppliers-dialog',
@@ -32,15 +33,60 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.suppliers = this._formBuilder.group({
-            casename: ['', Validators.required],
-            active: ['', Validators.required]
+            suppliername: ['', Validators.required],
+            email: ['', Validators.required],
+            phone: ['', Validators.required],
+            active: [true]
         });
+        this.fillFormData(this.selectedsuppliers);
     }
-
+    fillFormData(selectedSuppliers: suppliersListDto) {
+        debugger;
+        if (this.selectedsuppliers !== null) {
+            this.suppliers.setValue({
+                suppliername: selectedSuppliers.suppliername,
+                email: selectedSuppliers.email,
+                phone: selectedSuppliers.phone,
+                active: selectedSuppliers.active,
+            });
+        }
+    }
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
+    addOrUpdateStore(): void {
+        this.selectedsuppliers
+            ? this.updateSupplier()
+            : this.addsuppliers();
+    }
+    updateSupplier(): void {
+        const supItem = new UpdateSuppliersCommand(
+            this.selectedsuppliers.id,
+            this.getFormValueByName('suppliername'),
+            this.getFormValueByName('email'),
+            this.getFormValueByName('phone'),
 
+            this.getFormValueByName('active')
+        );
+
+        this._Suppliers.updateSuppliers(supItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
     addsuppliers(): void {
 
         

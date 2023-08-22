@@ -20,12 +20,16 @@ import { SuppliersService } from 'app/core/services/suppliers/suppliers.service'
   styleUrls: ['./suppliers.component.css']
 })
 export class SuppliersComponent {
-  displayedColumns: string[] = ['suppliername','email','phone' ,'active','update', 'id'];
+  displayedColumns: string[] = ['suppliername'
+  ,'email'
+  ,'phone' 
+  ,'active'
+  ,'actions',];
   suppliers: FormGroup;
     
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  suppliersList: suppliersListDto[] = [];
-  dataSource = new MatTableDataSource<suppliersListDto>(this.suppliersList);
+  supplierscards: suppliersListDto[] = [];
+  dataSource = new MatTableDataSource<suppliersListDto>(this.supplierscards);
   
   constructor(
     private _dialog: MatDialog,
@@ -40,8 +44,8 @@ export class SuppliersComponent {
 
   getSuppliers() {
       this._suppliersService.getSuppliersList().subscribe((response) => {
-          this.suppliers = response.data;
-          console.log(this.suppliers);
+          this.supplierscards = response.data;
+          console.log(this.supplierscards);
       });
   }
   addPanelOpen(): void {
@@ -61,4 +65,65 @@ export class SuppliersComponent {
         });
         
 }
+public redirectToUpdate = (id: string) => {
+    debugger;
+    this.isUpdateButtonActive = true;
+    const selectedSupplier = this.supplierscards.find((supplier) => supplier.id === id);
+    if (selectedSupplier) {
+        const dialogRef = this._dialog.open(
+            CreateEditSuppliersDialogComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: selectedSupplier
+            }
+        );
+
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response.status) {
+                this.getSuppliers();
+            }
+        });
+    }
+};
+
+public redirectToDelete = (id?: string) => {
+    const suppliersItem = new DeleteCasingDefinitionCommand(id);
+debugger;
+    this._suppliersService.deleteSuppliers(suppliersItem).subscribe(
+        (response) => {
+
+            if (response.isSuccessful) {
+                this.getSuppliers();
+                this.showSweetAlert('success');
+            } else {
+                this.showSweetAlert('error');
+            }
+        },
+        (err) => {
+            console.log(err);
+        }
+    );
 }
+showSweetAlert(type: string): void {
+    if (type === 'success') {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.success'),
+            this.translate('sweetalert.transactionSuccessful'),
+            SweetalertType.success
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.error'),
+            this.translate('sweetalert.transactionFailed'),
+            SweetalertType.error
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    }
+}
+translate(key: string): any {
+    return this._translocoService.translate(key);
+}
+}
+

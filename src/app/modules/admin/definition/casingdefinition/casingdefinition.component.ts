@@ -66,6 +66,7 @@ export class CasingdefinitionComponent {
 }
 public redirectToUpdate = (id: string) => {
     this.isUpdateButtonActive = true;
+    debugger;
     const selectedCase = this.casingcards.find((store) => store.id === id);
     if (selectedCase) {
         const dialogRef = this._dialog.open(

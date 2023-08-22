@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { CreateSuppliersCommand } from "app/modules/admin/suppliers/models/CreateSuppliersCommand";
-// import { DeleteSuppliersCommand } from "app/modules/admin/suppliers/models/DeleteCasingDefinitionCommand";
+ import { DeleteSuppliersCommand } from "app/modules/admin/suppliers/models/DeleteSuppliersCommand";
+ import { UpdateSuppliersCommand } from "app/modules/admin/suppliers/models/UpdateSuppliersCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -19,7 +20,10 @@ export class SuppliersService {
     createSuppliers(model: CreateSuppliersCommand): Observable<any> {
         return this._httpService.post(endPoints.suppliers.Createsuppliers, model);
     }
-    // deleteCasingDefinition(id: DeleteCasingDefinitionCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.casedefinition.Deletecasedefinition, id);
-    // }
+    deleteSuppliers(id?: DeleteSuppliersCommand): Observable<any> {
+        return this._httpService.post(endPoints.suppliers.Deletesuppliers, id);
+    }
+    updateSuppliers(model: UpdateSuppliersCommand): Observable<any> {
+        return this._httpService.post(endPoints.suppliers.Updatesuppliers, model);
+    }
 }

@@ -8,8 +8,8 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="selectedsuppliers">Kasa Tanımı Ekle</span>
-                <span *ngIf="!selectedsuppliers">Kasa Tanımı Güncelle</span>
+                <span *ngIf="!selectedsuppliers">Kasa Tanımı Ekle</span>
+                <span *ngIf="selectedsuppliers">Kasa Tanımı Güncelle</span>
             </h5>
         </div>
 
@@ -106,7 +106,7 @@
                         class="order-first sm:order-last"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addsuppliers()">
+                        (click)="addOrUpdateStore()">
                         Kaydet
                     </button>
                 </div>

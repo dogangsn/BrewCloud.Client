@@ -40,7 +40,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id   : 'sales',
-        title: 'Satş',
+        title: 'Satış',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
         link : '/sales'

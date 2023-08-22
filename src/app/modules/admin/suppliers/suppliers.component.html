@@ -57,8 +57,8 @@
   <!-- Main -->
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
     <!-- CONTENT GOES HERE -->
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
-      <table mat-table [dataSource]="suppliers"class="mat-elevation-z8"> 
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="supplierscards"> 
 
         <!-- Position Column -->
         <ng-container matColumnDef="suppliername">
@@ -73,19 +73,20 @@
         </ng-container>
         <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef> Telefon </th>
-          <td mat-cell *matCellDef="let element"> {{element.Telefon}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="active">
           <th mat-header-cell *matHeaderCellDef> Durumu </th>
-          <td mat-cell *matCellDef="let element" [style.color]="element.active ? 'green' : 'red'"> {{element.active}} </td>
+          <td mat-cell *matCellDef="let element">
+          <mat-checkbox [(ngModel)]="element.active" [disabled]="true"></mat-checkbox>
         </ng-container>
         <!-- Weight Column -->
 
 
 
-        <ng-container matColumnDef="update">
+        <!-- <ng-container matColumnDef="update">
             <th mat-header-cell *matHeaderCellDef> Update </th>
             <td mat-cell *matCellDef="let element">
               <button mat-icon-button color="accent" (click)="redirectToUpdate(element.Id)">
@@ -100,16 +101,29 @@
                     <mat-icon class="mat-18">delete</mat-icon>
                 </button>
               </td>
-            </ng-container>
+            </ng-container> -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+              <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                      <mat-icon aria-label="Edit">edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                  </button>
+              </td>
+          </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+      aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                              showFirstLastButtons
                              aria-label="Select page of periodic elements">
               </mat-paginator> -->
-    </div>
 
 
   </div>
