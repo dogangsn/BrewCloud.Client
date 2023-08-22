@@ -19,5 +19,11 @@ export class CustomerGroupService {
         return this._httpService.post(endPoints.customergroup.createCustomerGroupDef, model);
     }
 
+    updatecustomerGroupDef(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customergroup.updateCustomerGroupDef, model);
+    }
 
+    deletedcustomerGroupDef(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customergroup.deleteCustomerGroupDef, model);
+    }
 }

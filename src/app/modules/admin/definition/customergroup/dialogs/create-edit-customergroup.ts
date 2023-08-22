@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupListDto } from '../models/customerGroupListDto';
 import { CreateCustomerGroupCommand } from '../models/CreateCustomerGroupCommand';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { UpdateCustomerGroupCommand } from '../models/UpdateCustomerGroupCommand';
 
 @Component({
     selector: 'app-create-edit-customergroup-dialog',
@@ -35,15 +36,31 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
             name: ['', Validators.required],
             code: ['', Validators.required]
         });
+
+        this.fillFormData(this.selectedcustomergroup);
+    }
+
+    fillFormData(selectedcustomergroup: CustomerGroupListDto) {
+        debugger;
+        if (this.selectedcustomergroup !== null) {
+            this.productcategory.setValue({
+                code: selectedcustomergroup.code,
+                name: selectedcustomergroup.name,
+            });
+        }
+    }
+
+    addOrUpdateCustomergroup(): void {
+        this.selectedcustomergroup
+            ? this.updatecustomergroup()
+            : this.addcustomergroup();
     }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
 
-    addproductcategories(): void {
-
-        
+    addcustomergroup(): void {
         const productCategoryItem = new CreateCustomerGroupCommand( 
             this.getFormValueByName('name'),
             this.getFormValueByName('code')
@@ -61,6 +78,34 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
                     });
                 } else {
                      this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+
+    }
+
+    updatecustomergroup(){
+
+        const storeItem = new UpdateCustomerGroupCommand(
+            this.selectedcustomergroup.id,
+            this.getFormValueByName('code'),
+            this.getFormValueByName('name'),
+        );
+
+        this._customergroup.updatecustomerGroupDef(storeItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
                 }
             },
             (err) => {

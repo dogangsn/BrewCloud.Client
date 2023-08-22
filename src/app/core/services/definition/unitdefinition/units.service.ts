@@ -19,5 +19,13 @@ export class UnitsService {
         return this._httpService.post(endPoints.units.createUnits, model);
     }
 
+    updateUnits(model: any): Observable<any> {
+        return this._httpService.post(endPoints.units.createUnits, model);
+    }
+
+    deleteUnits(model: any): Observable<any> {
+        return this._httpService.post(endPoints.units.createUnits, model);
+    }
+
 
 }

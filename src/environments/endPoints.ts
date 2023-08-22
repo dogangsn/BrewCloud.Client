@@ -23,7 +23,9 @@ export const endPoints = {
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
-        createProductCategory : 'vet/Definition/CreateProductCategories'
+        createProductCategory : 'vet/Definition/CreateProductCategories',
+        updateProductCategory : 'vet/Definition/UpdateProductCategories',
+        deleteProductCategory : 'vet/Definition/DeleteProductCategories',
     },
     units : {
         unitsList : 'vet/Definition/UnitsList',
@@ -37,7 +39,9 @@ export const endPoints = {
     },
     customergroup : {
         customerGroupList: 'vet/Definition/CustomerGroupList',
-        createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef'
+        createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef',
+        updateCustomerGroupDef : 'vet/Definition/UpdateCustomerGroupDef',
+        deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef'
     },
     store:{
         storeList : 'vet/Store/StoreList',

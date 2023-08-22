@@ -105,7 +105,7 @@ export class AuthGuard implements CanMatch
     {
         const logged = this._authService.isLoggedIn();
         if (!logged) {
-            this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
+            this._router.navigate(['auth/sign-in'], {queryParams: {redirectURL}});
             return of(false);
           }
 

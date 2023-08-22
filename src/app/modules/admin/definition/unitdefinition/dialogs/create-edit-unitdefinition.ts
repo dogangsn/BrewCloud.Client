@@ -8,6 +8,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { UpdateUnitsCommand } from '../models/UpdateUnitsCommand';
 
 @Component({
     selector: 'app-create-edit-unitdefinition-dialog',
@@ -30,6 +31,24 @@ export class CreateEditUnitDefinitionDialogComponent implements OnInit {
             unitCode: [''],
             unitName: ['']
         });
+
+        this.fillFormData(this.selectedunitdefinition);
+    }
+
+    fillFormData(selectedUnitdef: unitdefinitionListDto) {
+        debugger;
+        if (this.selectedunitdefinition !== null) {
+            this.unitdefinition.setValue({
+                unitCode: selectedUnitdef.unitCode,
+                unitName: selectedUnitdef.unitName,
+            });
+        }
+    }
+
+    addOrUpdateUnitDef(): void {
+        this.selectedunitdefinition
+            ? this.updateunitdefinition()
+            : this.addunitdefinition();
     }
 
     closeDialog(): void {
@@ -44,6 +63,32 @@ export class CreateEditUnitDefinitionDialogComponent implements OnInit {
 
         this._unitservice.createUnits(unitsItem).subscribe(
             (response) => {
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    updateunitdefinition(): void{
+        const unitItem = new UpdateUnitsCommand(
+            this.selectedunitdefinition.id,
+            this.getFormValueByName('unitCode'),
+            this.getFormValueByName('unitName'),
+        );
+
+        this._unitservice.updateUnits(unitItem).subscribe(
+            (response) => {
+                debugger;
+
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
                     this._dialogRef.close({

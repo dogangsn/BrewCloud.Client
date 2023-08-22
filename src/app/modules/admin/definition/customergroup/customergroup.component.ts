@@ -5,6 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CustomerGroupListDto } from './models/customerGroupListDto';
 import { CreateEditCustomerGroupDialogComponent } from './dialogs/create-edit-customergroup';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
     selector: 'app-customergroup',
@@ -12,17 +16,22 @@ import { CustomerGroupService } from 'app/core/services/definition/customergroup
     styleUrls: ['./customergroup.component.css'],
 })
 export class CustomergroupComponent implements OnInit {
-    displayedColumns: string[] = [ 'name', 'code', 'update', 'delete'];
+    displayedColumns: string[] = [ 'name', 'code', 'actions'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     customergroup: CustomerGroupListDto[] = [];
     dataSource = new MatTableDataSource<CustomerGroupListDto>(
         this.customergroup
     );
-    
     isUpdateButtonActive: boolean;
 
-    constructor(private _dialog: MatDialog,private _customergroup: CustomerGroupService) {}
+    constructor(
+        private _dialog: MatDialog,
+        private _customergroup: CustomerGroupService,
+        private _translocoService: TranslocoService
+        ) {
+
+        }
 
     ngOnInit() {
         this.CustomerGroupList();
@@ -38,7 +47,6 @@ export class CustomergroupComponent implements OnInit {
     }
 
     addPanelOpen(): void {
-        //this.erpfinancemonitorForm.reset();
         this.isUpdateButtonActive = false;
         const dialog = this._dialog
             .open(CreateEditCustomerGroupDialogComponent, {
@@ -54,34 +62,80 @@ export class CustomergroupComponent implements OnInit {
             });
     }
 
-    editCaseDefinition(model: CustomerGroupListDto): void {
-        this.isUpdateButtonActive = true;
-
-        // this._productcategoryservice.getDeviceInfoId(model).subscribe((response) => {
-        //     if (response.isSuccessful) {
-        //         this.selectedPdksDeviceInfo = response.data;
-        //         const dialog = this._dialog.open(CreateEditPdksDeviceInfoDialogComponent, {
-        //             maxWidth: '100vw !important',
-        //             disableClose: true,
-        //             data: this.selectedPdksDeviceInfo
-        //         }).afterClosed().subscribe((err) => {
-        //             if (err.status) {
-        //                 this.getPdksDeviceInfos();
-        //             }
-        //         });
-
-        //     } else {
-        //         //başarısız
-        //     }
-        // });
-    }
-
     public redirectToUpdate = (id: string) => {
+        this.isUpdateButtonActive = true;
+        const selectedStore = this.customergroup.find((store) => store.id === id);
+        if (selectedStore) {
+            const dialogRef = this._dialog.open(
+                CreateEditCustomerGroupDialogComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: selectedStore
+                }
+            );
+
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.CustomerGroupList();
+                }
+            });
+        }
 
     }
 
     public redirectToDelete = (id: string) => {
-      
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._customergroup
+                        .deletedcustomerGroupDef(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.CustomerGroupList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate('sweetalert.transactionSuccessful'),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
+    }
+    
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
     }
 
 

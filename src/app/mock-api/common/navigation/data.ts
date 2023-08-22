@@ -13,13 +13,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'customer',
         title: 'Müşteri',
         type : 'collapsable',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:user-group',
         children: [
             {
                 id   : 'customeradd',
                 title: 'Yeni Müşteri Ekle',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:user-add',
                 link : '/customeradd'
             },
             {
@@ -35,7 +35,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'appointment',
         title: 'Randevu Takvimi',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_solid:calendar',
         link : '/appointment'
     },
     {
@@ -56,20 +56,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'lab',
         title: 'Laboratuvar',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:beaker',
         link : '/lab'
     },
     {
         id   : 'cashing',
         title: 'Kasa İşlemleri',
         type : 'collapsable',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:cash',
         children: [
             {
                 id   : 'cashtransactions',
                 title: 'Kasa Hareketleri',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:switch-vertical',
                 link : '/cashtransactions'
             },
             {
@@ -92,7 +92,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'productdescription',
                 title: 'Ürün Tanımı',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'mat_outline:production_quantity_limits',
                 link : '/productdescription'
             },
             {
@@ -109,21 +109,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'suppliers',
         title: 'Tedarikçiler',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:truck',
         link : '/suppliers'
     },
     {
         id   : 'agenda',
         title: 'Ajandam',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'mat_outline:task_alt',
         link : '/agenda'
     },
     {
         id   : 'store',
         title: 'Depo',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'mat_outline:store',
         link : '/store'
     },
     {
@@ -157,7 +157,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'casingdefinition',
                 title: 'Kasa',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'mat_outline:cases',
                 link : '/casingdefinition'
             },
             {

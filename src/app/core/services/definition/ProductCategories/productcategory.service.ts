@@ -19,5 +19,11 @@ export class ProductCategoryService {
         return this._httpService.post(endPoints.productcategory.createProductCategory, model);
     }
 
+    updateProductCategory(model: any): Observable<any> {
+        return this._httpService.post(endPoints.productcategory.updateProductCategory, model);
+    }
 
+    deleteProductCategory(model: any): Observable<any> {
+        return this._httpService.post(endPoints.productcategory.deleteProductCategory, model);
+    }
 }
