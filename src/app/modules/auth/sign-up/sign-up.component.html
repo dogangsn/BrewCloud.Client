@@ -57,12 +57,12 @@
                 </mat-form-field>
 
                    <!-- Phone field -->
-                <mat-form-field
-                        class="w-full">
+                <mat-form-field class="w-full">
                    <mat-label>Phone</mat-label>
-                   <input
-                       [formControlName]="'phone'"
-                       matInput>
+                   <input placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value)" [formControlName]="'phone'" matInput>
+                   <mat-error *ngIf="signUpForm.get('phone').hasError('required')">
+                        Telefon numarası gereklidir
+                    </mat-error>
                </mat-form-field>
 
                 <!-- Password field -->
@@ -100,16 +100,19 @@
                         id="company-confirm"
                         matInput
                         [formControlName]="'company'">
+                        <mat-error *ngIf="signUpForm.get('company').hasError('required')">
+                            Firma Bilgisi gereklidir
+                        </mat-error>
                 </mat-form-field>
 
-                <div class="inline-flex items-end w-full mt-1.5">
+                <!-- <div class="inline-flex items-end w-full mt-1.5">
                     <mat-checkbox
                         class="-ml-2"
                         [color]="'primary'"
                         [formControlName]="'campaigncode'">
                         <span>KAMPANYA KODUM VAR</span>
                     </mat-checkbox>
-                </div>
+                </div> -->
 
                 <!-- ToS and PP -->
                 <div class="inline-flex items-end w-full mt-1.5">
@@ -117,7 +120,8 @@
                         class="-ml-2"
                         [color]="'primary'"
                         [formControlName]="'agreements'">
-                        <span>KULLANIM KOŞULLARINI OKUDUM KABUL EDİYORUM</span>
+                        <span style="text-decoration: underline; cursor: pointer" (click)="openTermsDialog()">KULLANIM KOŞULLARINI</span>
+                        <span> OKUDUM KABUL EDİYORUM</span>
                     </mat-checkbox>
                 </div>
 

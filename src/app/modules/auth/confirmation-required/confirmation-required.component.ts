@@ -2,7 +2,11 @@ import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
+import { TranslocoService } from '@ngneat/transloco';
 import { AccountService } from 'app/core/services/account/account.service';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 
 @Component({
     selector     : 'auth-confirmation-required',
@@ -16,7 +20,8 @@ export class AuthConfirmationRequiredComponent
     constructor(
         private _formBuilder: UntypedFormBuilder,
         private _accountService : AccountService,
-        private _router: Router
+        private _router: Router,
+        private _translocoService: TranslocoService,
     )
     {    
     }
@@ -42,11 +47,17 @@ export class AuthConfirmationRequiredComponent
         this._accountService.complateactivation(model)
         .subscribe(
             (response) => {
-                localStorage.removeItem('email');
-                this._router.navigateByUrl('auth/sign-in');
+                if(response.isSuccessful)
+                {
+                    localStorage.removeItem('email');
+                    this._router.navigateByUrl('auth/sign-in');
+
+                }else {
+                    this.showSweetAlert('error', "Aktivasyon Kodu yanlış...");
+                }
             },
-            (response) => {
-                
+            (err) => {
+                console.log(err);
             }
         );
     }
@@ -57,21 +68,27 @@ export class AuthConfirmationRequiredComponent
         return this.confirmation.get(formName).value;
     }
 
-    // showSweetAlert(type: string): void {
-    //     if (type === 'success') {
-    //         const sweetAlertDto = new SweetAlertDto(
-    //             this.translate('sweetalert.success'),
-    //             this.translate('sweetalert.transactionSuccessful'),
-    //             SweetalertType.success);
-    //         GlobalService.sweetAlert(sweetAlertDto);
-    //     }
-    //     else {
-    //         const sweetAlertDto = new SweetAlertDto(
-    //             this.translate('sweetalert.error'),
-    //             this.translate('sweetalert.transactionFailed'),
-    //             SweetalertType.error);
-    //         GlobalService.sweetAlert(sweetAlertDto);
-    //     }
-    // }
+    
+    showSweetAlert(type: string, text: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                text,
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                text,
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
 
 }
