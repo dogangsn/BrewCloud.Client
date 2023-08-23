@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-agenda',
-  templateUrl: './agenda.component.html',
-  styleUrls: ['./agenda.component.css']
+    selector       : 'agenda',
+    templateUrl    : './agenda.component.html',
+    encapsulation  : ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AgendaComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class AgendaComponent
+{
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+    }
 }
+
