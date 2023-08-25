@@ -25,8 +25,9 @@ export class CanDeactivateAgendasDetails implements CanDeactivate<AgendaDetailsC
         // If the next state doesn't contain '/tasks'
         // it means we are navigating away from the
         // tasks app
-        if ( !nextState.url.includes('/tasks') )
+        if ( !nextState.url.includes('/agenda') )
         {
+
             // Let it navigate
             return true;
         }
@@ -35,11 +36,14 @@ export class CanDeactivateAgendasDetails implements CanDeactivate<AgendaDetailsC
         if ( nextRoute.paramMap.get('id') )
         {
             // Just navigate
-            return true;
+             return true;
+            //return component.closeDrawer().then(() => true);
+
         }
         // Otherwise...
         else
         {
+
             // Close the drawer first, and then navigate
             return component.closeDrawer().then(() => true);
         }
