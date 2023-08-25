@@ -38,7 +38,7 @@ import {
     InventoryVendor,
     PatientDetails,
     SexTYpe,
-} from './models/inventory.types';
+} from './models/PatientDetailsCommand';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { fuseAnimations } from '@fuse/animations';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -48,7 +48,6 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
 import { v4 as uuidv4 } from 'uuid';
-
 
 @Component({
     selector: 'customeradd',
@@ -78,15 +77,16 @@ import { v4 as uuidv4 } from 'uuid';
     animations: fuseAnimations,
 })
 export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
-    customers: CreateCustomerCommand[] = [];
     accountForm: FormGroup;
 
+    customers: CreateCustomerCommand = new CreateCustomerCommand();
+    patients: PatientDetails[];
+
     customergroupList: CustomerGroupListDto[] = [];
-    //
+
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    patients : PatientDetails[];
     brands: InventoryBrand[];
     sextype: SexTYpe[];
     filteredTags: InventoryTag[];
@@ -154,44 +154,77 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.patients = products;
         this.tags = tags;
         this.vendors = vendors;
-
-
     }
 
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;
     }
 
+    fillSelectedInvoice(): boolean {
+        const firstName = this.getFormValueByName('firstName');
+        if (!firstName || firstName === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Hasta Sahibi Adı Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+
+        if (this.patients.length == 0 || this.patients === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Hasta Bilgisi Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+
+        this.customers.firstName = this.getFormValueByName('firstName');
+        this.customers.lastName = this.getFormValueByName('lastName');
+        this.customers.phoneNumber = this.getFormValueByName('phoneNumber');
+        this.customers.phoneNumber2 = this.getFormValueByName('phoneNumber2');
+        this.customers.eMail = this.getFormValueByName('eMail');
+        this.customers.taxOffice = this.getFormValueByName('taxOffice');
+        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo');
+        this.customers.note = this.getFormValueByName('note');
+        this.customers.discountRate = this.getFormValueByName('discountRate');
+        this.customers.province = this.getFormValueByName('province');
+        this.customers.district = this.getFormValueByName('district');
+        this.customers.longAdress = this.getFormValueByName('longAdress');
+        this.customers.PatientDetails = this.patients;
+
+        return true;
+    }
+
     addCustomers(): any {
-        const customerItem = new CreateCustomerCommand(
-            this.getFormValueByName('firstName'),
-            this.getFormValueByName('lastName'),
-            this.getFormValueByName('phoneNumber'),
-            this.getFormValueByName('phoneNumber2'),
-            this.getFormValueByName('eMail'),
-            this.getFormValueByName('taxOffice'),
-            this.getFormValueByName('vKNTCNo'),
-            this.getFormValueByName('note'),
-            0,
-            this.getFormValueByName('province'),
-            this.getFormValueByName('district'),
-            this.getFormValueByName('longAdress')
-        );
-        this._customerService.createCustomers(customerItem).subscribe(
-            (response) => {
-                if (response.isSuccessful) {
-                    // this.showSweetAlert('success');
-                    // this._dialogRef.close({
-                    //     status: true,
-                    // });
-                } else {
-                    // this.showSweetAlert('error');
+
+        debugger;
+
+        if (this.fillSelectedInvoice()) {
+            const model = {
+                createcustomers: this.customers,
+            };
+
+            this._customerService.createCustomers(model).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success');
+
+                        // this._dialogRef.close({
+                        //     status: true,
+                        // });
+                    } else {
+                        this.showSweetAlert('error');
+                    }
+                },
+                (err) => {
+                    console.log(err);
                 }
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
+            );
+        }
     }
 
     showSweetAlert(type: string): void {
@@ -238,7 +271,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             animalColor: '',
             tags: [],
             images: [],
-            active : true,
+            active: true,
             thumbnail: '',
         };
         this.patients.unshift(newPatient);
@@ -249,17 +282,18 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     toggleDetails(productId: string): void {
-
         if (this.selectedPatients && this.selectedPatients.id === productId) {
             this.closeDetails();
             return;
         }
-            const selectedProduct = this.patients.find(product => product.id === productId);
-            if (selectedProduct) {
-                this.selectedPatients = selectedProduct;
-                this.selectedPatientDetailsForm.patchValue(selectedProduct);
-                this._changeDetectorRef.markForCheck();
-            }
+        const selectedProduct = this.patients.find(
+            (product) => product.id === productId
+        );
+        if (selectedProduct) {
+            this.selectedPatients = selectedProduct;
+            this.selectedPatientDetailsForm.patchValue(selectedProduct);
+            this._changeDetectorRef.markForCheck();
+        }
     }
 
     deleteSelectedProduct(): void {
@@ -271,18 +305,24 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                const product = this.selectedPatientDetailsForm.getRawValue();
-                const productIndex = this.patients.findIndex(product => product.id === product.id);
-                if (productIndex !== -1) {
-                    this.patients.splice(productIndex, 1);
-                    if (this.selectedPatients && this.selectedPatients.id === product.id) {
-                        this.closeDetails();
+                    const product =
+                        this.selectedPatientDetailsForm.getRawValue();
+                    const productIndex = this.patients.findIndex(
+                        (product) => product.id === product.id
+                    );
+                    if (productIndex !== -1) {
+                        this.patients.splice(productIndex, 1);
+                        if (
+                            this.selectedPatients &&
+                            this.selectedPatients.id === product.id
+                        ) {
+                            this.closeDetails();
+                        }
+                        this._changeDetectorRef.markForCheck();
                     }
-                    this._changeDetectorRef.markForCheck();
                 }
             }
-        });
-    
+        );
     }
 
     closeDetails(): void {
@@ -344,9 +384,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             //     .subscribe();
         }
     }
-    
+
     cycleImages(forward: boolean = true): void {
-        const count = this.selectedPatientDetailsForm.get('images').value.length;
+        const count =
+            this.selectedPatientDetailsForm.get('images').value.length;
         const currentIndex =
             this.selectedPatientDetailsForm.get('currentImageIndex').value;
         const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
@@ -356,15 +397,13 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedPatientDetailsForm
                 .get('currentImageIndex')
                 .setValue(nextIndex);
-        }
-        else {
+        } else {
             this.selectedPatientDetailsForm
                 .get('currentImageIndex')
                 .setValue(prevIndex);
         }
     }
 
-    
     filterTagsInputKeyDown(event): void {
         if (event.key !== 'Enter') {
             return;
@@ -414,7 +453,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     deleteTag(tag: InventoryTag): void {
         // Delete the tag from the server
         // this._inventoryService.deleteTag(tag.id).subscribe();
-
         // // Mark for check
         // this._changeDetectorRef.markForCheck();
     }
@@ -490,8 +528,6 @@ export const sextype = [
     },
 ];
 
-
-
 export const brands = [
     {
         id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
@@ -519,8 +555,6 @@ export const brands = [
         slug: 'zeon',
     },
 ];
-
-
 
 export const tags = [
     {
