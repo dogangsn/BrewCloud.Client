@@ -87,17 +87,16 @@ export class AgendaListComponent implements OnInit, OnDestroy
                     // If the main navigation component exists...
                     if ( mainNavigationComponent )
                     {
+                        
                         const mainNavigation = mainNavigationComponent.navigation;
-                        const menuItem = this._fuseNavigationService.getItem('apps.tasks', mainNavigation);
-                        if(menuItem)
-                        {
-                            debugger;
-                            menuItem.subtitle = this.agendasCount.incomplete.toString() + ' remaining agenda';
+                        const menuItem = this._fuseNavigationService.getItem('agenda', mainNavigation);
+
+                            
+                            menuItem.subtitle = this.agendasCount.incomplete.toString() + ' kalan Ajanda';
    
                            // Refresh the navigation
                            mainNavigationComponent.refresh();
-                       
-                        }
+
                         // Update the subtitle of the item
                         }
                 });
