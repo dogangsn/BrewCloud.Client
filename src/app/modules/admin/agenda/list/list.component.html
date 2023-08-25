@@ -24,10 +24,11 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-8 px-6 md:px-8">
                     <!-- Title -->
                     <div>
-                        <div class="text-4xl font-extrabold tracking-tight leading-none">Agendas</div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Ajanda</div>
                         <div class="ml-0.5 font-medium text-secondary">
+                            <div class="font-medium tracking-tight text-secondary">Kişisel Hareketlerinizi, Notlarını vb.</div>
                             <span *ngIf="agendasCount.incomplete === 0">All agendas completed!</span>
-                            <span *ngIf="agendasCount.incomplete !== 0">{{agendasCount.incomplete}} remaining agendas</span>
+                            <span *ngIf="agendasCount.incomplete !== 0">{{agendasCount.incomplete}} kalan Ajanda</span>
                         </div>
                     </div>
                     <!-- Actions -->
