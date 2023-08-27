@@ -13,7 +13,9 @@ export const endPoints = {
     },
     customers:{
         customerslist: 'vet/Customers/CustomersList',
-        createCustomers: 'vet/Customers/CreateCustomer'
+        createCustomers: 'vet/Customers/CreateCustomer',
+        animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
+        animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
@@ -41,7 +43,8 @@ export const endPoints = {
         customerGroupList: 'vet/Definition/CustomerGroupList',
         createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef',
         updateCustomerGroupDef : 'vet/Definition/UpdateCustomerGroupDef',
-        deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef'
+        deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef',
+   
     },
     store:{
         storeList : 'vet/Store/StoreList',
@@ -54,6 +57,9 @@ export const endPoints = {
         Createsuppliers : 'vet/Suppliers/CreateSuppliers',
         Updatesuppliers : 'vet/Suppliers/UpdateSuppliers',
         Deletesuppliers : 'vet/Suppliers/DeleteSuppliers'
+    },
+    animalColorsDef: {
+        animalColorsDefList : "vet/Definition/AnimalColorsDefList"
     }
 
 

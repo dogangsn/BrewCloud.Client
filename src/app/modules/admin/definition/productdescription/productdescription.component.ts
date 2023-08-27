@@ -22,6 +22,7 @@ export class ProductdescriptionComponent implements OnInit {
         'productBarcode',
         'buyingPrice',
         'sellingPrice',
+        'actions'
     ];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,7 +40,9 @@ export class ProductdescriptionComponent implements OnInit {
 
         }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getProductList();
+    }
 
     getProductList() {
         this._productdescriptionService

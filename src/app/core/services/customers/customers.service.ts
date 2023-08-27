@@ -19,4 +19,11 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.createCustomers, model);
     }
 
+    getVetVetAnimalsType() : Observable<any> {
+        return this._httpService.getRequest(endPoints.customers.animalsTypeList);
+    }
+
+    getAnimalBreedsDefList() : Observable<any> {
+        return this._httpService.getRequest(endPoints.customers.animalBreedsDefList);
+    }
 }

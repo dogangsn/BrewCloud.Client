@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 import {
+    FormControl,
     FormGroup,
     UntypedFormBuilder,
     UntypedFormControl,
@@ -48,6 +49,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
 import { v4 as uuidv4 } from 'uuid';
+import { AnimalColorsDefListDto } from './models/AnimalColorsDefListDto';
+import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
+import { VetAnimalBreedsDefDto } from './models/VetAnimalBreedsDefDto';
 
 @Component({
     selector: 'customeradd',
@@ -83,13 +87,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     patients: PatientDetails[];
 
     customergroupList: CustomerGroupListDto[] = [];
+    animalcolorDefList: AnimalColorsDefListDto[] = [];
+    animalTypesList : AnimalColorsDefListDto[] = [];
+    animalBreedsDef : VetAnimalBreedsDefDto[] = [];
 
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
     brands: InventoryBrand[];
     sextype: SexTYpe[];
-    filteredTags: InventoryTag[];
+    filteredTags: VetAnimalBreedsDefDto[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: InventoryPagination;
@@ -101,6 +108,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     vendors: InventoryVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     selectedValue: string;
+    AnimalTypeControl: FormControl = new FormControl();
+    
     //
 
     constructor(
@@ -109,11 +118,15 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _translocoService: TranslocoService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _customergroup: CustomerGroupService
+        private _customergroup: CustomerGroupService,
+        private _animalColorDefService : AnimalColorsDefService
     ) {}
 
     ngOnInit() {
         this.getCustomerGroupList();
+        this.getAnimalColorsDefList();
+        this.getAnimalTypesList();
+        this.getAnimalBreedsDefList();
 
         this.accountForm = this._formBuilder.group({
             firstName: [''],
@@ -153,9 +166,21 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sextype = sextype;
         this.patients = products;
         this.tags = tags;
-        this.vendors = vendors;
+
+        this.AnimalTypeControl.valueChanges.subscribe((selectedVendor) => {
+            this.filterTagsByVendor(selectedVendor);
+          });
     }
 
+    filterTagsByVendor(selectedVendor: any) {
+        debugger;
+        const selectedValue = selectedVendor.value;
+        // Seçilen vendor'a ait tagleri filtrele
+        this.filteredTags = this.animalBreedsDef.filter((tag) => tag.animaltype == selectedValue);
+      }
+
+
+    
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;
     }
@@ -225,6 +250,24 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             );
         }
+    }
+
+    getAnimalColorsDefList(){
+        this._animalColorDefService.getAnimalColorsDefList().subscribe((response) => {
+            this.animalcolorDefList = response.data;
+        });
+    }
+
+    getAnimalTypesList(){
+        this._customerService.getVetVetAnimalsType().subscribe((response) => {
+            this.animalTypesList = response.data;
+        });
+    }
+
+    getAnimalBreedsDefList(){
+        this._customerService.getAnimalBreedsDefList().subscribe((response) => {
+            this.animalBreedsDef = response.data;
+        });
     }
 
     showSweetAlert(type: string): void {
@@ -340,9 +383,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     filterTags(event): void {
         const value = event.target.value.toLowerCase();
-        this.filteredTags = this.tags.filter((tag) =>
-            tag.title.toLowerCase().includes(value)
-        );
+        this.filteredTags = this.animalBreedsDef.filter((tag) => tag.breedName.toLowerCase().includes(value));
     }
 
     trackByFn(index: number, item: any): any {
@@ -414,14 +455,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
         const tag = this.filteredTags[0];
-        const isTagApplied = this.selectedPatients.tags.find(
-            (id) => id === tag.id
-        );
-        if (isTagApplied) {
-            this.removeTagFromProduct(tag);
-        } else {
-            this.addTagToProduct(tag);
-        }
+        // const isTagApplied = this.selectedPatients.tags.find(
+        //     (id) => id === tag.id
+        // );
+        // if (isTagApplied) {
+        //     this.removeTagFromProduct(tag);
+        // } else {
+        //     this.addTagToProduct(tag);
+        // }
     }
 
     createTag(title: string): void {
@@ -457,9 +498,9 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         // this._changeDetectorRef.markForCheck();
     }
 
-    addTagToProduct(tag: InventoryTag): void {
+    addTagToProduct(tag: VetAnimalBreedsDefDto): void {
         // Add the tag
-        this.selectedPatients.tags.unshift(tag.id);
+        // this.selectedPatients.animalBreed.unshift(tag.id);
 
         // Update the selected product form
         this.selectedPatientDetailsForm
@@ -470,12 +511,12 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
     }
 
-    removeTagFromProduct(tag: InventoryTag): void {
+    removeTagFromProduct(tag: VetAnimalBreedsDefDto): void {
         // Remove the tag
-        this.selectedPatients.tags.splice(
-            this.selectedPatients.tags.findIndex((item) => item === tag.id),
-            1
-        );
+        // this.selectedPatients.tags.splice(
+        //     this.selectedPatients.tags.findIndex((item) => item === tag.id),
+        //     1
+        // );
 
         // Update the selected product form
         this.selectedPatientDetailsForm
@@ -486,12 +527,12 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
     }
 
-    toggleProductTag(tag: InventoryTag, change: MatCheckboxChange): void {
-        if (change.checked) {
-            this.addTagToProduct(tag);
-        } else {
-            this.removeTagFromProduct(tag);
-        }
+    toggleProductTag(tag: VetAnimalBreedsDefDto, change: MatCheckboxChange): void {
+        // if (change.checked) {
+        //     this.addTagToProduct(tag);
+        // } else {
+        //     this.removeTagFromProduct(tag);
+        // }
     }
 
     shouldShowCreateTagButton(inputValue: string): boolean {
