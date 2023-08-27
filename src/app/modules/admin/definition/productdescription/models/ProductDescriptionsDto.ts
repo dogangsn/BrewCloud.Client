@@ -6,4 +6,5 @@ export class ProductDescriptionsDto{
     buyingPrice:number;
     sellingPrice: number;
     active: boolean;
+    productTypeId: number;
 }

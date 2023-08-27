@@ -17,8 +17,8 @@ import { TranslocoService } from '@ngneat/transloco';
 export class CreateEditProductCategoriesDialogComponent implements OnInit {
     selectedproductcategory: ProductCategoriesListDto;
     productcategory: FormGroup;
-    isUpdateButtonActive: Boolean;
-
+    isUpdateButtonActive: boolean;
+    visibleProductType: boolean;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,

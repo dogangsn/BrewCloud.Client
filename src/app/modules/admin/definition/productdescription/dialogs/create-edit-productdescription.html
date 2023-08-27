@@ -23,8 +23,6 @@
                             <mat-form-field style="width:100%">
                                 <mat-label>Ürün Adı</mat-label>
                                 <input matInput [formControlName]="'name'">
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
                         </div>
                     </div>
@@ -33,48 +31,39 @@
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Birim</mat-label>
                             <mat-select [formControlName]="'unitId'" [placeholder]="'Birim'"
-                                [(ngModel)]="selectedValue" name="units">
+                                name="units">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let unit of units"
                                     [value]="unit.id">{{unit.unitName}}</mat-option>
                             </mat-select>
-                            <mat-icon class="icon-size-5" matPrefix
-                                [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Kategori</mat-label>
-                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue"
+                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Müşteri Grubu'" 
                                 name="productcategori">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let productcategori of productcategories"
                                     [value]="productcategori.id">{{productcategori.name}}</mat-option>
                             </mat-select>
-                            <mat-icon class="icon-size-5" matPrefix
-                                [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
 
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Tipi</mat-label>
-                            <mat-select [formControlName]="'productTypeId'"  [placeholder]="'Ürün Tipi'" [(ngModel)]="selectedValue" name="customergroup">
-                                <mat-option>None</mat-option>
-                                <mat-option *ngFor="let customergroup of productcategories"
-                                    [value]="customergroup.id">{{customergroup.name}}</mat-option>
+                            <mat-select [formControlName]="'productTypeId'"  [placeholder]="'Ürün Tipi'"  name="mapproducttype" [disabled]="true">
+                                <mat-option *ngFor="let item of mapproducttype"
+                                    [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
-                            <mat-icon class="icon-size-5" matPrefix
-                                [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tedarikçi</mat-label>
-                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue"
+                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Müşteri Grubu'" 
                                 name="supplierscard">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let supplierscard of supplierscards"
                                     [value]="supplierscard.id">{{supplierscard.name}}</mat-option>
                             </mat-select>
-                            <mat-icon class="icon-size-5" matPrefix
-                                [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
 
                     </div>
@@ -82,44 +71,45 @@
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Barkod</mat-label>
                             <input [formControlName]="'productBarcode'"  matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Kodu</mat-label>
                             <input [formControlName]="'productCode'" matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>KDV %</mat-label>
                             <input [formControlName]="'ratio'" matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
-
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Alış Fiyatı</mat-label>
                             <input [formControlName]="'buyingPrice'" matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Satış Fiyatı</mat-label>
                             <input [formControlName]="'sellingPrice'" matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Kritik Stok Miktarı</mat-label>
                             <input [formControlName]="'criticalAmount'" matInput>
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
-
                     </div>
+                    <div class="float : left flex  gt-xs:flex-row" **ngIf="visibleProductType">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tür</mat-label>
+                            <mat-select [formControlName]="'animalType'"  name="animalType">
+                                <mat-option *ngFor="let supplierscard of supplierscards"
+                                    [value]="supplierscard.id">{{supplierscard.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tekrar Sayısı</mat-label>
+                            <input [formControlName]="'numberRepetitions'" matInput>
+                        </mat-form-field>
+                    </div>
+
+
 
 
                     <div class="flex flex-col gt-sm:flex-row">

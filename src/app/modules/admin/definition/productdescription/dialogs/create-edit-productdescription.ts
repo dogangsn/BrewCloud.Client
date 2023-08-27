@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ProductDescriptionsDto } from '../models/ProductDescriptionsDto';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -17,6 +17,7 @@ import { ProductCategoriesListDto } from '../../productcategory/models/ProductCa
 import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
+import { ProductType } from 'app/modules/bases/enums/producttype.enum';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -31,6 +32,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     supplierscards: suppliersListDto[] = [];
     selectedValue: string;
 
+    
+    mapproducttype: { name: string; id: number }[] = [];
+
     constructor(
         private _dialogRef: MatDialogRef<any>,  
         private _formBuilder: FormBuilder,
@@ -39,13 +43,21 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         private _unitsservice: UnitsService,
         private _productcategoryservice: ProductCategoryService,
         private _suppliersService: SuppliersService,
+        @Inject(MAT_DIALOG_DATA) public data: ProductDescriptionsDto
         ) 
         {
-
+            this.selectedProductdescription = data;
         }
 
         
     ngOnInit(): void {
+
+        for (var n in ProductType) {
+            if (typeof ProductType[n] === 'number') {
+                this.mapproducttype.push({ id: <any>ProductType[n], name: n });
+            }
+        }
+
         this.UnitsList();
         this.ProductCategoryList();
 
@@ -53,7 +65,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             name: ['' , [Validators.required]],
             unitId : [''],
             categoryId : [''],
-            productTypeId : [''],
+            productTypeId : [1],
             supplierId: [''],
             productBarcode : [''],
             productCode : [''],
@@ -65,7 +77,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             sellingIncludeKDV : [false],
             buyingIncludeKDV : [false],
             fixPrice : [false],
-            isExpirationDate :[false]
+            isExpirationDate :[false],
+            animalType: [],
+            numberRepetitions : []
         });
 
     }
@@ -130,6 +144,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('buyingIncludeKDV'),
             this.getFormValueByName('fixPrice'),
             this.getFormValueByName('isExpirationDate'),
+            this.getFormValueByName('animalType'),
+            this.getFormValueByName('numberRepetitions'),
             );
             
             this._productDefService.createProductDescription(ProductDefItem).subscribe(
