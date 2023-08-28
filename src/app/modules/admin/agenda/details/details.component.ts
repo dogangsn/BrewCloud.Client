@@ -500,7 +500,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title  : 'Delete Agenda',
-            message: 'Are you sure you want to delete this Agenda? This action cannot be undone!',
+            message: 'Bu Gündemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!',
             actions: {
                 confirm: {
                     label: 'Delete'
@@ -521,7 +521,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 // Get the next/previous Agenda's id
                 const currentAgendaIndex = this.agendas.findIndex(item => item.id === id);
                 const nextAgendaIndex = currentAgendaIndex + ((currentAgendaIndex === (this.agendas.length - 1)) ? -1 : 1);
-                const nextAgendaId = (this.agendas.length === 1 && this.agenda[0].id === id) ? null : this.agenda[nextAgendaIndex].id;
+                const nextAgendaId = (this.agendas.length === 1 && this.agenda[0].id === id) ? null : this.agendas[nextAgendaIndex].id;
 
                 // Delete the Agenda
                 this._AgendaService.deleteAgenda(id)
