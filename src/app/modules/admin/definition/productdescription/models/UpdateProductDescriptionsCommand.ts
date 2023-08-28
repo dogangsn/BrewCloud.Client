@@ -3,7 +3,7 @@ export class UpdateProductDescriptionsCommand{
     name:string;
     unitId: string;
     categoryId: string;
-    productTypeId: string;
+    productTypeId: number;
     supplierId: string;
     productBarcode: string;
     productCode: string;
@@ -22,7 +22,7 @@ export class UpdateProductDescriptionsCommand{
         name:string,
         unitId: string,
         categoryId: string,
-        productTypeId: string,
+        productTypeId: number,
         supplierId: string,
         productBarcode: string,
         productCode: string,

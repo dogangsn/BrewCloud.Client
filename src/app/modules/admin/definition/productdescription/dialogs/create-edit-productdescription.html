@@ -1,15 +1,17 @@
-<h1 mat-dialog-title>
-    <button class="dialog-close-button" (click)="closeDialog()">
+<h1 mat-dialog-title class="mat-dialog-title">
+    <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
         <span class="material-icons"> highlight_off </span>
     </button>
 </h1>
-
 
 <div class="modalForm">
     <mat-dialog-content>
 
         <div class="modal-header">
-            <h5 class="modal-title">{{ selectedProductdescription ? 'Modal Tab' : 'Modal Tab ' }}</h5>
+            <h5 class="modal-title">
+                <span *ngIf="selectedProductdescription">Ürün Ekle</span>
+                <span *ngIf="!selectedProductdescription">Ürün Güncelle</span>
+            </h5>
         </div>
 
         <div class="modal-body mbody-productdescription">
@@ -20,154 +22,151 @@
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
                                 <mat-label>Ürün Adı</mat-label>
-                                <input matInput [formControlName]="'name'" >
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                <input matInput [formControlName]="'name'">
                             </mat-form-field>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Birim</mat-label>
-                                <mat-select [placeholder]="'Müşteri Grubu'">
-                                    <mat-option value="">Country 1</mat-option>
-                                    <mat-option value="">Country 2</mat-option>
-                                    <mat-option value="">Country 3</mat-option>
-                                </mat-select>
-                                <mat-icon class="icon-size-5" matPrefix
-                                    [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                            </mat-form-field>
-                        </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Birim</mat-label>
+                            <mat-select [formControlName]="'unitId'" [placeholder]="'Birim'"
+                                name="units">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let unit of units"
+                                    [value]="unit.id">{{unit.unitName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ürün Kategori</mat-label>
+                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Müşteri Grubu'" 
+                                name="productcategori">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let productcategori of productcategories"
+                                    [value]="productcategori.id">{{productcategori.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
-                    <div class="row">
-                        <div class="col-6 mt-2">
+                    <div class="float : left flex  gt-xs:flex-row">
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Kategori</mat-label>
-                                <mat-select [placeholder]="'Müşteri Grubu'">
-                                    <mat-option value="">Country 1</mat-option>
-                                    <mat-option value="">Country 2</mat-option>
-                                    <mat-option value="">Country 3</mat-option>
-                                </mat-select>
-                                <mat-icon class="icon-size-5" matPrefix
-                                    [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-6 mt-2">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ürün Tipi</mat-label>
+                            <mat-select [formControlName]="'productTypeId'"  [placeholder]="'Ürün Tipi'"  name="mapproducttype" [disabled]="true">
+                                <mat-option *ngFor="let item of mapproducttype"
+                                    [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tedarikçi</mat-label>
+                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Müşteri Grubu'" 
+                                name="supplierscard">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let supplierscard of supplierscards"
+                                    [value]="supplierscard.id">{{supplierscard.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Ürün Tipi</mat-label>
-                                <mat-select [placeholder]="'Müşteri Grubu'">
-                                    <mat-option value="">Country 1</mat-option>
-                                    <mat-option value="">Country 2</mat-option>
-                                    <mat-option value="">Country 3</mat-option>
-                                </mat-select>
-                                <mat-icon class="icon-size-5" matPrefix
-                                    [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                            </mat-form-field>
-                        </div>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ürün Barkod</mat-label>
+                            <input [formControlName]="'productBarcode'"  matInput>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ürün Kodu</mat-label>
+                            <input [formControlName]="'productCode'" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>KDV %</mat-label>
+                            <input [formControlName]="'ratio'" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Alış Fiyatı</mat-label>
+                            <input [formControlName]="'buyingPrice'" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Satış Fiyatı</mat-label>
+                            <input [formControlName]="'sellingPrice'" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Kritik Stok Miktarı</mat-label>
+                            <input [formControlName]="'criticalAmount'" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row" **ngIf="visibleProductType">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tür</mat-label>
+                            <mat-select [formControlName]="'animalType'"  name="animalType">
+                                <mat-option *ngFor="let supplierscard of supplierscards"
+                                    [value]="supplierscard.id">{{supplierscard.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tekrar Sayısı</mat-label>
+                            <input [formControlName]="'numberRepetitions'" matInput>
+                        </mat-form-field>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Tedarikçi</mat-label>
-                                <mat-select [placeholder]="'Müşteri Grubu'">
-                                    <mat-option value="">Country 1</mat-option>
-                                    <mat-option value="">Country 2</mat-option>
-                                    <mat-option value="">Country 3</mat-option>
-                                </mat-select>
-                                <mat-icon class="icon-size-5" matPrefix
-                                    [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Ürün Barkod</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Ürün Kodu</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>KDV %</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Alış Fiyatı</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Satış Fiyatı</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mt-2">
-                            <mat-form-field class="flex-auto gt-xs:pr-3">
-                                <mat-label>Kritik Stok Miktarı</mat-label>
-                                <input matInput>
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-                    </div>
+
 
                     <div class="flex flex-col gt-sm:flex-row">
                         <div class="flex flex-col">
-                            <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'">
+                            <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'active'">
                                 Aktif
                             </mat-checkbox>
-                            <mat-checkbox class="mb-2" [color]="'primary'">
+                            <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'sellingIncludeKDV'">
                                 Ürün Satış Fiyatına KDV Dahil
                             </mat-checkbox>
-                            <mat-checkbox class="mb-2" [color]="'primary'">
+                            <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'buyingIncludeKDV'">
                                 Ürün Alış Fiyatına KDV Dahil
                             </mat-checkbox>
-                            <mat-checkbox class="mb-2" [color]="'primary'">
+                            <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'fixPrice'">
                                 Miktarlı Satışlarda Fiyat Sabitlensin
                             </mat-checkbox>
-                            <mat-checkbox class="mb-2" [color]="'primary'">
+                            <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'productBarcode'">
                                 Seri Numaralı ve Son Kullanma Tarihli Ürün Takip Et
                             </mat-checkbox>
                         </div>
                     </div>
+                </div>
+            </div>
 
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+                <div class="-ml-2">
+                    <!-- Attach file -->
+                    <button mat-icon-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
+                    </button>
+                    <!-- Insert link -->
+                    <button mat-icon-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                    </button>
+                    <!-- Insert emoji -->
+                    <button mat-icon-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
+                    </button>
+                    <!-- Insert image -->
+                    <button mat-icon-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+                    </button>
                 </div>
 
+                <div class="flex items-center mt-4 sm:mt-0">
+                    <!-- Discard -->
+                    <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+                        Vazgeç
+                    </button>
+                    <!-- Save as draft -->
+                    <!-- Send -->
+                    <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
+                        (click)="addOrUpdateProductDef()">
+                        Kaydet
+                    </button>
+                </div>
             </div>
         </div>
     </mat-dialog-content>

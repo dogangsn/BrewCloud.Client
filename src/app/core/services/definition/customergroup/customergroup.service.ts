@@ -26,4 +26,8 @@ export class CustomerGroupService {
     deletedcustomerGroupDef(model: any): Observable<any> {
         return this._httpService.post(endPoints.customergroup.deleteCustomerGroupDef, model);
     }
+
+
+
+
 }

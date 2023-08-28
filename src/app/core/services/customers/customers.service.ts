@@ -15,8 +15,15 @@ export class CustomerService {
         return this._httpService.getRequest(endPoints.customers.customerslist);
     }
 
-    createCustomers(model: CreateCustomerCommand): Observable<any> {
+    createCustomers(model: any): Observable<any> {
         return this._httpService.post(endPoints.customers.createCustomers, model);
     }
 
+    getVetVetAnimalsType() : Observable<any> {
+        return this._httpService.getRequest(endPoints.customers.animalsTypeList);
+    }
+
+    getAnimalBreedsDefList() : Observable<any> {
+        return this._httpService.getRequest(endPoints.customers.animalBreedsDefList);
+    }
 }

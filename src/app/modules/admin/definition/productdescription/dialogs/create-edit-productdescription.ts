@@ -1,7 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ProductDescriptionsDto } from '../models/ProductDescriptionsDto';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { CreateProductDescriptionsCommand } from '../models/CreateProductDescriptionsCommand';
+import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { UpdateProductDescriptionsCommand } from '../models/UpdateProductDescriptionsCommand';
+import { CustomerGroupListDto } from '../../customergroup/models/customerGroupListDto';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { UnitsService } from 'app/core/services/definition/unitdefinition/units.service';
+import { unitdefinitionListDto } from '../../unitdefinition/models/unitdefinitionListDto';
+import { ProductCategoriesListDto } from '../../productcategory/models/ProductCategoriesListDto';
+import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
+import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
+import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
+import { ProductType } from 'app/modules/bases/enums/producttype.enum';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -11,27 +27,214 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class CreateEditProductDescriptionDialogComponent implements OnInit {
     selectedProductdescription: ProductDescriptionsDto;
     productdescription: FormGroup;
+    units: unitdefinitionListDto[] = [];
+    productcategories: ProductCategoriesListDto[] = [];
+    supplierscards: suppliersListDto[] = [];
+    selectedValue: string;
 
+    
+    mapproducttype: { name: string; id: number }[] = [];
 
     constructor(
         private _dialogRef: MatDialogRef<any>,  
-        private _formBuilder: FormBuilder) 
+        private _formBuilder: FormBuilder,
+        private _translocoService: TranslocoService,
+        private _productDefService : ProductDescriptionService,
+        private _unitsservice: UnitsService,
+        private _productcategoryservice: ProductCategoryService,
+        private _suppliersService: SuppliersService,
+        @Inject(MAT_DIALOG_DATA) public data: ProductDescriptionsDto
+        ) 
         {
-
+            this.selectedProductdescription = data;
         }
 
         
     ngOnInit(): void {
-        throw new Error('Method not implemented.');
 
+        for (var n in ProductType) {
+            if (typeof ProductType[n] === 'number') {
+                this.mapproducttype.push({ id: <any>ProductType[n], name: n });
+            }
+        }
+
+        this.UnitsList();
+        this.ProductCategoryList();
 
         this.productdescription = this._formBuilder.group({
-            name: [''],
+            name: ['' , [Validators.required]],
+            unitId : [''],
+            categoryId : [''],
+            productTypeId : [1],
+            supplierId: [''],
+            productBarcode : [''],
+            productCode : [''],
+            ratio : [0],
+            buyingPrice : [0],
+            sellingPrice : [0],
+            criticalAmount : [0],
+            active: [true],
+            sellingIncludeKDV : [false],
+            buyingIncludeKDV : [false],
+            fixPrice : [false],
+            isExpirationDate :[false],
+            animalType: [],
+            numberRepetitions : []
         });
 
+    }
+
+    UnitsList() {
+        this._unitsservice.getUnitsList().subscribe((response) => {
+            this.units = response.data;
+            console.log(this.units);
+        });
+    }
+
+    ProductCategoryList() {
+        this._productcategoryservice
+            .getProductCategoryList()
+            .subscribe((response) => {
+                this.productcategories = response.data;
+                console.log(this.productcategories);
+            });
+    }
+
+    getSuppliers() {
+        this._suppliersService.getSuppliersList().subscribe((response) => {
+            this.supplierscards = response.data;
+            console.log(this.supplierscards);
+        });
+    }
+
+    fillFormData(selectedproductdesf: ProductDescriptionsDto) {
+        debugger;
+        if (this.selectedProductdescription !== null) {
+            this.productdescription.setValue({
+                name: selectedproductdesf.name,
+            });
+        }
+    }
+
+    addOrUpdateProductDef(): void {
+        this.selectedProductdescription
+            ? this.updateProductDef()
+            : this.addProductDef();
     }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
+
+    addProductDef(): void {
+        const ProductDefItem = new CreateProductDescriptionsCommand( 
+            this.getFormValueByName('name'),
+            this.getFormValueByName('unitId'),
+            this.getFormValueByName('categoryId'),
+            this.getFormValueByName('productTypeId'),
+            this.getFormValueByName('supplierId'),
+            this.getFormValueByName('productBarcode'),
+            this.getFormValueByName('productCode'),
+            this.getFormValueByName('ratio'),
+            this.getFormValueByName('buyingPrice'),
+            this.getFormValueByName('sellingPrice'),
+            this.getFormValueByName('criticalAmount'),
+            this.getFormValueByName('active'),
+            this.getFormValueByName('sellingIncludeKDV'),
+            this.getFormValueByName('buyingIncludeKDV'),
+            this.getFormValueByName('fixPrice'),
+            this.getFormValueByName('isExpirationDate'),
+            this.getFormValueByName('animalType'),
+            this.getFormValueByName('numberRepetitions'),
+            );
+            
+            this._productDefService.createProductDescription(ProductDefItem).subscribe(
+                (response) => {
+                    
+                    debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                     this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+
+    }
+
+    updateProductDef(){
+
+        const storeItem = new UpdateProductDescriptionsCommand(
+            this.selectedProductdescription.id,
+            this.getFormValueByName('name'),
+            this.getFormValueByName('unitId'),
+            this.getFormValueByName('categoryId'),
+            this.getFormValueByName('productTypeId'),
+            this.getFormValueByName('supplierId'),
+            this.getFormValueByName('productBarcode'),
+            this.getFormValueByName('productCode'),
+            this.getFormValueByName('ratio'),
+            this.getFormValueByName('buyingPrice'),
+            this.getFormValueByName('sellingPrice'),
+            this.getFormValueByName('criticalAmount'),
+            this.getFormValueByName('active'),
+            this.getFormValueByName('sellingIncludeKDV'),
+            this.getFormValueByName('buyingIncludeKDV'),
+            this.getFormValueByName('fixPrice'),
+            this.getFormValueByName('isExpirationDate'),
+        );
+
+        this._productDefService.updateProductDescription(storeItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+
+    }
+
+    getFormValueByName(formName: string): any {
+        return this.productdescription.get(formName).value;
+    }
+
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
+
 }

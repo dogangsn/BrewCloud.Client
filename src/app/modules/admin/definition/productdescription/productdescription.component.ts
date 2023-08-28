@@ -22,6 +22,7 @@ export class ProductdescriptionComponent implements OnInit {
         'productBarcode',
         'buyingPrice',
         'sellingPrice',
+        'actions'
     ];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,7 +31,7 @@ export class ProductdescriptionComponent implements OnInit {
         this.productdescription
     );
     isUpdateButtonActive: boolean;
-    
+    visibleProductType: boolean;
 
     constructor(
         private _dialog: MatDialog,
@@ -39,7 +40,9 @@ export class ProductdescriptionComponent implements OnInit {
 
         }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getProductList();
+    }
 
     getProductList() {
         this._productdescriptionService
@@ -52,7 +55,8 @@ export class ProductdescriptionComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
-        //this.isUpdateButtonActive = false;
+        this.isUpdateButtonActive = false;
+        this.visibleProductType = false;
 
         const dialog = this._dialog
             .open(CreateEditProductDescriptionDialogComponent, {
@@ -63,13 +67,14 @@ export class ProductdescriptionComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getErpFinanceMonitors();
+                    this.getProductList();
                 }
             });
     }
 
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
+        this.visibleProductType = false;
         const selectedProduct = this.productdescription.find((product) => product.id === id);
         if (selectedProduct) {
             const dialogRef = this._dialog.open(

@@ -2,7 +2,7 @@ export class CreateProductDescriptionsCommand {
     name:string;
     unitId: string;
     categoryId: string;
-    productTypeId: string;
+    productTypeId: number;
     supplierId: string;
     productBarcode: string;
     productCode: string;
@@ -15,12 +15,14 @@ export class CreateProductDescriptionsCommand {
     buyingIncludeKDV:boolean;
     fixPrice:boolean;
     isExpirationDate : boolean;
+    animalType: number;
+    numberRepetitions: number;
 
     constructor(
         name:string,
         unitId: string,
         categoryId: string,
-        productTypeId: string,
+        productTypeId: number,
         supplierId: string,
         productBarcode: string,
         productCode: string,
@@ -32,7 +34,9 @@ export class CreateProductDescriptionsCommand {
         sellingIncludeKDV: boolean,
         buyingIncludeKDV:boolean,
         fixPrice:boolean,
-        isExpirationDate : boolean
+        isExpirationDate : boolean,
+        animalType: number,
+        numberRepetitions: number
     ){
         this.name = name;
         this.unitId = unitId;
@@ -50,6 +54,8 @@ export class CreateProductDescriptionsCommand {
         this.buyingIncludeKDV = buyingIncludeKDV;
         this.fixPrice = fixPrice;
         this.isExpirationDate = isExpirationDate;
+        this.animalType = animalType;
+        this.numberRepetitions = numberRepetitions;
 
     }
 

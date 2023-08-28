@@ -42,14 +42,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'sales',
         title: 'Satış',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:trending-up',
         link : '/sales'
     },
     {
         id   : 'buying',
         title: 'Alış',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:trending-down',
         link : '/buying'
     },
     {
@@ -86,7 +86,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'productvaccidefinition',
         title: 'Ürün / Aşı Tanım',
         type : 'collapsable',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'shopping_bag',
         children: [
             {
                 id   : 'productdescription',
@@ -99,7 +99,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'vaccinedefinition',
                 title: 'Aşı Tanım',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'colorize',
                 link : '/vaccinedefinition'
             },
         ]
@@ -130,7 +130,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'reports',
         title: 'Raporlar',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'report',
         link : '/reports'
     },
     {
@@ -144,14 +144,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'sms',
         title: 'Toplu SMS',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:phone',
         link : '/sms'
     },
     {
         id   : 'definition',
         title: 'Tanımlamalar',
         type : 'collapsable',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:collection',
         children: [
             {
                 id   : 'casingdefinition',
@@ -189,27 +189,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'settings',
         title: 'Ayarlar',
         type : 'collapsable',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:cog',
         children: [
             {
                 id   : 'users',
                 title: 'Kullanıcılar',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:user',
                 link : '/users'
             },
             {
                 id   : 'smsparameters',
                 title: 'SMS Ayarları',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'send_to_mobile',
                 link : '/smsparameters'
             },
             {
                 id   : 'parameters',
                 title: 'Şirket Parametreleri',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:adjustments',
                 link : '/parameters'
             },
         ]
@@ -219,7 +219,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id   : 'example',
         title: 'Ekran Kilidi',
         type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
+        icon : 'heroicons_outline:lock-closed',
         link : '/example'
     },
 
