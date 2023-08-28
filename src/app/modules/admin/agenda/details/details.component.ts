@@ -49,11 +49,32 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     )
     {
     }
-    // closePage(): void {
-    //     debugger;
-    //     // Sayfayı kapatma işlemleri burada gerçekleştirilir
-    //     this._router.navigate(['../agenda/']); // Örneğin, üst düzey sayfaya yönlendirme
-    // }
+    closePage(): void {
+        debugger;
+        // Sayfayı kapatma işlemleri burada gerçekleştirilir
+        this._router.navigate(['../agenda/']); // Örneğin, üst düzey sayfaya yönlendirme
+        this._AgendaListComponent.visible = true;
+    }
+    visible: boolean = true;
+
+    saveAgendadetail(type: 'agenda' | 'section'): void
+    {
+       const types = type;
+       
+        // Create the agenda
+        // this._agendaService.createAgenda(type).subscribe((newAgenda) => {
+
+        //     // Go to the new agenda
+        //     this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
+
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        //         this.visible = false;
+   
+
+            
+        // });
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------

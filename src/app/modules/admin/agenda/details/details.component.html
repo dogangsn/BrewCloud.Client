@@ -49,11 +49,16 @@
                 </mat-menu>
 
                 <!-- Close button -->
-                <a
+                <!-- <a
                     mat-icon-button
                     [routerLink]="['../']">
                     <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
-                </a>
+                </a> -->
+                <button
+                mat-menu-item
+                (click)="closePage()">
+                <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+            </button>
             </div>
 
         </div>
@@ -337,6 +342,19 @@
                     [spellcheck]="false"
                     cdkTextareaAutosize></textarea>
             </mat-form-field>
+        </div>
+        <div class="mt-4 sm:mt-6">
+            <!-- Add section button -->
+            <button
+                mat-flat-button
+                [color]="agenda.type === 'agenda' ? 'primary' : 'accent'"
+                (click)="saveAgendadetail(agenda.type === 'agenda' ? 'agenda' : 'section')"
+                [matTooltip]="'Shortcut: Ctrl + .'"
+                *ngIf="visible">
+                <mat-icon [svgIcon]="'heroicons_outline:check'"></mat-icon>
+                <span class="ml-2 mr-1">{{agenda.type === 'agenda' ? 'Save Agenda ' : 'Save Section'}}</span>
+            </button>
+           
         </div>
 
     </form>

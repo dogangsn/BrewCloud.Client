@@ -48,6 +48,8 @@ export class AgendaListComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+    visible: boolean = true;
+    visible2: boolean = true;
 
     /**
      * On init
@@ -191,6 +193,10 @@ export class AgendaListComponent implements OnInit, OnDestroy
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
+                this.visible = false;
+   
+
+            
         });
     }
 
