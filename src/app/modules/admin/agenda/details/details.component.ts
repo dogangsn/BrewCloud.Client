@@ -116,7 +116,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((agenda: Agenda[]) => {
                 this.agendas = agenda;
-
+                this._AgendaListComponent.visible = false;
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -143,7 +143,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         this.AgendaForm.valueChanges
             .pipe(
                 tap((value) => {
-
+                    
                     // Update the Agenda object
                     this.agenda = assign(this.agenda, value);
                 }),
