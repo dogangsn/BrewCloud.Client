@@ -152,6 +152,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'farmclientadd',
+                loadChildren: () =>
+                    import('app/modules/admin/customer/farmclientadd/farmclientadd.module').then(
+                        (m) => m.FarmClientaddModule
+                    ),
+            },
+            {
                 path: 'appointment',
                 loadChildren: () =>
                     import('app/modules/admin/appointment/appointment.module').then(

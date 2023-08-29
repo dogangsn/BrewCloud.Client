@@ -23,6 +23,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/customeradd'
             },
             {
+                id   : 'farmclientadd',
+                title: 'Yeni Çiftlik Ekle',
+                type : 'basic',
+                icon : 'pets',
+                link : '/farmclientadd'
+            },
+            {
                 id   : 'customerlist',
                 title: 'Müşteri Listesi',
                 type : 'basic',
@@ -164,21 +171,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'unitdefinition',
                 title: 'Birim',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:scale',
                 link : '/unitdefinition'
             },
             {
                 id   : 'customergroup',
                 title: 'Müşteri Grubu',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:user-group',
                 link : '/customergroup'
             },
             {
                 id   : 'productcategory',
                 title: 'Ürün Kategorisi',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-check',
+                icon : 'heroicons_outline:tag',
                 link : '/productcategory'
             },
 

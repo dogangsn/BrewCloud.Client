@@ -1,51 +1,148 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateEditSalesComponent } from './dialogs/create-edit-sales/create-edit-sales.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { SaleBuyListDto } from '../model/SaleBuyListDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 
 @Component({
     selector: 'sales',
     templateUrl: './sales.component.html',
 })
 export class SalesComponent implements OnInit {
-    isLoading: boolean = false;
-    searchInputControl: UntypedFormControl = new UntypedFormControl();
+    displayedColumns: string[] = [
+        'date',
+        'invoiceNo',
+        'customerName',
+        'payment',
+        'netPrice',
+        'kdv',
+        'discount',
+        'total',
+        'actions',
+    ];
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    dataSource = ELEMENT_DATA;
+    salebuyList: SaleBuyListDto[] = [];
+    dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyList);
+    isUpdateButtonActive: boolean;
 
-    constructor(  private _matDialog: MatDialog) {
-      
-    }
+    constructor(
+        private _dialog: MatDialog,
+        private _translocoService: TranslocoService
+    ) {}
 
     ngOnInit() {}
 
     createsales(): void {
-        this._matDialog.open(CreateEditSalesComponent, {
-            autoFocus: false,
-            data: {
-                note: {},
-            },
-        });
+        const dialog = this._dialog
+            .open(CreateEditSalesBuyComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    //this.getStoreList();
+                }
+            });
     }
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-    { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-    { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-    { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-    { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-    { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
+    createCustomerSales(): void {
+        
+        const dialog = this._dialog
+            .open(CreateEditSalesBuyComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    //this.getStoreList();
+                }
+            });
 
-export interface PeriodicElement {
-    name: string;
-    position: number;
-    weight: number;
-    symbol: string;
+    }
+
+    public redirectToUpdate = (id: string) => {
+        this.isUpdateButtonActive = true;
+        // const selectedStore = this.storeList.find((store) => store.id === id);
+        // if (selectedStore) {
+        //     const dialogRef = this._dialog.open(
+        //         CreateEditStoreDialogComponent,
+        //         {
+        //             maxWidth: '100vw !important',
+        //             disableClose: true,
+        //             data: selectedStore
+        //         }
+        //     );
+
+        //     dialogRef.afterClosed().subscribe((response) => {
+        //         if (response.status) {
+        //             this.getStoreList();
+        //         }
+        //     });
+        // }
+    };
+
+    public redirectToDelete = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    // this._storeservice
+                    //     .deletedStores(model)
+                    //     .subscribe((response) => {
+                    //         if (response.isSuccessful) {
+                    //             this.getStoreList();
+                    //             const sweetAlertDto2 = new SweetAlertDto(
+                    //                 this.translate('sweetalert.success'),
+                    //                 this.translate('sweetalert.transactionSuccessful'),
+                    //                 SweetalertType.success
+                    //             );
+                    //             GeneralService.sweetAlert(sweetAlertDto2);
+                    //         } else {
+                    //             console.error('Silme işlemi başarısız.');
+                    //         }
+                    //     });
+                }
+            }
+        );
+    };
+
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
 }
