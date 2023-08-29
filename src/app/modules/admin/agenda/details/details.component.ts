@@ -49,11 +49,32 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     )
     {
     }
-    // closePage(): void {
-    //     debugger;
-    //     // Sayfayı kapatma işlemleri burada gerçekleştirilir
-    //     this._router.navigate(['../agenda/']); // Örneğin, üst düzey sayfaya yönlendirme
-    // }
+    closePage(): void {
+        debugger;
+        // Sayfayı kapatma işlemleri burada gerçekleştirilir
+        this._router.navigate(['../agenda/']); // Örneğin, üst düzey sayfaya yönlendirme
+        this._AgendaListComponent.visible = true;
+    }
+    visible: boolean = true;
+
+    saveAgendadetail(type: 'agenda' | 'section'): void
+    {
+       const types = type;
+       
+        // Create the agenda
+        // this._agendaService.createAgenda(type).subscribe((newAgenda) => {
+
+        //     // Go to the new agenda
+        //     this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
+
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        //         this.visible = false;
+   
+
+            
+        // });
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -95,7 +116,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((agenda: Agenda[]) => {
                 this.agendas = agenda;
-
+                this._AgendaListComponent.visible = false;
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -122,7 +143,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         this.AgendaForm.valueChanges
             .pipe(
                 tap((value) => {
-
+                    
                     // Update the Agenda object
                     this.agenda = assign(this.agenda, value);
                 }),
@@ -479,7 +500,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title  : 'Delete Agenda',
-            message: 'Are you sure you want to delete this Agenda? This action cannot be undone!',
+            message: 'Bu Gündemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!',
             actions: {
                 confirm: {
                     label: 'Delete'
@@ -500,7 +521,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 // Get the next/previous Agenda's id
                 const currentAgendaIndex = this.agendas.findIndex(item => item.id === id);
                 const nextAgendaIndex = currentAgendaIndex + ((currentAgendaIndex === (this.agendas.length - 1)) ? -1 : 1);
-                const nextAgendaId = (this.agendas.length === 1 && this.agenda[0].id === id) ? null : this.agenda[nextAgendaIndex].id;
+                const nextAgendaId = (this.agendas.length === 1 && this.agenda[0].id === id) ? null : this.agendas[nextAgendaIndex].id;
 
                 // Delete the Agenda
                 this._AgendaService.deleteAgenda(id)
