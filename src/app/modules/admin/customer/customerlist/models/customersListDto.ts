@@ -1,4 +1,5 @@
 export class customersListDto {
+    id:string;
     firstname:string;
     lastname: string;
     phonenumber:Number;

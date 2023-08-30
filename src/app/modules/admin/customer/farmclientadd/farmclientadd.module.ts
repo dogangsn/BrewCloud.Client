@@ -19,6 +19,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import { FarmclientaddComponent } from './farmclientadd.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 const root: Route[] = [
     {
@@ -60,6 +61,15 @@ const root: Route[] = [
         MatDatepickerModule, 
         MatNativeDateModule,
         MatRadioModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatStepperModule,
+        SharedModule,
         RouterModule.forChild(root),
      
     ],

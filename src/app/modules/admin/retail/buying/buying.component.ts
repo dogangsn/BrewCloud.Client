@@ -39,11 +39,18 @@ export class BuyingComponent implements OnInit {
     ngOnInit() {}
 
     createsales(): void {
+
+        const model = {
+            selectedsalebuy : null,
+            visibleCustomer : false,
+            salebuyType : 2 //satis
+        }
+
       const dialog = this._dialog
           .open(CreateEditSalesBuyComponent, {
               maxWidth: '100vw !important',
               disableClose: true,
-              data: null,
+              data: model,
           })
           .afterClosed()
           .subscribe((response) => {
@@ -55,11 +62,18 @@ export class BuyingComponent implements OnInit {
 
   createSupplierSales(): void {
       
+    const model = {
+        selectedsalebuy : null,
+        visibleCustomer : true,
+        salebuyType : 2 //satis
+    }
+
+
       const dialog = this._dialog
           .open(CreateEditSalesBuyComponent, {
               maxWidth: '100vw !important',
               disableClose: true,
-              data: null,
+              data: model,
           })
           .afterClosed()
           .subscribe((response) => {

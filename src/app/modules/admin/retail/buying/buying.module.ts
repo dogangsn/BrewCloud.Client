@@ -14,12 +14,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 const root: Route[] = [
     {
@@ -71,6 +73,9 @@ const root: Route[] = [
         MatTooltipModule,
         SharedModule,
         MatDialogModule,
+        MatDatepickerModule, 
+        MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
+        MatSelectFilterModule ,
         RouterModule.forChild(root)
     ],
     declarations: [

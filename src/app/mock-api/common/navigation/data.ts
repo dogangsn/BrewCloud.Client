@@ -113,6 +113,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         
     },
     {
+        id   : 'demands',
+        title: 'Alım Talep',
+        type : 'basic',
+        icon : 'mat_outline:data_saver_on',
+        link : '/demands'
+    },
+    {
         id   : 'suppliers',
         title: 'Tedarikçiler',
         type : 'basic',

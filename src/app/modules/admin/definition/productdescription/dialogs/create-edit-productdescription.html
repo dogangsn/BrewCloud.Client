@@ -9,8 +9,8 @@
 
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="selectedProductdescription">Ürün Ekle</span>
-                <span *ngIf="!selectedProductdescription">Ürün Güncelle</span>
+                <span *ngIf="selectedProductdescription">Ürün Güncelle</span>
+                <span *ngIf="!selectedProductdescription">Ürün Ekle</span>
             </h5>
         </div>
 
@@ -95,7 +95,7 @@
                             <input [formControlName]="'criticalAmount'" matInput>
                         </mat-form-field>
                     </div>
-                    <div class="float : left flex  gt-xs:flex-row" **ngIf="visibleProductType">
+                    <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleProductType">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tür</mat-label>
                             <mat-select [formControlName]="'animalType'"  name="animalType">

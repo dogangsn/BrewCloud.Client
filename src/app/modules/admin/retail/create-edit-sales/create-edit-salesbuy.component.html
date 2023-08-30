@@ -16,7 +16,7 @@
       <div class="modal-body mbody-store">
           <div class="qm-pr-content">
 
-              <div class="container-fluid" >
+              <div class="container-fluid" [formGroup]="salebuy">
                   <div class="row">
                       <!-- <div class="col-sm-12 mt-2 common-width">
                           <mat-form-field style="width:100%">
@@ -34,6 +34,52 @@
                                   [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                           </mat-form-field>
                       </div> -->
+                      <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleCustomer">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Müşteri</mat-label>
+                            <mat-select [formControlName]="'customerId'" [placeholder]="'Müşteri'"
+                                name="customerId">
+                                <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCustomerId"
+                                (ngModelChange)="filterCustomerId($event)">
+                                </mat-select-filter>
+                                <mat-option *ngFor="let item of customerlist"
+                                    [value]="item.id">{{item.firstname}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tarihi</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControlName]="'date'">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ürünler</mat-label>
+                            <mat-select [formControlName]="'productId'" [placeholder]="'Ürünler'"
+                                name="productId">
+                                <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedProductId"
+                                (ngModelChange)="filterProductId($event)">
+                                </mat-select-filter>
+                                <mat-option *ngFor="let item of productdescription"
+                                    [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                    <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                        <mat-label>Açıklama</mat-label>
+                        <textarea matInput [formControlName]="'remark'" placeholder="Lütfen Notunuzu Yazınız..."></textarea>
+                    </mat-form-field>
+                </div>
+                   
+
+
+
+
                   </div>
 
               </div>

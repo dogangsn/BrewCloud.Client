@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ProductDescriptionsDto } from '../models/ProductDescriptionsDto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
@@ -31,10 +31,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     productcategories: ProductCategoriesListDto[] = [];
     supplierscards: suppliersListDto[] = [];
     selectedValue: string;
-
-    
+    producttype:number;
+    visibleProductType: boolean;
     mapproducttype: { name: string; id: number }[] = [];
 
+  
+    
     constructor(
         private _dialogRef: MatDialogRef<any>,  
         private _formBuilder: FormBuilder,
@@ -43,10 +45,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         private _unitsservice: UnitsService,
         private _productcategoryservice: ProductCategoryService,
         private _suppliersService: SuppliersService,
-        @Inject(MAT_DIALOG_DATA) public data: ProductDescriptionsDto
+        @Inject(MAT_DIALOG_DATA) public data: any
         ) 
         {
-            this.selectedProductdescription = data;
+            this.producttype = data.producttype;
+            this.visibleProductType = data.visibleProductType;
+            this.selectedProductdescription = data.selectedProductdescription;
         }
 
         
@@ -63,10 +67,10 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
 
         this.productdescription = this._formBuilder.group({
             name: ['' , [Validators.required]],
-            unitId : [''],
-            categoryId : [''],
-            productTypeId : [1],
-            supplierId: [''],
+            unitId : ['', [Validators.required]],
+            categoryId : ['00000000-0000-0000-0000-000000000000'],
+            productTypeId : { value: this.producttype, disabled: true },
+            supplierId: ['00000000-0000-0000-0000-000000000000'],
             productBarcode : [''],
             productCode : [''],
             ratio : [0],
@@ -147,7 +151,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('animalType'),
             this.getFormValueByName('numberRepetitions'),
             );
-            
+            debugger;
             this._productDefService.createProductDescription(ProductDefItem).subscribe(
                 (response) => {
                     

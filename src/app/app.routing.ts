@@ -215,6 +215,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'demands',
+                loadChildren: () =>
+                    import('app/modules/admin/demands/demands.module').then(
+                        (m) => m.Demands
+                    ),
+            },
+            {
                 path: 'suppliers',
                 loadChildren: () =>
                     import('app/modules/admin/suppliers/suppliers.module').then(
@@ -305,6 +312,14 @@ export const appRoutes: Route[] = [
                         (m) => m.CustomergroupModule
                     ),
             },
+            {
+                path: 'generalsettings',
+                loadChildren: () =>
+                    import('app/modules/admin/generalsettings/generalsettings.module').then(
+                        (m) => m.GeneralSettings
+                    ),
+            },
+
         ],
     },
 ];

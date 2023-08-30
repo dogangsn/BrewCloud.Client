@@ -26,5 +26,9 @@ export class ProductDescriptionService {
         return this._httpService.post(endPoints.productdescription.updateProductDescriptions, model);
     }
 
+    getProductDescriptionFilters(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.productdescription.productDescriptionFilters,model);
+    }
+
 
 }

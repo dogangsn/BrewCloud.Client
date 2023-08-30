@@ -13,8 +13,8 @@ export class CustomersListComponent {
     displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note'];
     
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    erpdepotcards: customersListDto[] = [];
-    dataSource = new MatTableDataSource<customersListDto>(this.erpdepotcards);
+    customerlist: customersListDto[] = [];
+    dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
     
     constructor(private _CustomerListService: CustomerService) {}
     
@@ -24,8 +24,8 @@ export class CustomersListComponent {
     
     getCustomerList() {
         this._CustomerListService.getcustomerlist().subscribe((response) => {
-            this.erpdepotcards = response.data;
-            console.log(this.erpdepotcards);
+            this.customerlist = response.data;
+            console.log(this.customerlist);
         });
     }
     

@@ -21,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 const root: Route[] = [
     {
@@ -72,7 +73,7 @@ const root: Route[] = [
         MatTooltipModule,
         SharedModule,
         MatDialogModule,
-
+        MatSelectFilterModule,
         RouterModule.forChild(root)
     ],
     declarations: [

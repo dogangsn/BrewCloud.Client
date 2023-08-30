@@ -32,6 +32,7 @@ export class ProductdescriptionComponent implements OnInit {
     );
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
+    producttype:number;
 
     constructor(
         private _dialog: MatDialog,
@@ -45,8 +46,12 @@ export class ProductdescriptionComponent implements OnInit {
     }
 
     getProductList() {
+
+        const model = {
+            ProductType : 1
+        }
         this._productdescriptionService
-            .GetProductDescriptionList()
+            .getProductDescriptionFilters(model)
             .subscribe((response) => {
                 this.productdescription = response.data;
                 console.log(this.productdescription);
@@ -57,12 +62,19 @@ export class ProductdescriptionComponent implements OnInit {
         //this.erpfinancemonitorForm.reset();
         this.isUpdateButtonActive = false;
         this.visibleProductType = false;
+        this.producttype = 1;
+
+        const model = {
+            selectedProductdescription : null,
+            producttype : 1,
+            visibleProductType : false
+        };
 
         const dialog = this._dialog
             .open(CreateEditProductDescriptionDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: null,
+                data: model,
             })
             .afterClosed()
             .subscribe((response) => {
@@ -75,6 +87,7 @@ export class ProductdescriptionComponent implements OnInit {
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
         this.visibleProductType = false;
+        this.producttype = 1;
         const selectedProduct = this.productdescription.find((product) => product.id === id);
         if (selectedProduct) {
             const dialogRef = this._dialog.open(

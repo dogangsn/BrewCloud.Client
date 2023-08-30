@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -21,6 +21,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 const root: Route[] = [
     {
@@ -72,6 +74,9 @@ const root: Route[] = [
         MatTooltipModule,
         SharedModule,
         MatDialogModule,
+        MatDatepickerModule, 
+        MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
+        MatSelectFilterModule ,
         RouterModule.forChild(root)
     ],
     declarations: [

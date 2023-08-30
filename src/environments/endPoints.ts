@@ -22,6 +22,7 @@ export const endPoints = {
         createProductDescriptions : 'vet/Definition/CreateProductDescription',
         updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
         deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
+        productDescriptionFilters: 'vet/Definition/ProductDescriptionFilters',
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
