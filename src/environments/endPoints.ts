@@ -61,7 +61,12 @@ export const endPoints = {
     },
     animalColorsDef: {
         animalColorsDefList : "vet/Definition/AnimalColorsDefList"
+    },
+    saleBuy: {
+        createSaleBuy : "vet/SaleBuy/CreateSaleBuy",
+        saleBuyList : "vet/SaleBuy/SaleBuyList"
+    },
+    paymentmethods : {
+        paymentmethodsList : 'vet/Definition/PayMentmethodsList',
     }
-
-
 }

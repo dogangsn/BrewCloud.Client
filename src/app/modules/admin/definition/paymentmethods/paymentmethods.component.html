@@ -19,27 +19,21 @@
           <!-- Title -->
           <div class="mt-2">
               <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                  Satışlar
+                Ödeme Tipleri
               </h2>
           </div>
-          <div class="font-medium tracking-tight text-secondary">Parakende Satış Hareketleri</div>
+          <div class="font-medium tracking-tight text-secondary">Kasa hareketlerinden kullanılması gerekilen ödeme yöntemlerinin belirlenmesi</div>
       </div>
       <!-- Actions -->
       <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-          <button mat-stroked-button (click)="createsales()">
-              <mat-icon
-                  class="icon-size-5 mr-2"
-                  [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                  Parakende Satış
-          </button>
           <button
               class="ml-3"
               mat-flat-button
-              [color]="'primary'" (click)="createCustomerSales()">
+              [color]="'primary'">
               <mat-icon
                   class="icon-size-5 mr-2"
                   [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                  Kayıtlı Müşteriye Satış
+              Yeni Ödeme Tipi
           </button>
       </div>
   </div>
@@ -48,46 +42,18 @@
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
       <!-- CONTENT GOES HERE -->
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="salebuyList">
+        <table mat-table [dataSource]="payments">
 
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef> Tarih </th>
-                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="invoiceNo">
-                <th mat-header-cell *matHeaderCellDef> Fatura No </th>
-                <td mat-cell *matCellDef="let element"> {{element.invoiceNo}} </td>
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Ödeme Adı </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="customerName">
-                <th mat-header-cell *matHeaderCellDef> Müşteri Adı </th>
-                <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="payment">
-                <th mat-header-cell *matHeaderCellDef> Ödeme Yöntemi </th>
-                <td mat-cell *matCellDef="let element"> {{element.payment}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="netPrice">
-                <th mat-header-cell *matHeaderCellDef>Net Tutar</th>
-                <td mat-cell *matCellDef="let element"> {{element.netPrice | number:'1.2-2'}} </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="kdv">
-                <th mat-header-cell *matHeaderCellDef>KDV</th>
-                <td mat-cell *matCellDef="let element"> {{element.kdv | number:'1.2-2'}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="discount">
-                <th mat-header-cell *matHeaderCellDef>İndirim</th>
-                <td mat-cell *matCellDef="let element"> {{element.discount | number:'1.2-2'}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="total">
-                <th mat-header-cell *matHeaderCellDef>Tutar</th>
-                <td mat-cell *matCellDef="let element"> {{element.total | number:'1.2-2'}} </td>
+            <!-- Name Column -->
+            <ng-container matColumnDef="remark">
+                <th mat-header-cell *matHeaderCellDef>Açıklama </th>
+                <td mat-cell *matCellDef="let element"> {{element.remark}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -108,11 +74,12 @@
             
         </table>
 
+
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
             aria-label="Select page of periodic elements">
         </mat-paginator>
-
     </div>
+
   </div>
 
 </div>

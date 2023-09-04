@@ -306,6 +306,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'paymentmethods',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/paymentmethods/paymentmethods.module').then(
+                        (m) => m.PaymentMethodsModule
+                    ),
+            },
+            {
                 path: 'customergroup',
                 loadChildren: () =>
                     import('app/modules/admin/definition/customergroup/customergroup.module').then(

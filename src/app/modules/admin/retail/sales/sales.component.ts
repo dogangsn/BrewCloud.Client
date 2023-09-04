@@ -9,6 +9,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
+import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 
 @Component({
     selector: 'sales',
@@ -34,16 +35,31 @@ export class SalesComponent implements OnInit {
 
     constructor(
         private _dialog: MatDialog,
-        private _translocoService: TranslocoService
+        private _translocoService: TranslocoService,
+        private _salebuyservice: SaleBuyService,
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getSaleBuy();
+    }
+
+    getSaleBuy() : void {
+
+        const model = {
+            type : 1
+        };
+        this._salebuyservice.getBuySaleList(model).subscribe((response) => {
+            this.salebuyList = response.data;
+            console.log(this.salebuyList);
+        });
+    }
 
     createsales(): void {
         const model = {
             selectedsalebuy : null,
             visibleCustomer : false,
-            salebuyType : 1 //satis
+            salebuyType : 1, //satis
+            isSupplier : false
         }
 
 
@@ -51,6 +67,7 @@ export class SalesComponent implements OnInit {
             .open(CreateEditSalesBuyComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
+                
                 data: model,
             })
             .afterClosed()
@@ -65,7 +82,8 @@ export class SalesComponent implements OnInit {
         const model = {
             selectedsalebuy : null,
             visibleCustomer : true,
-            salebuyType : 1 //satis
+            salebuyType : 1, //satis
+            isSupplier : false
         }
 
         const dialog = this._dialog
