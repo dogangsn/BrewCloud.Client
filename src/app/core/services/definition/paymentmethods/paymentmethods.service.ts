@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { CreateCustomerGroupCommand } from "app/modules/admin/definition/customergroup/models/CreateCustomerGroupCommand";
+import { CreatePaymentMethodsCommand } from "app/modules/admin/definition/paymentmethods/models/CreatePaymentMethodsCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -12,20 +13,20 @@ export class PaymentMethodservice {
     constructor(private _httpService: HttpService) { }
 
     getPaymentMethodsList() : Observable<any>{
-        return this._httpService.getRequest(endPoints.customergroup.customerGroupList);
+        return this._httpService.getRequest(endPoints.paymentmethods.paymentmethodsList);
     }
 
-    // createcustomerGroupDef(model: CreateCustomerGroupCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.customergroup.createCustomerGroupDef, model);
-    // }
+    creatPaymentMethods(model: CreatePaymentMethodsCommand): Observable<any> {
+        return this._httpService.post(endPoints.paymentmethods.createPaymentMethods, model);
+    }
 
-    // updatecustomerGroupDef(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.customergroup.updateCustomerGroupDef, model);
-    // }
+    updatePaymentMethods(model: any): Observable<any> {
+        return this._httpService.post(endPoints.paymentmethods.updatePaymentMethods, model);
+    }
 
-    // deletedcustomerGroupDef(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.customergroup.deleteCustomerGroupDef, model);
-    // }
+    deletedPaymentMethods(model: any): Observable<any> {
+        return this._httpService.post(endPoints.paymentmethods.deletePaymentMethods, model);
+    }
 
 
 

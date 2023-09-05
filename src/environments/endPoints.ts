@@ -67,6 +67,9 @@ export const endPoints = {
         saleBuyList : "vet/SaleBuy/SaleBuyList"
     },
     paymentmethods : {
-        paymentmethodsList : 'vet/Definition/PayMentmethodsList',
+        paymentmethodsList : 'vet/Definition/PaymentMethodList',
+        createPaymentMethods: 'vet/Definition/CreatePaymentMethods',
+        updatePaymentMethods: 'vet/Definition/UpdatePaymentMethods',
+        deletePaymentMethods: 'vet/Definition/DeletePaymentMethods',
     }
 }

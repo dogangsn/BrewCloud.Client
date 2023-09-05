@@ -14,6 +14,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateSaleBuyCommand } from '../model/CreateSaleBuyCommand';
 import { suppliersListDto } from '../../suppliers/models/suppliersListDto';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
+import { PaymentMethodsDto } from '../../definition/paymentmethods/models/PaymentMethodsDto';
+import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 
 @Component({
     selector: 'app-create-edit-salesbuy',
@@ -27,6 +29,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
     selectedProductId: any = '';
     productdescription: ProductDescriptionsDto[] = [];
     supplierscards: suppliersListDto[] = [];
+    payments: PaymentMethodsDto[] = [];
     
     visibleCustomer: boolean;
     salebuyType: number;
@@ -40,6 +43,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         private _customerListService: CustomerService,
         private _productdescriptionService: ProductDescriptionService,
         private _suppliersService: SuppliersService,
+        private _paymentmethodsService : PaymentMethodservice,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.visibleCustomer = data.visibleCustomer;
@@ -50,6 +54,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
     ngOnInit() {
         this.getCustomerList();
         this.getProductList();
+        this.paymentsList();
 
         if(this.isSupplier){
             this.getSuppliers();
@@ -64,7 +69,8 @@ export class CreateEditSalesBuyComponent implements OnInit {
             ],
             remark: [''],
             supplierId: ['00000000-0000-0000-0000-000000000000'],
-            invoiceNo: ['']
+            invoiceNo: [''],
+            paymentType: [1]
         });
     }
 
@@ -87,6 +93,13 @@ export class CreateEditSalesBuyComponent implements OnInit {
         this._suppliersService.getSuppliersList().subscribe((response) => {
             this.supplierscards = response.data;
             console.log(this.supplierscards);
+        });
+    }
+
+    paymentsList() {
+        this._paymentmethodsService.getPaymentMethodsList().subscribe((response) => {
+            this.payments = response.data;
+            console.log(this.payments);
         });
     }
 
@@ -119,7 +132,8 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 this.getFormValueByName('remark'),
                 this.salebuyType,
                 this.getFormValueByName('supplierId'),
-                this.getFormValueByName('invoiceNo')
+                this.getFormValueByName('invoiceNo'),
+                this.getFormValueByName('paymentType'),
             );
 
             this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(

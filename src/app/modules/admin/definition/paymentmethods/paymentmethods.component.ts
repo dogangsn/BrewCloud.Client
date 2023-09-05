@@ -31,6 +31,7 @@ export class PaymentmethodsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.paymentsList();
   }
 
 
@@ -59,14 +60,14 @@ addPanelOpen(): void {
 
 public redirectToUpdate = (id: string) => {
     this.isUpdateButtonActive = true;
-    const selectedStore = this.payments.find((units) => units.id === id);
-    if (selectedStore) {
+    const selectedPayment = this.payments.find((pay) => pay.recId === id);
+    if (selectedPayment) {
         const dialogRef = this._dialog.open(
           CreateEditPaymentMethodsDialogComponent,
             {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: selectedStore
+                data: selectedPayment
             }
         );
         dialogRef.afterClosed().subscribe((response) => {
@@ -89,21 +90,21 @@ public redirectToDelete = (id: string) => {
                 const model = {
                     id: id,
                 };
-                // this._paymentmethodsService
-                //     .deleteUnits(model)
-                //     .subscribe((response) => {
-                //         if (response.isSuccessful) {
-                //             this.UnitsList();
-                //             const sweetAlertDto2 = new SweetAlertDto(
-                //                 this.translate('sweetalert.success'),
-                //                 this.translate('sweetalert.transactionSuccessful'),
-                //                 SweetalertType.success
-                //             );
-                //             GeneralService.sweetAlert(sweetAlertDto2);
-                //         } else {
-                //             console.error('Silme işlemi başarısız.');
-                //         }
-                //     });
+                this._paymentmethodsService
+                    .deletedPaymentMethods(model)
+                    .subscribe((response) => {
+                        if (response.isSuccessful) {
+                            this.paymentsList();
+                            const sweetAlertDto2 = new SweetAlertDto(
+                                this.translate('sweetalert.success'),
+                                this.translate('sweetalert.transactionSuccessful'),
+                                SweetalertType.success
+                            );
+                            GeneralService.sweetAlert(sweetAlertDto2);
+                        } else {
+                            console.error('Silme işlemi başarısız.');
+                        }
+                    });
             }
         }
     );

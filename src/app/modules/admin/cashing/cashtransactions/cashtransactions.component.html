@@ -47,7 +47,38 @@
   <!-- Main -->
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
       <!-- CONTENT GOES HERE -->
-      <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
+      <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none">
+        <mat-form-field
+            class="w-full sm:w-36"
+            [subscriptSizing]="'dynamic'">
+            <mat-select
+                [value]="'all'"
+                >
+                <mat-option [value]="'all'">All</mat-option>
+                <ng-container *ngFor="let category of payments;">
+                    <mat-option [value]="category.recId">{{category.name}}</mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field
+            class="w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+            [subscriptSizing]="'dynamic'">
+            <mat-icon
+                matPrefix
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input
+                (input)="filterByQuery(query.value)"
+                placeholder="Search by title or description"
+                matInput
+                #query>
+        </mat-form-field> -->
+        <mat-slide-toggle
+            class="mt-8 sm:mt-0 sm:ml-auto"
+            [color]="'primary'">
+            Hide completed
+        </mat-slide-toggle>
+    </div>
 
   </div>
 

@@ -1,5 +1,5 @@
 export class PaymentMethodsDto{
-    id : string;
+    recId : string;
     name: string;
     remark : string;
 }

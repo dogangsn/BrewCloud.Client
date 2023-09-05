@@ -9,6 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
+import { SharedModule } from 'app/shared/shared.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const root: Route[] = [
     {
@@ -20,17 +28,18 @@ const root: Route[] = [
 @NgModule({
 
     imports     : [
-        FormsModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FuseCardModule,
-        MatMenuModule,
-        FormsModule,
-        MatTableModule,
+        MatProgressBarModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        FuseFindByKeyPipeModule,
+        SharedModule,
+        MatTabsModule,
         RouterModule.forChild(root)
     ],
     declarations: [

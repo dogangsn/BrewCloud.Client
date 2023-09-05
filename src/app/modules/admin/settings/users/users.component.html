@@ -45,44 +45,63 @@
   </div>
 
   <!-- Main -->
-  <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-    <ng-template matTabContent>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
-            <ng-container *ngFor="let member of data.teamMembers">
-                <div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
-                    <!-- Avatar & Info -->
-                    <div class="flex flex-col flex-auto w-full p-8 text-center">
-                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
-                            <img
-                                class="w-full h-full object-cover"
-                                [src]="member.avatar">
+  <!-- <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card"> -->
+
+    <mat-drawer-container class="flex-auto sm:h-full">
+    <mat-tab-group
+    class="sm:px-2"
+    mat-stretch-tabs="false"
+    [animationDuration]="'0'">
+
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span class="inline-flex items-center space-x-2">
+                <span class="">Team</span>
+                <span class="px-2 py-1 text-sm rounded-full bg-primary-100 text-on-primary-100">9</span>
+            </span>
+        </ng-template>
+        <ng-template matTabContent>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
+                <ng-container *ngFor="let member of data">
+                    <div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
+                        <!-- Avatar & Info -->
+                        <div class="flex flex-col flex-auto w-full p-8 text-center">
+                            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
+                                <img
+                                    class="w-full h-full object-cover"
+                                    [src]="member.avatar">
+                            </div>
+                            <div class="mt-6 font-medium">{{member.name}}</div>
+                            <div class="text-secondary">{{member.title}}</div>
                         </div>
-                        <div class="mt-6 font-medium">{{member.name}}</div>
-                        <div class="text-secondary">{{member.title}}</div>
+                        <!-- Email & Phone -->
+                        <div class="flex items-center w-full border-t divide-x">
+                            <a
+                                class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                [href]="'mailto:' + member.email">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                <span class="ml-2">Email</span>
+                            </a>
+                            <a
+                                class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                [href]="'tel:' + member.phone">
+                                <mat-icon
+                                    class="icon-size-5 text-hint"
+                                    [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                                <span class="ml-2">Call</span>
+                            </a>
+                        </div>
                     </div>
-                    <!-- Email & Phone -->
-                    <div class="flex items-center w-full border-t divide-x">
-                        <a
-                            class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
-                            [href]="'mailto:' + member.email">
-                            <mat-icon
-                                class="icon-size-5 text-hint"
-                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
-                            <span class="ml-2">Email</span>
-                        </a>
-                        <a
-                            class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
-                            [href]="'tel:' + member.phone">
-                            <mat-icon
-                                class="icon-size-5 text-hint"
-                                [svgIcon]="'heroicons_solid:phone'"></mat-icon>
-                            <span class="ml-2">Call</span>
-                        </a>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
-    </ng-template>
+                </ng-container>
+            </div>
+        </ng-template>
+    </mat-tab>
+
+    </mat-tab-group>
+    </mat-drawer-container>
   </div>
 
-</div>
+<!-- </div> -->

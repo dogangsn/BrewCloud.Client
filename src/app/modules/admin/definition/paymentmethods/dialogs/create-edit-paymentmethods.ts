@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -7,6 +7,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { PaymentMethodsDto } from '../models/PaymentMethodsDto';
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
+import { CreatePaymentMethodsCommand } from '../models/CreatePaymentMethodsCommand';
+import { UpdatePaymentMethodsCommand } from '../models/UpdatePaymentMethodsCommand';
 
 @Component({
     selector: 'app-create-edit-paymentmethods-dialog',
@@ -21,8 +23,11 @@ export class CreateEditPaymentMethodsDialogComponent implements OnInit {
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _paymentmethodsService : PaymentMethodservice,
-        private _translocoService: TranslocoService
-    ) {}
+        private _translocoService: TranslocoService,
+        @Inject(MAT_DIALOG_DATA) public data: PaymentMethodsDto
+    ) {
+        this.selectedPaymentMethods = data;
+    }
 
     ngOnInit(): void {
         this.paymentmethods = this._formBuilder.group({
@@ -38,68 +43,68 @@ export class CreateEditPaymentMethodsDialogComponent implements OnInit {
         if (this.selectedPaymentMethods !== null) {
             this.paymentmethods.setValue({
                 name: selectedPaymentMethod.name,
-                remark: selectedPaymentMethod.name,
+                remark: selectedPaymentMethod.remark,
             });
         }
     }
 
-    addOrUpdateUnitDef(): void {
+    addOrUpdatepaymentmethods(): void {
         this.selectedPaymentMethods
-            ? this.updateunitdefinition()
-            : this.addunitdefinition();
+            ? this.updatepaymentmethods()
+            : this.addpaymentmethods();
     }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
 
-    addunitdefinition(): void {
-        // const unitsItem = new CreatePaymentMethodsCommand( 
-        //     this.getFormValueByName('unitCode'),
-        //     this.getFormValueByName('unitName')
-        // );
+    addpaymentmethods(): void {
+        const paymentmethodsItem = new CreatePaymentMethodsCommand( 
+            this.getFormValueByName('name'),
+            this.getFormValueByName('remark')
+        );
 
-        // this._paymentmethodsService.createUnits(unitsItem).subscribe(
-        //     (response) => {
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //             this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
+        this._paymentmethodsService.creatPaymentMethods(paymentmethodsItem).subscribe(
+            (response) => {
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
-    updateunitdefinition(): void{
-        // const unitItem = new UpdateUnitsCommand(
-        //     this.selectedunitdefinition.id,
-        //     this.getFormValueByName('unitCode'),
-        //     this.getFormValueByName('unitName'),
-        // );
+    updatepaymentmethods(): void{
+        const paymentMethodsItem = new UpdatePaymentMethodsCommand(
+            this.selectedPaymentMethods.recId,
+            this.getFormValueByName('name'),
+            this.getFormValueByName('remark'),
+        );
 
-        // this._paymentmethodsService.updateUnits(unitItem).subscribe(
-        //     (response) => {
-        //         debugger;
+        this._paymentmethodsService.updatePaymentMethods(paymentMethodsItem).subscribe(
+            (response) => {
+                debugger;
 
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //             this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     getFormValueByName(formName: string): any {

@@ -1,22 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import {  ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   data: any;
 
   constructor() { }
 
+  
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+
   ngOnInit() {
-   
+    this.data = teamMembers;
+    console.log(this.data);
   }
 
   
-teamMembers       : [
+
+
+
+}
+
+export const teamMembers = [
   {
       id    : '2bfa2be5-7688-48d5-b5ac-dc0d9ac97f14',
       avatar: 'assets/images/avatars/female-10.jpg',
@@ -90,8 +101,3 @@ teamMembers       : [
       title : 'Consultant'
   }
 ]
-
-
-
-}
-
