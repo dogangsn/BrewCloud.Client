@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
-import { CreateCustomerCommand } from "app/modules/admin/customer/customeradd/models/CreateCustomerCommand";
+import { CreateCustomerCommand } from "app/modules/admin/customer/models/CreateCustomerCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 

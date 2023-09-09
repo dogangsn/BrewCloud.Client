@@ -2,7 +2,9 @@ import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { customersListDto } from './models/customersListDto';
+import { customersListDto } from '../models/customersListDto';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateEditCustomerAddDialogComponent } from './dialogs/create-edit-customeradd';
 
 @Component({
     selector: 'customerslist',
@@ -16,7 +18,9 @@ export class CustomersListComponent {
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
     
-    constructor(private _CustomerListService: CustomerService) {}
+    constructor(private _CustomerListService: CustomerService,
+                private _dialog: MatDialog
+                ) {}
     
     ngOnInit() {
         this.getCustomerList();
@@ -28,22 +32,22 @@ export class CustomersListComponent {
             console.log(this.customerlist);
         });
     }
+
+    addPanelOpen(): void {
+        //this.erpfinancemonitorForm.reset();
+        const dialog = this._dialog
+            .open(CreateEditCustomerAddDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerList();
+                }
+            });
+    }
     
-    // showSweetAlert(type: string): void {
-    //     if (type === 'success') {
-    //         const sweetAlertDto = new SweetAlertDto(
-    //             this.translate('sweetalert.success'),
-    //             this.translate('sweetalert.transactionSuccessful'),
-    //             SweetalertType.success);
-    //         GlobalService.sweetAlert(sweetAlertDto);
-    //     }
-    //     else {
-    //         const sweetAlertDto = new SweetAlertDto(
-    //             this.translate('sweetalert.error'),
-    //             this.translate('sweetalert.transactionFailed'),
-    //             SweetalertType.error);
-    //         GlobalService.sweetAlert(sweetAlertDto);
-    //     }
-    // }
 }
 

@@ -5,7 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SaleBuyListDto } from '../model/SaleBuyListDto';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { customersListDto } from '../../customer/customerlist/models/customersListDto';
+import { customersListDto } from '../../customer/models/customersListDto';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
 import { ProductDescriptionsDto } from '../../definition/productdescription/models/ProductDescriptionsDto';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
