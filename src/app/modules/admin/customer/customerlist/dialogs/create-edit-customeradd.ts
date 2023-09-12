@@ -1,6 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
@@ -16,6 +25,9 @@ import { CreateCustomerCommand } from '../../models/CreateCustomerCommand';
 import { PatientDetails } from '../../models/PatientDetailsCommand';
 import { CustomerGroupListDto } from 'app/modules/admin/definition/customergroup/models/customerGroupListDto';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { CreateEditPatientsDialogComponent } from '../patientsdialogs/create-edit-patients';
+import { VeriServisi } from '../service/veri-servisi';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'app-create-edit-customeradd-dialog',
@@ -23,31 +35,39 @@ import { CustomerGroupService } from 'app/core/services/definition/customergroup
     templateUrl: './create-edit-customeradd.html',
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
+    displayedColumns: string[] = [
+        'firstName',
+        'lastName',
+        'phoneNumber',
+        'phoneNumber2',
+        'eMail',
+        'note',
+    ];
 
-    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note'];
-    
     selectedcustomeradd: customersListDto;
     customeradd: FormGroup;
     selectedValue: string;
 
     customers: CreateCustomerCommand = new CreateCustomerCommand();
-    patients: PatientDetails[];
     customergroupList: CustomerGroupListDto[] = [];
-    
+
+    patients: PatientDetails[] = [];
+    dataSource = new MatTableDataSource<PatientDetails>(this.patients);
+
     constructor(
-        private _dialogRef: MatDialogRef<any>,  
+        private _dialog: MatDialog,
+        private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
         private _customerService: CustomerService,
         private _customergroup: CustomerGroupService,
+        private veriServisi: VeriServisi,
         @Inject(MAT_DIALOG_DATA) public data: any
-        ) 
-        {
-        }
+    ) {
+        debugger;
+    }
 
-        
     ngOnInit(): void {
-
         this.getCustomerGroupList();
 
         this.customeradd = this._formBuilder.group({
@@ -66,7 +86,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             district: [''],
             longAdress: [''],
         });
-
+        
     }
 
     fillFormData(selectedproductdesf: customersListDto) {
@@ -85,9 +105,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     addOrUpdateCustomer(): void {
-        this.selectedcustomeradd
-            ? this.updateCustomer()
-            : this.addCustomer();
+        this.selectedcustomeradd ? this.updateCustomer() : this.addCustomer();
     }
 
     closeDialog(): void {
@@ -95,15 +113,13 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     addCustomer(): void {
-
         const model = {
             createcustomers: this.customers,
         };
 
-            this._customerService.createCustomers(model).subscribe(
-                (response) => {
-                    
-                    debugger;
+        this._customerService.createCustomers(model).subscribe(
+            (response) => {
+                debugger;
 
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
@@ -111,19 +127,16 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                         status: true,
                     });
                 } else {
-                     this.showSweetAlert('error');
+                    this.showSweetAlert('error');
                 }
             },
             (err) => {
                 console.log(err);
             }
         );
-
     }
 
-    updateCustomer(){
-
-    }
+    updateCustomer() {}
 
     getFormValueByName(formName: string): any {
         return this.customeradd.get(formName).value;
@@ -149,6 +162,21 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    addPanelOpen(): void {
+        //this.erpfinancemonitorForm.reset();
+        const dialog = this._dialog
+            .open(CreateEditPatientsDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                }
+            });
     }
 
 }

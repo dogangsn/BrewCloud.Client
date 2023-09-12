@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { CreateEditCustomerAddDialogComponent } from './dialogs/create-edit-customeradd';
+import { CreateEditPatientsDialogComponent } from './patientsdialogs/create-edit-patients';
 
 const root: Route[] = [
     {
@@ -81,7 +82,8 @@ const root: Route[] = [
     ],
     declarations: [
         CustomersListComponent,
-        CreateEditCustomerAddDialogComponent
+        CreateEditCustomerAddDialogComponent,
+        CreateEditPatientsDialogComponent
     ]
     
 })
