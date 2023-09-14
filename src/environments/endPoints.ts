@@ -11,6 +11,9 @@ export const endPoints = {
         createaccount: 'identityserver/api/account/create',
         complateactivation: 'identityserver/api/account/complateactivation'
     },
+    settings : {
+        getUsersList: 'account/settings/GetUsersList'
+    },
     customers:{
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer',

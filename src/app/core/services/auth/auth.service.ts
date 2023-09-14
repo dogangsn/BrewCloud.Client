@@ -7,6 +7,7 @@ import { UserService } from 'app/core/user/user.service';
 import { EmailValidator } from '@angular/forms';
 import { HttpService } from 'app/core/auth/Http.service';
 import { endPoints } from 'environments/endPoints';
+import { environment } from 'environments/environment';
 // import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
 // import { RoleService } from '../settings/role.service';
 
@@ -20,9 +21,9 @@ export class AuthService {
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService,
-        private httpService: HttpService,
-        // private _roleService: RoleService
-    ) { }
+        private httpService: HttpService
+    ) // private _roleService: RoleService
+    {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -38,7 +39,6 @@ export class AuthService {
     get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
     }
-
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -59,12 +59,8 @@ export class AuthService {
      * @param password
      */
     resetPassword(password: string): Observable<any> {
-        return this._httpClient.post(
-            endPoints.auth.resetPassword,
-            password
-        );
+        return this._httpClient.post(endPoints.auth.resetPassword, password);
     }
-
 
     // async getSidebarNavigations(): Promise<void> {
     //     const model = {
@@ -100,19 +96,34 @@ export class AuthService {
             password: credentials.password,
         };
 
-        return this.httpService.signIn(endPoints.auth.signIn, user).pipe(
-            switchMap(async (response: any) => {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('defaultLanguages');
-                localStorage.removeItem('enterprise');
-                localStorage.removeItem('activeLang');
-                this.accessToken = response.access_token;
-                this._authenticated = true;
-                this._userService.user = response.user;
-                // await this.getSidebarNavigations();
-                return of(response);
-            })
-        );
+        if (environment.IsApiConnect) {
+            return this.httpService.signIn(endPoints.auth.signIn, user).pipe(
+                switchMap(async (response: any) => {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('defaultLanguages');
+                    localStorage.removeItem('enterprise');
+                    localStorage.removeItem('activeLang');
+                    this.accessToken = response.access_token;
+                    this._authenticated = true;
+                    this._userService.user = response.user;
+                    // await this.getSidebarNavigations();
+                    return of(response);
+                })
+            );
+        }else {
+            return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+                switchMap((response: any) => {
+                    // Store the access token in the local storage
+                    this.accessToken = response.accessToken;
+                    // Set the authenticated flag to true
+                    this._authenticated = true;
+                    // Store the user on the user service
+                    this._userService.user = response.user;
+                    // Return a new observable with the response
+                    return of(response);
+                })
+            );
+        }
     }
 
     isLoggedIn(): boolean {
@@ -197,10 +208,7 @@ export class AuthService {
         email: string;
         password: string;
     }): Observable<any> {
-        return this._httpClient.post(
-            endPoints.auth.unlockSession,
-            credentials
-        );
+        return this._httpClient.post(endPoints.auth.unlockSession, credentials);
     }
 
     /**

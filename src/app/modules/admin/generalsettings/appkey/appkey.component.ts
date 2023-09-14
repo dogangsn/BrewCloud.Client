@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-    selector       : 'settings-notifications',
-    templateUrl    : './notifications.component.html',
+    selector       : 'settings-appkey',
+    templateUrl    : './appkey.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsNotificationsComponent implements OnInit
+export class SettingsAppKeyComponent implements OnInit
 {
-    notificationsForm: UntypedFormGroup;
+    securityForm: UntypedFormGroup;
 
     /**
      * Constructor
@@ -30,14 +30,11 @@ export class SettingsNotificationsComponent implements OnInit
     ngOnInit(): void
     {
         // Create the form
-        this.notificationsForm = this._formBuilder.group({
-            communication: [true],
-            security     : [true],
-            meetups      : [false],
-            comments     : [false],
-            mention      : [true],
-            follow       : [true],
-            inquiry      : [true]
+        this.securityForm = this._formBuilder.group({
+            currentPassword  : [''],
+            newPassword      : [''],
+            twoStep          : [true],
+            askPasswordChange: [false]
         });
     }
 }

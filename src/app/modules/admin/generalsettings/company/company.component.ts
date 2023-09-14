@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector       : 'settings-account',
-    templateUrl    : './account.component.html',
+    selector       : 'settings-company',
+    templateUrl    : './company.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsAccountComponent implements OnInit
+export class SettingsCompanyComponent implements OnInit
 {
     accountForm: UntypedFormGroup;
 
@@ -39,7 +39,14 @@ export class SettingsAccountComponent implements OnInit
             email   : ['hughes.brian@mail.com', Validators.email],
             phone   : ['121-490-33-12'],
             country : ['usa'],
-            language: ['english']
+            language: ['english'],
+            communication: [true],
+            security     : [true],
+            meetups      : [false],
+            comments     : [false],
+            mention      : [true],
+            follow       : [true],
+            inquiry      : [true]
         });
     }
 }
