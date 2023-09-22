@@ -34,6 +34,7 @@ const root: Route[] = [
         path     : '',
         component: GeneralsettingsComponent
     }
+
 ];
 
 @NgModule({

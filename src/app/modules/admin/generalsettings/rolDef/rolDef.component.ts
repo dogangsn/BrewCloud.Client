@@ -14,10 +14,7 @@ export class SettingsRolDefComponent implements OnInit
 {
     notificationsForm: UntypedFormGroup;
 
-    displayedColumns: string[] = ['suppliername'
-    ,'email'
-    ,'phone' 
-    ,'active'
+    displayedColumns: string[] = [''
     ,'actions',];
     rolDef: FormGroup;
       

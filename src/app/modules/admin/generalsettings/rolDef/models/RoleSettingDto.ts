@@ -1,5 +1,5 @@
 export class RoleSettingDto {
-    recid: string;
+    id: string;
     rolecode: string;
     createdDate: string;
     deleted: boolean;

@@ -24,12 +24,17 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { CreateEditCustomerAddDialogComponent } from './dialogs/create-edit-customeradd';
 import { CreateEditPatientsDialogComponent } from './patientsdialogs/create-edit-patients';
+import { CustomerDetailsComponent } from '../customerdetails/customerdetails.component';
 
 const root: Route[] = [
     {
         path     : '',
         component: CustomersListComponent
-    }
+    },
+    {
+        path: './customerdetails/:id',
+        component: CustomerDetailsComponent, // Müşteri detayları için rotayı tanımla
+    },
 ];
 
 @NgModule({
@@ -85,6 +90,7 @@ const root: Route[] = [
         CreateEditCustomerAddDialogComponent,
         CreateEditPatientsDialogComponent
     ]
+
     
 })
 export class CustomerListModule
