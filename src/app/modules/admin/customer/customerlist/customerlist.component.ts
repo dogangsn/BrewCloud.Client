@@ -10,6 +10,8 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerDetailsComponent } from '../customerdetails/customerdetails.component';
+import { CustomerDetailsService } from './service/customerdetailservice';
 
 @Component({
     selector: 'customerslist',
@@ -26,7 +28,8 @@ export class CustomersListComponent {
     constructor(private _CustomerListService: CustomerService,
                 private _dialog: MatDialog,
                 private _translocoService: TranslocoService,
-                private router: Router, private route: ActivatedRoute
+                private router: Router, private route: ActivatedRoute,
+                private customerDetailsService : CustomerDetailsService
                 ) {}
     
     ngOnInit() {
@@ -56,9 +59,9 @@ export class CustomersListComponent {
             });
     }
     
-
     public redirectToUpdate = (id: string) => {
-        this.router.navigate(['./customerdetails', id], { relativeTo: this.route });
+        console.log(id);
+        this.router.navigate(['customerlist/customerdetails', id]);
     };
     
     public redirectToDelete = (id: string) => {

@@ -1,7 +1,222 @@
 <div class="flex flex-col flex-auto min-w-0">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <div>
+                <div class="flex sm:hidden">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Müşteri Detayı
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button mat-stroked-button>
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                Satış
+            </button>
+            <button class="ml-3" mat-flat-button [color]="'primary'">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                Randevu/Aşı Takvimi Oluştur
+            </button>
+            <button class="ml-3" mat-flat-button [color]="'primary'">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                Hasta Ekle
+            </button>
+            <button class="ml-3" mat-flat-button [color]="'primary'">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                Ödeme Tablosu
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+
+            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Toplam Yapılan Satış</div>
+                        <div class="ml-2 -mt-2 -mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #summaryMenu="matMenu">
+                                <button mat-menu-item>Yesterday</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Toplam Ziyaret Sayısı</div>
+                        <div class="ml-2 -mt-2 -mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #summaryMenu="matMenu">
+                                <button mat-menu-item>Yesterday</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Toplam Kazanç</div>
+                        <div class="ml-2 -mt-2 -mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #summaryMenu="matMenu">
+                                <button mat-menu-item>Yesterday</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex items-start justify-between">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Gönderilen Mesaj Sayısı</div>
+                        <div class="ml-2 -mt-2 -mr-3">
+                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
+                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #summaryMenu="matMenu">
+                                <button mat-menu-item>Yesterday</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <!-- <div class="sm:col-span-2 md:col-span-4 lg:col-span-2 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+        </div> -->
+
+        <div class="flex flex-wrap">
+            <div class="w-full md:w-1/4 p-2">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                        <img
+                            class="w-32 h-32 rounded-full ring-4 ring-bg-card"
+                            src="assets/images/avatars/male-04.jpg"
+                            alt="User avatar">
+                            
+                            <br>
+
+
+                   
+                            <div class="flex items-center justify-between">
+                                <div class="w-full text-xl">Account Activity</div>
+                                <div class="w-full text-xl">Account Activity</div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div
+                                    class="flex-auto cursor-pointer"
+                                    (click)="communication.toggle()">
+                                    <div class="leading-6 font-medium">E-Mail</div>
+                                </div>
+                                <mat-slide-toggle
+                                    class="ml-2"
+                                    [color]="'primary'"
+                                    [formControlName]="'communication'"
+                                    #communication>
+                                </mat-slide-toggle>
+                            </div>
+
+                </div>
+            </div>
+            <div class="w-full md:w-3/4 p-2">
+                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+                    <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10">
+                        Hasta
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
+                        <ng-container *ngFor="let board of boards; trackBy: trackByFn">
+                            <a
+                                class="flex flex-col items-start w-56 p-6 rounded-lg shadow bg-card rounded-lg hover:shadow-xl transition-shadow duration-150 ease-in-out"
+                                [routerLink]="[board.id]">
+                                <div class="flex items-center justify-center p-4 rounded-full bg-primary-50 text-primary-700 dark:bg-primary dark:text-on-primary">
+                                    <mat-icon
+                                        class="text-current"
+                                        [svgIcon]="board.icon"></mat-icon>
+                                </div>
+                                <!-- Title -->
+                                <div class="mt-5 text-lg font-medium leading-5">{{board.title}}</div>
+                                <!-- Description -->
+                                <div class="mt-0.5 line-clamp-2 text-secondary">{{board.description}}</div>
+                                <!-- Members -->
+                                <ng-container *ngIf="board.members?.length">
+                                    <div class="w-12 h-1 mt-6 border-t-2"></div>
+                                    <div class="flex items-center mt-6 -space-x-1.5">
+                                        <ng-container *ngFor="let member of board.members.slice(0, 5); trackBy: trackByFn">
+                                            <img
+                                                class="flex-0 w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent object-cover"
+                                                [src]="member.avatar"
+                                                alt="Member avatar">
+                                        </ng-container>
+                                        <ng-container *ngIf="board.members.length > 5">
+                                            <div class="flex flex-0 items-center justify-center w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent bg-gray-200 text-gray-500">
+                                                <div class="text-md font-semibold">
+                                                    +{{ board.members.slice(5).length }}
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <!-- Last activity -->
+                                <div class="flex items-center mt-4 text-md font-md">
+                                    <div class="text-secondary">Edited:</div>
+                                    <div class="ml-1">{{formatDateAsRelative(board.lastActivity)}}</div>
+                                </div>
+                            </a>
+                        </ng-container>
+                        <!-- New board -->
+                        <div class="flex flex-col items-center justify-center w-56 rounded-lg cursor-pointer border-2 border-gray-300 border-dashed hover:bg-hover transition-colors duration-150 ease-in-out">
+                            <mat-icon
+                                class="icon-size-12 text-hint"
+                                [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
 
 
 
 
-    
 </div>

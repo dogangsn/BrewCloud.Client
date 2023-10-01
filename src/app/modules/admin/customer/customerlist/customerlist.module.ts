@@ -25,6 +25,9 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { CreateEditCustomerAddDialogComponent } from './dialogs/create-edit-customeradd';
 import { CreateEditPatientsDialogComponent } from './patientsdialogs/create-edit-patients';
 import { CustomerDetailsComponent } from '../customerdetails/customerdetails.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const root: Route[] = [
     {
@@ -32,8 +35,8 @@ const root: Route[] = [
         component: CustomersListComponent
     },
     {
-        path: './customerdetails/:id',
-        component: CustomerDetailsComponent, // Müşteri detayları için rotayı tanımla
+        path: 'customerdetails/:id', 
+        component: CustomerDetailsComponent,
     },
 ];
 
@@ -83,12 +86,22 @@ const root: Route[] = [
         MatDatepickerModule, 
         MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
         MatSelectFilterModule ,
+        MatButtonToggleModule,
+        MatDividerModule,
+        MatIconModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatSortModule,
+        MatTableModule,
+        MatTooltipModule,
+        NgApexchartsModule,
         RouterModule.forChild(root)
     ],
     declarations: [
         CustomersListComponent,
         CreateEditCustomerAddDialogComponent,
-        CreateEditPatientsDialogComponent
+        CreateEditPatientsDialogComponent,
+        CustomerDetailsComponent
     ]
 
     
