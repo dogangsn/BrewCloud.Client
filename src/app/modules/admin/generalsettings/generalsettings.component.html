@@ -76,24 +76,24 @@
               <div class="mt-8">
                   <ng-container [ngSwitch]="selectedPanel">
                       <!-- Account -->
-                      <ng-container *ngSwitchCase="'account'">
-                          <settings-account></settings-account>
+                      <ng-container *ngSwitchCase="'company'">
+                          <settings-company></settings-company>
                       </ng-container>
                       <!-- Security -->
-                      <ng-container *ngSwitchCase="'security'">
-                          <settings-security></settings-security>
+                      <ng-container *ngSwitchCase="'appkey'">
+                          <settings-appkey></settings-appkey>
                       </ng-container>
                       <!-- Plan & Billing -->
-                      <ng-container *ngSwitchCase="'plan-billing'">
-                          <settings-plan-billing></settings-plan-billing>
+                      <ng-container *ngSwitchCase="'authority'">
+                          <settings-authority></settings-authority>
                       </ng-container>
                       <!-- Notifications -->
-                      <ng-container *ngSwitchCase="'notifications'">
-                          <settings-notifications></settings-notifications>
+                      <ng-container *ngSwitchCase="'rolDef'">
+                          <settings-rolDef></settings-rolDef>
                       </ng-container>
                       <!-- Team -->
-                      <ng-container *ngSwitchCase="'team'">
-                          <settings-team></settings-team>
+                      <ng-container *ngSwitchCase="'logs'">
+                          <settings-logs></settings-logs>
                       </ng-container>
                   </ng-container>
               </div>

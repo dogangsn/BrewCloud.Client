@@ -15,12 +15,26 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { SharedModule } from 'app/shared/shared.module';
+import { SettingsCompanyComponent } from './company/company.component';
+import { SettingsAppKeyComponent } from './appkey/appkey.component';
+import { SettingsAuthorityComponent } from './authority/authority.component';
+import { SettingsLogsComponent } from './logs/logs.component';
+import { SettingsRolDefComponent } from './rolDef/rolDef.component';
+import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRippleModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const root: Route[] = [
     {
         path     : '',
         component: GeneralsettingsComponent
     }
+
 ];
 
 @NgModule({
@@ -47,10 +61,54 @@ const root: Route[] = [
         MatSlideToggleModule,
         FuseAlertModule,
         SharedModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FuseCardModule,
+        MatMenuModule,
+        FormsModule,
+        MatTableModule,
+        CommonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FuseCardModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatRippleModule,
+        MatSortModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        SharedModule,
+        MatDialogModule,
         RouterModule.forChild(root)
     ],
     declarations: [
-        GeneralsettingsComponent
+        GeneralsettingsComponent,
+        SettingsRolDefComponent,
+        SettingsLogsComponent,
+        SettingsCompanyComponent,
+        SettingsAuthorityComponent,
+        SettingsAppKeyComponent,
     ]
     
 })

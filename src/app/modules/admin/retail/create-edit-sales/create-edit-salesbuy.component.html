@@ -47,6 +47,19 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
+                    <div class="float : left flex  gt-xs:flex-row" *ngIf="isSupplier">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Tedarikçi</mat-label>
+                            <mat-select [formControlName]="'supplierId'" [placeholder]="'Tedarikçi'"
+                                name="customerId">
+                                <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCustomerId"
+                                (ngModelChange)="filterCustomerId($event)">
+                                </mat-select-filter>
+                                <mat-option *ngFor="let item of supplierscards"
+                                    [value]="item.id">{{item.suppliername}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tarihi</mat-label>
@@ -55,6 +68,14 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
 
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row" *ngIf="isSupplier"> 
+                        <mat-form-field  class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Fatura No</mat-label>
+                            <input matInput [formControlName]="'invoiceNo'" >
+                            <mat-icon class="icon-size-5" matSuffix
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
@@ -66,6 +87,16 @@
                                 </mat-select-filter>
                                 <mat-option *ngFor="let item of productdescription"
                                     [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Ödeme İşlemi</mat-label>
+                            <mat-select [formControlName]="'paymentType'" [placeholder]="'Ödeme Tipi'"
+                                name="paymentType">
+                                <mat-option *ngFor="let item of payments"
+                                    [value]="item.recId">{{item.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -126,8 +157,7 @@
                   <button
                       class="order-first sm:order-last"
                       mat-flat-button
-                      [color]="'primary'"
-                      >
+                      [color]="'primary'" (click)="addOrUpdateSaleBuy()">
                       Kaydet
                   </button>
               </div>

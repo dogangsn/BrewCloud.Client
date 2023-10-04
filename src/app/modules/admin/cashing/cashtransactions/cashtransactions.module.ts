@@ -9,6 +9,23 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
+import { SharedModule } from 'app/shared/shared.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectFilterModule } from 'mat-select-filter';
 
 const root: Route[] = [
     {
@@ -31,6 +48,38 @@ const root: Route[] = [
         MatMenuModule,
         FormsModule,
         MatTableModule,
+        CommonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FuseCardModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatRippleModule,
+        MatSortModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        SharedModule,
+        MatDialogModule,
+        MatDatepickerModule, 
+        MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
+        MatSelectFilterModule ,
         RouterModule.forChild(root)
     ],
     declarations: [

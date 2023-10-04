@@ -43,12 +43,12 @@ export class AuthGuard implements CanMatch
        {
    
    
-           const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
+           const redirectUrl = state.url === 'auth/sign-out' ? '/' : state.url;
            console.log(redirectUrl);
    
            const logged = this._authService.isLoggedIn();
            if (!logged) {
-               this._router.navigate(['sign-in'], {queryParams: {redirectUrl}});
+               this._router.navigate(['auth/sign-in'], {queryParams: {redirectUrl}});
                return false;
              }
    
@@ -65,7 +65,7 @@ export class AuthGuard implements CanMatch
         */
        canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
        {
-           const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
+           const redirectUrl = state.url === 'auth/sign-out' ? '/' : state.url;
            return this._check(redirectUrl);
        }
  

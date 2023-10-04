@@ -18,7 +18,7 @@ import {
     Validators,
 } from '@angular/forms';
 
-import { CreateCustomerCommand } from './models/CreateCustomerCommand';
+import { CreateCustomerCommand } from '../models/CreateCustomerCommand';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -39,7 +39,7 @@ import {
     InventoryVendor,
     PatientDetails,
     SexTYpe,
-} from './models/PatientDetailsCommand';
+} from '../models/PatientDetailsCommand';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { fuseAnimations } from '@fuse/animations';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -49,9 +49,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
 import { v4 as uuidv4 } from 'uuid';
-import { AnimalColorsDefListDto } from './models/AnimalColorsDefListDto';
+import { AnimalColorsDefListDto } from '../models/AnimalColorsDefListDto';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
-import { VetAnimalBreedsDefDto } from './models/VetAnimalBreedsDefDto';
+import { VetAnimalBreedsDefDto } from '../models/VetAnimalBreedsDefDto';
 
 @Component({
     selector: 'customeradd',

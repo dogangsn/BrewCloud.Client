@@ -3,4 +3,5 @@ export const environment = {
     apiUrl: 'http://localhost:5000/services/',
     appName: 'vetsystems',
     env: 'dev',
+    IsApiConnect : true
 };

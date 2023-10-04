@@ -195,6 +195,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon : 'heroicons_outline:tag',
                 link : '/productcategory'
             },
+            {
+                id   : 'paymentmethods',
+                title: 'Ödeme Yöntemleri',
+                type : 'basic',
+                icon : 'heroicons_outline:cash',
+                link : '/paymentmethods'
+            },
 
         ]
         

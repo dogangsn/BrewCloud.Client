@@ -11,6 +11,9 @@ export const endPoints = {
         createaccount: 'identityserver/api/account/create',
         complateactivation: 'identityserver/api/account/complateactivation'
     },
+    settings : {
+        getUsersList: 'account/settings/GetUsersList'
+    },
     customers:{
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer',
@@ -61,7 +64,15 @@ export const endPoints = {
     },
     animalColorsDef: {
         animalColorsDefList : "vet/Definition/AnimalColorsDefList"
+    },
+    saleBuy: {
+        createSaleBuy : "vet/SaleBuy/CreateSaleBuy",
+        saleBuyList : "vet/SaleBuy/SaleBuyList"
+    },
+    paymentmethods : {
+        paymentmethodsList : 'vet/Definition/PaymentMethodList',
+        createPaymentMethods: 'vet/Definition/CreatePaymentMethods',
+        updatePaymentMethods: 'vet/Definition/UpdatePaymentMethods',
+        deletePaymentMethods: 'vet/Definition/DeletePaymentMethods',
     }
-
-
 }

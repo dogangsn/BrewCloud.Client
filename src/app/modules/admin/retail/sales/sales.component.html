@@ -72,22 +72,22 @@
 
             <ng-container matColumnDef="netPrice">
                 <th mat-header-cell *matHeaderCellDef>Net Tutar</th>
-                <td mat-cell *matCellDef="let element"> {{element.netPrice}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.netPrice | number:'1.2-2'}} </td>
             </ng-container>
             
             <ng-container matColumnDef="kdv">
                 <th mat-header-cell *matHeaderCellDef>KDV</th>
-                <td mat-cell *matCellDef="let element"> {{element.kdv}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.kdv | number:'1.2-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="discount">
                 <th mat-header-cell *matHeaderCellDef>İndirim</th>
-                <td mat-cell *matCellDef="let element"> {{element.discount}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.discount | number:'1.2-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef>Tutar</th>
-                <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.total | number:'1.2-2'}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

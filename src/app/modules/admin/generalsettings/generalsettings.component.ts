@@ -14,7 +14,7 @@ export class GeneralsettingsComponent implements OnInit {
   drawerMode: 'over' | 'side' = 'side';
   drawerOpened: boolean = true;
   panels: any[] = [];
-  selectedPanel: string = 'account';
+  selectedPanel: string = 'company';
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
@@ -25,34 +25,34 @@ export class GeneralsettingsComponent implements OnInit {
   ngOnInit() {
     this.panels = [
       {
-          id         : 'account',
-          icon       : 'heroicons_outline:user-circle',
-          title      : 'Account',
-          description: 'Manage your public profile and private information'
-      },
-      {
-          id         : 'security',
+          id         : 'company',
           icon       : 'heroicons_outline:lock-closed',
-          title      : 'Security',
-          description: 'Manage your password and 2-step verification preferences'
+          title      : 'Şirket',
+          description: 'Şirket Bilgileri, Şube işlemleri ve Genel Bilgileri'
       },
       {
-          id         : 'plan-billing',
+          id         : 'appkey',
+          icon       : 'heroicons_outline:lock-closed',
+          title      : 'App Key',
+          description: 'Entegrasyon İşlemlerinde Oluşturulacak Key'
+      },
+      {
+          id         : 'authority',
           icon       : 'heroicons_outline:credit-card',
-          title      : 'Plan & Billing',
-          description: 'Manage your subscription plan, payment method and billing information'
+          title      : 'Yetkiler',
+          description: 'Menü, Ekran Ayarları üzerinde yetki kontrollerin yapılması'
       },
       {
-          id         : 'notifications',
+          id         : 'rolDef',
           icon       : 'heroicons_outline:bell',
-          title      : 'Notifications',
-          description: 'Manage when you\'ll be notified on which channels'
+          title      : 'Roller',
+          description: 'Kulalnıcı işlemlerinde rol tanımlarını yapılması'
       },
       {
-          id         : 'team',
+          id         : 'logs',
           icon       : 'heroicons_outline:user-group',
-          title      : 'Team',
-          description: 'Manage your existing team and change roles/permissions'
+          title      : 'Log Kayıtları',
+          description: 'İşlemlerde Silme/Düzenleme/Ekleme Log kayıtları detayları'
       }
   ];
 

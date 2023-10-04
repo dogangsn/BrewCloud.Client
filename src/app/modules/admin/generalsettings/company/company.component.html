@@ -1,0 +1,278 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Form -->
+    <form [formGroup]="accountForm">
+
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Name -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Şirket İsmi</mat-label>
+                    <input
+                        [formControlName]="'name'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Title -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>E-Mail</mat-label>
+                    <input
+                        [formControlName]="'title'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Company -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Telefon</mat-label>
+                    <input
+                        [formControlName]="'company'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- About -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Adres</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'about'"
+                        cdkTextareaAutosize
+                        [cdkAutosizeMinRows]="5"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">E-Fatura İşlemleri</div>
+            <div class="text-secondary">Ön Muhasebe işlemleri üzerinde tanımlamalar.</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Email -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:mail'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'email'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Phone -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:phone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'phone'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            
+            <!-- Country -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Country</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'country'">
+                        <mat-option [value]="'usa'">United States</mat-option>
+                        <mat-option [value]="'canada'">Canada</mat-option>
+                        <mat-option [value]="'mexico'">Mexico</mat-option>
+                        <mat-option [value]="'france'">France</mat-option>
+                        <mat-option [value]="'germany'">Germany</mat-option>
+                        <mat-option [value]="'italy'">Italy</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- Language -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Language</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:globe-alt'"
+                        matPrefix></mat-icon>
+                    <mat-select [formControlName]="'language'">
+                        <mat-option [value]="'english'">English</mat-option>
+                        <mat-option [value]="'french'">French</mat-option>
+                        <mat-option [value]="'spanish'">Spanish</mat-option>
+                        <mat-option [value]="'german'">German</mat-option>
+                        <mat-option [value]="'italian'">Italian</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="mt-11 mb-10 border-t"></div>
+
+             <!-- Section -->
+             <div class="w-full text-xl">Alerts</div>
+             <div class="grid grid-cols-1 gap-6 w-full mt-8">
+                 <!-- Communication -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto cursor-pointer"
+                         (click)="communication.toggle()">
+                         <div class="leading-6 font-medium">Communication</div>
+                         <div class="text-md text-secondary">Get news, announcements, and product updates.</div>
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'communication'"
+                         #communication>
+                     </mat-slide-toggle>
+                 </div>
+                 <!-- Security -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto cursor-pointer"
+                         (click)="securityToggle.toggle()">
+                         <div class="leading-6 font-medium">Security</div>
+                         <div class="text-md text-secondary">
+                             Get important notifications about your account security.
+                         </div>
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'security'"
+                         #securityToggle>
+                     </mat-slide-toggle>
+                 </div>
+                 <!-- Meetups -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto cursor-pointer"
+                         (click)="meetupsToggle.toggle()">
+                         <div class="leading-6 font-medium">Meetups</div>
+                         <div class="text-md text-secondary">
+                             Get an email when a Meetup is posted close to my location.
+                         </div>
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'meetups'"
+                         #meetupsToggle>
+                     </mat-slide-toggle>
+                 </div>
+             </div>
+     
+             <!-- Divider -->
+             <div class="my-10 border-t"></div>
+     
+             <!-- Section -->
+             <div class="w-full text-xl">Account Activity</div>
+             <div class="w-full mt-8 font-medium">Email me when:</div>
+             <div class="grid grid-cols-1 gap-4 w-full mt-4">
+                 <!-- Comments -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto leading-6 cursor-pointer"
+                         (click)="comments.toggle()">
+                         someone comments on one of my items
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'comments'"
+                         #comments>
+                     </mat-slide-toggle>
+                 </div>
+                 <!-- Mention -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto leading-6 cursor-pointer"
+                         (click)="mention.toggle()">
+                         someone mentions me
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'mention'"
+                         #mention>
+                     </mat-slide-toggle>
+                 </div>
+                 <!-- Follow -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto leading-6 cursor-pointer"
+                         (click)="follow.toggle()">
+                         someone follows me
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'follow'"
+                         #follow>
+                     </mat-slide-toggle>
+                 </div>
+                 <!-- Inquiry -->
+                 <div class="flex items-center justify-between">
+                     <div
+                         class="flex-auto leading-6 cursor-pointer"
+                         (click)="inquiry.toggle()">
+                         someone replies to my job posting
+                     </div>
+                     <mat-slide-toggle
+                         class="ml-2"
+                         [color]="'primary'"
+                         [formControlName]="'inquiry'"
+                         #inquiry>
+                     </mat-slide-toggle>
+                 </div>
+             </div>
+     
+             <!-- Divider -->
+             <div class="my-10 border-t"></div>
+     
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                Cancel
+            </button>
+            <button
+                class="ml-4"
+                mat-flat-button
+                type="button"
+                [color]="'primary'">Save
+            </button>
+        </div>
+    </form>
+
+</div>

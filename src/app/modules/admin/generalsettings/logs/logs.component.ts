@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector       : 'settings-team',
-    templateUrl    : './team.component.html',
+    selector       : 'settings-logs',
+    templateUrl    : './logs.component.html',
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsTeamComponent implements OnInit
+export class SettingsLogsComponent implements OnInit
 {
     members: any[];
     roles: any[];
