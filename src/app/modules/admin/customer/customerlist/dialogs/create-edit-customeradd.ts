@@ -36,12 +36,21 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'firstName',
-        'lastName',
-        'phoneNumber',
-        'phoneNumber2',
-        'eMail',
-        'note',
+        'id',
+        'name',
+        'birthDate',
+        'chipNumber',
+        'sex',
+        'animalType',
+        'animalBreed',
+        'animalColor',
+        'reportNumber',
+        'specialNote',
+        'sterilization',
+        'tags',
+        'images',
+        'active',
+        'thumbnail',
     ];
 
     selectedcustomeradd: customersListDto;
@@ -86,7 +95,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             district: [''],
             longAdress: [''],
         });
-        
     }
 
     fillFormData(selectedproductdesf: customersListDto) {
@@ -175,8 +183,10 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
+                    debugger;
+                    this.patients.push(response.data);
+                    this.dataSource = new MatTableDataSource(this.patients);
                 }
             });
     }
-
 }

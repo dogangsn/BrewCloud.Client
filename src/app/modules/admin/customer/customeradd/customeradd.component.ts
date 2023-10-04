@@ -88,8 +88,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     customergroupList: CustomerGroupListDto[] = [];
     animalcolorDefList: AnimalColorsDefListDto[] = [];
-    animalTypesList : AnimalColorsDefListDto[] = [];
-    animalBreedsDef : VetAnimalBreedsDefDto[] = [];
+    animalTypesList: AnimalColorsDefListDto[] = [];
+    animalBreedsDef: VetAnimalBreedsDefDto[] = [];
 
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -109,7 +109,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     selectedValue: string;
     AnimalTypeControl: FormControl = new FormControl();
-    
+
     //
 
     constructor(
@@ -119,7 +119,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _customergroup: CustomerGroupService,
-        private _animalColorDefService : AnimalColorsDefService
+        private _animalColorDefService: AnimalColorsDefService
     ) {}
 
     ngOnInit() {
@@ -169,18 +169,18 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.AnimalTypeControl.valueChanges.subscribe((selectedVendor) => {
             this.filterTagsByVendor(selectedVendor);
-          });
+        });
     }
 
     filterTagsByVendor(selectedVendor: any) {
         debugger;
         const selectedValue = selectedVendor.value;
         // Seçilen vendor'a ait tagleri filtrele
-        this.filteredTags = this.animalBreedsDef.filter((tag) => tag.animaltype == selectedValue);
-      }
+        this.filteredTags = this.animalBreedsDef.filter(
+            (tag) => tag.animaltype == selectedValue
+        );
+    }
 
-
-    
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;
     }
@@ -225,7 +225,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     addCustomers(): any {
-
         debugger;
 
         if (this.fillSelectedInvoice()) {
@@ -237,10 +236,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 (response) => {
                     if (response.isSuccessful) {
                         this.showSweetAlert('success');
-
-                        // this._dialogRef.close({
-                        //     status: true,
-                        // });
                     } else {
                         this.showSweetAlert('error');
                     }
@@ -252,19 +247,21 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    getAnimalColorsDefList(){
-        this._animalColorDefService.getAnimalColorsDefList().subscribe((response) => {
-            this.animalcolorDefList = response.data;
-        });
+    getAnimalColorsDefList() {
+        this._animalColorDefService
+            .getAnimalColorsDefList()
+            .subscribe((response) => {
+                this.animalcolorDefList = response.data;
+            });
     }
 
-    getAnimalTypesList(){
+    getAnimalTypesList() {
         this._customerService.getVetVetAnimalsType().subscribe((response) => {
             this.animalTypesList = response.data;
         });
     }
 
-    getAnimalBreedsDefList(){
+    getAnimalBreedsDefList() {
         this._customerService.getAnimalBreedsDefList().subscribe((response) => {
             this.animalBreedsDef = response.data;
         });
@@ -299,9 +296,34 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     createPatient(): void {
-        const newProductId = uuidv4();
+        let selectedProduct = this.patients.find(
+            (product) => product.id === this.selectedPatients?.id
+        );
+        if (selectedProduct) {
+            selectedProduct = this.selectedPatientDetailsForm.value;
+            const newId = uuidv4();
+            const newPatient: PatientDetails = {
+                id: newId,
+                name: '',
+                birthDate: '',
+                chipNumber: '',
+                reportNumber: '',
+                specialNote: '',
+                sterilization: false,
+                sex: 0,
+                animalType: '',
+                animalBreed: '',
+                animalColor: '',
+                tags: [],
+                images: [],
+                active: true,
+                thumbnail: '',
+            };
+            this.selectedPatientDetailsForm.reset(newPatient);
+        }
+        const newId = uuidv4();
         const newPatient: PatientDetails = {
-            id: newProductId,
+            id: newId,
             name: '',
             birthDate: '',
             chipNumber: '',
@@ -317,16 +339,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             active: true,
             thumbnail: '',
         };
-        this.patients.unshift(newPatient);
+        this.patients.push(newPatient);
         this.selectedPatients = newPatient;
-        this.selectedPatientDetailsForm.reset(newPatient);
+        // this.selectedPatientDetailsForm.reset(newPatient);
         this.tagsEditMode = true;
-        this._changeDetectorRef.markForCheck();
+        //this._changeDetectorRef.markForCheck();
     }
 
     toggleDetails(productId: string): void {
         if (this.selectedPatients && this.selectedPatients.id === productId) {
-            this.closeDetails();
+            this.closeDetails(productId);
             return;
         }
         const selectedProduct = this.patients.find(
@@ -359,7 +381,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                             this.selectedPatients &&
                             this.selectedPatients.id === product.id
                         ) {
-                            this.closeDetails();
+                            this.closeDetails(product.id);
                         }
                         this._changeDetectorRef.markForCheck();
                     }
@@ -368,7 +390,47 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
-    closeDetails(): void {
+    closeDetails(productId: string): void {
+        let selectedProduct = this.patients.find(
+            (product) => product.id === productId
+        );
+        if (selectedProduct) {
+            debugger;
+            selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
+            selectedProduct.name = this.selectedPatientDetailsForm.value?.name;
+            selectedProduct.birthDate = this.selectedPatientDetailsForm.value?.birthDate;
+            selectedProduct.chipNumber = this.selectedPatientDetailsForm.value?.chipNumber;
+            selectedProduct.reportNumber = this.selectedPatientDetailsForm.value?.reportNumber;
+            selectedProduct.specialNote = this.selectedPatientDetailsForm.value?.specialNote;
+            selectedProduct.sterilization = this.selectedPatientDetailsForm.value?.sterilization;
+            selectedProduct.sex = this.selectedPatientDetailsForm.value?.sex;
+            selectedProduct.animalType = this.selectedPatientDetailsForm.value?.animalType;
+            selectedProduct.animalBreed = this.selectedPatientDetailsForm.value?.animalBreed;
+            selectedProduct.animalColor = this.selectedPatientDetailsForm.value?.animalColor;
+            selectedProduct.active = this.selectedPatientDetailsForm.value?.active;
+            selectedProduct.thumbnail = this.selectedPatientDetailsForm.value?.thumbnail;
+            selectedProduct.tags = this.selectedPatientDetailsForm.value?.tags;
+            selectedProduct.images = this.selectedPatientDetailsForm.value?.images;
+            const newId = uuidv4();
+            const newPatient: PatientDetails = {
+                id: newId,
+                name: '',
+                birthDate: '',
+                chipNumber: '',
+                reportNumber: '',
+                specialNote: '',
+                sterilization: false,
+                sex: 0,
+                animalType: '',
+                animalBreed: '',
+                animalColor: '',
+                tags: [],
+                images: [],
+                active: true,
+                thumbnail: '',
+            };
+            this.selectedPatientDetailsForm.reset(newPatient);
+        }
         this.selectedPatients = null;
     }
 
@@ -383,7 +445,9 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     filterTags(event): void {
         const value = event.target.value.toLowerCase();
-        this.filteredTags = this.animalBreedsDef.filter((tag) => tag.breedName.toLowerCase().includes(value));
+        this.filteredTags = this.animalBreedsDef.filter((tag) =>
+            tag.breedName.toLowerCase().includes(value)
+        );
     }
 
     trackByFn(index: number, item: any): any {
@@ -402,14 +466,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(() => {
                     this._paginator.pageIndex = 0;
-                    this.closeDetails();
+                    // this.closeDetails(productId);
                 });
 
             // Get products if sort or page changes
             // merge(this._sort.sortChange, this._paginator.page)
             //     .pipe(
             //         switchMap(() => {
-            //             this.closeDetails();
+            //             this.closeDetails(productId);
             //             this.isLoading = true;
             //             return this._inventoryService.getProducts(
             //                 this._paginator.pageIndex,
@@ -527,7 +591,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
     }
 
-    toggleProductTag(tag: VetAnimalBreedsDefDto, change: MatCheckboxChange): void {
+    toggleProductTag(
+        tag: VetAnimalBreedsDefDto,
+        change: MatCheckboxChange
+    ): void {
         // if (change.checked) {
         //     this.addTagToProduct(tag);
         // } else {
@@ -639,6 +706,7 @@ export const tags = [
         title: 'watch',
     },
 ];
+
 export const vendors = [
     {
         id: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',

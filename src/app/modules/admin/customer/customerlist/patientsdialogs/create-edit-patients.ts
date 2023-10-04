@@ -31,7 +31,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     tagsEditMode: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
 
-
     patients: any[] = [];
 
     @Output() modalKapatildi = new EventEmitter();
@@ -77,16 +76,19 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         this.selectedpatients ? this.updatepatients() : this.addpatients();
     }
 
-    closeDialog(): void {
-        this._dialogRef.close({ status: true });
+    closeDialog(data?: any): void {
+        this._dialogRef.close({ status: data ? true : false, data: data });
     }
 
     addpatients(): void {
         this.modalKapatildi.emit();
 
-        this.veriServisi.setPatientsVerileri(this.selectedPatientDetailsForm.value);
+        // this.veriServisi.setPatientsVerileri(
+        //     this.selectedPatientDetailsForm.value
+        // );c
+        const valueForm = this.selectedPatientDetailsForm.value;
 
-        this.closeDialog();
+        this.closeDialog(valueForm);
     }
 
     updatepatients(): void {

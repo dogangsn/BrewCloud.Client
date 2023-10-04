@@ -74,5 +74,11 @@ export const endPoints = {
         createPaymentMethods: 'vet/Definition/CreatePaymentMethods',
         updatePaymentMethods: 'vet/Definition/UpdatePaymentMethods',
         deletePaymentMethods: 'vet/Definition/DeletePaymentMethods',
-    }
+    },
+    agenda : {
+        agendaList : 'vet/Agenda/AgendaList',
+        Createagenda : 'vet/Agenda/CreateAgenda',
+        Updateagenda : 'vet/Agenda/UpdateAgenda',
+        Deleteagenda : 'vet/Agenda/DeleteAgenda'
+    },
 }
