@@ -52,6 +52,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { AnimalColorsDefListDto } from '../models/AnimalColorsDefListDto';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
 import { VetAnimalBreedsDefDto } from '../models/VetAnimalBreedsDefDto';
+import { VetVetAnimalsTypeListDto } from '../models/VetVetAnimalsTypeListDto';
 
 @Component({
     selector: 'customeradd',
@@ -88,7 +89,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     customergroupList: CustomerGroupListDto[] = [];
     animalcolorDefList: AnimalColorsDefListDto[] = [];
-    animalTypesList: AnimalColorsDefListDto[] = [];
+    animalTypesList: VetVetAnimalsTypeListDto[] = [];
     animalBreedsDef: VetAnimalBreedsDefDto[] = [];
 
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
@@ -123,6 +124,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+
+        this.patients = [];
         this.getCustomerGroupList();
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
@@ -152,7 +155,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             birthDate: [''],
             chipNumber: [''],
             sex: [''],
-            animalType: [''],
+            animalType: [2],
             animalBreed: [''],
             animalColor: [''],
             reportNumber: [''],
@@ -311,7 +314,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 specialNote: '',
                 sterilization: false,
                 sex: 0,
-                animalType: '',
+                animalType: 2,
                 animalBreed: '',
                 animalColor: '',
                 tags: [],
@@ -331,7 +334,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             specialNote: '',
             sterilization: false,
             sex: 0,
-            animalType: '',
+            animalType: 2,
             animalBreed: '',
             animalColor: '',
             tags: [],
@@ -421,7 +424,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 specialNote: '',
                 sterilization: false,
                 sex: 0,
-                animalType: '',
+                animalType: 2,
                 animalBreed: '',
                 animalColor: '',
                 tags: [],

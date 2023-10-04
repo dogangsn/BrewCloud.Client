@@ -10,6 +10,9 @@ import { PatientDetails, SexTYpe } from '../../models/PatientDetailsCommand';
 import { VetAnimalBreedsDefDto } from '../../models/VetAnimalBreedsDefDto';
 import { AnimalColorsDefListDto } from '../../models/AnimalColorsDefListDto';
 import { VeriServisi } from '../service/veri-servisi';
+import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
+import { CustomerService } from 'app/core/services/customers/customers.service';
+import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
 
 @Component({
     selector: 'app-create-edit-patients-dialog',
@@ -24,7 +27,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     filteredTags: VetAnimalBreedsDefDto[];
 
     animalcolorDefList: AnimalColorsDefListDto[] = [];
-    animalTypesList: AnimalColorsDefListDto[] = [];
+    animalTypesList: VetVetAnimalsTypeListDto[] = [];
     animalBreedsDef: VetAnimalBreedsDefDto[] = [];
     sextype: SexTYpe[];
 
@@ -40,10 +43,15 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _unitservice: UnitsService,
         private _translocoService: TranslocoService,
-        private veriServisi: VeriServisi
+        private _animalColorDefService: AnimalColorsDefService,
+        private _customerService: CustomerService,
     ) {}
 
     ngOnInit(): void {
+        this.getAnimalColorsDefList();
+        this.getAnimalTypesList();
+        this.getAnimalBreedsDefList();
+
         this.selectedPatientDetailsForm = this._formBuilder.group({
             id: [''],
             name: ['', [Validators.required]],
@@ -60,6 +68,10 @@ export class CreateEditPatientsDialogComponent implements OnInit {
             active: [false],
         });
         this.fillFormData(this.selectedpatients);
+        this.sextype = sextype;
+        // this.brands = brands;
+        // this.patients = products;
+        // this.tags = tags;
     }
 
     fillFormData(selectedPatientDetailsForm: PatientDetails) {
@@ -194,4 +206,40 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         //     this.addTagToProduct(tag);
         // }
     }
+
+    getAnimalColorsDefList() {
+        this._animalColorDefService
+            .getAnimalColorsDefList()
+            .subscribe((response) => {
+                this.animalcolorDefList = response.data;
+            });
+    }
+
+    getAnimalTypesList() {
+        this._customerService.getVetVetAnimalsType().subscribe((response) => {
+            this.animalTypesList = response.data;
+        });
+    }
+
+    getAnimalBreedsDefList() {
+        this._customerService.getAnimalBreedsDefList().subscribe((response) => {
+            this.animalBreedsDef = response.data;
+        });
+    }
+    
 }
+
+export const sextype = [
+    {
+        id: '1',
+        parentId: null,
+        name: 'Erkek',
+        slug: 'Erkek',
+    },
+    {
+        id: '2',
+        parentId: null,
+        name: 'Dişi',
+        slug: 'Dişi',
+    },
+];

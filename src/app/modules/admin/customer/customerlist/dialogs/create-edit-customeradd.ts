@@ -36,21 +36,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'id',
-        'name',
-        'birthDate',
-        'chipNumber',
-        'sex',
-        'animalType',
-        'animalBreed',
-        'animalColor',
-        'reportNumber',
-        'specialNote',
-        'sterilization',
-        'tags',
-        'images',
-        'active',
-        'thumbnail',
+        'name'
     ];
 
     selectedcustomeradd: customersListDto;

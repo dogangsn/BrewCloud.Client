@@ -26,4 +26,11 @@ export class CustomerService {
     getAnimalBreedsDefList() : Observable<any> {
         return this._httpService.getRequest(endPoints.customers.animalBreedsDefList);
     }
+
+    deleteCustomers(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.deleteCustomer, model);
+    }
+
+    
+
 }

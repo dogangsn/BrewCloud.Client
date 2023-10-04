@@ -17,6 +17,7 @@ export const endPoints = {
     customers:{
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer',
+        deleteCustomer : 'vet/Customers/DeleteCustomer',
         animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
         animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
     },
