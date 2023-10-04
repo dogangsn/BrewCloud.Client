@@ -117,4 +117,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             navigation.toggle();
         }
     }
+    
+    onSettings(): void {
+        //console.log('settings');
+        this._router.navigate(['/generalsettings']);
+    }
 }

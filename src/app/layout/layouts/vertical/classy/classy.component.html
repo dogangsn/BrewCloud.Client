@@ -20,7 +20,10 @@
             <!-- Components -->
             <div class="flex items-center ml-auto">
                 <!-- <notifications></notifications> -->
-                <user [showAvatar]="false"></user>
+                
+                <!-- <button mat-menu-item (click)="onSettings()">
+                    <mat-icon [svgIcon]="'heroicons_outline:cog'" class="icon-size-5 text-current"></mat-icon>
+                </button> -->
             </div>
         </div>
         <!-- User -->
@@ -75,14 +78,15 @@
             <languages></languages>
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
+            <!-- <shortcuts></shortcuts> -->
             <messages></messages>
-            <!-- <button
+            <user [showAvatar]="false"></user>
+            <button
                 class="lg:hidden"
                 mat-icon-button
                 (click)="quickChat.toggle()">
                 <mat-icon [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
-            </button> -->
+            </button>
         </div>
     </div>
 
@@ -101,4 +105,4 @@
 </div>
 
 <!-- Quick chat -->
-<!-- <quick-chat #quickChat="quickChat"></quick-chat> -->
+<quick-chat #quickChat="quickChat"></quick-chat>

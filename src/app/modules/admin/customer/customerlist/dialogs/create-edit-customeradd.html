@@ -116,13 +116,14 @@
                         </mat-form-field>
                     </div>
                     <div class="flex float : left gt-xs:flex-row">
-                            <mat-checkbox class="ml-5 flex-auto gt-xs:pl-3" [checked]="true" [color]="'primary'"
-                                [formControlName]="'isPhone'">
-                                SMS Bildirimi
-                            </mat-checkbox>
-                            <mat-checkbox class="ml-5 flex-auto gt-xs:pl-3" [color]="'primary'" [formControlName]="'isEmail'">
-                                E-Posta Bildirimi
-                            </mat-checkbox>
+                        <mat-checkbox class="ml-5 flex-auto gt-xs:pl-3" [checked]="true" [color]="'primary'"
+                            [formControlName]="'isPhone'">
+                            SMS Bildirimi
+                        </mat-checkbox>
+                        <mat-checkbox class="ml-5 flex-auto gt-xs:pl-3" [color]="'primary'"
+                            [formControlName]="'isEmail'">
+                            E-Posta Bildirimi
+                        </mat-checkbox>
                     </div>
                 </div>
             </div>
@@ -131,58 +132,20 @@
             <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
                 Hasta Ekle
-              </button>
-            <table mat-table [dataSource]="patients">
+            </button>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <!-- Define columns for the table -->
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                    <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+                </ng-container>
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="firstName">
-                  <th mat-header-cell *matHeaderCellDef> Hasta Adı </th>
-                  <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-                </ng-container>
-        
-                <!-- Name Column -->
-                <ng-container matColumnDef="lastName">
-                  <th mat-header-cell *matHeaderCellDef> Cip Numarası </th>
-                  <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-                </ng-container>
-        
-                <!-- Weight Column -->
-                <ng-container matColumnDef="phoneNumber">
-                  <th mat-header-cell *matHeaderCellDef> Doğum Tarihi </th>
-                  <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-                </ng-container>
-        
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="phoneNumber2">
-                  <th mat-header-cell *matHeaderCellDef> Tür </th>
-                  <td mat-cell *matCellDef="let element"> {{element.phoneNumber2}} </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="eMail">
-                  <th mat-header-cell *matHeaderCellDef> Irkı </th>
-                  <td mat-cell *matCellDef="let element"> {{element.eMail}} </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="note">
-                  <th mat-header-cell *matHeaderCellDef> Note </th>
-                  <td mat-cell *matCellDef="let element"> {{element.note}} </td>
-                </ng-container>
-        
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef> İşlemler </th>
-                  <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
-                      <mat-icon aria-label="Edit">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
-                      <mat-icon class="mat-18">delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-        
+                <!-- Header row -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <!-- Data rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
+
             <br>
             <br>
 

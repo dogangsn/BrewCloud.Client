@@ -41,48 +41,48 @@
             <div class="float : left flex  gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Hasta Sahibi Adı</mat-label>
-                    <input matInput  [formControlName]="'firstName'" >
+                    <input matInput [formControlName]="'firstName'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Hasta Sahibi Soyadı</mat-label>
-                    <input matInput [formControlName]="'lastName'" >
+                    <input matInput [formControlName]="'lastName'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Telefon Numarası</mat-label>
-                    <input matInput [formControlName]="'phoneNumber'" >
+                    <input matInput [formControlName]="'phoneNumber'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Telefon Numarası 2</mat-label>
-                    <input matInput [formControlName]="'phoneNumber2'" >
+                    <input matInput [formControlName]="'phoneNumber2'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>E-Mail</mat-label>
-                    <input matInput [formControlName]="'eMail'" >
+                    <input matInput [formControlName]="'eMail'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Vergi Dairesi</mat-label>
-                    <input matInput [formControlName]="'taxOffice'" >
+                    <input matInput [formControlName]="'taxOffice'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Not</mat-label>
-                    <input matInput [formControlName]="'note'" >
+                    <input matInput [formControlName]="'note'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>VN/T.C Numarası</mat-label>
-                    <input matInput [formControlName]="'vKNTCNo'" >
+                    <input matInput [formControlName]="'vKNTCNo'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
@@ -90,26 +90,27 @@
             <div class="flex float : left gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
                     <mat-label>İl</mat-label>
-                    <input matInput [formControlName]="'province'" >
+                    <input matInput [formControlName]="'province'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-md:pl-3">
                     <mat-label>İlçe</mat-label>
-                    <input matInput [formControlName]="'district'" >
+                    <input matInput [formControlName]="'district'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex">
                 <mat-form-field class="flex-auto">
                     <mat-label>Addres</mat-label>
-                    <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3" [formControlName]="'longAdress'" ></textarea>
+                    <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3"
+                        [formControlName]="'longAdress'"></textarea>
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Müşteri Grubu</mat-label>
-                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup"> 
+                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let customergroup of customergroupList"
                             [value]="customergroup.name">{{customergroup.name}}</mat-option>
@@ -118,16 +119,16 @@
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Müşteri İndirim Kodu</mat-label>
-                    <input matInput [formControlName]="'discountRate'" >
+                    <input matInput [formControlName]="'discountRate'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
             <div class="flex flex-col gt-sm:flex-row">
                 <div class="flex flex-col">
-                    <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'isPhone'" >
+                    <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'isPhone'">
                         SMS Bildirimi
                     </mat-checkbox>
-                    <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'isEmail'" > 
+                    <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'isEmail'">
                         E-Posta Bildirimi
                     </mat-checkbox>
                 </div>
@@ -184,8 +185,8 @@
                                     <div class="flex items-center">
                                         <div
                                             class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
-                                            <img class="w-8" *ngIf="patients.thumbnail" [alt]="'Product thumbnail image'"
-                                                [src]="patients.thumbnail">
+                                            <img class="w-8" *ngIf="patients.thumbnail"
+                                                [alt]="'Product thumbnail image'" [src]="patients.thumbnail">
                                             <div class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
                                                 *ngIf="!patients.thumbnail">
                                                 NO THUMB
@@ -306,7 +307,8 @@
                                     <div class="flex flex-col mt-8">
                                         <span class="font-semibold mb-2">Kısırlaştırılmış</span>
                                         <mat-slide-toggle [formControlName]="'sterilization'" [color]="'primary'">
-                                            {{selectedPatientDetailsForm.get('sterilization').value === true ? 'Evet' : 'Hayır'}}
+                                            {{selectedPatientDetailsForm.get('sterilization').value === true ? 'Evet' :
+                                            'Hayır'}}
                                         </mat-slide-toggle>
                                     </div>
                                 </div>
@@ -337,14 +339,17 @@
                                         <div class="flex">
                                             <mat-form-field class="w-1/3 pr-2">
                                                 <mat-label>Doğum Tarihi</mat-label>
-                                                <input matInput [matDatepicker]="picker" [formControlName]="'birthDate'">
-                                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <input matInput [matDatepicker]="picker"
+                                                    [formControlName]="'birthDate'">
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </mat-form-field>
 
                                             <mat-form-field class="w-1/3 px-2">
                                                 <mat-label>Tür</mat-label>
-                                                <mat-select [formControlName]="'animalType'"  (selectionChange)="filterTagsByVendor($event)">
+                                                <mat-select [formControlName]="'animalType'"
+                                                    (selectionChange)="filterTagsByVendor($event)">
                                                     <ng-container *ngFor="let anmimaltype of animalTypesList">
                                                         <mat-option [value]="anmimaltype.id">
                                                             {{anmimaltype.name}}
@@ -378,9 +383,9 @@
 
                                             <mat-form-field class="w-1/6 pr-2">
                                                 <mat-label>Hasta Özel Durumu</mat-label>
-                                                <textarea  matInput [formControlName]="'specialNote'"></textarea>
+                                                <textarea matInput [formControlName]="'specialNote'"></textarea>
                                             </mat-form-field>
-                                            
+
                                         </div>
                                     </div>
 
