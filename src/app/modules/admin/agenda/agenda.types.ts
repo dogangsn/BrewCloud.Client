@@ -10,8 +10,8 @@ export interface Agenda
     type: 'agenda' | 'section';
     title: string;
     notes: string;
-    completed: boolean;
-    dueDate: string | null;
+    isactive: boolean;
+    duedate: string | null;
     priority: 0 | 1 | 2;
     tags: string[];
     order: number;

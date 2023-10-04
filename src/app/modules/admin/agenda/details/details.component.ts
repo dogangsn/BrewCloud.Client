@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup,Validators,FormGroup } from '@angular/forms';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
@@ -11,6 +11,14 @@ import { DateTime } from 'luxon';
 import { Tag, Agenda } from 'app/modules/admin/agenda/agenda.types';
 import { AgendaListComponent } from 'app/modules/admin/agenda/list/list.component';
 import { AgendaService } from 'app/core/services/Agenda/agenda.service';
+import { CreateAgendaCommand } from '../models/CreateAgendaCommand';
+import { DeleteAgendaCommand } from '../models/DeleteAgendaCommand';
+import { UpdateAgendaCommand } from '../models/UpdateAgendaCommand';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TranslocoService } from '@ngneat/transloco';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { agendaTagsDto } from '../models/agendaTagsDto';
 @Component({
     selector       : 'Agenda-details',
     templateUrl    : './details.component.html',
@@ -22,16 +30,25 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild('tagsPanelOrigin') private _tagsPanelOrigin: ElementRef;
     @ViewChild('tagsPanel') private _tagsPanel: TemplateRef<any>;
     @ViewChild('titleField') private _titleField: ElementRef;
-
+    displayedColumns: string[] = ['agendano'
+    ,'agendatype'
+    ,'isactive' 
+    ,'agendatitle'
+    ,'priority'
+    ,'duedate'
+    ,'notes'
+    ,'agendatags',
+    ];
     tags: Tag[];
+    tag : agendaTagsDto[];
     tagsEditMode: boolean = false;
     filteredTags: Tag[];
     agenda: Agenda;
-    AgendaForm: UntypedFormGroup;
+    AgendaForm: FormGroup;
     agendas: Agenda[];
     private _tagsPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    newtag : agendaTagsDto;
     /**
      * Constructor
      */
@@ -45,36 +62,37 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         private _AgendaListComponent: AgendaListComponent,
         private _AgendaService: AgendaService,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef
+        private _viewContainerRef: ViewContainerRef,
+        private _translocoService: TranslocoService
+
     )
     {
     }
     closePage(): void {
-        debugger;
         // Sayfayı kapatma işlemleri burada gerçekleştirilir
         this._router.navigate(['../agenda/']); // Örneğin, üst düzey sayfaya yönlendirme
         this._AgendaListComponent.visible = true;
     }
     visible: boolean = true;
 
-    saveAgendadetail(type: 'agenda' | 'section'): void
-    {
-       const types = type;
+    // saveAgendadetail(type: 'agenda' | 'section'): void
+    // {
+    //    const types = type;
        
-        // Create the agenda
-        // this._agendaService.createAgenda(type).subscribe((newAgenda) => {
+    //     // Create the agenda
+    //     // this._agendaService.createAgenda(type).subscribe((newAgenda) => {
 
-        //     // Go to the new agenda
-        //     this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
+    //     //     // Go to the new agenda
+    //     //     this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
 
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        //         this.visible = false;
+    //     //     // Mark for check
+    //     //     this._changeDetectorRef.markForCheck();
+    //     //         this.visible = false;
    
 
             
-        // });
-    }
+    //     // });
+    // }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -84,21 +102,32 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this.AgendaForm = this._formBuilder.group({
+            agendano: ['', Validators.required],
+            agendatype: ['', Validators.required],
+            isactive: ['', Validators.required],
+            agendatitle: ['', Validators.required],
+            priority: ['', Validators.required],
+            duedate: [''],
+            notes: ['', Validators.required],
+            agendatags: ['', Validators.required],
+        })
+            
         // Open the drawer
         this._AgendaListComponent.matDrawer.open();
 
         // Create the Agenda form
-        this.AgendaForm = this._formBuilder.group({
-            id       : [''],
-            type     : [''],
-            title    : [''],
-            notes    : [''],
-            completed: [false],
-            dueDate  : [null],
-            priority : [0],
-            tags     : [[]],
-            order    : [0]
-        });
+        // this.AgendaForm = this._formBuilder.group({
+        //     id       : [''],
+        //     type     : [''],
+        //     title    : [''],
+        //     notes    : [''],
+        //     completed: [false],
+        //     dueDate  : [null],
+        //     priority : [0],
+        //     tags     : [[]],
+        //     order    : [0]
+        // });
 
         // Get the tags
         this._AgendaService.tags$
@@ -224,7 +253,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     toggleCompleted(): void
     {
         // Get the form control for 'completed'
-        const completedFormControl = this.AgendaForm.get('completed');
+        const completedFormControl = this.AgendaForm.get('isactive');
 
         // Toggle the completed status
         completedFormControl.setValue(!completedFormControl.value);
@@ -365,6 +394,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     createTag(title: string): void
     {
+        debugger;
         const tag = {
             title
         };
@@ -419,11 +449,12 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     addTagToAgenda(tag: Tag): void
     {
+        debugger;
         // Add the tag
         this.agenda.tags.unshift(tag.id);
 
         // Update the Agenda form
-        this.AgendaForm.get('tags').patchValue(this.agenda.tags);
+        // this.AgendaForm.get('tags').patchValue(this.agenda.tags);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -489,7 +520,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     isOverdue(): boolean
     {
-        return DateTime.fromISO(this.agenda.dueDate).startOf('day') < DateTime.now().startOf('day');
+        return DateTime.fromISO(this.agenda.duedate).startOf('day') < DateTime.now().startOf('day');
     }
 
     /**
@@ -550,7 +581,79 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             }
         });
     }
+    saveAgendadetail(type: 'agenda' | 'section') : void{
+        const types = type;
+        const typenumber = type=='agenda' ? 0 : 1;
+        const agendaItem = new CreateAgendaCommand( 
+            this.getFormValueByName('agendano'),
+            this.getFormValueByName('agendatype'),
+            this.getFormValueByName('isactive'),
+            this.getFormValueByName('agendatitle'),
+            this.getFormValueByName('priority'),
+            this.getFormValueByName('notes'),
+            this.getFormValueByName('duedate'),
+            this.getFormValueByName('agendatags'),
 
+
+            );
+            agendaItem.agendano = this._AgendaListComponent.agendasCount.total;
+            agendaItem.agendatags = [];
+            agendaItem.agendatype = typenumber;
+            agendaItem.isactive = this.agenda.isactive == true ? 1 : 0;
+            this.filteredTags = this.tags.filter(tag => this.agenda.tags.includes(tag.id));
+            for (const item of this.filteredTags) {
+                const newTag: agendaTagsDto = {
+                  id  : '00000000-0000-0000-0000-000000000000',
+                  tags: item.title,
+                  tagsId: item.id,
+                };
+                try
+                {
+                    agendaItem.agendatags.push(newTag);
+
+                }
+                catch(error){
+                    console.error(error);
+                }
+            }
+
+
+        
+            this._AgendaService.createAgendas(agendaItem).subscribe(
+                (response) => {
+                    
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                } else {
+                     this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+
+    }
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+    getFormValueByName(formName: string): any {
+        return this.AgendaForm.get(formName).value;
+    }
     /**
      * Track by function for ngFor loops
      *
@@ -560,5 +663,8 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+    translate(key: string): any {
+        return this._translocoService.translate(key);
     }
 }

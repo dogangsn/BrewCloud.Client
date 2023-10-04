@@ -14,20 +14,20 @@
                 (click)="toggleCompleted()">
 
                 <!-- Mark as complete -->
-                <ng-container *ngIf="!AgendaForm.get('completed').value">
+                <ng-container *ngIf="!AgendaForm.get('isactive').value">
                     <div class="flex items-center justify-center">
                         <mat-icon [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
-                        <span class="ml-2 font-semibold">MARK AS COMPLETE</span>
+                        <span  class="ml-2 font-semibold">MARK AS COMPLETE</span>
                     </div>
                 </ng-container>
 
                 <!-- Mark as incomplete -->
-                <ng-container *ngIf="AgendaForm.get('completed').value">
+                <ng-container *ngIf="AgendaForm.get('isactive').value">
                     <div class="flex items-center justify-center">
                         <mat-icon
                             class="text-primary"
                             [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
-                        <span class="ml-2 font-semibold">MARK AS INCOMPLETE</span>
+                        <span   class="ml-2 font-semibold">MARK AS INCOMPLETE</span>
                     </div>
                 </ng-container>
             </button>
@@ -73,7 +73,7 @@
                 <mat-label>{{agenda.type === 'agenda' ? 'Agenda title' : 'Section title'}}</mat-label>
                 <textarea
                     matInput
-                    [formControlName]="'title'"
+                    [formControlName]="'agendatitle'"
                     [spellcheck]="false"
                     cdkTextareaAutosize
                     #titleField></textarea>
@@ -88,7 +88,7 @@
                 <ng-container *ngIf="agenda.tags.length">
                     <ng-container *ngFor="let tag of (agenda.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
                         <div class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
-                            <span class="text-md font-medium whitespace-nowrap">{{tag.title}}</span>
+                            <span   class="text-md font-medium whitespace-nowrap">{{tag.title}}</span>
                         </div>
                     </ng-container>
                 </ng-container>
@@ -225,7 +225,7 @@
                         <mat-icon
                             class="icon-size-5 text-current"
                             [svgIcon]="'heroicons_solid:arrow-narrow-down'"></mat-icon>
-                        <span class="ml-2 mr-1 text-md font-medium">Low</span>
+                        <span  class="ml-2 mr-1 text-md font-medium">Low</span>
                     </ng-container>
 
                     <!-- Normal -->
@@ -233,7 +233,7 @@
                         <mat-icon
                             class="icon-size-4 text-current"
                             [svgIcon]="'heroicons_solid:minus'"></mat-icon>
-                        <span class="ml-2 mr-1 text-md font-medium">Normal</span>
+                        <span   class="ml-2 mr-1 text-md font-medium">Normal</span>
                     </ng-container>
 
                     <!-- High -->
@@ -241,7 +241,7 @@
                         <mat-icon
                             class="icon-size-4 text-current"
                             [svgIcon]="'heroicons_solid:arrow-narrow-up'"></mat-icon>
-                        <span class="ml-2 mr-1 text-md font-medium">High</span>
+                        <span  class="ml-2 mr-1 text-md font-medium">High</span>
                     </ng-container>
                 </div>
                 <mat-menu #priorityMenu="matMenu">
@@ -291,29 +291,29 @@
                 <div class="font-medium">Due date</div>
                 <div
                     class="relative flex items-center mt-1.5 px-4 leading-9 rounded-full cursor-pointer"
-                    [ngClass]="{'text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700': !agenda.dueDate,
-                                'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': agenda.dueDate && !isOverdue(),
-                                'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': agenda.dueDate && isOverdue()}"
+                    [ngClass]="{'text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700': !agenda.duedate,
+                                'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': agenda.duedate && !isOverdue(),
+                                'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': agenda.duedate && isOverdue()}"
                     (click)="dueDatePicker.open()">
                     <mat-icon
                         class="icon-size-5 text-current"
                         [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
                     <span class="ml-2 text-md font-medium">
-                        <ng-container *ngIf="agenda.dueDate">{{agenda.dueDate | date:'longDate'}}</ng-container>
-                        <ng-container *ngIf="!agenda.dueDate">Not set</ng-container>
+                        <ng-container *ngIf="agenda.duedate">{{agenda.duedate | date:'longDate'}}</ng-container>
+                        <ng-container *ngIf="!agenda.duedate">Not set</ng-container>
                     </span>
                     <mat-form-field
                         class="fuse-mat-dense invisible absolute inset-0 -mt-2.5 opacity-0 pointer-events-none"
                         [subscriptSizing]="'dynamic'">
                         <input
                             matInput
-                            [formControlName]="'dueDate'"
+                            [formControlName]="'duedate'"
                             [matDatepicker]="dueDatePicker">
                         <mat-datepicker #dueDatePicker>
                             <mat-datepicker-actions>
                                 <button
                                     mat-button
-                                    (click)="AgendaForm.get('dueDate').setValue(null)"
+                                    (click)="AgendaForm.get('duedate').setValue(null)"
                                     matDatepickerCancel>Clear
                                 </button>
                                 <button

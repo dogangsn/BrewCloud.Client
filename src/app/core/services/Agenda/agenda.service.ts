@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Tag, Agenda } from 'app/modules/admin/agenda/agenda.types';
+import { endPoints } from "environments/endPoints";
+import { CreateAgendaCommand } from "app/modules/admin/agenda/models/CreateAgendaCommand";
+ import { DeleteAgendaCommand } from "app/modules/admin/agenda/models/DeleteAgendaCommand";
+ import { UpdateAgendaCommand } from "app/modules/admin/agenda/models/UpdateAgendaCommand";
+ import { HttpService } from "app/core/auth/Http.service";
+import { agendaDto } from 'app/modules/admin/agenda/models/agendaDto';
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +22,31 @@ export class AgendaService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
-    {
+    // constructor(private _httpClient: HttpClient)
+    // {
+    // }
+    constructor(private _httpService: HttpService, private _httpClient: HttpClient) { }
+    getAgendaList() : Observable<any>{
+        return this._httpService.getRequest(endPoints.agenda.agendaList);
     }
 
+    createAgendas(model: any): Observable<any> {
+        return this._httpService.post(endPoints.agenda.Createagenda, model);
+    }
+    // deleteAgenda(id?: DeleteAgendaCommand): Observable<any> {
+    //     return this._httpService.post(endPoints.agenda.Deleteagenda, id);
+    // }
+    // updateAgenda(model: UpdateAgendaCommand): Observable<any> {
+    //     return this._httpService.post(endPoints.agenda.Updateagenda, model);
+    // }
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
-
+    get agendasservice$(): Observable<any>
+    {
+        debugger;
+        return this._httpService.getRequest(endPoints.agenda.agendaList);
+    }
     /**
      * Getter for tags
      */
@@ -234,8 +257,9 @@ export class AgendaService
      *
      * @param type
      */
-    createAgenda(type: string): Observable<Agenda>
+    createAgenda(type: String,count : number): Observable<Agenda>
     {
+        debugger;
         return this.agendas$.pipe(
             take(1),
             switchMap(agendas => this._httpClient.post<Agenda>('api/apps/tasks/task', {type}).pipe(

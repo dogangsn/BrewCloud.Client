@@ -8,6 +8,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
 import { Tag, Agenda } from 'app/modules/admin/agenda/agenda.types';
 import { AgendaService } from 'app/core/services/Agenda/agenda.service';
+import { agendaDto } from '../models/agendaDto';
 
 @Component({
     selector       : 'agendas-list',
@@ -18,11 +19,10 @@ import { AgendaService } from 'app/core/services/Agenda/agenda.service';
 export class AgendaListComponent implements OnInit, OnDestroy
 {
     @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
-
     drawerMode: 'side' | 'over';
     selectedAgenda: Agenda;
     tags: Tag[];
-    agendas: Agenda[];
+    agendas: agendaDto[];
     agendasCount: any = {
         completed : 0,
         incomplete: 0,
@@ -50,7 +50,7 @@ export class AgendaListComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     visible: boolean = true;
     visible2: boolean = true;
-
+    agendaDtos = new agendaDto;
     /**
      * On init
      */
@@ -65,16 +65,16 @@ export class AgendaListComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+            
         // Get the Agendas
-        this._agendaService.agendas$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((agendas: Agenda[]) => {
-                this.agendas = agendas;
-
+        this._agendaService.getAgendaList()
+            .subscribe((response) =>{
+                this.agendas = response.data;
+                debugger;
                 // Update the counts
-                this.agendasCount.total = this.agendas.filter(agenda => agenda.type === 'agenda').length;
-                this.agendasCount.completed = this.agendas.filter(agenda => agenda.type === 'agenda' && agenda.completed).length;
+            
+                this.agendasCount.total = this.agendas.filter(agenda => agenda.agendatype === 0).length;
+                this.agendasCount.completed = this.agendas.filter(agenda => agenda.agendatype === 0 && agenda.isactive).length;
                 this.agendasCount.incomplete = this.agendasCount.total - this.agendasCount.completed;
 
                 // Mark for check
@@ -104,15 +104,15 @@ export class AgendaListComponent implements OnInit, OnDestroy
                 });
             });
 
-        // Get the agenda
-        this._agendaService.agenda$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((agenda: Agenda) => {
-                this.selectedAgenda = agenda;
+        // Get the agendas
+        // this._agendaService.agenda$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((agenda: Agenda) => {
+        //         this.selectedAgenda = agenda;
 
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        //         // Mark for check
+        //         this._changeDetectorRef.markForCheck();
+        //     });
 
         // Subscribe to media query change
         this._fuseMediaWatcherService.onMediaQueryChange$('(min-width: 1440px)')
@@ -140,13 +140,13 @@ export class AgendaListComponent implements OnInit, OnDestroy
                 // If the '/' pressed
                 if ( event.key === '/' )
                 {
-                    this.createAgenda('agenda');
+                    this.createAgenda('0');
                 }
 
                 // If the '.' pressed
                 if ( event.key === '.' )
                 {
-                    this.createAgenda('section');
+                    this.createAgenda('1');
                 }
             });
     }
@@ -179,16 +179,17 @@ export class AgendaListComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Create agenda
+     * Create agendas
      *
      * @param type
      */
-    createAgenda(type: 'agenda' | 'section'): void
+    createAgenda(type: '0' | '1'): void
     {
-        // Create the agenda
-        this._agendaService.createAgenda(type).subscribe((newAgenda) => {
+        debugger;
+        // Create the agendas
+        this._agendaService.createAgenda(type,this.agendasCount).subscribe((newAgenda) => {
 
-            // Go to the new agenda
+            // Go to the new agendas
             this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
 
             // Mark for check
@@ -202,38 +203,40 @@ export class AgendaListComponent implements OnInit, OnDestroy
 
     /**
      * Toggle the completed status
-     * of the given agenda
+     * of the given agendas
      *
      * @param agenda
      */
-    toggleCompleted(agenda: Agenda): void
-    {
-        // Toggle the completed status
-        agenda.completed = !agenda.completed;
+    // toggleCompleted(agendas: Agenda): void
+    // {
+    //     // Toggle the completed status
+    //     debugger;
+    //     agendas.isactive = !agendas.isactive;
 
-        // Update the agenda on the server
-        this._agendaService.updateAgenda(agenda.id, agenda).subscribe();
+    //     // Update the agendas on the server
+    //     debugger;
+    //   //sonra bakılacak deniz ==>  this._agendaService.updateAgenda(agendas.id, agendas).subscribe();
 
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    //     // Mark for check
+    //     this._changeDetectorRef.markForCheck();
+    // }
 
     /**
-     * agenda dropped
+     * agendas dropped
      *
      * @param event
      */
-    dropped(event: CdkDragDrop<Agenda[]>): void
-    {
-        // Move the item in the array
-        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // dropped(event: CdkDragDrop<Agenda[]>): void
+    // {
+    //     // Move the item in the array
+    //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
-        // Save the new order
-        this._agendaService.updateAgendasOrders(event.container.data).subscribe();
+    //     // Save the new order
+    //     this._agendaService.updateAgendasOrders(event.container.data).subscribe();
 
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    //     // Mark for check
+    //     this._changeDetectorRef.markForCheck();
+    // }
 
     /**
      * Track by function for ngFor loops
