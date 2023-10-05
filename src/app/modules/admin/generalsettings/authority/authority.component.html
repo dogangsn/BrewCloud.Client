@@ -1,26 +1,53 @@
-<div class="w-full max-w-3xl">
+<div class="w-full">
 
-    <!-- Form -->
-    <form [formGroup]="planBillingForm">
 
-   
-        <!-- Divider -->
-        <div class="mt-11 mb-10 border-t"></div>
+    <!-- Divider -->
+    <div class="flex items-center justify-end">
+        <button class="ml-4" mat-flat-button type="button" [color]="'primary'">
+            <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+            Yeni Kullanıcı
+        </button>
+    </div>
+    <div class="my-10 border-t"></div>
 
-        <!-- Actions -->
-        <div class="flex items-center justify-end">
-            <button
-                mat-stroked-button
-                type="button">
-                Cancel
-            </button>
-            <button
-                class="ml-4"
-                mat-flat-button
-                type="button"
-                [color]="'primary'">Save
-            </button>
+    <form [formGroup]="users">
+
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="userlist">
+
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef> Adı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef> Soyadı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> E-Mail </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                            <mat-icon aria-label="Edit">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                            <mat-icon class="mat-18">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                aria-label="Select page of periodic elements"> </mat-paginator>
+
         </div>
+
+
     </form>
 
 </div>

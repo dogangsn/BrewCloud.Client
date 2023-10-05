@@ -1,81 +1,43 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormGroup,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+} from '@angular/forms';
+import { UserListDto } from './models/UserListDto';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-    selector       : 'settings-authority',
-    templateUrl    : './authority.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'settings-authority',
+    templateUrl: './authority.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsAuthorityComponent implements OnInit
-{
-    planBillingForm: UntypedFormGroup;
-    plans: any[];
+export class SettingsAuthorityComponent implements OnInit {
+    users: FormGroup;
 
-    /**
-     * Constructor
-     */
-    constructor(
-        private _formBuilder: UntypedFormBuilder
-    )
-    {
-    }
+    displayedColumns: string[] = ['firstName','lastName','email', 'actions'];
+    
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    userlist: UserListDto[] = [];
+    dataSource = new MatTableDataSource<UserListDto>(this.userlist);
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    constructor(private _formBuilder: UntypedFormBuilder) {}
 
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Create the form
-        this.planBillingForm = this._formBuilder.group({
-            plan          : ['team'],
-            cardHolder    : ['Brian Hughes'],
-            cardNumber    : [''],
-            cardExpiration: [''],
-            cardCVC       : [''],
-            country       : ['usa'],
-            zip           : ['']
+    ngOnInit(): void {
+        this.users = this._formBuilder.group({
+        
         });
-
-        // Setup the plans
-        this.plans = [
-            {
-                value  : 'basic',
-                label  : 'BASIC',
-                details: 'Starter plan for individuals.',
-                price  : '10'
-            },
-            {
-                value  : 'team',
-                label  : 'TEAM',
-                details: 'Collaborate up to 10 people.',
-                price  : '20'
-            },
-            {
-                value  : 'enterprise',
-                label  : 'ENTERPRISE',
-                details: 'For bigger businesses.',
-                price  : '40'
-            }
-        ];
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 }
