@@ -1,43 +1,43 @@
 <div class="w-full max-w-3xl">
 
     <!-- Form -->
-    <form [formGroup]="accountForm">
+    <form [formGroup]="companyForm">
 
         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-            <!-- Name -->
+            <!-- companyName -->
             <div class="sm:col-span-4">
                 <mat-form-field
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Şirket İsmi</mat-label>
                     <input
-                        [formControlName]="'name'"
+                        [formControlName]="'companyName'"
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Title -->
+            <!-- eMail -->
             <div class="sm:col-span-2">
                 <mat-form-field
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>E-Mail</mat-label>
                     <input
-                        [formControlName]="'title'"
+                        [formControlName]="'eMail'"
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- Company -->
+            <!-- phone -->
             <div class="sm:col-span-2">
                 <mat-form-field
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Telefon</mat-label>
                     <input
-                        [formControlName]="'company'"
+                        [formControlName]="'phone'"
                         matInput>
                 </mat-form-field>
             </div>
-            <!-- About -->
+            <!-- adress -->
             <div class="sm:col-span-4">
                 <mat-form-field
                     class="w-full"
@@ -45,7 +45,7 @@
                     <mat-label>Adres</mat-label>
                     <textarea
                         matInput
-                        [formControlName]="'about'"
+                        [formControlName]="'adress'"
                         cdkTextareaAutosize
                         [cdkAutosizeMinRows]="5"></textarea>
                 </mat-form-field>
@@ -67,7 +67,7 @@
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Ünvanı</mat-label>
-                    <input [formControlName]="'email'" matInput>
+                    <input [formControlName]="'companyTitle'" matInput>
                 </mat-form-field>
             </div>
             <div class="sm:col-span-2">
@@ -75,25 +75,25 @@
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Ticari Ünvanı</mat-label>
-                    <input [formControlName]="'email'" matInput>
+                    <input [formControlName]="'tradeName'" matInput>
                 </mat-form-field>
             </div>
-            <!-- Phone -->
+            <!-- taxNumber -->
             <div class="sm:col-span-2">
                 <mat-form-field
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Vergi Kimlik Numarası</mat-label>
-                    <input [formControlName]="'phone'" matInput>
+                    <input [formControlName]="'taxNumber'" matInput>
                 </mat-form-field>
             </div>
-            <!-- Country -->
+            <!-- taxOffice -->
             <div class="sm:col-span-2">
                 <mat-form-field
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Vergi Dairesi</mat-label>
-                    <mat-select [formControlName]="'country'">
+                    <mat-select [formControlName]="'taxOffice'">
                         <mat-option [value]="'usa'">United States</mat-option>
                         <mat-option [value]="'canada'">Canada</mat-option>
                         <mat-option [value]="'mexico'">Mexico</mat-option>
@@ -109,7 +109,7 @@
                     class="w-full"
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Varsayılan Fatura Türü</mat-label>
-                    <mat-select [formControlName]="'language'">
+                    <mat-select [formControlName]="'defaultInvoiceType'">
                         <mat-option [value]="'english'">English</mat-option>
                         <mat-option [value]="'french'">French</mat-option>
                         <mat-option [value]="'spanish'">Spanish</mat-option>
@@ -126,7 +126,7 @@
              <!-- Section -->
              <div class="w-full text-xl">Diğer</div>
              <div class="grid grid-cols-1 gap-6 w-full mt-8">
-                 <!-- Communication -->
+                 <!-- invoiceAmountNotes -->
                  <div class="flex items-center justify-between">
                      <div
                          class="flex-auto cursor-pointer"
@@ -136,11 +136,11 @@
                      <mat-slide-toggle
                          class="ml-2"
                          [color]="'primary'"
-                         [formControlName]="'communication'"
+                         [formControlName]="'invoiceAmountNotes'"
                          #communication>
                      </mat-slide-toggle>
                  </div>
-                 <!-- Security -->
+                 <!-- invoiceNoAutoCreate -->
                  <div class="flex items-center justify-between">
                      <div
                          class="flex-auto cursor-pointer"
@@ -150,11 +150,11 @@
                      <mat-slide-toggle
                          class="ml-2"
                          [color]="'primary'"
-                         [formControlName]="'security'"
+                         [formControlName]="'invoiceNoAutoCreate'"
                          #securityToggle>
                      </mat-slide-toggle>
                  </div>
-                 <!-- Meetups -->
+                 <!-- invoiceSendEMail -->
                  <div class="flex items-center justify-between">
                      <div
                          class="flex-auto cursor-pointer"
@@ -164,7 +164,7 @@
                      <mat-slide-toggle
                          class="ml-2"
                          [color]="'primary'"
-                         [formControlName]="'meetups'"
+                         [formControlName]="'invoiceSendEMail'"
                          #meetupsToggle>
                      </mat-slide-toggle>
                  </div>

@@ -9,27 +9,16 @@ import { Observable } from "rxjs";
     providedIn: 'root'
 })
 
-export class UsersService {
+export class CompanyService {
     constructor(private _httpService: HttpService) { }
 
     
-    getUsersList() : Observable<any> {
-        return this._httpService.getRequest(endPoints.settings.getUsersList);
+    getCompany() : Observable<any> {
+        return this._httpService.getRequest(endPoints.settings.getCompany);
     }
 
-   
-    addUser(model: any): Observable<any> {
-        return this._httpService.post(
-            endPoints.settings.createUsers,
-            model
-        );
-    }
-
-    updateUser(model: any): Observable<any> {
-        return this._httpService.post(
-            endPoints.settings.createUsers,
-            model
-        );
+    updateCompany(model: any): Observable<any> {
+        return this._httpService.post(endPoints.settings.updateCompany, model);
     }
 
 }

@@ -263,13 +263,7 @@ export const appRoutes: Route[] = [
                         (m) => m.SmsModule
                     ),
             },
-            {
-                path: 'users',
-                loadChildren: () =>
-                    import('app/modules/admin/settings/users/users.module').then(
-                        (m) => m.UsersModule
-                    ),
-            },
+
             {
                 path: 'parameters',
                 loadChildren: () =>
