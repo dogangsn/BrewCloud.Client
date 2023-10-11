@@ -28,6 +28,7 @@ import { CustomerDetailsComponent } from '../customerdetails/customerdetails.com
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 const root: Route[] = [
     {
@@ -95,7 +96,8 @@ const root: Route[] = [
         MatTableModule,
         MatTooltipModule,
         NgApexchartsModule,
-        RouterModule.forChild(root)
+        MatStepperModule,
+        RouterModule.forChild(root),
     ],
     declarations: [
         CustomersListComponent,

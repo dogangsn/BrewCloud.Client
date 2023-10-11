@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UnitsService } from 'app/core/services/definition/unitdefinition/units.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
@@ -13,16 +13,23 @@ import { VeriServisi } from '../service/veri-servisi';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
+import {MatStepperModule} from '@angular/material/stepper';
+
+export interface DialogData {
+    count: string;
+  }
 
 @Component({
     selector: 'app-create-edit-patients-dialog',
     styleUrls: ['./create-edit-patients.css'],
     templateUrl: './create-edit-patients.html',
 })
+
 export class CreateEditPatientsDialogComponent implements OnInit {
     selectedpatients: PatientDetails;
     selectedPatientDetailsForm: FormGroup;
     selectedImage: string | ArrayBuffer | null = null;
+    stepIndex:number;
 
     filteredTags: VetAnimalBreedsDefDto[];
 
@@ -30,7 +37,8 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     animalTypesList: VetVetAnimalsTypeListDto[] = [];
     animalBreedsDef: VetAnimalBreedsDefDto[] = [];
     sextype: SexTYpe[];
-
+    counter:number;
+    patientSteps:any[] = [];
     tagsEditMode: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
 
@@ -45,12 +53,23 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _animalColorDefService: AnimalColorsDefService,
         private _customerService: CustomerService,
+        public dialogRef: MatDialogRef<CreateEditPatientsDialogComponent>,
+        public MatStepper:MatStepperModule,
+        @Inject(MAT_DIALOG_DATA) public tabCount: DialogData,
+        
     ) {}
 
     ngOnInit(): void {
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
+        debugger
+        this.counter=parseInt(this.tabCount.count);
+        this.counter?0:this.counter=1;
+        for (let i = 0; i < this.counter; i++) {
+            this.patientSteps.push({step:"$i"});
+        }
+
 
         this.selectedPatientDetailsForm = this._formBuilder.group({
             id: [''],
@@ -69,6 +88,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         });
         this.fillFormData(this.selectedpatients);
         this.sextype = sextype;
+        this.stepIndex = 0;
         // this.brands = brands;
         // this.patients = products;
         // this.tags = tags;
@@ -85,7 +105,9 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     }
 
     addOrUpdatePatients(): void {
-        this.selectedpatients ? this.updatepatients() : this.addpatients();
+        this.selectedpatients=this.selectedPatientDetailsForm.value;
+        this.patients.push(this.selectedpatients);
+        this.addpatients();
     }
 
     closeDialog(data?: any): void {
@@ -94,41 +116,39 @@ export class CreateEditPatientsDialogComponent implements OnInit {
 
     addpatients(): void {
         this.modalKapatildi.emit();
-
-        // this.veriServisi.setPatientsVerileri(
-        //     this.selectedPatientDetailsForm.value
-        // );c
         const valueForm = this.selectedPatientDetailsForm.value;
+        this.closeDialog(this.patients);
+    }
 
-        this.closeDialog(valueForm);
+    patientNext(): void{
+        debugger
+        this.selectedpatients=this.selectedPatientDetailsForm.value;
+        this.patients.push(this.selectedpatients);
+        this.stepIndex++;
+    }
+
+    patientBack(): void{
+        this.stepIndex--;
     }
 
     updatepatients(): void {
-        // const unitItem = new UpdateUnitsCommand(
-        //     this.selectedunitdefinition.id,
-        //     this.getFormValueByName('unitCode'),
-        //     this.getFormValueByName('unitName'),
-        // );
-        // this._unitservice.updateUnits(unitItem).subscribe(
-        //     (response) => {
-        //         debugger;
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //             this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
     }
 
     getFormValueByName(formName: string): any {
         return this.selectedPatientDetailsForm.get(formName).value;
+    }
+
+    isLastStep(): boolean {
+        // Mevcut adımın endeksini kontrol edin
+        return this.stepIndex === this.patientSteps.length - 1;
+    }
+
+    isFirstStep(): boolean{
+        return this.stepIndex === 0
+    }
+
+    finish() {
+        // Bitir düğmesi tıklandığında yapılacak işlem
     }
 
     showSweetAlert(type: string): void {
