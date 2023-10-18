@@ -19,7 +19,7 @@ export class CustomerDetailsComponent implements OnInit {
     chartAge: ApexOptions;
     chartLanguage: ApexOptions;
     data: any;
-    customerDetailForm: FormGroup
+    customerDetailForm: FormGroup;
     boards: any[];
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -28,10 +28,8 @@ export class CustomerDetailsComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private _router: Router,
-        private _formBuilder: UntypedFormBuilder,
-    ) {
-
-    }
+        private _formBuilder: UntypedFormBuilder
+    ) { }
 
     ngOnInit() {
         this.route.params.subscribe((params) => {
@@ -40,32 +38,24 @@ export class CustomerDetailsComponent implements OnInit {
         });
 
         this.customerDetailForm = this._formBuilder.group({
-            // email: [''],
-            // telNo: [''],
-            // telNo2: [''],
-            // sehir: [''],
-            // ilce: [''],
-
-
-            firstName: [''],
-            lastName: [''],
-            phoneNumber: [''],
-            phoneNumber2: [''],
-            eMail: [''],
-            taxOffice: [''],
-            vKNTCNo: [''],
-            note: [''],
-            discountRate: [0],
-            isEmail: false,
-            isPhone: false,
-            province: [''],
-            district: [''],
-            longAdress: [''],
+            email: [{ value: 'sefauzunogluu@gmail.com', disabled: true }],
+            telNo: [{ value: '0544 574 53 06', disabled: true }],
+            telNo2: [{ value: '0544 574 53 06', disabled: true }],
+            city: [{ value: 'Antalya', disabled: true }],
+            district: [{ value: 'Muratpaşa', disabled: true }],
+            taxAdministration: [{ value: 'Muratpaşa Vergi Dairesi', disabled: true }],
+            vnOrTcNo: [{ value: '33333333333', disabled: true }],
+            note: [{ value: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, illum!', disabled: true }],
+            smsNotification: [{ value: 'Pasif', disabled: true }],
+            emailNotification: [{ value: 'Pasif', disabled: true }],
+            address: [{ value: 'Güzeloba Mah. 3131. Sokak', disabled: true}],
+            customerdiscount: [{ value: '25 %', disabled: true}],
+            customerGroup: [{ value: '', disabled: true}],
+            recordDate: [{ value: '19/11/2023', disabled: true}],
         });
     }
 
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 }
