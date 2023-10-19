@@ -128,6 +128,7 @@ export class FuseNavigationService
      */
     getItem(id: string, navigation: FuseNavigationItem[]): FuseNavigationItem | null
     {
+        debugger;
         for ( const item of navigation )
         {
             if ( item.id === id )

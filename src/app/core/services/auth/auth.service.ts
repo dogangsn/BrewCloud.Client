@@ -8,6 +8,7 @@ import { EmailValidator } from '@angular/forms';
 import { HttpService } from 'app/core/auth/Http.service';
 import { endPoints } from 'environments/endPoints';
 import { environment } from 'environments/environment';
+import { RolsService } from '../generalsettings/rols/rols.service';
 // import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/overlay/overlay-directives';
 // import { RoleService } from '../settings/role.service';
 
@@ -15,23 +16,14 @@ import { environment } from 'environments/environment';
 export class AuthService {
     private _authenticated: boolean = false;
 
-    /**
-     * Constructor
-     */
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService,
-        private httpService: HttpService
-    ) // private _roleService: RoleService
+        private httpService: HttpService,
+        private _roleService: RolsService
+    ) 
     {}
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for access token
-     */
     set accessToken(token: string) {
         localStorage.setItem('accessToken', token);
     }
@@ -40,53 +32,36 @@ export class AuthService {
         return localStorage.getItem('accessToken') ?? '';
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Forgot password
-     *
-     * @param email
-     */
     forgotPassword(email: string): Observable<any> {
         return this._httpClient.post(endPoints.auth.forgotPassword, email);
     }
 
-    /**
-     * Reset password
-     *
-     * @param password
-     */
     resetPassword(password: string): Observable<any> {
         return this._httpClient.post(endPoints.auth.resetPassword, password);
     }
 
-    // async getSidebarNavigations(): Promise<void> {
-    //     const model = {
-    //         all: false
-    //     };
-    //     const navigation = await this._roleService.getNavigationItems(model).toPromise();
-    //     localStorage.setItem('navigation', JSON.stringify(navigation.data));
+    async getSidebarNavigations(): Promise<void> {
+        const model = {
+            all: false
+        };
+        const navigation = await this._roleService.getNavigation(model).toPromise();
 
-    //     if (navigation.data.length === 0) {
-    //         throw new Error('You do not have a any licance. Please contact with veboni team!');
-    //     }
-    //     // this._roleService.getNavigationItems().subscribe(
-    //     //     (navigationResponse) => {
-    //     //         const navigation = navigationResponse.data;
-    //     //         localStorage.setItem('navigation', JSON.stringify(navigation));
 
-    //     //     },
-    //     //     (error) => {}
-    //     // );
-    // }
+        debugger;
+        localStorage.setItem('navigation', JSON.stringify(navigation.data));
 
-    /**
-     * Sign in
-     *
-     * @param credentials
-     */
+        if (navigation.data.length === 0) {
+            throw new Error('You do not have a any licance');
+        }
+        // this._roleService.getNavigationItems().subscribe(
+        //     (navigationResponse) => {
+        //         const navigation = navigationResponse.data;
+        //         localStorage.setItem('navigation', JSON.stringify(navigation));
+        //     },
+        //     (error) => {}
+        // );
+    }
+
     signIn(credentials: { email: string; password: string }): Observable<any> {
         if (this._authenticated) {
             return throwError('User is already logged in.');
@@ -106,7 +81,7 @@ export class AuthService {
                     this.accessToken = response.access_token;
                     this._authenticated = true;
                     this._userService.user = response.user;
-                    // await this.getSidebarNavigations();
+                    await this.getSidebarNavigations();
                     return of(response);
                 })
             );
@@ -133,9 +108,7 @@ export class AuthService {
 
         return false;
     }
-    /**
-     * Sign in using the access token
-     */
+
     signInUsingToken(): Observable<any> {
         // Renew token
         return this._httpClient
@@ -164,9 +137,6 @@ export class AuthService {
             );
     }
 
-    /**
-     * Sign out
-     */
     signOut(): Observable<any> {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
@@ -178,11 +148,6 @@ export class AuthService {
         return of(true);
     }
 
-    /**
-     * Sign up
-     *
-     * @param user
-     */
     signUp(user: {
         name: string;
         email: string;
@@ -199,11 +164,6 @@ export class AuthService {
         return this.httpService.signUp(path, newUser);
     }
 
-    /**
-     * Unlock session
-     *
-     * @param credentials
-     */
     unlockSession(credentials: {
         email: string;
         password: string;
@@ -211,9 +171,6 @@ export class AuthService {
         return this._httpClient.post(endPoints.auth.unlockSession, credentials);
     }
 
-    /**
-     * Check the authentication status
-     */
     check(): Observable<boolean> {
         console.log(this._authenticated);
         // Check if the user is logged in

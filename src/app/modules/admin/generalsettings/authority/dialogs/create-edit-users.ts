@@ -8,6 +8,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { UserListDto } from '../models/UserListDto';
 import { CreateUserCommand } from '../models/CreateUserCommand';
 import { UsersService } from 'app/core/services/settings/users/users.service';
+import { RolsService } from 'app/core/services/generalsettings/rols/rols.service';
+import { RoleSettingDto } from '../../rolDef/models/RoleSettingDto';
 
 @Component({
     selector: 'app-create-edit-users-dialog',
@@ -19,23 +21,28 @@ export class CreateEditUsersDialogComponent implements OnInit {
     users: FormGroup;
     isUpdateButtonActive: Boolean;
 
+    rols: RoleSettingDto[] = [];
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
         private _usersService: UsersService,
+        private _rolsSettings : RolsService,
         @Inject(MAT_DIALOG_DATA) public data: UserListDto
     ) {
         this.selectedusers = data;
     }
 
     ngOnInit(): void {
+        this.getRolsist();
         this.users = this._formBuilder.group({
             active: [true],
             firstLastName: [''],
             email: ['', Validators.required],
             phone: [''],
-            appKey : ['']
+            appKey : [''],
+            roleId : ['',  Validators.required]
         });
         this.fillFormData(this.selectedusers);
     }
@@ -87,6 +94,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
         user.firstName = this.getFormValueByName('firstLastName');
         user.phone = this.getFormValueByName('phone');
         user.appKey = this.getFormValueByName('appKey');
+        user.roleId = this.getFormValueByName('roleId');
         user.userName = user.email;
 
         this._usersService.addUser(user).subscribe(
@@ -131,5 +139,11 @@ export class CreateEditUsersDialogComponent implements OnInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+    
+    getRolsist(): void {
+        this._rolsSettings.getRolSettings().subscribe((response) => {
+            this.rols = response.data;
+        });
     }
 }

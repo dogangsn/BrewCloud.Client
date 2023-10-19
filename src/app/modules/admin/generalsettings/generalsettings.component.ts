@@ -44,12 +44,12 @@ export class GeneralsettingsComponent implements OnInit {
                 description:
                     'Kulalnıcı işlemlerinde rol tanımlarını yapılması, Menü, Ekran Ayarları üzerinde yetki kontrollerin yapılması',
             },
-            {
-                id: 'appkey',
-                icon: 'heroicons_outline:lock-closed',
-                title: 'App Key',
-                description: 'Entegrasyon İşlemlerinde Oluşturulacak Key',
-            },
+            // {
+            //     id: 'appkey',
+            //     icon: 'heroicons_outline:lock-closed',
+            //     title: 'App Key',
+            //     description: 'Entegrasyon İşlemlerinde Oluşturulacak Key',
+            // },
             {
                 id: 'logs',
                 icon: 'heroicons_outline:user-group',

@@ -29,18 +29,18 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CreateEditUsersDialogComponent } from './authority/dialogs/create-edit-users';
+import { CreateEditRoleDefComponent } from './rolDef/dialogs/create-edit-roleDef/create-edit-roleDef.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 const root: Route[] = [
     {
-        path     : '',
-        component: GeneralsettingsComponent
-    }
-
+        path: '',
+        component: GeneralsettingsComponent,
+    },
 ];
 
 @NgModule({
-
-    imports     : [
+    imports: [
         FormsModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -101,7 +101,8 @@ const root: Route[] = [
         MatTooltipModule,
         SharedModule,
         MatDialogModule,
-        RouterModule.forChild(root)
+        MatTreeModule,
+        RouterModule.forChild(root),
     ],
     declarations: [
         GeneralsettingsComponent,
@@ -110,10 +111,8 @@ const root: Route[] = [
         SettingsCompanyComponent,
         SettingsAuthorityComponent,
         SettingsAppKeyComponent,
-        CreateEditUsersDialogComponent
-    ]
-    
+        CreateEditUsersDialogComponent,
+        CreateEditRoleDefComponent,
+    ],
 })
-export class GeneralSettings
-{
-}
+export class GeneralSettings {}

@@ -17,6 +17,11 @@ export const endPoints = {
         updateCompany: 'account/settings/UpdateCompany',
         createUsers: 'account/settings/CreateUser',
         updateUsers: 'account/settings/UpdateUser',
+        getRolsSettings: 'account/settings/GetRoleSettingList',
+        createRols : 'account/settings/CreateRoleSetting',
+        updateRols : 'account/settings/UpdateRoleSetting',
+        deleteRols : 'account/settings/DeleteRoleSetting',
+        getNavigation : 'account/settings/GetNavigation'
     },
     customers:{
         customerslist: 'vet/Customers/CustomersList',
@@ -86,4 +91,10 @@ export const endPoints = {
         Updateagenda : 'vet/Agenda/UpdateAgenda',
         Deleteagenda : 'vet/Agenda/DeleteAgenda'
     },
+    demandproducts : {
+        demandproductsList : 'vet/Demands/DemandProductsList',
+        Createdemandproducts : 'vet/Demands/CreateDemandProducts',
+        Updatedemandproducts : 'vet/Demands/UpdateCreateDemandProducts',
+        Deletedemandproducts : 'vet/Demands/DeleteCreateDemandProducts'
+    }
 }

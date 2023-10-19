@@ -63,12 +63,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     {
         this.tokenInfo = GeneralService.tokenInfo();
 
+
+        if (!this.navigation) {
+            this.getSidebarNavigations();
+        }
+
         // Subscribe to navigation data
-        this._navigationService.navigation$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((navigation: Navigation) => {
-                this.navigation = navigation;
-            });
+        // this._navigationService.navigation$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((navigation: Navigation) => {
+        //         this.navigation = navigation;
+        //     });
 
         // Subscribe to the user service
         this._userService.user$
@@ -87,6 +92,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             });
     }
 
+    getSidebarNavigations(): void {
+        debugger;
+        this.navigation = JSON.parse(localStorage.getItem('navigation'));
+    }
     /**
      * On destroy
      */
