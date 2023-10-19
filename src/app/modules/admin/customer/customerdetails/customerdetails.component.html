@@ -142,9 +142,8 @@
                     <h1 style="font-size: 20px; padding-top: 50px; padding-left: 25px;">Perakende Satış</h1>
                     <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
                 </div>
-                <div [formGroup]="customerDetailForm"
-                    class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden">
-                    <div class="flex float:left gt-xs:flex-row">
+                <div class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden" [formGroup]="customerDetailForm" >
+                    <div class="flex float:left gt-xs:flex-col">
                         <mat-form-field class="flex-auto gt-xs:pr-6">
                             <mat-label>E-mail</mat-label>
                             <input matInput disabled="true" [formControlName]="'email'">
@@ -242,6 +241,9 @@
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
+                    <button mat-icon-button color="accent" matTooltip="Düzenle" (click)="redirectToDetail()">
+                        <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
                 </div>
             </div>
 

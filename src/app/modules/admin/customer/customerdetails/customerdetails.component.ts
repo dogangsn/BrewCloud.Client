@@ -55,6 +55,10 @@ export class CustomerDetailsComponent implements OnInit {
         });
     }
 
+    redirectToDetail(){
+        
+    }
+
     trackByFn(index: number, item: any): any {
         return item.id || index;
     }
