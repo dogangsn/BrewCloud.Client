@@ -14,7 +14,7 @@ export class SettingsRolDefComponent implements OnInit
 {
     notificationsForm: UntypedFormGroup;
 
-    displayedColumns: string[] = [''
+    displayedColumns: string[] = ['rolName'
     ,'actions',];
     rolDef: FormGroup;
       

@@ -12,11 +12,16 @@ export const endPoints = {
         complateactivation: 'identityserver/api/account/complateactivation'
     },
     settings : {
-        getUsersList: 'account/settings/GetUsersList'
+        getUsersList: 'account/settings/GetUsersList',
+        getCompany: 'account/settings/GetCompany',
+        updateCompany: 'account/settings/UpdateCompany',
+        createUsers: 'account/settings/CreateUser',
+        updateUsers: 'account/settings/UpdateUser',
     },
     customers:{
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer',
+        deleteCustomer : 'vet/Customers/DeleteCustomer',
         animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
         animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
     },

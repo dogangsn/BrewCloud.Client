@@ -14,6 +14,9 @@ import { appRoutes } from 'app/app.routing';
 import { FormsModule } from '@angular/forms';
 import { CustomerListModule } from './modules/admin/customer/customerlist/customerlist.module';
 import { CustomerModule } from './modules/admin/customer/customer.module';
+import {MatStepperModule} from '@angular/material/stepper';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CreateEditPatientsDialogComponent } from './modules/admin/customer/customerlist/patientsdialogs/create-edit-patients';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -22,7 +25,8 @@ const routerConfig: ExtraOptions = {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+
     ],
     imports     : [
         BrowserModule,
@@ -33,14 +37,16 @@ const routerConfig: ExtraOptions = {
         FuseModule,
         FuseConfigModule.forRoot(appConfig),
         FuseMockApiModule.forRoot(mockApiServices),
-
         // Core module of your application
         CoreModule,
-
+        MatStepperModule,
         // Layout module of your application
         LayoutModule
 
     ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA // Eğer gerekirse bu satırı ekleyin
+      ],
     bootstrap   : [
         AppComponent
     ]

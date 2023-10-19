@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
-                                <mat-label>İsim Soyisim</mat-label>
+                                <mat-label>Ad Soyad</mat-label>
                                 <input matInput [formControlName]="'firstLastName'" >
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
@@ -47,6 +47,14 @@
                             <mat-form-field style="width:100%">
                                 <mat-label>Telefon</mat-label>
                                 <input matInput [formControlName]="'phone'" >
+                                <mat-icon class="icon-size-5" matSuffix
+                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-12 mt-2 common-width">
+                            <mat-form-field style="width:100%">
+                                <mat-label>AppKey</mat-label>
+                                <input matInput [formControlName]="'appKey'" >
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
@@ -91,7 +99,7 @@
                         class="order-first sm:order-last"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addOrUpdateStore()">
+                        (click)="addOrUpdateUsers()">
                         Kaydet
                     </button>
                 </div>

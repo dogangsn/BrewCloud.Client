@@ -28,6 +28,7 @@ import { CustomerGroupService } from 'app/core/services/definition/customergroup
 import { CreateEditPatientsDialogComponent } from '../patientsdialogs/create-edit-patients';
 import { VeriServisi } from '../service/veri-servisi';
 import { MatTableDataSource } from '@angular/material/table';
+import { forEach } from 'lodash';
 
 @Component({
     selector: 'app-create-edit-customeradd-dialog',
@@ -36,27 +37,14 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'id',
-        'name',
-        'birthDate',
-        'chipNumber',
-        'sex',
-        'animalType',
-        'animalBreed',
-        'animalColor',
-        'reportNumber',
-        'specialNote',
-        'sterilization',
-        'tags',
-        'images',
-        'active',
-        'thumbnail',
+        'name'
     ];
 
     selectedcustomeradd: customersListDto;
     customeradd: FormGroup;
     selectedValue: string;
-
+    patientsAdd: FormGroup;
+    patientCount:String="";
     customers: CreateCustomerCommand = new CreateCustomerCommand();
     customergroupList: CustomerGroupListDto[] = [];
 
@@ -95,6 +83,10 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             district: [''],
             longAdress: [''],
         });
+
+        this.patientsAdd = this._formBuilder.group({
+            count: ['']
+        })
     }
 
     fillFormData(selectedproductdesf: customersListDto) {
@@ -147,7 +139,10 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     updateCustomer() {}
 
     getFormValueByName(formName: string): any {
-        return this.customeradd.get(formName).value;
+        if(formName=="patientsAdd"){
+            return this.patientsAdd.get(formName).value;
+        }
+        return this.customeradd.get(formName).value;        
     }
 
     showSweetAlert(type: string): void {
@@ -174,17 +169,26 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
+        debugger    
+        this.patientCount=this.patientsAdd.value.count;
+        console.log(this.patientCount);
+        
         const dialog = this._dialog
             .open(CreateEditPatientsDialogComponent, {
-                maxWidth: '100vw !important',
+                // maxWidth: '400vw !important',
+                height: '80%',
+            width: '60%',
                 disableClose: true,
-                data: null,
+                data: {count:this.patientCount},
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
                     debugger;
-                    this.patients.push(response.data);
+                    response.data.forEach(item => {
+                        this.patients.push(item);
+                    });
+                    
                     this.dataSource = new MatTableDataSource(this.patients);
                 }
             });

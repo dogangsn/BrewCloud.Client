@@ -45,7 +45,7 @@ export interface PatientDetails
     birthDate: string | null;
     chipNumber: string | null;
     sex: number;
-    animalType : string;
+    animalType : number;
     animalBreed: string;
     animalColor: string;
     reportNumber: string | null;

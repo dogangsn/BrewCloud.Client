@@ -6,6 +6,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { UserListDto } from '../models/UserListDto';
+import { CreateUserCommand } from '../models/CreateUserCommand';
+import { UsersService } from 'app/core/services/settings/users/users.service';
 
 @Component({
     selector: 'app-create-edit-users-dialog',
@@ -13,28 +15,31 @@ import { UserListDto } from '../models/UserListDto';
     templateUrl: './create-edit-users.html',
 })
 export class CreateEditUsersDialogComponent implements OnInit {
-
     selectedusers: UserListDto;
     users: FormGroup;
     isUpdateButtonActive: Boolean;
-
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
+        private _usersService: UsersService,
         @Inject(MAT_DIALOG_DATA) public data: UserListDto
     ) {
         this.selectedusers = data;
     }
 
     ngOnInit(): void {
-
         this.users = this._formBuilder.group({
+            active: [true],
+            firstLastName: [''],
             email: ['', Validators.required],
+            phone: [''],
+            appKey : ['']
         });
         this.fillFormData(this.selectedusers);
     }
+
     fillFormData(selectedSuppliers: UserListDto) {
         debugger;
         if (this.selectedusers !== null) {
@@ -43,71 +48,63 @@ export class CreateEditUsersDialogComponent implements OnInit {
             });
         }
     }
+
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
-    addOrUpdateStore(): void {
-        this.selectedusers
-            ? this.updateSupplier()
-            : this.addsuppliers();
+
+    addOrUpdateUsers(): void {
+        this.selectedusers ? this.updateUsers() : this.addUsers();
     }
-    updateSupplier(): void {
-        // const supItem = new UpdateSuppliersCommand(
-        //     this.selectedusers.id,
-        //     this.getFormValueByName('suppliername'),
-        //     this.getFormValueByName('email'),
-        //     this.getFormValueByName('phone'),
-        //     this.getFormValueByName('active')
-        // );
 
-        // this._Suppliers.updateSuppliers(supItem).subscribe(
-        //     (response) => {
-        //         debugger;
+    updateUsers(): void {
+        const user = new CreateUserCommand();
 
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //             this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
+        this._usersService.addUser(user).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
-    addsuppliers(): void {
 
-        
-        // const suppliersItem = new CreateSuppliersCommand( 
-        //     this.getFormValueByName('suppliername'),
-        //     this.getFormValueByName('email'),
-        //     this.getFormValueByName('phone'),
-        //     this.getFormValueByName('active')
+    addUsers(): void {
+        debugger;
+        const user = new CreateUserCommand();
+        user.active = this.getFormValueByName('active');
+        user.email = this.getFormValueByName('email');
+        user.firstName = this.getFormValueByName('firstLastName');
+        user.phone = this.getFormValueByName('phone');
+        user.appKey = this.getFormValueByName('appKey');
+        user.userName = user.email;
 
-        //     );
-        //     debugger;
-        //     this._Suppliers.createSuppliers(suppliersItem).subscribe(
-        //         (response) => {
-                    
-        //             debugger;
-
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //              this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
-
+        this._usersService.addUser(user).subscribe(
+            (response) => {
+                debugger;
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     getFormValueByName(formName: string): any {
@@ -135,8 +132,4 @@ export class CreateEditUsersDialogComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
-
-    
-
-
 }

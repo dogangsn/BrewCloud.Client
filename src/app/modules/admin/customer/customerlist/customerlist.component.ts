@@ -25,7 +25,7 @@ export class CustomersListComponent {
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
     
-    constructor(private _CustomerListService: CustomerService,
+    constructor(private _customerListService: CustomerService,
                 private _dialog: MatDialog,
                 private _translocoService: TranslocoService,
                 private router: Router, private route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class CustomersListComponent {
     }
     
     getCustomerList() {
-        this._CustomerListService.getcustomerlist().subscribe((response) => {
+        this._customerListService.getcustomerlist().subscribe((response) => {
             this.customerlist = response.data;
             console.log(this.customerlist);
         });
@@ -65,35 +65,35 @@ export class CustomersListComponent {
     };
     
     public redirectToDelete = (id: string) => {
-        // const sweetAlertDto = new SweetAlertDto(
-        //     this.translate('sweetalert.areYouSure'),
-        //     this.translate('sweetalert.areYouSureDelete'),
-        //     SweetalertType.warning
-        // );
-        // GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-        //     (swalResponse) => {
-        //         if (swalResponse.isConfirmed) {
-        //             const model = {
-        //                 id: id,
-        //             };
-        //             this._productcategoryservice
-        //                 .deleteProductCategory(model)
-        //                 .subscribe((response) => {
-        //                     if (response.isSuccessful) {
-        //                         this.ProductCategoryList();
-        //                         const sweetAlertDto2 = new SweetAlertDto(
-        //                             this.translate('sweetalert.success'),
-        //                             this.translate('sweetalert.transactionSuccessful'),
-        //                             SweetalertType.success
-        //                         );
-        //                         GeneralService.sweetAlert(sweetAlertDto2);
-        //                     } else {
-        //                         console.error('Silme işlemi başarısız.');
-        //                     }
-        //                 });
-        //         }
-        //     }
-        // );
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._customerListService
+                        .deleteCustomers(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getCustomerList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate('sweetalert.transactionSuccessful'),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
     }
 
     showSweetAlert(type: string): void {

@@ -212,13 +212,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'collapsable',
         icon : 'heroicons_outline:cog',
         children: [
-            {
-                id   : 'users',
-                title: 'Kullanıcılar',
-                type : 'basic',
-                icon : 'heroicons_outline:user',
-                link : '/users'
-            },
+            // {
+            //     id   : 'users',
+            //     title: 'Kullanıcılar',
+            //     type : 'basic',
+            //     icon : 'heroicons_outline:user',
+            //     link : '/users'
+            // },
             {
                 id   : 'smsparameters',
                 title: 'SMS Ayarları',

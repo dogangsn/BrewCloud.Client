@@ -28,6 +28,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CreateEditUsersDialogComponent } from './authority/dialogs/create-edit-users';
 
 const root: Route[] = [
     {
@@ -109,6 +110,7 @@ const root: Route[] = [
         SettingsCompanyComponent,
         SettingsAuthorityComponent,
         SettingsAppKeyComponent,
+        CreateEditUsersDialogComponent
     ]
     
 })

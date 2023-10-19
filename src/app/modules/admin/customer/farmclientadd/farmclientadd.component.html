@@ -51,52 +51,28 @@
               [formGroupName]="'step1'"
               [stepControl]="horizontalStepperForm.get('step1')"
               #horizontalStepperStep1>
-              <ng-template matStepLabel>Basic information</ng-template>
-              <p class="my-6 font-medium">
-                  Fill in your basic information to let us know your preferences
-              </p>
+              <ng-template matStepLabel>Çiftlik Bilgileri</ng-template>
+
               <div class="flex">
                   <mat-form-field class="flex-auto">
                       <input
                           matInput
                           [formControlName]="'email'"
-                          [placeholder]="'Email Address'"
+                          [placeholder]="'Çiftlik Adı'"
                           required>
-                      <mat-icon
-                          class="icon-size-5"
-                          matPrefix
-                          [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                   </mat-form-field>
               </div>
               <div class="flex flex-col gt-xs:flex-row">
-                  <mat-form-field class="flex-auto gt-xs:pr-3">
-                      <mat-select
-                          [formControlName]="'country'"
-                          [placeholder]="'Country / Region'"
-                          required>
-                          <mat-option value="country-1">Country 1</mat-option>
-                          <mat-option value="country-2">Country 2</mat-option>
-                          <mat-option value="country-3">Country 3</mat-option>
-                      </mat-select>
-                      <mat-icon
-                          class="icon-size-5"
-                          matPrefix
-                          [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-                  </mat-form-field>
-                  <mat-form-field class="flex-auto gt-xs:pl-3">
-                      <mat-select
-                          [formControlName]="'language'"
-                          [placeholder]="'Language'"
-                          required>
-                          <mat-option value="language-1">Language 1</mat-option>
-                          <mat-option value="language-2">Language 2</mat-option>
-                          <mat-option value="language-3">Language 3</mat-option>
-                      </mat-select>
-                      <mat-icon
-                          class="icon-size-5"
-                          matPrefix
-                          [svgIcon]="'heroicons_solid:translate'"></mat-icon>
-                  </mat-form-field>
+                <mat-form-field class="flex-auto">
+                <textarea  matInput [formControlName]="'language'" [placeholder]="'Çiftlik İletişim Bilgisi (ADRES/TELEFON)'" required></textarea>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'country'"
+                        [placeholder]="' Çiftlik İle İlişkisi (YÖNETİCİ/VETERİNER/ÇALIŞAN)'"
+                        required>
+                </mat-form-field>
               </div>
               <div class="flex justify-end">
                   <button
@@ -106,7 +82,7 @@
                       [disabled]="horizontalStepperStep1.stepControl.pristine || horizontalStepperStep1.stepControl.invalid"
                       type="button"
                       matStepperNext>
-                      Next
+                      İlerle
                   </button>
               </div>
           </mat-step>
@@ -115,10 +91,8 @@
               [formGroupName]="'step2'"
               [stepControl]="horizontalStepperForm.get('step2')"
               #horizontalStepperStep2>
-              <ng-template matStepLabel>Profile</ng-template>
-              <p class="my-6 font-medium">
-                  People here will get to know you with this information
-              </p>
+              <ng-template matStepLabel>Çiftlik Sahini Bilgisi</ng-template>
+              
               <div class="flex flex-col gt-xs:flex-row">
                   <mat-form-field class="flex-auto gt-xs:pr-3">
                       <input
@@ -166,6 +140,7 @@
                           [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
                   </mat-form-field>
               </div>
+
               <div class="flex justify-end">
                   <button
                       class="px-8 mr-2"
@@ -173,7 +148,7 @@
                       [color]="'accent'"
                       type="button"
                       matStepperPrevious>
-                      Back
+                      Geri
                   </button>
                   <button
                       class="px-8"
@@ -182,7 +157,7 @@
                       [disabled]="horizontalStepperStep2.stepControl.pristine || horizontalStepperStep2.stepControl.invalid"
                       type="button"
                       matStepperNext>
-                      Next
+                      İleri
                   </button>
               </div>
           </mat-step>
