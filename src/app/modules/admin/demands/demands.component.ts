@@ -18,14 +18,16 @@ export class DemandsComponent implements OnInit {
     private demandProductsService: DemandProductsService,
     private _changeDetectorRef: ChangeDetectorRef,
     private _fuseConfirmationService: FuseConfirmationService,
-    private _formBuilder: UntypedFormBuilder
+    private _formBuilder: UntypedFormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     // Demand1Component'ı oluştururken gereken argümanları sağlayın
     this.demandFunc = new Demand1Component(
       this.demandProductsService,
       this._changeDetectorRef,
       this._fuseConfirmationService,
-      this._formBuilder
+      this._formBuilder,
+      this.cdr
     );
   }
 
