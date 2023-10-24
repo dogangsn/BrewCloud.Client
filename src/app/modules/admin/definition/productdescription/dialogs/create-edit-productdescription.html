@@ -84,7 +84,7 @@
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Alış Fiyatı</mat-label>
-                            <input [formControlName]="'buyingPrice'" matInput>
+                            <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)" >
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Satış Fiyatı</mat-label>

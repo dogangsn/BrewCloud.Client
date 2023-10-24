@@ -18,6 +18,7 @@ import { ProductCategoryService } from 'app/core/services/definition/ProductCate
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
 import { ProductType } from 'app/modules/bases/enums/producttype.enum';
+import { CustomNumericValidator } from 'app/modules/bases/CustomNumericValidator';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -34,7 +35,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     producttype:number;
     visibleProductType: boolean;
     mapproducttype: { name: string; id: number }[] = [];
-
+    isInvalidPrice : boolean;
   
     
     constructor(
@@ -73,9 +74,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             supplierId: ['00000000-0000-0000-0000-000000000000'],
             productBarcode : [''],
             productCode : [''],
-            ratio : [0],
-            buyingPrice : [0],
-            sellingPrice : [0],
+            ratio : [0, [Validators.required]],
+            buyingPrice : [0,[Validators.required, CustomNumericValidator()]],
+            sellingPrice : [0, [Validators.required]],
             criticalAmount : [0],
             active: [true],
             sellingIncludeKDV : [false],
@@ -131,6 +132,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     addProductDef(): void {
+
+
+
         const ProductDefItem = new CreateProductDescriptionsCommand( 
             this.getFormValueByName('name'),
             this.getFormValueByName('unitId'),
@@ -151,19 +155,23 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('animalType'),
             this.getFormValueByName('numberRepetitions'),
             );
-            debugger;
+
+            if(this.validateControl(ProductDefItem)){
+                return;
+            }
+
             this._productDefService.createProductDescription(ProductDefItem).subscribe(
                 (response) => {
                     
                     debugger;
 
                 if (response.isSuccessful) {
-                    this.showSweetAlert('success');
+                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                     this.showSweetAlert('error');
+                     this.showSweetAlert('error', 'sweetalert.transactionFailed');
                 }
             },
             (err) => {
@@ -200,12 +208,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 debugger;
 
                 if (response.isSuccessful) {
-                    this.showSweetAlert('success');
+                    this.showSweetAlert('success','sweetalert.transactionSuccessful');
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                    this.showSweetAlert('error');
+                    this.showSweetAlert('error', 'sweetalert.transactionFailed');
                 }
             },
             (err) => {
@@ -219,18 +227,18 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         return this.productdescription.get(formName).value;
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(text),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
@@ -241,4 +249,39 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         return this._translocoService.translate(key);
     }
 
+    validateControl(model :any): boolean {
+
+        if(model.buyingPrice <= 0){
+            this.showSweetAlert('error', 'Alış Fiyatı 0(Sıfırdan) Büyük olmalıdır.');
+            return true;
+        }
+        if(model.sellingPrice <= 0){
+            this.showSweetAlert('error', 'Satış Fiyatı 0(Sıfırdan) Büyük olmalıdır.');
+            return true;
+        }
+        if(model.ratio <= 0){
+            this.showSweetAlert('error', 'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.');
+            return true;
+        }
+
+        return false;
+    } 
+
+
+    formatPrice(event: any) {
+        const value = event.target.value;
+        const parsedValue = parseFloat(value.replace(',', '.'));
+        if (isNaN(parsedValue)) {
+          this.isInvalidPrice = true;
+        } else {
+          this.isInvalidPrice = false;
+          const formattedValue = parsedValue.toFixed(2);
+          console.log(formattedValue); // Formatlanmış değeri kullanabilirsiniz
+        }
+      }
+
+    
+
 }
+
+

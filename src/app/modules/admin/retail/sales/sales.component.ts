@@ -20,7 +20,7 @@ export class SalesComponent implements OnInit {
         'date',
         'invoiceNo',
         'customerName',
-        'payment',
+        'paymentName',
         'netPrice',
         'kdv',
         'discount',
