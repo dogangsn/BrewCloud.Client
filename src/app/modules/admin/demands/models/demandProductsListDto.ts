@@ -5,7 +5,7 @@ export class demandProductsListDto {
     unitprice:number;
     amount:number;
     stockState:number;
-    isactive:number;
+    isActive:number;
     reserved:number;
     barcode:string;
 

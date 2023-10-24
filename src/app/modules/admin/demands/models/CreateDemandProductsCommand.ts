@@ -5,7 +5,7 @@ export class CreateDemandProductsCommand {
     unitprice:number;
     amount:number;
     stockState:number;
-    isactive:number;
+    isActive:number;
     reserved:number;
     barcode:string;
 
@@ -16,7 +16,7 @@ export class CreateDemandProductsCommand {
         unitprice:number,
         amount:number,
         stockState:number,
-        isactive:number,
+        isActive:number,
         reserved:number,
         barcode:string,
         ) {
@@ -26,7 +26,7 @@ export class CreateDemandProductsCommand {
         this.unitprice = unitprice;
         this.amount = amount;
         this.stockState = stockState;
-        this.isactive = isactive;
+        this.isActive = isActive;
         this.reserved = reserved;
         this.barcode = barcode;
 

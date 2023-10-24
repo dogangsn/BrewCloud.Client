@@ -15,6 +15,25 @@ import { Demand2Component } from './demand2/demand2.component';
 import { Demand3Component } from './demand3/demand3.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateDemandProductsCommand } from './models/CreateDemandProductsCommand';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+// import { MatSortModule } from '@angular/material/sort';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from 'app/shared/shared.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatRadioModule} from '@angular/material/radio';
+import { MatSortModule } from '@angular/material/sort';
+
+
+
+
+
+
 const routes: Routes = [
   {
     path: '',
@@ -41,6 +60,54 @@ const routes: Routes = [
     MatTableModule,
     MatTabsModule,
     CommonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    // MatSortModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    SharedModule,
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatDatepickerModule, 
+    MatNativeDateModule,
+    MatRadioModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FuseCardModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    MatSortModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    SharedModule,
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatDatepickerModule, 
+    MatNativeDateModule,
+    MatRadioModule,
     RouterModule.forChild(routes)
   ]
 })

@@ -15,6 +15,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+
 @Component({
     selector: 'app-demand1',
     template: './demand1/demand1.component.html',
@@ -82,6 +83,7 @@ export class Demand1Component {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: UntypedFormBuilder,
+        private cdr: ChangeDetectorRef
 
         ) { }
 
@@ -96,7 +98,7 @@ export class Demand1Component {
             reserved         : [0],
             unitPrice        : [0],
             amount           : [0],
-            isactive         : [0],
+            isActive         : [0],
             quantity         : [0],
             //cost             : [''],
             //brand            : [''],
@@ -132,6 +134,7 @@ export class Demand1Component {
             if (response && response.data) {
                 debugger;
                 this.productsList = response.data;
+                this.cdr.markForCheck();                
                 console.log(this.productsList);
                 // Diğer işlemleri burada gerçekleştirin.
             }
@@ -239,6 +242,7 @@ export class Demand1Component {
    */
   toggleDetails(productId: string): void
   {
+    debugger;
       // If the product is already selected...
       if ( this.selectedProduct && this.selectedProduct.id === productId )
       {
@@ -251,10 +255,10 @@ export class Demand1Component {
       var product = this.productsList.find(x=>x.id === productId);
     //   this.demandProductsService.getProductById(productId)
     //       .subscribe((product) => {
-    //         debugger;
+             debugger;
     //           // Set the selected product
                this.selectedProduct = product;
-
+                this.getSuppliers();
     //           // Fill the form
                this.selectedProductForm.patchValue(product);
 
@@ -274,27 +278,27 @@ export class Demand1Component {
   /**
    * Cycle through images of selected product
    */
-  cycleImages(forward: boolean = true): void
-  {
-      // Get the image count and current image index
-      const count = this.selectedProductForm.get('images').value.length;
-      const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
+//   cycleImages(forward: boolean = true): void
+//   {
+//       // Get the image count and current image index
+//       const count = this.selectedProductForm.get('images').value.length;
+//       const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
 
-      // Calculate the next and previous index
-      const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
-      const prevIndex = currentIndex - 1 < 0 ? count - 1 : currentIndex - 1;
+//       // Calculate the next and previous index
+//       const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
+//       const prevIndex = currentIndex - 1 < 0 ? count - 1 : currentIndex - 1;
 
-      // If cycling forward...
-      if ( forward )
-      {
-          this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
-      }
-      // If cycling backwards...
-      else
-      {
-          this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
-      }
-  }
+//       // If cycling forward...
+//       if ( forward )
+//       {
+//           this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
+//       }
+//       // If cycling backwards...
+//       else
+//       {
+//           this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
+//       }
+//   }
 
   /**
    * Toggle the tags edit mode
@@ -500,7 +504,7 @@ export class Demand1Component {
     //   });
    
     const demandProductItem = new CreateDemandProductsCommand( 
-        '7f35b87d-4806-41dc-a77c-20987a89f99c',
+        '00000000-0000-0000-0000-000000000000',
         'A New Product',
         0,
         0,
@@ -516,13 +520,14 @@ export class Demand1Component {
             (response) => {
                 
                 debugger;
-
             if (response.isSuccessful) {
                 debugger;
                 //this.showSweetAlert('success');
                 this.selectedProduct = demandProductItem;
-                this.selectedProductForm.patchValue(demandProductItem);
-               this._changeDetectorRef.markForCheck();
+                //this.selectedProductForm.patchValue(demandProductItem);
+                this.getSuppliers();
+                //this._changeDetectorRef.markForCheck();
+                this.cdr.markForCheck();                
                 // this._dialogRef.close({
                 //     status: true,
                     
