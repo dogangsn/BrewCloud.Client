@@ -203,6 +203,37 @@
                                                         </ng-container>
                                                     </div>
                                                 </div>
+                                                <div class="h-full">
+                                                    <ng-container *ngIf="!isLastStep()" class="mt-2 h-full">
+                                                        <div class="bottom-0">
+                                                            <button mat-button matStepperPrevious (click)="patientBack()"
+                                                                *ngIf="!isFirstStep()" class="mr-3">
+                                                                Back
+                                                            </button>
+                                                            <button mat-button matStepperNext (click)="patientNext()"
+                                                                class="bg-primary text-white"
+                                                                [disabled]="this.selectedPatientDetailsForm.get('name').invalid || this.selectedPatientDetailsForm.get('birthDate').invalid 
+                                                                || this.selectedPatientDetailsForm.get('sex').invalid"
+                                                                >
+                                                                Next
+                                                            </button>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="isLastStep()" class="mt-2 h-full">
+                                                        <div class="bottom-0">
+                                                            <button mat-button matStepperPrevious (click)="patientBack()" class="mr-3">
+                                                                Back
+                                                            </button>
+                                                            <button mat-button (click)="addOrUpdatePatients()"
+                                                                [disabled]="this.selectedPatientDetailsForm.get('name').invalid || this.selectedPatientDetailsForm.get('birthDate').invalid 
+                                                                || this.selectedPatientDetailsForm.get('sex').invalid"
+                                                                class="bg-primary text-white">
+                                                                Bitir
+                                                            </button>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -215,27 +246,8 @@
                                             Next
                                         </button>
                                     </div> -->
-                                    <ng-container *ngIf="!isLastStep()" class="mt-2">
-                                        <div>
-                                            <button mat-button matStepperPrevious (click)="patientBack()" *ngIf="!isFirstStep()" class="mr-3">
-                                                Back
-                                            </button>
-                                            <button mat-button matStepperNext (click)="patientNext()" class="bg-primary text-white">
-                                                Next
-                                            </button>
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="isLastStep()" class="mt-2">
-                                        <div >
-                                            <button mat-button matStepperPrevious (click)="patientBack()" class="mr-3">
-                                                Back
-                                            </button>
-                                            <button  mat-button (click)="addOrUpdatePatients()" class="bg-primary text-white">
-                                                Bitir
-                                            </button>
-                                        </div>
-                                    </ng-container>
                                     
+
                                 </form>
                             </div>
                         </div>

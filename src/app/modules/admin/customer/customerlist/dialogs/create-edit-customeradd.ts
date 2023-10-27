@@ -176,8 +176,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         const dialog = this._dialog
             .open(CreateEditPatientsDialogComponent, {
                 // maxWidth: '400vw !important',
-                height: '80%',
-            width: '60%',
+                // minHeight: '2000px !important',
                 disableClose: true,
                 data: {count:this.patientCount},
             })
