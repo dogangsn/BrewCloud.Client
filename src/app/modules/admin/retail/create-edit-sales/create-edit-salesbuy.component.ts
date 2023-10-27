@@ -120,7 +120,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
     }
 
     addOrUpdateSaleBuy(): void {
-        this.visibleCustomer ? this.updateBuySale() : this.addBuySale();
+        this.selectedsalebuy ? this.updateBuySale() : this.addBuySale();
     }
 
     addBuySale(): void {

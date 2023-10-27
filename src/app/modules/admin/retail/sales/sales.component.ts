@@ -67,13 +67,12 @@ export class SalesComponent implements OnInit {
             .open(CreateEditSalesBuyComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                
                 data: model,
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
     }
@@ -95,7 +94,7 @@ export class SalesComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
 
