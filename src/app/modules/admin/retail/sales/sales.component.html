@@ -22,7 +22,7 @@
                   Satışlar
               </h2>
           </div>
-          <div class="font-medium tracking-tight text-secondary">Parakende Satış Hareketleri</div>
+          <div class="font-medium tracking-tight text-secondary">Parakende Satış Hareketleri (Bugün yapılan işlemler)</div>
       </div>
       <!-- Actions -->
       <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
@@ -52,7 +52,7 @@
 
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef> Tarih </th>
-                <td mat-cell *matCellDef="let element"> {{element.date | date: 'dd.MM.yyyy HH:mm'}} </td>
+                <td mat-cell *matCellDef="let element"> {{ formatDate(element.date) }} </td>
             </ng-container>
 
             <ng-container matColumnDef="invoiceNo">

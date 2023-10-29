@@ -16,6 +16,10 @@ export class SaleBuyService {
         return this._httpService.post(endPoints.saleBuy.saleBuyList, model);
     }
 
+    getBuySaleFilterList(model: any) : Observable<any>{
+        return this._httpService.post(endPoints.saleBuy.saleBuyFilter, model);
+    }
+
     createSaleBuy(model:  CreateSaleBuyCommand): Observable<any> {
         return this._httpService.post(endPoints.saleBuy.createSaleBuy, model);
     }

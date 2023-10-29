@@ -39,7 +39,7 @@
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Kategori</mat-label>
-                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Müşteri Grubu'" 
+                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Ürün Kategori'" 
                                 name="productcategori">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let productcategori of productcategories"
@@ -58,7 +58,7 @@
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tedarikçi</mat-label>
-                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Müşteri Grubu'" 
+                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Tedarikçi'" 
                                 name="supplierscard">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let supplierscard of supplierscards"

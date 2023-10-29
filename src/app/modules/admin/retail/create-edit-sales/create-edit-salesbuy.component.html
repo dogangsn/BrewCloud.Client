@@ -101,6 +101,16 @@
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Miktar</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                [formControlName]="'amount'">
+                        </mat-form-field>
+                    </div>
+          
+                    <div class="float : left flex  gt-xs:flex-row">
                     <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                         <mat-label>Açıklama</mat-label>
                         <textarea matInput [formControlName]="'remark'" placeholder="Lütfen Notunuzu Yazınız..."></textarea>

@@ -8,6 +8,8 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 
 @Component({
     selector: 'app-cashtransactions',
@@ -28,6 +30,8 @@ export class CashtransactionsComponent implements OnInit {
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
+    formGroup: FormGroup;
+
     salebuyLists: SaleBuyListDto[] = [];
     dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyLists);
     isUpdateButtonActive: boolean;
@@ -36,12 +40,27 @@ export class CashtransactionsComponent implements OnInit {
 
     constructor(
         private _paymentmethodsService: PaymentMethodservice,
-        private _translocoService: TranslocoService
+        private _translocoService: TranslocoService,
+        private _formBuilder: FormBuilder,
+        private _salebuyservice: SaleBuyService,
     ) {}
 
     ngOnInit() {
         this.paymentsList();
+
+        this.formGroup = this._formBuilder.group({
+            begindate: new FormControl(this.calculateEndDate()), // Bugünün tarihi
+            endDate: new FormControl(new Date()), // Yedi gün önceki tarih
+            paymenttype : ['all'],
+          });
     }
+
+    calculateEndDate(): Date {
+        const today = new Date();
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        return sevenDaysAgo;
+      }
 
     paymentsList() {
         this._paymentmethodsService
@@ -126,4 +145,27 @@ export class CashtransactionsComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    getRecordFilter() {
+       
+        var paymentypeId = this.getFormValueByName("paymenttype");
+        debugger;
+
+        const model = {
+            paymentType : (paymentypeId == 'all' ? 0 : paymentypeId),
+            beginDate: this.getFormValueByName("begindate"),
+            endDate: this.getFormValueByName("endDate")
+        }
+        this._salebuyservice.getBuySaleFilterList(model).subscribe((response) => {
+            this.salebuyLists = response.data;
+            console.log(this.salebuyLists);
+        });
+
+    }
+
+    getFormValueByName(formName: string): any {
+        return this.formGroup.get(formName).value;
+    }
+
+
 }
