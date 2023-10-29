@@ -1,7 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ProductDescriptionsDto } from '../models/ProductDescriptionsDto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
@@ -32,31 +37,27 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     productcategories: ProductCategoriesListDto[] = [];
     supplierscards: suppliersListDto[] = [];
     selectedValue: string;
-    producttype:number;
+    producttype: number;
     visibleProductType: boolean;
     mapproducttype: { name: string; id: number }[] = [];
-    isInvalidPrice : boolean;
-  
-    
+    isInvalidPrice: boolean;
+
     constructor(
-        private _dialogRef: MatDialogRef<any>,  
+        private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
-        private _productDefService : ProductDescriptionService,
+        private _productDefService: ProductDescriptionService,
         private _unitsservice: UnitsService,
         private _productcategoryservice: ProductCategoryService,
         private _suppliersService: SuppliersService,
         @Inject(MAT_DIALOG_DATA) public data: any
-        ) 
-        {
-            this.producttype = data.producttype;
-            this.visibleProductType = data.visibleProductType;
-            this.selectedProductdescription = data.selectedProductdescription;
-        }
+    ) {
+        this.producttype = data.producttype;
+        this.visibleProductType = data.visibleProductType;
+        this.selectedProductdescription = data.selectedProductdescription;
+    }
 
-        
     ngOnInit(): void {
-
         for (var n in ProductType) {
             if (typeof ProductType[n] === 'number') {
                 this.mapproducttype.push({ id: <any>ProductType[n], name: n });
@@ -67,26 +68,26 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         this.ProductCategoryList();
 
         this.productdescription = this._formBuilder.group({
-            name: ['' , [Validators.required]],
-            unitId : ['', [Validators.required]],
-            categoryId : ['00000000-0000-0000-0000-000000000000'],
-            productTypeId : { value: this.producttype, disabled: true },
+            name: ['', [Validators.required]],
+            unitId: ['', [Validators.required]],
+            categoryId: ['00000000-0000-0000-0000-000000000000'],
+            productTypeId: { value: this.producttype, disabled: true },
             supplierId: ['00000000-0000-0000-0000-000000000000'],
-            productBarcode : [''],
-            productCode : [''],
-            ratio : [0, [Validators.required]],
-            buyingPrice : [0,[Validators.required, CustomNumericValidator()]],
-            sellingPrice : [0, [Validators.required]],
-            criticalAmount : [0],
+            productBarcode: [''],
+            productCode: [''],
+            ratio: [0, [Validators.required]],
+            buyingPrice: [0, [Validators.required, CustomNumericValidator()]],
+            sellingPrice: [0, [Validators.required]],
+            criticalAmount: [0],
             active: [true],
-            sellingIncludeKDV : [false],
-            buyingIncludeKDV : [false],
-            fixPrice : [false],
-            isExpirationDate :[false],
+            sellingIncludeKDV: [false],
+            buyingIncludeKDV: [false],
+            fixPrice: [false],
+            isExpirationDate: [false],
             animalType: [],
-            numberRepetitions : []
+            numberRepetitions: [],
         });
-
+        this.fillFormData(this.selectedProductdescription);
     }
 
     UnitsList() {
@@ -117,6 +118,23 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         if (this.selectedProductdescription !== null) {
             this.productdescription.setValue({
                 name: selectedproductdesf.name,
+                unitId: selectedproductdesf.unitId,
+                categoryId: selectedproductdesf.categoryId,
+                productTypeId: selectedproductdesf.productTypeId,
+                supplierId: selectedproductdesf.supplierId,
+                productBarcode: selectedproductdesf.productBarcode,
+                productCode: selectedproductdesf.productCode,
+                ratio: selectedproductdesf.ratio,
+                buyingPrice: selectedproductdesf.buyingPrice,
+                sellingPrice: selectedproductdesf.sellingPrice,
+                criticalAmount: selectedproductdesf.criticalAmount,
+                active: selectedproductdesf.active,
+                sellingIncludeKDV: selectedproductdesf.sellingIncludeKDV,
+                buyingIncludeKDV: selectedproductdesf.buyingIncludeKDV,
+                fixPrice: selectedproductdesf.fixPrice,
+                isExpirationDate: selectedproductdesf.isExpirationDate,
+                animalType: selectedproductdesf.animalType,
+                numberRepetitions: selectedproductdesf.numberRepetitions
             });
         }
     }
@@ -132,10 +150,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     addProductDef(): void {
-
-
-
-        const ProductDefItem = new CreateProductDescriptionsCommand( 
+        const ProductDefItem = new CreateProductDescriptionsCommand(
             this.getFormValueByName('name'),
             this.getFormValueByName('unitId'),
             this.getFormValueByName('categoryId'),
@@ -153,36 +168,41 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('fixPrice'),
             this.getFormValueByName('isExpirationDate'),
             this.getFormValueByName('animalType'),
-            this.getFormValueByName('numberRepetitions'),
-            );
-
-            if(this.validateControl(ProductDefItem)){
-                return;
-            }
-
-            this._productDefService.createProductDescription(ProductDefItem).subscribe(
-                (response) => {
-                    
-                    debugger;
-
-                if (response.isSuccessful) {
-                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
-                    this._dialogRef.close({
-                        status: true,
-                    });
-                } else {
-                     this.showSweetAlert('error', 'sweetalert.transactionFailed');
-                }
-            },
-            (err) => {
-                console.log(err);
-            }
+            this.getFormValueByName('numberRepetitions')
         );
 
+        if (this.validateControl(ProductDefItem)) {
+            return;
+        }
+
+        this._productDefService
+            .createProductDescription(ProductDefItem)
+            .subscribe(
+                (response) => {
+                    debugger;
+
+                    if (response.isSuccessful) {
+                        this.showSweetAlert(
+                            'success',
+                            'sweetalert.transactionSuccessful'
+                        );
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                    } else {
+                        this.showSweetAlert(
+                            'error',
+                            'sweetalert.transactionFailed'
+                        );
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
     }
 
-    updateProductDef(){
-
+    updateProductDef() {
         const storeItem = new UpdateProductDescriptionsCommand(
             this.selectedProductdescription.id,
             this.getFormValueByName('name'),
@@ -200,7 +220,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('sellingIncludeKDV'),
             this.getFormValueByName('buyingIncludeKDV'),
             this.getFormValueByName('fixPrice'),
-            this.getFormValueByName('isExpirationDate'),
+            this.getFormValueByName('isExpirationDate')
         );
 
         this._productDefService.updateProductDescription(storeItem).subscribe(
@@ -208,19 +228,24 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 debugger;
 
                 if (response.isSuccessful) {
-                    this.showSweetAlert('success','sweetalert.transactionSuccessful');
+                    this.showSweetAlert(
+                        'success',
+                        'sweetalert.transactionSuccessful'
+                    );
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                    this.showSweetAlert('error', 'sweetalert.transactionFailed');
+                    this.showSweetAlert(
+                        'error',
+                        'sweetalert.transactionFailed'
+                    );
                 }
             },
             (err) => {
                 console.log(err);
             }
         );
-
     }
 
     getFormValueByName(formName: string): any {
@@ -249,39 +274,41 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         return this._translocoService.translate(key);
     }
 
-    validateControl(model :any): boolean {
-
-        if(model.buyingPrice <= 0){
-            this.showSweetAlert('error', 'Alış Fiyatı 0(Sıfırdan) Büyük olmalıdır.');
+    validateControl(model: any): boolean {
+        if (model.buyingPrice <= 0) {
+            this.showSweetAlert(
+                'error',
+                'Alış Fiyatı 0(Sıfırdan) Büyük olmalıdır.'
+            );
             return true;
         }
-        if(model.sellingPrice <= 0){
-            this.showSweetAlert('error', 'Satış Fiyatı 0(Sıfırdan) Büyük olmalıdır.');
+        if (model.sellingPrice <= 0) {
+            this.showSweetAlert(
+                'error',
+                'Satış Fiyatı 0(Sıfırdan) Büyük olmalıdır.'
+            );
             return true;
         }
-        if(model.ratio <= 0){
-            this.showSweetAlert('error', 'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.');
+        if (model.ratio <= 0) {
+            this.showSweetAlert(
+                'error',
+                'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.'
+            );
             return true;
         }
 
         return false;
-    } 
-
+    }
 
     formatPrice(event: any) {
         const value = event.target.value;
         const parsedValue = parseFloat(value.replace(',', '.'));
         if (isNaN(parsedValue)) {
-          this.isInvalidPrice = true;
+            this.isInvalidPrice = true;
         } else {
-          this.isInvalidPrice = false;
-          const formattedValue = parsedValue.toFixed(2);
-          console.log(formattedValue); // Formatlanmış değeri kullanabilirsiniz
+            this.isInvalidPrice = false;
+            const formattedValue = parsedValue.toFixed(2);
+            console.log(formattedValue); // Formatlanmış değeri kullanabilirsiniz
         }
-      }
-
-    
-
+    }
 }
-
-
