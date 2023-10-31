@@ -10,6 +10,8 @@ import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 import { demandProductsListDto } from "app/modules/admin/demands/models/demandProductsListDto";
 import { CreateDemandProductsCommand } from "app/modules/admin/demands/models/CreateDemandProductsCommand";
+import { DeleteDemandProductsCommand } from "app/modules/admin/demands/models/DeleteDemandProductsCommand";
+import { UpdateDemandProductsCommand } from "app/modules/admin/demands/models/UpdateDemandProductsCommand";
 @Injectable({
     providedIn: 'root'
 })
@@ -29,15 +31,14 @@ export class DemandProductsService {
     }
 
     createDemandProduct(model: CreateDemandProductsCommand): Observable<any> {
-        debugger;
         return this._httpService.post(endPoints.demandproducts.Createdemandproducts, model);
     }
-    // deleteCasingDefinition(id?: DeleteCasingDefinitionCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.casedefinition.Deletecasedefinition, id);
-    // }
-    // updateCasingDefinition(model: UpdateCasingDefinitionCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.casedefinition.Updatecasedefinition, model);
-    // }
+    deleteDemandProduct(model: DeleteDemandProductsCommand): Observable<any> {
+        return this._httpService.post(endPoints.demandproducts.Deletedemandproducts, model);
+    }
+    updateDemandProduct(model: UpdateDemandProductsCommand): Observable<any> {
+        return this._httpService.post(endPoints.demandproducts.Updatedemandproducts, model);
+    }
     
     getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: InventoryPagination; products: demandProductsListDto[] }>

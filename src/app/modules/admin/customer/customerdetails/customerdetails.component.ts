@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'customerdetails',
+    // styleUrls: ['./customerdetails.css'],
     templateUrl: './customerdetails.component.html',
 })
 export class CustomerDetailsComponent implements OnInit {

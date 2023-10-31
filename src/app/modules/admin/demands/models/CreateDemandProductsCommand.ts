@@ -1,6 +1,6 @@
 export class CreateDemandProductsCommand {
-    id: string;
-    remark:string;
+   // id: string;
+    productId:string;
     quantity:number;
     unitprice:number;
     amount:number;
@@ -10,8 +10,8 @@ export class CreateDemandProductsCommand {
     barcode:string;
 
     constructor(
-        id: string ,
-        remark:string,
+       // id: string ,
+        productId:string,
         quantity:number,
         unitprice:number,
         amount:number,
@@ -20,8 +20,8 @@ export class CreateDemandProductsCommand {
         reserved:number,
         barcode:string,
         ) {
-        this.id = id;
-        this.remark = remark;
+        //this.id = id;
+        this.productId = productId;
         this.quantity = quantity;
         this.unitprice = unitprice;
         this.amount = amount;
