@@ -1,6 +1,6 @@
 export class demandProductsListDto {
     id: string;
-    remark:string;
+    productId:string;
     quantity:number;
     unitprice:number;
     amount:number;
@@ -8,6 +8,7 @@ export class demandProductsListDto {
     isActive:number;
     reserved:number;
     barcode:string;
+    selected: boolean;
 
     // category?: string | null;
     // name?: string | null;

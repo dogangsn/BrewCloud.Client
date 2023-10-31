@@ -7,4 +7,9 @@ export class ProductDescriptionsDto{
     sellingPrice: number;
     active: boolean;
     productTypeId: number;
+    sellingIncludeKDV: boolean;
+    buyingIncludeKDV: boolean;
+    fixPrice: boolean;
+    isExpirationDate: boolean;
+    ratio: number;
 }
