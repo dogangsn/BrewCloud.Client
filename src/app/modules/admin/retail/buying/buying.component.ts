@@ -70,7 +70,7 @@ export class BuyingComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
     }
@@ -92,7 +92,7 @@ export class BuyingComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
     }
@@ -171,4 +171,14 @@ export class BuyingComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
+
 }

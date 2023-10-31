@@ -96,7 +96,7 @@ export const endPoints = {
     demandproducts : {
         demandproductsList : 'vet/Demands/DemandProductsList',
         Createdemandproducts : 'vet/Demands/CreateDemandProducts',
-        Updatedemandproducts : 'vet/Demands/UpdateCreateDemandProducts',
-        Deletedemandproducts : 'vet/Demands/DeleteCreateDemandProducts'
+        Updatedemandproducts : 'vet/Demands/UpdateDemandProducts',
+        Deletedemandproducts : 'vet/Demands/DeleteDemandProducts'
     }
 }
