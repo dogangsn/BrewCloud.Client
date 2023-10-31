@@ -4,4 +4,5 @@ export const environment = {
     appName: 'vetsystems',
     env: 'dev',
     IsApiConnect : true
+
 };
