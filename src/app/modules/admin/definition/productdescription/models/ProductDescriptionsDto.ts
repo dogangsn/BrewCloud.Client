@@ -7,9 +7,15 @@ export class ProductDescriptionsDto{
     sellingPrice: number;
     active: boolean;
     productTypeId: number;
+    unitId: string;
+    categoryId: string;
+    supplierId: string;
+    ratio: number;
+    criticalAmount: number;
     sellingIncludeKDV: boolean;
     buyingIncludeKDV: boolean;
     fixPrice: boolean;
     isExpirationDate: boolean;
-    ratio: number;
+    animalType:number;
+    numberRepetitions: number;
 }

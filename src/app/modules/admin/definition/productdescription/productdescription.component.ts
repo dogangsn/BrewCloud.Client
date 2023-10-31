@@ -88,14 +88,20 @@ export class ProductdescriptionComponent implements OnInit {
         this.isUpdateButtonActive = true;
         this.visibleProductType = false;
         this.producttype = 1;
+
         const selectedProduct = this.productdescription.find((product) => product.id === id);
+        const model = {
+            selectedProductdescription : selectedProduct,
+            producttype : 1,
+            visibleProductType : false
+        };
         if (selectedProduct) {
             const dialogRef = this._dialog.open(
                 CreateEditProductDescriptionDialogComponent,
                 {
                     maxWidth: '100vw !important',
                     disableClose: true,
-                    data: selectedProduct,
+                    data: model,
                 }
             );
 

@@ -70,7 +70,8 @@ export class CreateEditSalesBuyComponent implements OnInit {
             remark: [''],
             supplierId: ['00000000-0000-0000-0000-000000000000'],
             invoiceNo: [''],
-            paymentType: [1]
+            paymentType: [1],
+            amount:[1]
         });
     }
 
@@ -120,11 +121,17 @@ export class CreateEditSalesBuyComponent implements OnInit {
     }
 
     addOrUpdateSaleBuy(): void {
-        this.visibleCustomer ? this.updateBuySale() : this.addBuySale();
+        this.selectedsalebuy ? this.updateBuySale() : this.addBuySale();
     }
 
     addBuySale(): void {
         if (this.salebuy.valid) {
+
+            const _amount = this.getFormValueByName('amount');
+            if(_amount == 0){
+                this.showSweetAlert('error', 'Miktar Bilgisi 0(sıfır) büyük olmalıdır.');
+            }
+
             const saleBuyItem = new CreateSaleBuyCommand(
                 this.getFormValueByName('customerId'),
                 this.getFormValueByName('date'),
@@ -134,6 +141,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 this.getFormValueByName('supplierId'),
                 this.getFormValueByName('invoiceNo'),
                 this.getFormValueByName('paymentType'),
+                this.getFormValueByName('amount')
             );
 
             this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(

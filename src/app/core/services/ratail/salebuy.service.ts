@@ -16,13 +16,17 @@ export class SaleBuyService {
         return this._httpService.post(endPoints.saleBuy.saleBuyList, model);
     }
 
+    getBuySaleFilterList(model: any) : Observable<any>{
+        return this._httpService.post(endPoints.saleBuy.saleBuyFilter, model);
+    }
+
     createSaleBuy(model:  CreateSaleBuyCommand): Observable<any> {
         return this._httpService.post(endPoints.saleBuy.createSaleBuy, model);
     }
 
-    // deletedStores(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.store.deleteStore, model);
-    // }
+    deletedSaleBuy(model: any): Observable<any> {
+        return this._httpService.post(endPoints.saleBuy.deleteSaleBuy, model);
+    }
 
     // updateStores(model: any): Observable<any> {
     //     return this._httpService.post(endPoints.store.updateStore, model);

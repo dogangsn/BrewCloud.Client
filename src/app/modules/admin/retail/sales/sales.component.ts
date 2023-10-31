@@ -20,7 +20,7 @@ export class SalesComponent implements OnInit {
         'date',
         'invoiceNo',
         'customerName',
-        'payment',
+        'paymentName',
         'netPrice',
         'kdv',
         'discount',
@@ -36,17 +36,16 @@ export class SalesComponent implements OnInit {
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
-        private _salebuyservice: SaleBuyService,
+        private _salebuyservice: SaleBuyService
     ) {}
 
     ngOnInit() {
         this.getSaleBuy();
     }
 
-    getSaleBuy() : void {
-
+    getSaleBuy(): void {
         const model = {
-            type : 1
+            type: 1,
         };
         this._salebuyservice.getBuySaleList(model).subscribe((response) => {
             this.salebuyList = response.data;
@@ -56,35 +55,33 @@ export class SalesComponent implements OnInit {
 
     createsales(): void {
         const model = {
-            selectedsalebuy : null,
-            visibleCustomer : false,
-            salebuyType : 1, //satis
-            isSupplier : false
-        }
-
+            selectedsalebuy: null,
+            visibleCustomer: false,
+            salebuyType: 1, //satis
+            isSupplier: false,
+        };
 
         const dialog = this._dialog
             .open(CreateEditSalesBuyComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                
                 data: model,
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
     }
 
     createCustomerSales(): void {
         const model = {
-            selectedsalebuy : null,
-            visibleCustomer : true,
-            salebuyType : 1, //satis
-            isSupplier : false
-        }
+            selectedsalebuy: null,
+            visibleCustomer: true,
+            salebuyType: 1, //satis
+            isSupplier: false,
+        };
 
         const dialog = this._dialog
             .open(CreateEditSalesBuyComponent, {
@@ -95,10 +92,9 @@ export class SalesComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    //this.getStoreList();
+                    this.getSaleBuy();
                 }
             });
-
     }
 
     public redirectToUpdate = (id: string) => {
@@ -134,21 +130,21 @@ export class SalesComponent implements OnInit {
                     const model = {
                         id: id,
                     };
-                    // this._storeservice
-                    //     .deletedStores(model)
-                    //     .subscribe((response) => {
-                    //         if (response.isSuccessful) {
-                    //             this.getStoreList();
-                    //             const sweetAlertDto2 = new SweetAlertDto(
-                    //                 this.translate('sweetalert.success'),
-                    //                 this.translate('sweetalert.transactionSuccessful'),
-                    //                 SweetalertType.success
-                    //             );
-                    //             GeneralService.sweetAlert(sweetAlertDto2);
-                    //         } else {
-                    //             console.error('Silme işlemi başarısız.');
-                    //         }
-                    //     });
+                    this._salebuyservice
+                        .deletedSaleBuy(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getSaleBuy();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate('sweetalert.transactionSuccessful'),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
                 }
             }
         );
@@ -175,4 +171,18 @@ export class SalesComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
+
+    public redirectToPrint = (id: string) => {
+        
+    }
+
 }

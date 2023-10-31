@@ -93,7 +93,6 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     }
 
     getSidebarNavigations(): void {
-        debugger;
         this.navigation = JSON.parse(localStorage.getItem('navigation'));
     }
     /**

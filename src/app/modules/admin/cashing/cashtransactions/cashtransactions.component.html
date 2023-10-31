@@ -39,11 +39,12 @@
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
         <!-- CONTENT GOES HERE -->
 
-            <div class="float : left flex  gt-xs:flex-row">
+            <div class="float : left flex  gt-xs:flex-row" [formGroup]="formGroup">
+
                 <mat-form-field class="ml-12 flex-auto gt-xs:pl-3">
                     <mat-label>Ödeme Türü</mat-label>
-                    <mat-select [value]="'all'">
-                        <mat-option [value]="'all'">All</mat-option>
+                    <mat-select [value]="'all'" [formControlName]="'paymenttype'"> 
+                        <mat-option [value]="'all'">Hepsi</mat-option>
                         <ng-container *ngFor="let category of payments;">
                             <mat-option [value]="category.recId">{{category.name}}</mat-option>
                         </ng-container>
@@ -51,19 +52,19 @@
                 </mat-form-field>
                 <mat-form-field class="ml-12 flex-auto gt-xs:pl-3">
                     <mat-label>Başlangıç Tarihi</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControlName]="'birthDate'">
+                    <input matInput [matDatepicker]="picker" [formControlName]="'begindate'">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="ml-12 flex-auto gt-xs:pl-3">
                     <mat-label>Bitiş Tarihi</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControlName]="'birthDate'">
+                    <input matInput [matDatepicker]="picker" [formControlName]="'endDate'">
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <div class="ml-12 flex-auto gt-xs:pl-3">
                     <mat-label></mat-label>
-                    <button class="ml-3" mat-flat-button [color]="'primary'">
+                    <button class="ml-3" mat-flat-button [color]="'primary'" (click)="getRecordFilter()">
                         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                         Filtrele
                     </button>

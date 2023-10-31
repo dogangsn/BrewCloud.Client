@@ -17,6 +17,8 @@ import { CustomerModule } from './modules/admin/customer/customer.module';
 import {MatStepperModule} from '@angular/material/stepper';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CreateEditPatientsDialogComponent } from './modules/admin/customer/customerlist/patientsdialogs/create-edit-patients';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -41,7 +43,8 @@ const routerConfig: ExtraOptions = {
         CoreModule,
         MatStepperModule,
         // Layout module of your application
-        LayoutModule
+        LayoutModule,
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
 
     ],
     schemas: [

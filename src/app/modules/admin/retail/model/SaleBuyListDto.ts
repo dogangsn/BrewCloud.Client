@@ -4,7 +4,7 @@ export class SaleBuyListDto {
     invoiceNo: string;
     supplierName: string;
     customerName: string;
-    payment: string;
+    paymentName: string;
     type: number;
     total: number;
     discount: number;

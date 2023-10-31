@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Inject,
+    Input,
+    OnInit,
+    Output,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UnitsService } from 'app/core/services/definition/unitdefinition/units.service';
@@ -13,23 +20,22 @@ import { VeriServisi } from '../service/veri-servisi';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 
 export interface DialogData {
     count: string;
-  }
+}
 
 @Component({
     selector: 'app-create-edit-patients-dialog',
     styleUrls: ['./create-edit-patients.css'],
     templateUrl: './create-edit-patients.html',
 })
-
 export class CreateEditPatientsDialogComponent implements OnInit {
     selectedpatients: PatientDetails;
     selectedPatientDetailsForm: FormGroup;
     selectedImage: string | ArrayBuffer | null = null;
-    stepIndex:number;
+    stepIndex: number;
 
     filteredTags: VetAnimalBreedsDefDto[];
 
@@ -37,11 +43,12 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     animalTypesList: VetVetAnimalsTypeListDto[] = [];
     animalBreedsDef: VetAnimalBreedsDefDto[] = [];
     sextype: SexTYpe[];
-    counter:number;
-    patientSteps:any[] = [];
+    counter: number;
+    patientSteps: any[] = [];
     tagsEditMode: boolean = false;
     flashMessage: 'success' | 'error' | null = null;
 
+    inputValid:boolean;
     patients: any[] = [];
 
     @Output() modalKapatildi = new EventEmitter();
@@ -54,31 +61,29 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         private _animalColorDefService: AnimalColorsDefService,
         private _customerService: CustomerService,
         public dialogRef: MatDialogRef<CreateEditPatientsDialogComponent>,
-        public MatStepper:MatStepperModule,
-        @Inject(MAT_DIALOG_DATA) public tabCount: DialogData,
-        
+        public MatStepper: MatStepperModule,
+        @Inject(MAT_DIALOG_DATA) public tabCount: DialogData
     ) {}
 
     ngOnInit(): void {
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
-        debugger
-        this.counter=parseInt(this.tabCount.count);
-        this.counter?0:this.counter=1;
+        debugger;
+        this.counter = parseInt(this.tabCount.count);
+        this.counter ? 0 : (this.counter = 1);
         for (let i = 0; i < this.counter; i++) {
-            this.patientSteps.push({step:"$i"});
+            this.patientSteps.push({ step: '$i' });
         }
-
 
         this.selectedPatientDetailsForm = this._formBuilder.group({
             id: [''],
             name: ['', [Validators.required]],
-            birthDate: [''],
+            birthDate: ['', [Validators.required]],
             chipNumber: [''],
-            sex: [''],
-            animalType: [''],
-            animalBreed: [''],
+            sex: ['', [Validators.required]],
+            animalType: ['', [Validators.required]],
+            animalBreed: ['', [Validators.required]],
             animalColor: [''],
             reportNumber: [''],
             specialNote: [''],
@@ -104,8 +109,8 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         // }
     }
 
-    addOrUpdatePatients(): void {
-        this.selectedpatients=this.selectedPatientDetailsForm.value;
+    addOrUpdatePatients(): void {        
+        this.selectedpatients = this.selectedPatientDetailsForm.value;
         this.patients.push(this.selectedpatients);
         this.addpatients();
     }
@@ -120,19 +125,38 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         this.closeDialog(this.patients);
     }
 
-    patientNext(): void{
+    checkInputValid(): boolean{        
+        if(!this.selectedPatientDetailsForm.get('name').valid || !this.selectedPatientDetailsForm.get('birthDate').valid 
+        || !this.selectedPatientDetailsForm.get('sex').valid ){
+            this.inputValid=false;
+        }
+        else{
+            this.inputValid=true;
+        }
+        return this.inputValid;
+    }
+
+    patientNext(): void {
+        debugger;
+        if (this.selectedPatientDetailsForm.get('name').valid || this.selectedPatientDetailsForm.get('birthDate').valid 
+        || this.selectedPatientDetailsForm.get('sex').valid ) {
+            // "Hasta Adı" is filled, allow the user to proceed
+            this.selectedpatients = this.selectedPatientDetailsForm.value;
+            this.patients.push(this.selectedpatients);
+            this.stepIndex++;
+        } else {
+            //Burada doldurulmayan alanlar icin uyari verilir.
+        }
+    }
+
+    patientBack(): void {
         debugger
-        this.selectedpatients=this.selectedPatientDetailsForm.value;
-        this.patients.push(this.selectedpatients);
-        this.stepIndex++;
+        if (this.counter>1) {
+            this.stepIndex--;            
+        }
     }
 
-    patientBack(): void{
-        this.stepIndex--;
-    }
-
-    updatepatients(): void {
-    }
+    updatepatients(): void {}
 
     getFormValueByName(formName: string): any {
         return this.selectedPatientDetailsForm.get(formName).value;
@@ -143,8 +167,8 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         return this.stepIndex === this.patientSteps.length - 1;
     }
 
-    isFirstStep(): boolean{
-        return this.stepIndex === 0
+    isFirstStep(): boolean {
+        return this.stepIndex === 0;
     }
 
     finish() {
@@ -246,7 +270,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
             this.animalBreedsDef = response.data;
         });
     }
-    
 }
 
 export const sextype = [

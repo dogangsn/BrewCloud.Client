@@ -10,6 +10,11 @@ import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { CommonModule } from '@angular/common';
+import { DemoUtilsModule } from './demo-utils/module';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 const root: Route[] = [
     {
         path     : '',
@@ -25,6 +30,7 @@ const root: Route[] = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        RouterModule.forChild(root),
         FormsModule,
         ReactiveFormsModule,
         FuseCardModule,
@@ -32,7 +38,12 @@ const root: Route[] = [
         FormsModule,
         MatTableModule,
         FullCalendarModule,
-        RouterModule.forChild(root)
+        CommonModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+          }),
+          DemoUtilsModule,
     ],
     declarations: [
         AppointmentComponent
