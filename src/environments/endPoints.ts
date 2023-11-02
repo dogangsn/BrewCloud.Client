@@ -98,5 +98,14 @@ export const endPoints = {
         Createdemandproducts : 'vet/Demands/CreateDemandProducts',
         Updatedemandproducts : 'vet/Demands/UpdateDemandProducts',
         Deletedemandproducts : 'vet/Demands/DeleteDemandProducts'
+    },
+    demands : {
+        demandsList : 'vet/Demands/DemandList',
+        createdemand : 'vet/Demands/CreateDemand',
+        updatedemand : 'vet/Demands/UpdateDemand',
+        deletedemand : 'vet/Demands/DeleteDemand'
+    },
+    demandTrans : {
+        demandsTransList : 'vet/Demands/DemandTransList',
     }
 }

@@ -124,7 +124,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-
         this.patients = [];
         this.getCustomerGroupList();
         this.getAnimalColorsDefList();
@@ -299,11 +298,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     createPatient(): void {
-        let selectedProduct = this.patients.find(
+        debugger;
+        let selectedProductIndex = this.patients.findIndex(
             (product) => product.id === this.selectedPatients?.id
         );
-        if (selectedProduct) {
-            selectedProduct = this.selectedPatientDetailsForm.value;
+        if (selectedProductIndex !== -1) {
+            //selectedProduct = this.selectedPatientDetailsForm.value;
+
+            this.patients[selectedProductIndex] = {
+                ...this.selectedPatientDetailsForm.value,
+            };
             const newId = uuidv4();
             const newPatient: PatientDetails = {
                 id: newId,
@@ -322,7 +326,9 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 active: true,
                 thumbnail: '',
             };
-            this.selectedPatientDetailsForm.reset(newPatient);
+            this.selectedPatientDetailsForm.reset(
+                this.patients[selectedProductIndex]
+            );
         }
         const newId = uuidv4();
         const newPatient: PatientDetails = {
@@ -344,16 +350,18 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.patients.push(newPatient);
         this.selectedPatients = newPatient;
-        // this.selectedPatientDetailsForm.reset(newPatient);
+        this.selectedPatientDetailsForm.reset(newPatient);
         this.tagsEditMode = true;
         //this._changeDetectorRef.markForCheck();
     }
 
-    toggleDetails(productId: string): void {
-        if (this.selectedPatients && this.selectedPatients.id === productId) {
-            this.closeDetails(productId);
-            return;
-        }
+    async toggleDetails(productId: string): Promise<void> {
+        // debugger;
+        // if (this.selectedPatients && this.selectedPatients.id === productId) {
+        //     this.closeDetails(productId);
+        //     return;
+        // }
+        await this.closeDetails();
         const selectedProduct = this.patients.find(
             (product) => product.id === productId
         );
@@ -393,48 +401,100 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
-    closeDetails(productId: string): void {
-        let selectedProduct = this.patients.find(
-            (product) => product.id === productId
-        );
-        if (selectedProduct) {
-            debugger;
-            selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
-            selectedProduct.name = this.selectedPatientDetailsForm.value?.name;
-            selectedProduct.birthDate = this.selectedPatientDetailsForm.value?.birthDate;
-            selectedProduct.chipNumber = this.selectedPatientDetailsForm.value?.chipNumber;
-            selectedProduct.reportNumber = this.selectedPatientDetailsForm.value?.reportNumber;
-            selectedProduct.specialNote = this.selectedPatientDetailsForm.value?.specialNote;
-            selectedProduct.sterilization = this.selectedPatientDetailsForm.value?.sterilization;
-            selectedProduct.sex = this.selectedPatientDetailsForm.value?.sex;
-            selectedProduct.animalType = this.selectedPatientDetailsForm.value?.animalType;
-            selectedProduct.animalBreed = this.selectedPatientDetailsForm.value?.animalBreed;
-            selectedProduct.animalColor = this.selectedPatientDetailsForm.value?.animalColor;
-            selectedProduct.active = this.selectedPatientDetailsForm.value?.active;
-            selectedProduct.thumbnail = this.selectedPatientDetailsForm.value?.thumbnail;
-            selectedProduct.tags = this.selectedPatientDetailsForm.value?.tags;
-            selectedProduct.images = this.selectedPatientDetailsForm.value?.images;
-            const newId = uuidv4();
-            const newPatient: PatientDetails = {
-                id: newId,
-                name: '',
-                birthDate: '',
-                chipNumber: '',
-                reportNumber: '',
-                specialNote: '',
-                sterilization: false,
-                sex: 0,
-                animalType: 2,
-                animalBreed: '',
-                animalColor: '',
-                tags: [],
-                images: [],
-                active: true,
-                thumbnail: '',
-            };
-            this.selectedPatientDetailsForm.reset(newPatient);
+    closeDetails(productId?: string): void {
+        if (productId) {
+            let selectedProduct = this.patients.find(
+                (product) => product.id === productId
+            );
+            if (selectedProduct) {
+                debugger;
+                selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
+                selectedProduct.name =
+                    this.selectedPatientDetailsForm.value?.name;
+                selectedProduct.birthDate =
+                    this.selectedPatientDetailsForm.value?.birthDate;
+                selectedProduct.chipNumber =
+                    this.selectedPatientDetailsForm.value?.chipNumber;
+                selectedProduct.reportNumber =
+                    this.selectedPatientDetailsForm.value?.reportNumber;
+                selectedProduct.specialNote =
+                    this.selectedPatientDetailsForm.value?.specialNote;
+                selectedProduct.sterilization =
+                    this.selectedPatientDetailsForm.value?.sterilization;
+                selectedProduct.sex =
+                    this.selectedPatientDetailsForm.value?.sex;
+                selectedProduct.animalType =
+                    this.selectedPatientDetailsForm.value?.animalType;
+                selectedProduct.animalBreed =
+                    this.selectedPatientDetailsForm.value?.animalBreed;
+                selectedProduct.animalColor =
+                    this.selectedPatientDetailsForm.value?.animalColor;
+                selectedProduct.active =
+                    this.selectedPatientDetailsForm.value?.active;
+                selectedProduct.thumbnail =
+                    this.selectedPatientDetailsForm.value?.thumbnail;
+                selectedProduct.tags =
+                    this.selectedPatientDetailsForm.value?.tags;
+                selectedProduct.images =
+                    this.selectedPatientDetailsForm.value?.images;
+                const newId = uuidv4();
+                const newPatient: PatientDetails = {
+                    id: newId,
+                    name: '',
+                    birthDate: '',
+                    chipNumber: '',
+                    reportNumber: '',
+                    specialNote: '',
+                    sterilization: false,
+                    sex: 0,
+                    animalType: 2,
+                    animalBreed: '',
+                    animalColor: '',
+                    tags: [],
+                    images: [],
+                    active: true,
+                    thumbnail: '',
+                };
+                this.selectedPatientDetailsForm.reset(newPatient);
+            }
+            this.selectedPatients = null;
+        } else {
+            let selectedProductIndex = this.patients.findIndex(
+                (product) => product.id === this.selectedPatients?.id
+            );
+            if (selectedProductIndex !== -1) {
+                this.patients[selectedProductIndex].id =
+                    this.selectedPatientDetailsForm.value?.id;
+                this.patients[selectedProductIndex].name =
+                    this.selectedPatientDetailsForm.value?.name;
+                this.patients[selectedProductIndex].birthDate =
+                    this.selectedPatientDetailsForm.value?.birthDate;
+                this.patients[selectedProductIndex].chipNumber =
+                    this.selectedPatientDetailsForm.value?.chipNumber;
+                this.patients[selectedProductIndex].reportNumber =
+                    this.selectedPatientDetailsForm.value?.reportNumber;
+                this.patients[selectedProductIndex].specialNote =
+                    this.selectedPatientDetailsForm.value?.specialNote;
+                this.patients[selectedProductIndex].sterilization =
+                    this.selectedPatientDetailsForm.value?.sterilization;
+                this.patients[selectedProductIndex].sex =
+                    this.selectedPatientDetailsForm.value?.sex;
+                this.patients[selectedProductIndex].animalType =
+                    this.selectedPatientDetailsForm.value?.animalType;
+                this.patients[selectedProductIndex].animalBreed =
+                    this.selectedPatientDetailsForm.value?.animalBreed;
+                this.patients[selectedProductIndex].animalColor =
+                    this.selectedPatientDetailsForm.value?.animalColor;
+                this.patients[selectedProductIndex].active =
+                    this.selectedPatientDetailsForm.value?.active;
+                this.patients[selectedProductIndex].thumbnail =
+                    this.selectedPatientDetailsForm.value?.thumbnail;
+                this.patients[selectedProductIndex].tags =
+                    this.selectedPatientDetailsForm.value?.tags;
+                this.patients[selectedProductIndex].images =
+                    this.selectedPatientDetailsForm.value?.images;
+            }
         }
-        this.selectedPatients = null;
     }
 
     ngOnDestroy(): void {
