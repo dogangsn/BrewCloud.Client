@@ -142,5 +142,25 @@ export class SettingsCompanyComponent implements OnInit {
         return this._translocoService.translate(key);
     }
 
+    formatPhoneNumber(inputValue: string): void {
+        // Sadece sayıları alarak filtreleme yapın
+        const numericValue = inputValue.replace(/\D/g, '');
+    
+        // Sayıları uygun formatta düzenle
+        let formattedValue = '';
+        if (numericValue.length > 0) {
+            formattedValue += '(' + numericValue.substring(0, 3) + ')';
+        }
+        if (numericValue.length > 3) {
+            formattedValue += ' ' + numericValue.substring(3, 6);
+        }
+        if (numericValue.length > 6) {
+            formattedValue += '-' + numericValue.substring(6, 10);
+        }
+    
+        // Düzenlenmiş değeri input alanına atayın
+        this.companyForm.get('phone').setValue(formattedValue);
+    }
+
 
 }

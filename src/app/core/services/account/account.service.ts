@@ -17,4 +17,8 @@ export class AccountService {
     complateactivation(model: any): Observable<any> {
         return this.httpService.post(endPoints.account.complateactivation, model);
     }
+
+    refreshactivation(model: any): Observable<any> {
+        return this.httpService.post(endPoints.account.refreshactivation, model);
+    }
 }

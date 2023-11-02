@@ -13,19 +13,25 @@
 
                 <mat-form-field class="w-full">
                     <mat-label>Aktivasyon Kodu</mat-label>
-                    <input id="company-confirm" matInput [formControlName]="'activationcode'">
+                    <input id="company-confirm" matInput [formControlName]="'activationcode'" >
                 </mat-form-field>
 
+                <ng-container *ngIf="seconds > 0">
+                    Kalan Süre : {{minutes | number: '2.0' }}:{{ seconds | number: '2.0' }}
+                </ng-container>
+                <ng-container *ngIf="minutes === 0 && seconds === 1">
+                    <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'" (click)="refreshActivation()">
+                        <span>
+                          {{ phone }}  Kodu Tekrar Gönder
+                        </span>
+                    </button>
+                </ng-container>
+
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'"
-                    (click)="sendActivation()">
+                    (click)="sendActivation()"  [disabled]="minutes === 0 && seconds === 1">
                     <span>
                         Aktivasyon Gönder
                     </span>
-                    <!-- <mat-progress-spinner
-                *ngIf="signUpForm.disabled"
-                [diameter]="24"
-                [mode]="'indeterminate'">
-            </mat-progress-spinner> -->
                 </button>
 
             </form>
@@ -33,8 +39,6 @@
     </div>
     <div
         class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
-        <!-- Background - @formatter:off -->
-        <!-- Rings -->
         <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
             preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
@@ -42,7 +46,6 @@
                 <circle r="234" cx="790" cy="491"></circle>
             </g>
         </svg>
-        <!-- Dots -->
         <svg class="absolute -top-16 -right-16 text-gray-700" viewBox="0 0 220 192" width="220" height="192"
             fill="none">
             <defs>
@@ -53,10 +56,7 @@
             </defs>
             <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
         </svg>
-        <!-- @formatter:on -->
-        <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
-
         </div>
     </div>
 </div>
