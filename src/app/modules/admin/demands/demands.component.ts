@@ -1,6 +1,7 @@
 import { Component, OnInit,AfterViewInit, ViewChild  } from '@angular/core';
-import { CreateDemandProductsCommand } from './models/CreateDemandProductsCommand';
+import { CreateDemandProductsCommand } from './demand1/models/CreateDemandProductsCommand';
 import { Demand1Component } from './demand1/demand1.component';
+import { Demand2Component } from './demand2/demand2.component';
 import { ChangeDetectorRef } from '@angular/core';
 import { DemandProductsService } from 'app/core/services/Demands/DemandProducts/demandproducts.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -10,7 +11,6 @@ import { ProductDescriptionService } from 'app/core/services/definition/productd
 import { MatTabGroup,MatTabChangeEvent } from '@angular/material/tabs';
 import {  ChangeDetectionStrategy,    ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
-
 
 @Component({
   selector: 'app-demands',
@@ -39,11 +39,11 @@ encapsulation  : ViewEncapsulation.None,
 changeDetection: ChangeDetectionStrategy.OnPush,
 animations     : fuseAnimations
 })
-export class DemandsComponent implements AfterViewInit {
+export class DemandsComponent implements OnInit {
   @ViewChild(Demand1Component) demand1Component: Demand1Component;
+  @ViewChild(Demand2Component) demand2Component: Demand2Component;
   public indexs : number = 0;
   CreateDemandCom = CreateDemandProductsCommand;
-  demandFunc: Demand1Component;
   constructor(
     private demandProductsService: DemandProductsService,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -51,18 +51,10 @@ export class DemandsComponent implements AfterViewInit {
     private _formBuilder: UntypedFormBuilder,
     private cdr: ChangeDetectorRef,
     private _translocoService: TranslocoService,
-    private productDescriptionService : ProductDescriptionService
+    private productDescriptionService : ProductDescriptionService,
       ) {
     // Demand1Component'ı oluştururken gereken argümanları sağlayın
-    this.demandFunc = new Demand1Component(
-      this.demandProductsService,
-      this._changeDetectorRef,
-      this._fuseConfirmationService,
-      this._formBuilder,
-      this.cdr,
-      this._translocoService,
-      this.productDescriptionService
-    );
+
   }
   ngOnInit() {
   }
@@ -70,11 +62,11 @@ export class DemandsComponent implements AfterViewInit {
   buttonLabel: string = 'Sipariş Oluştur';
 
   
-  ngAfterViewInit() {
-    this.tabGroup.selectedIndexChange.subscribe((event: MatTabChangeEvent) => {
-      this.onTabChange(event);
-    });
-  }
+  // ngAfterViewInit() {
+  //   this.tabGroup.selectedIndexChange.subscribe((event: MatTabChangeEvent) => {
+  //     this.onTabChange(event);
+  //   });
+  // }
   
 
   onTabChange(index: MatTabChangeEvent): void {
@@ -86,6 +78,7 @@ export class DemandsComponent implements AfterViewInit {
     } else if (ix === 1) {
       this.buttonLabel = 'Onayla';
       this.indexs = 1;
+      this.getDemands();
     } 
     else if(ix === 2)
     {
@@ -109,4 +102,9 @@ export class DemandsComponent implements AfterViewInit {
       console.log(this.indexs);
     }
   }
+  getDemands(){
+    debugger;
+    this.demand2Component.getDemands();
+  }
+
 }

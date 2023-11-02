@@ -8,32 +8,198 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="!selectedcasingdefinition">Kasa Tanımı Ekle</span>
-                <span *ngIf="selectedcasingdefinition">Kasa Tanımı Güncelle</span>
+                <span *ngIf="!selecteddemand">Sipariş Ekle</span>
             </h5>
         </div>
 
         <div class="modal-body mbody-productcategory">
             <div class="qm-pr-content">
 
-                <div class="container-fluid" [formGroup]="casingDefinition">
+                <div class="container-fluid" [formGroup]="demandList">
                     <div class="row">
-                        <div class="col-sm-12 mt-2 common-width">
+                        <div class="col-sm-4 mt-2 common-width">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Tarih</mat-label>
+                                <input matInput [matDatepicker]="firstPicker" readonly [formControlName]="'date'">
+                                <mat-datepicker-toggle matIconSuffix [for]="firstPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #firstPicker></mat-datepicker>
+                            </mat-form-field>
                             <mat-form-field style="width:100%">
-                                <mat-label>Kasa Adı</mat-label>
-                                <input matInput [formControlName]="'casename'" >
+                                <mat-label>Döküman No</mat-label>
+                                <input matInput [formControlName]="'documentno'" >
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
+                            <mat-form-field style="width:100%">
+                                <mat-label>Tedarikçi</mat-label>
+                                <mat-select [formControlName]="'suppliers'" [placeholder]="'Tedarikçi'"
+                                    >
+                                    <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCustomerId"
+                                    (ngModelChange)="filterCustomerId($event)">
+                                    </mat-select-filter>
+                                    <!-- <mat-option>None</mat-option> -->
+                                    <mat-option *ngFor="let item of supplierscards"
+                                        [value]="item.id">{{item.suppliername}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                                <mat-form-field style="width:100%">
+                                    <mat-label>Teslimat Tarihi</mat-label>
+                                    <input matInput [matDatepicker]="picker" readonly [formControlName]="'deliverydate'">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <!-- <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
+                                  </mat-form-field>
+                                  <!-- <mat-form-field class="w-1/3 pr-2">
+                                    <mat-label>Tarih</mat-label>
+                                    <input matInput [matDatepicker]="firstPicker" readonly [formControlName]="'date'">
+                                    <mat-datepicker-toggle matIconSuffix [for]="firstPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #firstPicker></mat-datepicker>
+                                </mat-form-field> -->
+                                  
                         </div>
-                        <div class="flex flex-col gt-sm:flex-row">
+                        <!-- <div class="col-sm-4 mt-2 common-width">
+                            
+                        </div> -->
+                        <!-- <div class="col-sm-4 mt-2 common-width">
+                           
+                        </div> -->
+                        <div class="col-sm-8 mt-2 common-width">
+                            <mat-form-field class="flex-auto">
+                                <mat-label>Not</mat-label>
+                                <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="5" [formControlName]="'note'"></textarea>
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                            </mat-form-field>
+                            
+                            <mat-form-field style="width:50%">
+                                <mat-label>Durumu</mat-label>
+                                <mat-select [formControlName]="'state'" [(ngModel)]="selectedValue">
+                                    <mat-option value=1>Acil</mat-option>
+                                    <mat-option value=0>Normal</mat-option>
+                                    <mat-option value=-1>Planlı</mat-option>
+                                </mat-select>
+                                <div class="hidden lg:flex items-center">
+                                    <!-- Low stock -->
+                                    <div
+                                        class="flex items-end ml-2 w-5 h-4 bg-red-200 rounded overflow-hidden"
+                                        *ngIf="selectedValue > 0">
+                                        <div class="flex w-full h-full bg-red-600"></div>
+                                    </div>
+                                    <!-- Medium stock -->
+                                    <div
+                                        class="flex items-end ml-2 w-5 h-4 bg-orange-200 rounded overflow-hidden"
+                                        *ngIf="selectedValue > -1 && selectedValue < 1">
+                                        <div class="flex w-full h-2/4 bg-orange-400"></div>
+                                    </div>
+                                    <!-- High stock -->
+                                    <div
+                                        class="flex items-end ml-2 w-5 h-4 bg-green-100 rounded overflow-hidden"
+                                        *ngIf="selectedValue < 0">
+                                        <div class="flex w-full h-1/3 bg-green-400"></div>
+                                    </div>
+                                </div>
+                            </mat-form-field>
+                            
+                            
+                            
+                            
+                        </div>
+                        <!-- <div class="lookup-container">
+                            <select [(ngModel)]="selectedValue" class="lookup-select">
+                              <option value="Acil">Acil</option>
+                              <option value="Normal">Normal</option>
+                              <option value="Planlı">Planlı</option>
+                            </select>
+                            <div class="color-bar" [ngStyle]="getBarStyles(selectedValue)"></div>
+                          </div> -->
+                         
+                        
+                        <!-- <div class="col-sm-4 mt-4 common-width">
+                            
+                        </div> -->
+                        <!-- <div class="flex flex-col gt-sm:flex-row">
                             <div class="flex flex-col">
                                 <mat-checkbox class="mb-2" [checked]="true" [formControlName]="'active'"  [color]="'primary'">
                                     Aktif
                                 </mat-checkbox>
 
                             </div>
-                        </div>
+                        </div> -->
+                        <!-- <div class="flex flex-wrap items-center mt-8">
+                         <div>
+                            <div class="font-medium">Durumu</div>
+                            <div
+                                class="flex items-center mt-1.5 px-4 leading-9 rounded-full cursor-pointer"
+                                [ngClass]="{'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': demandListAll.state === 0,
+                                            'text-gray-800 bg-gray-200 dark:text-gray-100 dark:bg-gray-500': demandListAll.state === 1,
+                                            'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': demandListAll.state === 2}"
+                                [matMenuTriggerFor]="priorityMenu">
+            
+                                <!-- Low 
+                                <ng-container *ngIf="demandListAll.state === 0">
+                                    <mat-icon
+                                        class="icon-size-5 text-current"
+                                        [svgIcon]="'heroicons_solid:arrow-narrow-down'"></mat-icon>
+                                    <span  class="ml-2 mr-1 text-md font-medium">Low</span>
+                                </ng-container>
+            
+                                <!-- Normal 
+                                <ng-container *ngIf="demandListAll.state === 1">
+                                    <mat-icon
+                                        class="icon-size-4 text-current"
+                                        [svgIcon]="'heroicons_solid:minus'"></mat-icon>
+                                    <span   class="ml-2 mr-1 text-md font-medium">Normal</span>
+                                </ng-container>
+            
+                                <!-- High 
+                                <ng-container *ngIf="demandListAll.state === 2">
+                                    <mat-icon
+                                        class="icon-size-4 text-current"
+                                        [svgIcon]="'heroicons_solid:arrow-narrow-up'"></mat-icon>
+                                    <span  class="ml-2 mr-1 text-md font-medium">High</span>
+                                </ng-container>
+                            </div>
+                            <mat-menu #priorityMenu="matMenu">
+                                <!-- Low 
+                                <button
+                                    [ngClass]="{'bg-hover': demandListAll.state === 0}"
+                                    mat-menu-item
+                                    (click)="setAgendaPriority(0)">
+                                    <span class="inline-flex items-center justify-between w-full min-w-30 leading-5">
+                                        <span class="font-medium">Low</span>
+                                        <mat-icon
+                                            class="mr-0 icon-size-4 text-green-600 dark:text-green-500"
+                                            [svgIcon]="'heroicons_solid:arrow-narrow-down'"></mat-icon>
+                                    </span>
+                                </button>
+            
+                                <!-- Normal 
+                                <button
+                                    [ngClass]="{'bg-hover': demandListAll.state === 1}"
+                                    mat-menu-item
+                                    (click)="setAgendaPriority(1)">
+                                    <span class="inline-flex items-center justify-between w-full min-w-30 leading-5">
+                                        <span class="font-medium">Normal</span>
+                                        <mat-icon
+                                            class="mr-0 icon-size-4 text-gray-600 dark:text-gray-500"
+                                            [svgIcon]="'heroicons_solid:minus'"></mat-icon>
+                                    </span>
+                                </button>
+            
+                                <!-- High 
+                                <button
+                                    [ngClass]="{'bg-hover': demandListAll.state === 2}"
+                                    mat-menu-item
+                                    (click)="setAgendaPriority(2)">
+                                    <span class="inline-flex items-center justify-between w-full min-w-30 leading-5">
+                                        <span class="font-medium">High</span>
+                                        <mat-icon
+                                            class="mr-0 icon-size-4 text-red-600 dark:text-red-500"
+                                            [svgIcon]="'heroicons_solid:arrow-narrow-up'"></mat-icon>
+                                    </span>
+                                </button>
+                            </mat-menu>
+                          </div>
+                        </div> -->
                     </div>
 
                 </div>

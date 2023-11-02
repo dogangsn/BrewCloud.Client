@@ -2,16 +2,24 @@ import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { BehaviorSubject, filter, map, of, switchMap, take, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from 'app/modules/admin/demands/models/demandProductsListDto';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from 'app/modules/admin/demands/demand1/models/demandProductsListDto';
 // import { CreateCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/CreateCasingDefinitionCommand";
 // import { DeleteCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/DeleteCasingDefinitionCommand";
 // import { UpdateCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/UpdateCasingDefinitionCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
-import { demandProductsListDto } from "app/modules/admin/demands/models/demandProductsListDto";
-import { CreateDemandProductsCommand } from "app/modules/admin/demands/models/CreateDemandProductsCommand";
-import { DeleteDemandProductsCommand } from "app/modules/admin/demands/models/DeleteDemandProductsCommand";
-import { UpdateDemandProductsCommand } from "app/modules/admin/demands/models/UpdateDemandProductsCommand";
+import { demandProductsListDto } from "app/modules/admin/demands/demand1/models/demandProductsListDto";
+import { CreateDemandProductsCommand } from "app/modules/admin/demands/demand1/models/CreateDemandProductsCommand";
+import { DeleteDemandProductsCommand } from "app/modules/admin/demands/demand1/models/DeleteDemandProductsCommand";
+
+import { demandsListDto } from "app/modules/admin/demands/models/demandListDto";
+import { CreateDemandCommand } from "app/modules/admin/demands/models/CreateDemandCommand";
+import { DeleteDemandCommand } from "app/modules/admin/demands/models/DeleteDemandCommand";
+import { UpdateDemandCommand } from "app/modules/admin/demands/models/UpdateDemandCommand";
+
+import { demandTransList } from "app/modules/admin/demands/models/demandListDto";
+
+import { UpdateDemandProductsCommand } from "app/modules/admin/demands/demand1/models/UpdateDemandProductsCommand";
 @Injectable({
     providedIn: 'root'
 })
@@ -31,6 +39,7 @@ export class DemandProductsService {
     }
 
     createDemandProduct(model: CreateDemandProductsCommand): Observable<any> {
+        debugger;
         return this._httpService.post(endPoints.demandproducts.Createdemandproducts, model);
     }
     deleteDemandProduct(model: DeleteDemandProductsCommand): Observable<any> {
@@ -40,6 +49,25 @@ export class DemandProductsService {
         return this._httpService.post(endPoints.demandproducts.Updatedemandproducts, model);
     }
     
+    getDemandTransList(model : any): Observable<any>{
+        debugger;
+        return this._httpService.post(endPoints.demandTrans.demandsTransList,model);
+    }
+
+    getDemandLists() : Observable<any>{
+        return this._httpService.getRequest(endPoints.demands.demandsList);
+    }
+
+    createDemands(model: CreateDemandCommand): Observable<any> {
+        return this._httpService.post(endPoints.demands.createdemand, model);
+    }
+    deleteDemands(model: DeleteDemandCommand): Observable<any> {
+        return this._httpService.post(endPoints.demands.deletedemand, model);
+    }
+    updateDemands(model: UpdateDemandCommand): Observable<any> {
+        return this._httpService.post(endPoints.demands.updatedemand, model);
+    }
+
     getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: InventoryPagination; products: demandProductsListDto[] }>
     {
