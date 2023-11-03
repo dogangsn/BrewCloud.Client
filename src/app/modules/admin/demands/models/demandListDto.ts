@@ -10,6 +10,7 @@ export class demandsListDto {
     state:number;
     iscomplated:boolean;
     demandProductList : demandProductsListDto[];
+    selected: boolean;
 }
 
 

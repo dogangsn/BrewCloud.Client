@@ -32,7 +32,7 @@ import { Demand2Component } from '../demand2/demand2.component';
             grid-template-columns: 48px auto 40px;
 
             @screen sm {
-                grid-template-columns: 48px auto 112px 72px;
+                grid-template-columns: 96px auto 112px 72px;
             }
 
             @screen md {
@@ -40,7 +40,7 @@ import { Demand2Component } from '../demand2/demand2.component';
             }
 
             @screen lg {
-                grid-template-columns: 48px 112px auto 112px 96px 96px 72px;
+                grid-template-columns: 48px 112px auto 112px 96px 96px 72px 72px;
             }
         }
     `,
@@ -99,6 +99,7 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
         private _translocoService: TranslocoService,
         private productDescriptionService : ProductDescriptionService,
         private _dialog: MatDialog,
+        
         ) { }
 
 
@@ -147,12 +148,10 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
     onProductSelectionChange(event: any): void {
         const selectedProductId = event.value; // Seçilen ürünün id değeri
          const selectedProducts = this.productdescription.find(product => product.id === selectedProductId);
-        debugger;
         var total = (selectedProducts.buyingIncludeKDV !== true ?  selectedProducts.buyingPrice * (1 + (selectedProducts.ratio/100) ) : selectedProducts.buyingPrice);
         var vatSumCalc =  total * (1 + (selectedProducts.ratio/100));
         var vatSum = vatSumCalc - total;
         if (selectedProducts) {
-            debugger;
             this.selectedProductForm.patchValue({
                 
                 productId: selectedProductId,
@@ -168,12 +167,10 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
             
            // this.selectedProduct.isActive
            //this.selectedProductForm.get('isActive').value === selectedProducts.active == true ? 1 : 0;
-            debugger;
             this.quantityAdet = selectedProducts.id;
         }
     }
     onQuantitySelectionChange(event: any): void {
-        debugger;
         const inputValue = parseFloat( this.getFormValueByName('stockState'));
         const productIdvalue = this.getFormValueByName('productId');
 
@@ -182,12 +179,10 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
             const selectedProductId = inputValue; // Seçilen ürünün id değeri
             //const id = 
         const selectedProducts = this.productdescription.find(product => product.id === productIdvalue);
-        debugger;
         var total = (selectedProducts.buyingIncludeKDV !== true ?  inputValue * (selectedProducts.buyingPrice * (1 + (selectedProducts.ratio/100) ) ): inputValue * selectedProducts.buyingPrice);
         var vatSumCalc =  total * (1 + (selectedProducts.ratio/100));
         var vatSum = vatSumCalc - total;
         if (selectedProducts) {
-            debugger;
             this.selectedProductForm.patchValue({
                 reserved: total.toFixed(2),
                 amount : vatSum.toFixed(2),
@@ -200,7 +195,6 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
     }
     getDemandProducts() {
 
-        debugger;
         this.demandProductsService.getDemandProductsList()
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
@@ -289,7 +283,6 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
    */
   toggleDetails(productId: string): void
   {
-    debugger;
       // If the product is already selected...
       if ( this.selectedProduct && this.selectedProduct.id === productId )
       {
@@ -297,17 +290,15 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
           this.closeDetails();
           return;
       }
-        debugger;
       // Get the product by id
       var product = this.productsList.find(x=>x.id === productId);
     //   this.demandProductsService.getProductById(productId)
     //       .subscribe((product) => {
-             debugger;
     //           // Set the selected product
                this.selectedProduct = product;
+               debugger;
                 this.getDemandProducts();
     //           // Fill the form
-    debugger;
                this.selectedProductForm.patchValue(product);
 
     //           // Mark for check
@@ -473,7 +464,6 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
     return this.selectedProductForm.get(formName).value;
 }
 addDemand(): void {
-    debugger;
     this.selecteDemandList  = this.productsList.filter(x => x.selected === true);
     if(this.selecteDemandList.length === 0)
     {
@@ -510,12 +500,10 @@ addDemand(): void {
             .subscribe((response) => {
                 // Dialog kapatıldığında çalışacak kod bloğu
                 if (response.status) {
-                    debugger;
                     this.getDemandProducts();
                     //this.getDemandProducts();
                     //this.demand2Component.getDemands();
 
-                    debugger;
                     // Gerekirse burada başka işlemler yapabilirsiniz
                 }
             });
@@ -583,12 +571,10 @@ addDemand(): void {
             this.productsList = response.data
              product = this.productsList.find(x=>x.id === proid);
              if (product) {
-                debugger;
                 this.selectedProduct = product;
                 this.getDemandProducts();
                 //this.selectedProductForm = this.seclest;
                 this.selectedProductForm.patchValue(product);
-                debugger;
                 this._changeDetectorRef.markForCheck();
             }
              // this.selectedProduct = product;
@@ -681,7 +667,6 @@ translate(key: string): any {
 
               // Get the product object
               const product = this.selectedProductForm.getRawValue();
-                debugger;
               // Delete the product on the server
               this.demandProductsService.deleteDemandProduct(product).subscribe((response) => {
 
