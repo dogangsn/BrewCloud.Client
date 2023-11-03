@@ -9,7 +9,8 @@ export const endPoints = {
     },
     account :{
         createaccount: 'identityserver/api/account/create',
-        complateactivation: 'identityserver/api/account/complateactivation'
+        complateactivation: 'identityserver/api/account/complateactivation',
+        refreshactivation  : 'identityserver/api/account/RefreshActivation'
     },
     settings : {
         getUsersList: 'account/settings/GetUsersList',
