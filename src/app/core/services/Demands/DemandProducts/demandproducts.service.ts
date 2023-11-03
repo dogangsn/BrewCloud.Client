@@ -53,10 +53,15 @@ export class DemandProductsService {
         debugger;
         return this._httpService.post(endPoints.demandTrans.demandsTransList,model);
     }
-
+    getDemandComplateList(): Observable<any>{
+        return this._httpService.getRequest(endPoints.demandComplate.demandsComplateList);
+    }
     getDemandLists() : Observable<any>{
         return this._httpService.getRequest(endPoints.demands.demandsList);
     }
+    // updateDemandListComplate(model : UpdateDemandCommand): Observable<any> {
+    //     return this._httpService.post(endPoints.demands.updatedemand,model);
+    // }
 
     createDemands(model: CreateDemandCommand): Observable<any> {
         return this._httpService.post(endPoints.demands.createdemand, model);
@@ -65,6 +70,7 @@ export class DemandProductsService {
         return this._httpService.post(endPoints.demands.deletedemand, model);
     }
     updateDemands(model: UpdateDemandCommand): Observable<any> {
+        debugger;
         return this._httpService.post(endPoints.demands.updatedemand, model);
     }
 
