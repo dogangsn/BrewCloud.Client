@@ -108,5 +108,8 @@ export const endPoints = {
     },
     demandTrans : {
         demandsTransList : 'vet/Demands/DemandTransList',
+    },
+    demandComplate : {
+        demandsComplateList : 'vet/Demands/DemandComplatedList'
     }
 }
