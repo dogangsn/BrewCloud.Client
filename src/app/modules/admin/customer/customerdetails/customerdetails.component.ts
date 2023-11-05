@@ -12,21 +12,9 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 
 @Component({
     selector: 'customerdetails',
-    // styleUrls: ['./customerdetails.css'],
     templateUrl: './customerdetails.component.html',
 })
 export class CustomerDetailsComponent implements OnInit {
-    // chartVisitors: ApexOptions;
-    // chartConversions: ApexOptions;
-    // chartImpressions: ApexOptions;
-    // chartVisits: ApexOptions;
-    // chartVisitorsVsPageViews: ApexOptions;
-    // chartNewVsReturning: ApexOptions;
-    // chartGender: ApexOptions;
-    // chartAge: ApexOptions;
-    // chartLanguage: ApexOptions;
-    // data: any;
-    // private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     customerDetailForm: FormGroup;
     selectedCustomerId: any;
