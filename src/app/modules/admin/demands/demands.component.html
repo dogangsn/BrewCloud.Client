@@ -22,28 +22,44 @@
     </div>
     <!-- Actions -->
     <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addTalep()">
+      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addTalep()" *ngIf="indexs === 0">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"  ></mat-icon>
         Yeni Talep
       </button>
     </div>
+    <!-- <div class="flex justify-end items-start mt-6 sm:mt-2 sm:ml-4">
+      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="createProduct()">
+        <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_solid:link'"  ></mat-icon>
+        Yeni Talep
+      </button>
+    </div> -->
+    <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+      <button id="dynamicButton" class="ml-3" mat-flat-button [color]="'accent'" (click)="handleButtonClick()" *ngIf="indexs == 0">
+        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+        {{ buttonLabel }}
+      </button>
+    </div>
+    
+    
   </div>
 
   <!-- Main -->
+
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="onTabChange($event)">
+
+    <!-- <mat-tab-group #tabGroup> -->
       <mat-tab label="TALEP">
         <app-demand1></app-demand1>
       </mat-tab>
-
       <mat-tab label="SİPARİŞ">
-          <app-demand2></app-demand2>
+        <app-demand2></app-demand2>
       </mat-tab>
-
       <mat-tab label="TAMAMLANDI">
-          <app-demand3></app-demand3>
+        <app-demand3></app-demand3>
       </mat-tab>
-    </mat-tab-group>
+    <!-- </mat-tab-group> -->
+  </mat-tab-group>
   </div>
 
 </div>

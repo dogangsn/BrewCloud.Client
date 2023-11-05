@@ -9,7 +9,8 @@ export const endPoints = {
     },
     account :{
         createaccount: 'identityserver/api/account/create',
-        complateactivation: 'identityserver/api/account/complateactivation'
+        complateactivation: 'identityserver/api/account/complateactivation',
+        refreshactivation  : 'identityserver/api/account/RefreshActivation'
     },
     settings : {
         getUsersList: 'account/settings/GetUsersList',
@@ -97,7 +98,19 @@ export const endPoints = {
     demandproducts : {
         demandproductsList : 'vet/Demands/DemandProductsList',
         Createdemandproducts : 'vet/Demands/CreateDemandProducts',
-        Updatedemandproducts : 'vet/Demands/UpdateCreateDemandProducts',
-        Deletedemandproducts : 'vet/Demands/DeleteCreateDemandProducts'
+        Updatedemandproducts : 'vet/Demands/UpdateDemandProducts',
+        Deletedemandproducts : 'vet/Demands/DeleteDemandProducts'
+    },
+    demands : {
+        demandsList : 'vet/Demands/DemandList',
+        createdemand : 'vet/Demands/CreateDemand',
+        updatedemand : 'vet/Demands/UpdateDemand',
+        deletedemand : 'vet/Demands/DeleteDemand'
+    },
+    demandTrans : {
+        demandsTransList : 'vet/Demands/DemandTransList',
+    },
+    demandComplate : {
+        demandsComplateList : 'vet/Demands/DemandComplatedList'
     }
 }

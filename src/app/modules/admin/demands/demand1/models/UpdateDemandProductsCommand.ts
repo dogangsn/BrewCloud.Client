@@ -1,4 +1,4 @@
-export class CreateDemandProductsCommand {
+export class UpdateDemandProductsCommand {
     id: string;
     remark:string;
     quantity:number;
@@ -31,4 +31,5 @@ export class CreateDemandProductsCommand {
         this.barcode = barcode;
 
     }
+    
 }

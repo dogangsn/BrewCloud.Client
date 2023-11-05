@@ -72,12 +72,13 @@ export class CreateEditUsersDialogComponent implements OnInit {
                 debugger;
 
                 if (response.isSuccessful) {
-                    this.showSweetAlert('success');
+                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                    this.showSweetAlert('error');
+
+                    this.showSweetAlert('error', response);
                 }
             },
             (err) => {
@@ -101,12 +102,19 @@ export class CreateEditUsersDialogComponent implements OnInit {
             (response) => {
                 debugger;
                 if (response.isSuccessful) {
-                    this.showSweetAlert('success');
+                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
                     this._dialogRef.close({
                         status: true,
                     });
                 } else {
-                    this.showSweetAlert('error');
+                    debugger;
+                    let errMessage = "";
+                    if(response.errors.length > 0){
+                        errMessage = response.errors[0];
+                    }else{
+                        errMessage = 'sweetalert.transactionFailed';
+                    }
+                    this.showSweetAlert('error', errMessage);
                 }
             },
             (err) => {
@@ -119,18 +127,18 @@ export class CreateEditUsersDialogComponent implements OnInit {
         return this.users.get(formName).value;
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(text),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
@@ -145,5 +153,25 @@ export class CreateEditUsersDialogComponent implements OnInit {
         this._rolsSettings.getRolSettings().subscribe((response) => {
             this.rols = response.data;
         });
+    }
+
+    formatPhoneNumber(inputValue: string): void {
+        // Sadece sayıları alarak filtreleme yapın
+        const numericValue = inputValue.replace(/\D/g, '');
+    
+        // Sayıları uygun formatta düzenle
+        let formattedValue = '';
+        if (numericValue.length > 0) {
+            formattedValue += '(' + numericValue.substring(0, 3) + ')';
+        }
+        if (numericValue.length > 3) {
+            formattedValue += ' ' + numericValue.substring(3, 6);
+        }
+        if (numericValue.length > 6) {
+            formattedValue += '-' + numericValue.substring(6, 10);
+        }
+    
+        // Düzenlenmiş değeri input alanına atayın
+        this.users.get('phone').setValue(formattedValue);
     }
 }

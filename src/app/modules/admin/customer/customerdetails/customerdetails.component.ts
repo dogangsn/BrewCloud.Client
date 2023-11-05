@@ -12,6 +12,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 
 @Component({
     selector: 'customerdetails',
+    // styleUrls: ['./customerdetails.css'],
     templateUrl: './customerdetails.component.html',
 })
 export class CustomerDetailsComponent implements OnInit {

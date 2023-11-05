@@ -2,20 +2,25 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { AfterViewInit, ChangeDetectionStrategy,   OnDestroy, OnInit,  ViewEncapsulation } from '@angular/core';
 import { Observable, Subject, debounceTime, map, merge, switchMap, takeUntil } from 'rxjs';
 import { DemandProductsService } from 'app/core/services/Demands/DemandProducts/demandproducts.service'; // ProductService'nin gerçek adını ve yolunu belirtmelisiniz
-import { InventoryCategory,  demandProductsListDto } from '../models/demandProductsListDto';
+import { InventoryCategory,  demandProductsListDto } from './models/demandProductsListDto';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { InventoryBrand, InventoryPagination, InventoryTag, InventoryVendor } from '../../customer/models/PatientDetailsCommand';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { fuseAnimations } from '@fuse/animations';
-import { CreateDemandProductsCommand } from '../models/CreateDemandProductsCommand';
+import { CreateDemandProductsCommand } from './models/CreateDemandProductsCommand';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
-
+import { RepositionScrollStrategy } from '@angular/cdk/overlay';
+import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { ProductDescriptionsDto } from '../../definition/productdescription/models/ProductDescriptionsDto';
+import { CreateEditDemandDialogComponent } from '../dialogs/create-edit-demand';
+import { MatDialog } from '@angular/material/dialog';
+import { Demand2Component } from '../demand2/demand2.component'; 
 @Component({
     selector: 'app-demand1',
     template: './demand1/demand1.component.html',
@@ -23,30 +28,34 @@ import { GeneralService } from 'app/core/services/general/general.service';
     styles : [
         /* language=SCSS */
         `
-            .inventory-grid {
-                grid-template-columns: 48px auto 40px;
+        .inventory-grid {
+            grid-template-columns: 48px auto 40px;
 
-                @screen sm {
-                    grid-template-columns: 48px auto 112px 72px;
-                }
-
-                @screen md {
-                    grid-template-columns: 48px 112px auto 112px 72px;
-                }
-
-                @screen lg {
-                    grid-template-columns: 48px 112px auto 112px 96px 96px 72px;
-                }
+            @screen sm {
+                grid-template-columns: 96px auto 112px 72px;
             }
-        `
+
+            @screen md {
+                grid-template-columns: 48px 112px auto 112px 72px;
+            }
+
+            @screen lg {
+                grid-template-columns: 48px 112px auto 112px 96px 96px 72px 72px;
+            }
+        }
+    `,
     ],
-    encapsulation  : ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations     : fuseAnimations
+    animations: fuseAnimations,
 })
 
 
-export class Demand1Component {
+export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
+    @ViewChild(CreateEditDemandDialogComponent) CreateEditDemandDialogComponent: CreateEditDemandDialogComponent;
+    @ViewChild(Demand2Component) demand2Component: Demand2Component;
+
+
     //[x: string]: any;
     displayedColumns: string[] = [ 
         'name',
@@ -55,12 +64,14 @@ export class Demand1Component {
     ];
     // products$: Observable<any>; 
     productsList: demandProductsListDto[] = [];
+    selecteDemandList: demandProductsListDto[] = [];
+    productdescription: ProductDescriptionsDto[] = [];
     productss: demandProductsListDto;
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-
+    quantityInput: string = '';
     products$: Observable<demandProductsListDto[]>;
-    private _translocoService: TranslocoService;
+    isLoading: boolean = false;
     brands: InventoryBrand[];
     categories: InventoryCategory[];
     filteredTags: InventoryTag[];
@@ -75,30 +86,35 @@ export class Demand1Component {
     vendors: InventoryVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     private _dialogRef: any;
-
-
+    public remmemberselected;
+    private quantityAdet;
+    seclest : UntypedFormGroup;
 
     constructor(
         private demandProductsService: DemandProductsService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: UntypedFormBuilder,
-        private cdr: ChangeDetectorRef
-
+        private cdr: ChangeDetectorRef,
+        private _translocoService: TranslocoService,
+        private productDescriptionService : ProductDescriptionService,
+        private _dialog: MatDialog,
+        
         ) { }
 
 
     ngOnInit(): void {
-        this.getSuppliers();
+        this.getProducts();
+        this.getDemandProducts();
         this.selectedProductForm = this._formBuilder.group({
             id               : ['', Validators.required],
-            remark           : ['', Validators.required],
+            productId           : ['', Validators.required],
             barcode          : ['', Validators.required],
             stockState       : [0],
             reserved         : [0],
             unitPrice        : [0],
             amount           : [0],
-            isActive         : [0],
+            isActive         : [{value:0,disabled:true}],
             quantity         : [0],
             //cost             : [''],
             //brand            : [''],
@@ -121,46 +137,88 @@ export class Demand1Component {
 
     }
 
-    getSuppliers() {
-        // this.demandProductsService.getDemandProductsList().subscribe((response) => {
-        //     if (response && response.data) {
-        //         this.productsList = response.data;
-        //         console.log(this.productsList);
-        //         // Diğer işlemleri burada gerçekleştirin.
-        //     }
+      isActiveClick(): void{
+        const productIdvalue = this.getFormValueByName('productId');
+        const selectedProducts = this.productdescription.find(product => product.id === productIdvalue);
+        this.selectedProduct.isActive = selectedProducts.active == true ? 1 : 0;
+        //this.selectedProductForm.get('isActive').value === selectedProducts.active == true ? 1 : 0;
+        //this.selectedProductForm.patchValue(product);
+               this._changeDetectorRef.markForCheck();
+      }
+    onProductSelectionChange(event: any): void {
+        const selectedProductId = event.value; // Seçilen ürünün id değeri
+         const selectedProducts = this.productdescription.find(product => product.id === selectedProductId);
+        var total = (selectedProducts.buyingIncludeKDV !== true ?  selectedProducts.buyingPrice * (1 + (selectedProducts.ratio/100) ) : selectedProducts.buyingPrice);
+        var vatSumCalc =  total * (1 + (selectedProducts.ratio/100));
+        var vatSum = vatSumCalc - total;
+        if (selectedProducts) {
+            this.selectedProductForm.patchValue({
+                
+                productId: selectedProductId,
+                barcode: selectedProducts.productBarcode,
+                isActive: (selectedProducts.active === true ? 1 : 0),
+                
+                unitPrice: selectedProducts.buyingPrice,
+                stockState: 0,
+                 reserved: 0,
+                 amount : 0
+            });
+            this.selectedProduct.isActive = selectedProducts.active == true ? 1 : 0;
+            
+           // this.selectedProduct.isActive
+           //this.selectedProductForm.get('isActive').value === selectedProducts.active == true ? 1 : 0;
+            this.quantityAdet = selectedProducts.id;
+        }
+    }
+    onQuantitySelectionChange(event: any): void {
+        const inputValue = parseFloat( this.getFormValueByName('stockState'));
+        const productIdvalue = this.getFormValueByName('productId');
+
+        if(inputValue !== null)
+        {
+            const selectedProductId = inputValue; // Seçilen ürünün id değeri
+            //const id = 
+        const selectedProducts = this.productdescription.find(product => product.id === productIdvalue);
+        var total = (selectedProducts.buyingIncludeKDV !== true ?  inputValue * (selectedProducts.buyingPrice * (1 + (selectedProducts.ratio/100) ) ): inputValue * selectedProducts.buyingPrice);
+        var vatSumCalc =  total * (1 + (selectedProducts.ratio/100));
+        var vatSum = vatSumCalc - total;
+        if (selectedProducts) {
+            this.selectedProductForm.patchValue({
+                reserved: total.toFixed(2),
+                amount : vatSum.toFixed(2),
+                //isActive: selectedProducts.active=== true ? 1 : 0
+            });
+
+        }
+        }
+        
+    }
+    getDemandProducts() {
+
         this.demandProductsService.getDemandProductsList()
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
+            debugger;
             if (response && response.data) {
-                debugger;
                 this.productsList = response.data;
-                this.cdr.markForCheck();                
+                this.cdr.markForCheck();     
                 console.log(this.productsList);
                 // Diğer işlemleri burada gerçekleştirin.
             }
         });
-    //     this.demandProductsService.getDemandProductsList()
-    //     .subscribe((response) =>{
-    //             debugger;
-    //             this.productsList = response.data;
-    //         });
-     }
 
-    // getSuppliers() {
-    //     this.demandProductsService.getDemandProductsList()
-    //         .pipe(takeUntil(this._unsubscribeAll))
-    //         .subscribe((response) => {
-    //             console.log(response); // Gelen veriyi konsola yazdır
-    //             if (response && response.data) {
-    //                 this.productsList = response.data;
-    //                 console.log(this.productsList); // productsList dizisini konsola yazdır
-    //                 // Diğer işlemleri burada gerçekleştirin.
-    //             }
-    //         });
-    // }
+    }
+    getProducts() {
+        this.productDescriptionService.GetProductDescriptionList()
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((response) => {
+            if (response && response.data) {
+                this.productdescription = response.data;
+                this.cdr.markForCheck();                
+            }
+        });
 
-
-
+    }
   /**
      * After view init
      */
@@ -188,36 +246,19 @@ export class Demand1Component {
                   // Close the details
                   this.closeDetails();
               });
-
-        //   Get products if sort or page changes
-        //   merge(this._sort.sortChange, this._paginator.page).pipe(
-        //       switchMap((querys) => {
-        //           this.closeDetails();
-        //           this.isLoading = true;
-        //           debugger;
-        //         //    var list = this.demandProductsService.getDemandProductsList();
-        //         //    return list;
-        //         return this.demandProductsService.getProducts(0, 10, 'name', 'asc', querys);
-        //       }),
-        //       map(() => {
-        //           this.isLoading = false;
-        //       })
-        //   ).subscribe();
-        // this.searchInputControl.valueChanges
-        // .pipe(
-        //     takeUntil(this._unsubscribeAll),
-        //     debounceTime(300),
-        //     switchMap((query) => {
-        //         this.closeDetails();
-        //         this.isLoading = true;
-        //        // return this.demandProductsService.getProducts(0, 10, 'name', 'asc', query);
-        //        return this.demandProductsService.getDemandProductsList();
-        //     }),
-        //     map(() => {
-        //         this.isLoading = false;
-        //     })
-        // )
-        // .subscribe();
+              merge(this._sort.sortChange, this._paginator.page).pipe(
+                switchMap(() => {
+                    this.closeDetails();
+                    this.isLoading = true;
+                    return this.productsList;
+                }),
+                map(() => {
+                    this.isLoading = false;
+                })
+            ).subscribe();
+            if (this.demand2Component) {
+                this.demand2Component.getDemands();
+              }
       }
   }
 
@@ -242,7 +283,6 @@ export class Demand1Component {
    */
   toggleDetails(productId: string): void
   {
-    debugger;
       // If the product is already selected...
       if ( this.selectedProduct && this.selectedProduct.id === productId )
       {
@@ -250,15 +290,14 @@ export class Demand1Component {
           this.closeDetails();
           return;
       }
-        debugger;
       // Get the product by id
       var product = this.productsList.find(x=>x.id === productId);
     //   this.demandProductsService.getProductById(productId)
     //       .subscribe((product) => {
-             debugger;
     //           // Set the selected product
                this.selectedProduct = product;
-                this.getSuppliers();
+               debugger;
+                this.getDemandProducts();
     //           // Fill the form
                this.selectedProductForm.patchValue(product);
 
@@ -278,27 +317,6 @@ export class Demand1Component {
   /**
    * Cycle through images of selected product
    */
-//   cycleImages(forward: boolean = true): void
-//   {
-//       // Get the image count and current image index
-//       const count = this.selectedProductForm.get('images').value.length;
-//       const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
-
-//       // Calculate the next and previous index
-//       const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
-//       const prevIndex = currentIndex - 1 < 0 ? count - 1 : currentIndex - 1;
-
-//       // If cycling forward...
-//       if ( forward )
-//       {
-//           this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
-//       }
-//       // If cycling backwards...
-//       else
-//       {
-//           this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
-//       }
-//   }
 
   /**
    * Toggle the tags edit mode
@@ -350,19 +368,7 @@ export class Demand1Component {
 
       // If there is a tag...
       const tag = this.filteredTags[0];
-    //   const isTagApplied = this.selectedProduct.tags.find(id => id === tag.id);
 
-      // If the found tag is already applied to the product...
-    //   if ( isTagApplied )
-    //   {
-          // Remove the tag from the product
-        //   this.removeTagFromProduct(tag);
-    //   }
-    //   else
-    //   {
-          // Otherwise add the tag to the product
-        //   this.addTagToProduct(tag);
-    //   }
   }
 
   /**
@@ -376,13 +382,6 @@ export class Demand1Component {
           title
       };
 
-      // Create tag on the server
-    //   this._inventoryService.createTag(tag)
-    //       .subscribe((response) => {
-
-    //           // Add the tag to the product
-    //           this.addTagToProduct(response);
-    //       });
   }
 
   /**
@@ -393,15 +392,8 @@ export class Demand1Component {
    */
   updateTagTitle(tag: InventoryTag, event): void
   {
-      // Update the title on the tag
       tag.title = event.target.value;
 
-      // Update the tag on the server
-    //   this._inventoryService.updateTag(tag.id, tag)
-    //       .pipe(debounceTime(300))
-    //       .subscribe();
-
-      // Mark for check
       this._changeDetectorRef.markForCheck();
   }
 
@@ -412,10 +404,6 @@ export class Demand1Component {
    */
   deleteTag(tag: InventoryTag): void
   {
-      // Delete the tag from the server
-    //   this._inventoryService.deleteTag(tag.id).subscribe();
-
-      // Mark for check
       this._changeDetectorRef.markForCheck();
   }
 
@@ -426,12 +414,6 @@ export class Demand1Component {
    */
   addTagToProduct(tag: InventoryTag): void
   {
-      // Add the tag
-    //   this.selectedProduct.tags.unshift(tag.id);
-
-      // Update the selected product form
-    //   this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
-
       // Mark for check
       this._changeDetectorRef.markForCheck();
   }
@@ -443,12 +425,6 @@ export class Demand1Component {
    */
   removeTagFromProduct(tag: InventoryTag): void
   {
-      // Remove the tag
-      //this.selectedProduct.tags.splice(this.selectedProduct.tags.findIndex(item => item === tag.id), 1);
-
-      // Update the selected product form
-      //this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
-
       // Mark for check
       this._changeDetectorRef.markForCheck();
   }
@@ -487,25 +463,60 @@ export class Demand1Component {
   getFormValueByName(formName: string): any {
     return this.selectedProductForm.get(formName).value;
 }
+addDemand(): void {
+    this.selecteDemandList  = this.productsList.filter(x => x.selected === true);
+    if(this.selecteDemandList.length === 0)
+    {
+        const sweetAlertDto = new SweetAlertDto(
+            'Uyarı!',
+            'Lütfen satır seçiniz!',
+            SweetalertType.error
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+        return;
+
+    }
+    const falseState = this.selecteDemandList.filter(x=>x.productId === "00000000-0000-0000-0000-000000000000");
+    if(falseState.length > 0)
+    {
+        const sweetAlertDto = new SweetAlertDto(
+            'Uyarı!',
+            'Ürün Seçilmeyen satır/satırlar mevcuttur. Lütfen seçili satır/satırları kontrol ediniz.',
+            SweetalertType.error
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+        return;
+    }
+    if (this.selecteDemandList.length > 0) {
+        // Önce fonksiyonu çağır ve ardından dialog penceresini aç
+        
+        const dialog = this._dialog
+            .open(CreateEditDemandDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: this.selecteDemandList,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                // Dialog kapatıldığında çalışacak kod bloğu
+                if (response.status) {
+                    this.getDemandProducts();
+                    //this.getDemandProducts();
+                    //this.demand2Component.getDemands();
+
+                    // Gerekirse burada başka işlemler yapabilirsiniz
+                }
+            });
+            //this.CreateEditDemandDialogComponent.selectedDemandList = this.selecteDemandList
+           // this.CreateEditDemandDialogComponent.addDemandProductList(this.selecteDemandList);
+    }
+}
+
   createProduct(): void
   {
-    debugger;
-     // Create the product
-    //   this.demandProductsService.createProduct().subscribe((newProduct) => {
 
-    //       // Go to new product
-    //       this.selectedProduct = newProduct;
-    //         debugger;
-    //       // Fill the form
-    //       this.selectedProductForm.patchValue(newProduct);
-
-    //       // Mark for check
-    //       this._changeDetectorRef.markForCheck();
-    //   });
-   
     const demandProductItem = new CreateDemandProductsCommand( 
         '00000000-0000-0000-0000-000000000000',
-        'A New Product',
         0,
         0,
         0,
@@ -515,25 +526,14 @@ export class Demand1Component {
         '0'
     );
     
-        
+        var proid;
         this.demandProductsService.createDemandProduct(demandProductItem).subscribe(
-            (response) => {
-                
-                debugger;
+            (response) => {  
             if (response.isSuccessful) {
-                debugger;
-                //this.showSweetAlert('success');
-                this.selectedProduct = demandProductItem;
-                //this.selectedProductForm.patchValue(demandProductItem);
-                this.getSuppliers();
-                //this._changeDetectorRef.markForCheck();
-                this.cdr.markForCheck();                
-                // this._dialogRef.close({
-                //     status: true,
-                    
-                // });
+                // this.getSuppliers();
+                 proid = response.data.id;
+                 this.getlist(proid);
             } else {
-                debugger;
                  this.showSweetAlert('error');
             }
         },
@@ -541,6 +541,51 @@ export class Demand1Component {
             console.log(err);
         }
     );
+    
+       
+        //this.getSuppliers();
+        
+
+  }
+
+  getlist(proid : string): void {
+    this.selectedProductForm = this._formBuilder.group({
+        id               : ['', Validators.required],
+        productId           : ['', Validators.required],
+        barcode          : ['', Validators.required],
+        stockState       : [0],
+        reserved         : [0],
+        unitPrice        : [0],
+        amount           : [0],
+        isActive         : [0],
+        quantity         : [0],
+        
+    });
+    var product;
+    this.demandProductsService.getDemandProductsList()
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((response) => {
+        if (response && response.data) {
+            //this.getSuppliers();
+             //proid = response.data.id;
+            this.productsList = response.data
+             product = this.productsList.find(x=>x.id === proid);
+             if (product) {
+                this.selectedProduct = product;
+                this.getDemandProducts();
+                //this.selectedProductForm = this.seclest;
+                this.selectedProductForm.patchValue(product);
+                this._changeDetectorRef.markForCheck();
+            }
+             // this.selectedProduct = product;
+            // //this.selectedProductForm.patchValue(product)
+            // this.cdr.detectChanges();
+            // debugger;
+            // this.selectedProductForm.patchValue(product);
+            
+        }
+    });
+   
   }
   showSweetAlert(type: string): void {
     if (type === 'success') {
@@ -560,9 +605,11 @@ export class Demand1Component {
     }
 }
 
+
 translate(key: string): any {
     return this._translocoService.translate(key);
 }
+
   /**
    * Update the selected product using the form data
    */
@@ -570,16 +617,28 @@ translate(key: string): any {
   {
       // Get the product object
       const product = this.selectedProductForm.getRawValue();
+      if(product != null)
+      {
+        product.isActive = product.isActive == true ? 1 : 0;
+        // product.productId = this.productdescription.id;
+    
+        //product.productId = this.selectedProductForm.get('id').value;
+      }
 
-      // Remove the currentImageIndex field
-      delete product.currentImageIndex;
-
-      // Update the product on the server
-    //   this._inventoryService.updateProduct(product.id, product).subscribe(() => {
-
-    //       // Show a success message
-    //       this.showFlashMessage('success');
-    //   });
+    this.demandProductsService.updateDemandProduct(product).subscribe(
+        (response) => {
+            if (response.isSuccessful) {
+                this.showSweetAlert('success');
+                this.getDemandProducts();
+          this._changeDetectorRef.markForCheck();
+            } else {
+                this.showSweetAlert('error');
+            }
+        },
+        (err) => {
+            console.log(err);
+        }
+    );
    }
 
   /**
@@ -589,13 +648,14 @@ translate(key: string): any {
   {
       // Open the confirmation dialog
       const confirmation = this._fuseConfirmationService.open({
-          title  : 'Delete product',
-          message: 'Are you sure you want to remove this product? This action cannot be undone!',
+          title  : 'Ürün Silinecektir!',
+          message: 'Bu ürünü kaldırmak istediğinizden emin misiniz? Bu işlem geri alınamaz!',
           actions: {
               confirm: {
                   label: 'Delete'
               }
           }
+         
       });
 
       // Subscribe to the confirmation dialog closed action
@@ -607,13 +667,20 @@ translate(key: string): any {
 
               // Get the product object
               const product = this.selectedProductForm.getRawValue();
-
               // Delete the product on the server
-            //   this._inventoryService.deleteProduct(product.id).subscribe(() => {
+              this.demandProductsService.deleteDemandProduct(product).subscribe((response) => {
 
-            //       // Close the details
-            //       this.closeDetails();
-            //   });
+                  // Close the details
+                  if (response.isSuccessful) {
+                    this.getDemandProducts();
+                  this._changeDetectorRef.markForCheck();
+                    this.showSweetAlert('success');
+              this._changeDetectorRef.markForCheck();
+                } else {
+                    this.showSweetAlert('error');
+                }   
+                  
+              });
           }
       });
   }

@@ -53,12 +53,12 @@
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Telefon Numarası</mat-label>
-                    <input matInput [formControlName]="'phoneNumber'">
+                    <input  placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value, 'phoneNumber')" matInput [formControlName]="'phoneNumber'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Telefon Numarası 2</mat-label>
-                    <input matInput [formControlName]="'phoneNumber2'">
+                    <input  placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value, 'phoneNumber2')" matInput [formControlName]="'phoneNumber2'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
             </div>
@@ -279,9 +279,9 @@
                                     <div class="flex flex-col items-center">
                                         <div class="w-32 h-44 border rounded overflow-hidden">
                                             <ng-container
-                                                *ngIf="selectedPatientDetailsForm.get('images').value.length; else noImage">
+                                                *ngIf="selectedPatientDetailsForm?.get('images')?.value?.length; else noImage">
                                                 <img class="w-full h-full object-cover"
-                                                    [src]="selectedPatientDetailsForm.get('images').value[selectedPatientDetailsForm.get('currentImageIndex').value]">
+                                                    [src]="selectedPatientDetailsForm?.get('images')?.value[selectedPatientDetailsForm?.get('currentImageIndex')?.value]">
                                             </ng-container>
                                             <ng-template #noImage>
                                                 <span class="flex items-center min-h-20 text-lg font-semibold">NO
@@ -289,14 +289,14 @@
                                             </ng-template>
                                         </div>
                                         <div class="flex items-center mt-2 whitespace-nowrap"
-                                            *ngIf="selectedPatientDetailsForm.get('images').value.length">
+                                            *ngIf="selectedPatientDetailsForm?.get('images')?.value?.length">
                                             <button mat-icon-button (click)="cycleImages(false)">
                                                 <mat-icon class="icon-size-5"
                                                     [svgIcon]="'heroicons_solid:arrow-narrow-left'"></mat-icon>
                                             </button>
                                             <span class="font-sm mx-2">
-                                                {{selectedPatientDetailsForm.get('currentImageIndex').value + 1}} of
-                                                {{selectedPatientDetailsForm.get('images').value.length}}
+                                                {{selectedPatientDetailsForm?.get('currentImageIndex')?.value + 1}} of
+                                                {{selectedPatientDetailsForm?.get('images')?.value?.length}}
                                             </span>
                                             <button mat-icon-button (click)="cycleImages(true)">
                                                 <mat-icon class="icon-size-5"
@@ -307,7 +307,8 @@
                                     <div class="flex flex-col mt-8">
                                         <span class="font-semibold mb-2">Kısırlaştırılmış</span>
                                         <mat-slide-toggle [formControlName]="'sterilization'" [color]="'primary'">
-                                            {{selectedPatientDetailsForm.get('sterilization').value === true ? 'Evet' :
+                                            {{selectedPatientDetailsForm?.get('sterilization')?.value === true ? 'Evet'
+                                            :
                                             'Hayır'}}
                                         </mat-slide-toggle>
                                     </div>
@@ -404,7 +405,7 @@
                                         <!-- <mat-form-field class="w-full">
                                             <span class="font-semibold mb-2">Kısırlaştırılmış</span>
                                             <mat-slide-toggle [formControlName]="'basePrice'" [color]="'primary'">
-                                                {{selectedProductForm.get('active').value === true ? 'Active' : 'Disabled'}}
+                                                {{selectedProductForm.get('active')?.value === true ? 'Active' : 'Disabled'}}
                                             </mat-slide-toggle>
                                         </mat-form-field> -->
                                         <!-- <mat-form-field class="w-full">
