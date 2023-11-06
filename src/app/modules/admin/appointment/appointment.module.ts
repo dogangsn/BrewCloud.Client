@@ -14,6 +14,20 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CommonModule } from '@angular/common';
 import { DemoUtilsModule } from './demo-utils/module';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { AddApponitnmentDialogComponent } from './dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from 'app/shared/shared.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 const root: Route[] = [
     {
@@ -44,9 +58,25 @@ const root: Route[] = [
             useFactory: adapterFactory,
           }),
           DemoUtilsModule,
+          MatDialogModule,
+          MatDatepickerModule,
+          MatSelectModule,
+          MatRadioModule,
+          SharedModule,
+          MatTooltipModule,
+          MatSlideToggleModule,
+          MatSortModule,
+          MatRippleModule,
+          MatNativeDateModule,
+          MatProgressBarModule,
+          MatPaginatorModule,
+          MatCheckboxModule,
+          MatSelectModule,
+          
     ],
     declarations: [
-        AppointmentComponent
+        AppointmentComponent,
+        AddApponitnmentDialogComponent
     ]
     
 })

@@ -1,7 +1,15 @@
 <div class="w-full m-4">
-
-  <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
-  </mwl-demo-utils-calendar-header>
+  
+  <!-- (click)="addPanelOpen() -->
+  <div class="flex">
+    <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+    </mwl-demo-utils-calendar-header>
+    <button class="ml-3 right-0 absolute mr-4" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+      <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+      Randevu Ekle
+    </button>
+  </div>
+  
   
   <div [ngSwitch]="view" class="w-full ">
     <mwl-calendar-month-view
