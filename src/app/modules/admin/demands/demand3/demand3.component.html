@@ -47,9 +47,10 @@
                   <ng-container *ngFor="let demand of demands; trackBy: trackByFn">
                       <div class="inventory-grid grid items-center gap-2 py-1 px-4 md:px-6 border-b">
                           <!-- Image -->
-                          <div class="hidden sm:block">
-                              {{demand.date}}
-                          </div>
+                          <div class="hidden lg:flex items-center">
+                            <div class="min-w-4">{{demand.date.split('T')[0].split('-')[2] + '-' + demand.date.split('T')[0].split('-')[1] + '-' + demand.date.split('T')[0].split('-')[0]}}</div>
+                        </div>
+                        
                           <!-- <div class="form-check"><input type="checkbox" [(ngModel)]="product.selected"></div> -->
                           <!-- <div class="flex items-center">
                                     <div
@@ -82,8 +83,9 @@
 
                           <!-- Stock -->
                           <div class="hidden lg:flex items-center">
-                              <div class="min-w-4">{{demand.date}}</div>
-                          </div>
+                            <div class="min-w-4">{{demand.deliverydate.split('T')[0].split('-')[2] + '-' + demand.deliverydate.split('T')[0].split('-')[1] + '-' + demand.deliverydate.split('T')[0].split('-')[0]}}</div>
+                        </div>
+                        
                           <ng-container *ngFor="let suppliersCards of supplierscards">
                               <div class="truncate" *ngIf="suppliersCards.id === demand.suppliers">
                                   {{ suppliersCards.suppliername }}

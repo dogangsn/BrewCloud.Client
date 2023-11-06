@@ -78,9 +78,10 @@
 
                                 </div>
                             </div> -->
-                            <div class="hidden sm:block ">
-                                {{demand.date}}
+                            <div class="hidden lg:flex items-center">
+                                <div class="min-w-4">{{demand.date.split('T')[0].split('-')[2] + '-' + demand.date.split('T')[0].split('-')[1] + '-' + demand.date.split('T')[0].split('-')[0]}}</div>
                             </div>
+                            
                             <!-- <div class="form-check"><input type="checkbox" [(ngModel)]="product.selected"></div> -->
                             <!-- <div class="flex items-center">
                                       <div
@@ -114,8 +115,9 @@
 
                             <!-- Stock -->
                             <div class="hidden lg:flex items-center">
-                                <div class="min-w-4">{{demand.date}}</div>
+                                <div class="min-w-4">{{demand.deliverydate.split('T')[0].split('-')[2] + '-' + demand.deliverydate.split('T')[0].split('-')[1] + '-' + demand.deliverydate.split('T')[0].split('-')[0]}}</div>
                             </div>
+                            
                             <ng-container *ngFor="let suppliersCards of supplierscards">
                                 <div class="truncate" *ngIf="suppliersCards.id === demand.suppliers">
                                     {{ suppliersCards.suppliername }}
