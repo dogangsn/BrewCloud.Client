@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { CreateCustomerCommand } from "app/modules/admin/customer/models/CreateCustomerCommand";
+import { CustomerDetailDto } from "app/modules/admin/customer/models/CustomerDetailDto";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -31,6 +32,8 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.deleteCustomer, model);
     }
 
-    
+    getCustomersFindById(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.getCustomersFindById, model);
+    }
 
 }

@@ -34,7 +34,7 @@
       </button>
     </div> -->
     <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-      <button id="dynamicButton" class="ml-3" mat-flat-button [color]="'accent'" (click)="handleButtonClick()" *ngIf="indexs !== 2">
+      <button id="dynamicButton" class="ml-3" mat-flat-button [color]="'accent'" (click)="handleButtonClick()" *ngIf="indexs == 0">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
         {{ buttonLabel }}
       </button>

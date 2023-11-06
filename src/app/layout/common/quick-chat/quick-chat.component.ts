@@ -24,9 +24,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
     private _overlay: HTMLElement;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _elementRef: ElementRef,
@@ -38,13 +35,7 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
     {
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Decorated methods
-    // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Host binding for component classes
-     */
     @HostBinding('class') get classList(): any
     {
         return {
@@ -52,11 +43,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         };
     }
 
-    /**
-     * Resize on 'input' and 'ngModelChange' events
-     *
-     * @private
-     */
     @HostListener('input')
     @HostListener('ngModelChange')
     private _resizeMessageInput(): void
@@ -75,13 +61,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void
     {
         // Chat
@@ -106,9 +85,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
             });
     }
 
-    /**
-     * After view init
-     */
     ngAfterViewInit(): void
     {
         // Fix for Firefox.
@@ -140,56 +116,31 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         });
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void
     {
-        // Disconnect the mutation observer
         this._mutationObserver.disconnect();
-
-        // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Open the panel
-     */
     open(): void
     {
-        // Return if the panel has already opened
         if ( this.opened )
         {
             return;
         }
-
-        // Open the panel
         this._toggleOpened(true);
     }
 
-    /**
-     * Close the panel
-     */
     close(): void
     {
-        // Return if the panel has already closed
         if ( !this.opened )
         {
             return;
         }
-
-        // Close the panel
         this._toggleOpened(false);
     }
 
-    /**
-     * Toggle the panel
-     */
     toggle(): void
     {
         if ( this.opened )
@@ -216,26 +167,11 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         this._quickChatService.getChatById(id).subscribe();
     }
 
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Show the backdrop
-     *
-     * @private
-     */
     private _showOverlay(): void
     {
         // Try hiding the overlay in case there is one already opened
@@ -265,47 +201,27 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         });
     }
 
-    /**
-     * Hide the backdrop
-     *
-     * @private
-     */
     private _hideOverlay(): void
     {
         if ( !this._overlay )
         {
             return;
         }
-
-        // If the backdrop still exists...
         if ( this._overlay )
         {
-            // Remove the backdrop
             this._overlay.parentNode.removeChild(this._overlay);
             this._overlay = null;
         }
-
-        // Disable block scroll strategy
         this._scrollStrategy.disable();
     }
 
-    /**
-     * Open/close the panel
-     *
-     * @param open
-     * @private
-     */
     private _toggleOpened(open: boolean): void
     {
-        // Set the opened
         this.opened = open;
-
-        // If the panel opens, show the overlay
         if ( open )
         {
             this._showOverlay();
         }
-        // Otherwise, hide the overlay
         else
         {
             this._hideOverlay();

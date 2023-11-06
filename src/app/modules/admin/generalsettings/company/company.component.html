@@ -33,6 +33,7 @@
                     [subscriptSizing]="'dynamic'">
                     <mat-label>Telefon</mat-label>
                     <input
+                        placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value)"
                         [formControlName]="'phone'"
                         matInput>
                 </mat-form-field>
@@ -186,6 +187,7 @@
                 class="ml-4"
                 mat-flat-button
                 type="button"
+                (click)="updateCompany()"
                 [color]="'primary'">Kaydet
             </button>
         </div>

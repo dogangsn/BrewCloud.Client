@@ -66,6 +66,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
 
         this.UnitsList();
         this.ProductCategoryList();
+        this.getSuppliers();
 
         this.productdescription = this._formBuilder.group({
             name: ['', [Validators.required]],
