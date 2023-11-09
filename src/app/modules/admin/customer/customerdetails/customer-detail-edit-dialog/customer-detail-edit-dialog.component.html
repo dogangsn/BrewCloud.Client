@@ -1,0 +1,109 @@
+<h1 mat-dialog-title class="mat-dialog-title">
+  <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
+    <span class="material-icons"> highlight_off </span>
+  </button>
+</h1>
+
+<div class="modalForm">
+  <mat-dialog-content>
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <span>Müşteri Bilgileri Düzenle</span>
+      </h5>
+    </div>
+
+    <div class="modal-body mbody-customeradd">
+      <div class="qm-pr-content">
+        <div class="container-fluid" [formGroup]="customerEditForm">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput [formControlName]="'email'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Telefon No</mat-label>
+                <input matInput [formControlName]="'phonenumber'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>Telefon No 2</mat-label>
+                <input matInput [formControlName]="'phonenumber2'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>İl</mat-label>
+                <input matInput [formControlName]="'city'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>İlçe</mat-label>
+                <input matInput [formControlName]="'district'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Vergi Dairesi</mat-label>
+                <input matInput [formControlName]="'taxoffice'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>VN/TC No</mat-label>
+                <input matInput [formControlName]="'vkntcno'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Not</mat-label>
+                <input matInput [formControlName]="'note'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>SMS Bildirimi</mat-label>
+                <input matInput [formControlName]="'smsNotification'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>E-Mail Bildirimi</mat-label>
+                <input matInput [formControlName]="'emailNotification'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>Adres</mat-label>
+                <input matInput [formControlName]="'address'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Müşteri İndirim Oranı</mat-label>
+                <input matInput [formControlName]="'customerdiscount'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>Müşteri Grubu</mat-label>
+                <input matInput [formControlName]="'customerGroup'" />
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"
+              (click)="updateCustomerDetail()">
+              Kaydet
+          </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>
