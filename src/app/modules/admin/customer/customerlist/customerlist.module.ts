@@ -29,6 +29,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { CustomerDetailEditDialogComponent } from '../customerdetails/customer-detail-edit-dialog/customer-detail-edit-dialog.component';
 
 const root: Route[] = [
     {
@@ -103,7 +104,8 @@ const root: Route[] = [
         CustomersListComponent,
         CreateEditCustomerAddDialogComponent,
         CreateEditPatientsDialogComponent,
-        CustomerDetailsComponent
+        CustomerDetailsComponent,
+        CustomerDetailEditDialogComponent
     ]
 
     

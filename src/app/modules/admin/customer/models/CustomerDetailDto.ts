@@ -14,7 +14,9 @@ export class CustomerDetailDto {
     isphone: boolean;
     adressid: string;
     createdate: string;
-
+    city: string;
+    district: string;
+    longadress: string;
 
     constructor(
         id: string,
@@ -31,7 +33,10 @@ export class CustomerDetailDto {
         isemail: boolean,
         isphone: boolean,
         adressid: string,
-        createdate: string) {
+        createdate: string,
+        city: string,
+        district: string,
+        longadress: string) {
 
         this.id = id;
         this.firstname = firstname;
@@ -48,6 +53,9 @@ export class CustomerDetailDto {
         this.isphone = isphone;
         this.adressid = adressid;
         this.createdate = createdate;
+        this.city = city;
+        this.district = district;
+        this.longadress = longadress;
     }
 
 }

@@ -31,6 +31,7 @@ export const endPoints = {
         animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
         animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
         getCustomersFindById: 'vet/Customers/GetCustomersFindById',
+        updateCustomerById: 'vet/Customers/UpdateCustomerById'
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
