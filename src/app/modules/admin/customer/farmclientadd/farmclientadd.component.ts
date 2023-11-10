@@ -16,7 +16,7 @@ export class FarmclientaddComponent implements OnInit {
 
     this.horizontalStepperForm = this._formBuilder.group({
       step1: this._formBuilder.group({
-          email   : ['', [Validators.required, Validators.email]],
+          email   : ['', [Validators.required]],
           country : ['', Validators.required],
           language: ['', Validators.required]
       }),

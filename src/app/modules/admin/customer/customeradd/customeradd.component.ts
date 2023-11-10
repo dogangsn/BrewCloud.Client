@@ -124,6 +124,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+        debugger;
         this.patients = [];
         this.getCustomerGroupList();
         this.getAnimalColorsDefList();
@@ -131,11 +132,11 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getAnimalBreedsDefList();
 
         this.accountForm = this._formBuilder.group({
-            firstName: [''],
-            lastName: [''],
-            phoneNumber: [''],
+            firstName: ['', [Validators.required]],
+            lastName: ['', [Validators.required]],
+            phoneNumber: ['', [Validators.required]],
             phoneNumber2: [''],
-            eMail: [''],
+            eMail: ['', [Validators.email]],
             taxOffice: [''],
             vKNTCNo: [''],
             note: [''],
@@ -153,8 +154,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             name: ['', [Validators.required]],
             birthDate: [''],
             chipNumber: [''],
-            sex: [''],
-            animalType: [2],
+            sex: ['1'],
+            animalType: [0],
             animalBreed: [''],
             animalColor: [''],
             reportNumber: [''],
@@ -176,6 +177,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     filterTagsByVendor(selectedVendor: any) {
         debugger;
+        console.log(selectedVendor.value);
         const selectedValue = selectedVendor.value;
         // Seçilen vendor'a ait tagleri filtrele
         this.filteredTags = this.animalBreedsDef.filter(
@@ -228,18 +230,34 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     addCustomers(): any {
         debugger;
-
+        if (this.accountForm.invalid) {
+            this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
+            return;
+        }
         if (this.fillSelectedInvoice()) {
             const model = {
                 createcustomers: this.customers,
             };
+            if (!this.phoneNumberValidator(this.customers.phoneNumber)) {
+                this.showSweetAlert(
+                    'error',
+                    'Telefon Numarası Alan Kodu Hatalı. Kontrol Ediniz.'
+                );
+                return;
+            }
 
             this._customerService.createCustomers(model).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
-                        this.showSweetAlert('success');
+                        this.showSweetAlert(
+                            'success',
+                            'sweetalert.transactionSuccessful'
+                        );
                     } else {
-                        this.showSweetAlert('error');
+                        this.showSweetAlert(
+                            'error',
+                            'sweetalert.transactionFailed'
+                        );
                     }
                 },
                 (err) => {
@@ -260,6 +278,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     getAnimalTypesList() {
         this._customerService.getVetVetAnimalsType().subscribe((response) => {
             this.animalTypesList = response.data;
+            console.log('anımals', this.animalTypesList);
         });
     }
 
@@ -269,18 +288,18 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(text),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
@@ -298,10 +317,11 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     createPatient(): void {
-        debugger;
         let selectedProductIndex = this.patients.findIndex(
             (product) => product.id === this.selectedPatients?.id
         );
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US');
         if (selectedProductIndex !== -1) {
             //selectedProduct = this.selectedPatientDetailsForm.value;
 
@@ -309,16 +329,17 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 ...this.selectedPatientDetailsForm.value,
             };
             const newId = uuidv4();
+
             const newPatient: PatientDetails = {
                 id: newId,
                 name: '',
-                birthDate: '',
+                birthDate: formattedDate,
                 chipNumber: '',
                 reportNumber: '',
                 specialNote: '',
                 sterilization: false,
-                sex: 0,
-                animalType: 2,
+                sex: '1',
+                animalType: 0,
                 animalBreed: '',
                 animalColor: '',
                 tags: [],
@@ -334,13 +355,13 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         const newPatient: PatientDetails = {
             id: newId,
             name: '',
-            birthDate: '',
+            birthDate: formattedDate,
             chipNumber: '',
             reportNumber: '',
             specialNote: '',
             sterilization: false,
-            sex: 0,
-            animalType: 2,
+            sex: '1',
+            animalType: 0,
             animalBreed: '',
             animalColor: '',
             tags: [],
@@ -350,29 +371,35 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.patients.push(newPatient);
         this.selectedPatients = newPatient;
-        this.selectedPatientDetailsForm.reset(newPatient);
-        this.tagsEditMode = true;
+        debugger;
+        this.selectedPatientDetailsForm.patchValue(newPatient);
+        //this.tagsEditMode = true;
         //this._changeDetectorRef.markForCheck();
     }
 
-    async toggleDetails(productId: string): Promise<void> {
-        // debugger;
-        // if (this.selectedPatients && this.selectedPatients.id === productId) {
-        //     this.closeDetails(productId);
+    async toggleDetails(patientId: string): Promise<void> {
+        debugger;
+        console.log('patiendid', patientId);
+
+        // if (this.selectedPatients && this.selectedPatients.id === patientId) {
+        //     this.closeDetails(patientId);
         //     return;
         // }
-        await this.closeDetails();
-        const selectedProduct = this.patients.find(
-            (product) => product.id === productId
-        );
-        if (selectedProduct) {
-            this.selectedPatients = selectedProduct;
-            this.selectedPatientDetailsForm.patchValue(selectedProduct);
-            this._changeDetectorRef.markForCheck();
-        }
+
+        await this.closeDetails(patientId);
+
+        // const selectedProduct = this.patients.find(
+        //     (product) => product.id === productId
+        // );
+        // if (selectedProduct) {
+        //     this.selectedPatients = selectedProduct;
+        //     this.selectedPatientDetailsForm.patchValue(selectedProduct);
+        //     this._changeDetectorRef.markForCheck();
+        // }
+        console.log('selected', this.selectedPatients);
     }
 
-    deleteSelectedProduct(): void {
+    deleteSelectedProduct(patiendId: any): void {
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
             this.translate('sweetalert.areYouSureDelete'),
@@ -381,21 +408,29 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const product =
-                        this.selectedPatientDetailsForm.getRawValue();
-                    const productIndex = this.patients.findIndex(
-                        (product) => product.id === product.id
+                    debugger;
+                    const index = this.patients.findIndex(
+                        (patient) => patient.id === patiendId
                     );
-                    if (productIndex !== -1) {
-                        this.patients.splice(productIndex, 1);
-                        if (
-                            this.selectedPatients &&
-                            this.selectedPatients.id === product.id
-                        ) {
-                            this.closeDetails(product.id);
-                        }
-                        this._changeDetectorRef.markForCheck();
+                    if (index !== -1) {
+                        this.patients.splice(index, 1);
+                        this.selectedPatients = null;
                     }
+                    // const product =
+                    //     this.selectedPatientDetailsForm.getRawValue();
+                    // const productIndex = this.patients.findIndex(
+                    //     (product) => product.id === product.id
+                    // );
+                    // if (productIndex !== -1) {
+                    //     this.patients.splice(productIndex, 1);
+                    //     if (
+                    //         this.selectedPatients &&
+                    //         this.selectedPatients.id === product.id
+                    //     ) {
+                    //         this.closeDetails(product.id);
+                    //     }
+                    //     this._changeDetectorRef.markForCheck();
+                    // }
                 }
             }
         );
@@ -406,8 +441,52 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             let selectedProduct = this.patients.find(
                 (product) => product.id === productId
             );
-            if (selectedProduct) {
-                debugger;
+            if (!this.selectedPatients) {
+                selectedProduct = this.patients.find(
+                    (product) => product.id === productId
+                );
+                this.selectedPatients = selectedProduct;
+                this.selectedPatientDetailsForm.patchValue(selectedProduct);
+            } else if (this.selectedPatients?.id !== selectedProduct?.id) {
+                selectedProduct = this.patients.find(
+                    (product) => product.id === this.selectedPatients.id
+                );
+                selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
+                selectedProduct.name =
+                    this.selectedPatientDetailsForm.value?.name;
+                selectedProduct.birthDate =
+                    this.selectedPatientDetailsForm.value?.birthDate;
+                selectedProduct.chipNumber =
+                    this.selectedPatientDetailsForm.value?.chipNumber;
+                selectedProduct.reportNumber =
+                    this.selectedPatientDetailsForm.value?.reportNumber;
+                selectedProduct.specialNote =
+                    this.selectedPatientDetailsForm.value?.specialNote;
+                selectedProduct.sterilization =
+                    this.selectedPatientDetailsForm.value?.sterilization;
+                selectedProduct.sex =
+                    this.selectedPatientDetailsForm.value?.sex;
+                selectedProduct.animalType =
+                    this.selectedPatientDetailsForm.value?.animalType;
+                selectedProduct.animalBreed =
+                    this.selectedPatientDetailsForm.value?.animalBreed;
+                selectedProduct.animalColor =
+                    this.selectedPatientDetailsForm.value?.animalColor;
+                selectedProduct.active =
+                    this.selectedPatientDetailsForm.value?.active;
+                selectedProduct.thumbnail =
+                    this.selectedPatientDetailsForm.value?.thumbnail;
+                selectedProduct.tags =
+                    this.selectedPatientDetailsForm.value?.tags;
+                selectedProduct.images =
+                    this.selectedPatientDetailsForm.value?.images;
+
+                const newPatient = this.patients.find(
+                    (x) => x.id === productId
+                );
+                this.selectedPatients = newPatient;
+                this.selectedPatientDetailsForm.patchValue(newPatient);
+            } else if (selectedProduct) {
                 selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
                 selectedProduct.name =
                     this.selectedPatientDetailsForm.value?.name;
@@ -446,7 +525,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     reportNumber: '',
                     specialNote: '',
                     sterilization: false,
-                    sex: 0,
+                    sex: '0',
                     animalType: 2,
                     animalBreed: '',
                     animalColor: '',
@@ -455,9 +534,12 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     active: true,
                     thumbnail: '',
                 };
-                this.selectedPatientDetailsForm.reset(newPatient);
+                this.selectedPatientDetailsForm.reset();
+                this.selectedPatients = null;
+            } else {
+                this.selectedPatients = selectedProduct;
+                this.selectedPatientDetailsForm.patchValue(selectedProduct);
             }
-            this.selectedPatients = null;
         } else {
             let selectedProductIndex = this.patients.findIndex(
                 (product) => product.id === this.selectedPatients?.id
@@ -498,8 +580,9 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
+        this.patients = [];
+        // this._unsubscribeAll.next(null);
+        // this._unsubscribeAll.complete();
     }
 
     toggleTagsEditMode(): void {
@@ -518,39 +601,38 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        if (this._sort && this._paginator) {
-            this._sort.sort({
-                id: 'name',
-                start: 'asc',
-                disableClear: true,
-            });
-            this._changeDetectorRef.markForCheck();
-            this._sort.sortChange
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe(() => {
-                    this._paginator.pageIndex = 0;
-                    // this.closeDetails(productId);
-                });
-
-            // Get products if sort or page changes
-            // merge(this._sort.sortChange, this._paginator.page)
-            //     .pipe(
-            //         switchMap(() => {
-            //             this.closeDetails(productId);
-            //             this.isLoading = true;
-            //             return this._inventoryService.getProducts(
-            //                 this._paginator.pageIndex,
-            //                 this._paginator.pageSize,
-            //                 this._sort.active,
-            //                 this._sort.direction
-            //             );
-            //         }),
-            //         map(() => {
-            //             this.isLoading = false;
-            //         })
-            //     )
-            //     .subscribe();
-        }
+        // if (this._sort && this._paginator) {
+        //     this._sort.sort({
+        //         id: 'name',
+        //         start: 'asc',
+        //         disableClear: true,
+        //     });
+        //     this._changeDetectorRef.markForCheck();
+        //     this._sort.sortChange
+        //         .pipe(takeUntil(this._unsubscribeAll))
+        //         .subscribe(() => {
+        //             this._paginator.pageIndex = 0;
+        //             // this.closeDetails(productId);
+        //         });
+        //     // Get products if sort or page changes
+        //     // merge(this._sort.sortChange, this._paginator.page)
+        //     //     .pipe(
+        //     //         switchMap(() => {
+        //     //             this.closeDetails(productId);
+        //     //             this.isLoading = true;
+        //     //             return this._inventoryService.getProducts(
+        //     //                 this._paginator.pageIndex,
+        //     //                 this._paginator.pageSize,
+        //     //                 this._sort.active,
+        //     //                 this._sort.direction
+        //     //             );
+        //     //         }),
+        //     //         map(() => {
+        //     //             this.isLoading = false;
+        //     //         })
+        //     //     )
+        //     //     .subscribe();
+        // }
     }
 
     cycleImages(forward: boolean = true): void {
@@ -683,10 +765,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 3000);
     }
 
-    formatPhoneNumber(inputValue: string,  formControlName: string): void {
+    formatPhoneNumber(inputValue: string, formControlName: string): void {
         // Sadece sayıları alarak filtreleme yapın
         const numericValue = inputValue.replace(/\D/g, '');
-    
+
         // Sayıları uygun formatta düzenle
         let formattedValue = '';
         if (numericValue.length > 0) {
@@ -698,11 +780,71 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         if (numericValue.length > 6) {
             formattedValue += '-' + numericValue.substring(6, 10);
         }
-    
+
         // Düzenlenmiş değeri input alanına atayın
         this.accountForm.get(formControlName).setValue(formattedValue);
     }
 
+    phoneNumberValidator(phoneNumber: any): boolean {
+        debugger;
+        const phoneNumberPattern = /^\(\d{3}\) \d{3}-\d{4}$/; // İstenen telefon numarası formatı
+        const validAreaCodes = [
+            '(505)',
+            '(506)',
+            '(507)',
+            '(551)',
+            '(552)',
+            '(553)',
+            '(554)',
+            '(555)',
+            '(556)',
+            '(557)',
+            '(558)',
+            '(559)',
+            '(501)',
+            '(502)',
+            '(503)',
+            '(504)',
+            '(540)',
+            '(541)',
+            '(542)',
+            '(543)',
+            '(544)',
+            '(545)',
+            '(546)',
+            '(547)',
+            '(548)',
+            '(549)',
+            '(530)',
+            '(531)',
+            '(532)',
+            '(533)',
+            '(534)',
+            '(535)',
+            '(536)',
+            '(537)',
+            '(538)',
+            '(539)',
+            '(501)',
+            '(502)',
+            '(503)',
+            '(504)',
+            '(505)',
+            '(506)',
+            '(507)',
+        ];
+
+        // if (!phoneNumberPattern.test(phoneNumber)) {
+        //     return { invalidPhoneNumber: { value: phoneNumber } };
+        // }
+
+        const inputAreaCode = phoneNumber.substring(0, 5); // Telefon numarasından alan kodunu al
+
+        if (!validAreaCodes.includes(inputAreaCode)) {
+            return false; // Geçersiz alan kodu hatası
+        }
+        return true;
+    }
 }
 
 export const sextype = [

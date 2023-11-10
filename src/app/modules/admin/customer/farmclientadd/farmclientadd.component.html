@@ -98,7 +98,7 @@
                       <input
                           matInput
                           [formControlName]="'firstName'"
-                          [placeholder]="'First name'"
+                          [placeholder]="'İsim'"
                           required>
                       <mat-icon
                           class="icon-size-5"
@@ -109,7 +109,7 @@
                       <input
                           matInput
                           [formControlName]="'lastName'"
-                          [placeholder]="'Last name'"
+                          [placeholder]="'Soyisim'"
                           required>
                       <mat-icon
                           class="icon-size-5"
@@ -122,7 +122,7 @@
                       <input
                           matInput
                           [formControlName]="'userName'"
-                          [placeholder]="'Username'"
+                          [placeholder]="'E-Mail'"
                           required>
                       <span matPrefix>www.example.com/</span>
                   </mat-form-field>
@@ -132,7 +132,7 @@
                       <textarea
                           matInput
                           [formControlName]="'about'"
-                          [placeholder]="'About'"
+                          [placeholder]="'Hakkında'"
                           [rows]="3"></textarea>
                       <mat-icon
                           class="icon-size-5"
@@ -165,7 +165,7 @@
           <mat-step
               [formGroupName]="'step3'"
               [stepControl]="horizontalStepperForm.get('step3')">
-              <ng-template matStepLabel>Notifications</ng-template>
+              <ng-template matStepLabel>Hasta Ekle</ng-template>
               <p class="my-6 font-medium">
                   We'll always let you know about important changes, but you pick what else you want to hear about.
               </p>
@@ -237,7 +237,7 @@
           </mat-step>
 
           <mat-step>
-              <ng-template matStepLabel>Done</ng-template>
+              <ng-template matStepLabel>Bitir</ng-template>
               <p class="my-6 font-medium">
                   Thank you for completing our form! You can reset the form if you would like to change your information.
               </p>

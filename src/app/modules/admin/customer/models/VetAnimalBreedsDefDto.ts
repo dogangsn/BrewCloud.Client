@@ -1,5 +1,5 @@
 export class VetAnimalBreedsDefDto {
-    id : number;
+    recid : number;
     animaltype: number;
     breedName : string;
 }
