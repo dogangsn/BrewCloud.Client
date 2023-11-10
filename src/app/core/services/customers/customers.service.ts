@@ -36,4 +36,7 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.getCustomersFindById, model);
     }
 
+    updateCustomerById(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.updateCustomerById, model);
+    }
 }
