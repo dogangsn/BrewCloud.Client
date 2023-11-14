@@ -151,98 +151,99 @@
                     </div>
                     <div class="flex float:left md:max-sm:flex-column ">
                         <mat-form-field class="flex-auto gt-xs:pr-6">
-                            <mat-label>E-mail</mat-label>
-                            <input matInput disabled="true" [formControlName]="'email'">
+                            <mat-label class="boldFont">E-mail</mat-label>
+                            <input matInput disabled="true" [formControlName]="'email'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-6">
-                            <mat-label>Telefon No</mat-label>
-                            <input matInput disabled="true" [formControlName]="'phonenumber'">
+                            <mat-label class="boldFont">Telefon No</mat-label>
+                            <input matInput disabled="true" [formControlName]="'phonenumber'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>Telefon No 2</mat-label>
-                            <input matInput disabled="true" [formControlName]="'phonenumber2'">
+                            <mat-label class="boldFont">Telefon No 2</mat-label>
+                            <input matInput disabled="true" [formControlName]="'phonenumber2'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>İl</mat-label>
-                            <input matInput disabled="true" [formControlName]="'city'">
+                            <mat-label class="boldFont">İl</mat-label>
+                            <input matInput disabled="true" [formControlName]="'city'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>İlçe</mat-label>
-                            <input matInput disabled="true" [formControlName]="'district'">
+                            <mat-label class="boldFont">İlçe</mat-label>
+                            <input matInput disabled="true" [formControlName]="'district'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>Vergi Dairesi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'taxoffice'">
+                            <mat-label class="boldFont">Vergi Dairesi</mat-label>
+                            <input matInput disabled="true" [formControlName]="'taxoffice'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>VN/TC No</mat-label>
-                            <input matInput disabled="true" [formControlName]="'vkntcno'">
+                            <mat-label class="boldFont">VN/TC No</mat-label>
+                            <input matInput disabled="true" [formControlName]="'vkntcno'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>Not</mat-label>
-                            <input matInput disabled="true" [formControlName]="'note'">
+                            <mat-label class="boldFont">Not</mat-label>
+                            <input matInput disabled="true" [formControlName]="'note'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>SMS Bildirimi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'smsNotification'" style="color: red;">
+                            <mat-label class="boldFont">SMS Bildirimi</mat-label>
+                            <input matInput disabled="true" [formControlName]="'smsNotification'" 
+                                   [ngStyle]="{'color': customerDetailForm.get('smsNotification').value ? 'green' : 'red'}">
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                          </mat-form-field>
+                          
+                          <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label class="boldFont">E-Mail Bildirimi</mat-label>
+                            <input matInput disabled="true" [formControlName]="'emailNotification'" 
+                                   [ngStyle]="{'color': customerDetailForm.get('emailNotification').value ? 'green' : 'red'}">
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                          </mat-form-field>
+                    </div>
+                    <div class="flex float:left gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3">
+                            <mat-label class="boldFont">Adres</mat-label>
+                            <input matInput disabled="true" [formControlName]="'address'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>E-Mail Bildirimi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'emailNotification'" style="color: red;">
+                            <mat-label class="boldFont">Müşteri İndirim Oranı</mat-label>
+                            <input matInput disabled="true" [formControlName]="'customerdiscount'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>Adres</mat-label>
-                            <input matInput disabled="true" [formControlName]="'address'">
+                            <mat-label class="boldFont">Müşteri Grubu</mat-label>
+                            <input matInput disabled="true" [formControlName]="'customerGroup'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>Müşteri İndirim Oranı</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerdiscount'">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex float:left gt-xs:flex-row">
-                        <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label>Müşteri Grubu</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerGroup'">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>Kayıt Tarihi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'recordDate'">
+                            <mat-label class="boldFont">Kayıt Tarihi</mat-label>
+                            <input matInput disabled="true" [formControlName]="'recordDate'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
@@ -251,9 +252,6 @@
                 <!-- <app-customer-detail-edit-dialog [formData]="formGroup.value"></app-customer-detail-edit-dialog> -->
 
             </div>
-
-
-
 
 
             <div class="w-full md:w-6/12 p-2">
