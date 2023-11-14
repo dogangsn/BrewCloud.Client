@@ -1,4 +1,4 @@
 export class VetVetAnimalsTypeListDto {
-    id: number;
+    type: number;
     name: string;
 }

@@ -1,7 +1,4 @@
-
-
-export interface InventoryPagination
-{
+export interface InventoryPagination {
     length: number;
     size: number;
     page: number;
@@ -10,50 +7,44 @@ export interface InventoryPagination
     endIndex: number;
 }
 
-export interface SexTYpe
-{
+export interface SexTYpe {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryBrand
-{
+export interface InventoryBrand {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryTag
-{
+export interface InventoryTag {
     id?: string;
     title?: string;
 }
 
-export interface InventoryVendor
-{
+export interface InventoryVendor {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface PatientDetails
-{
+export interface PatientDetails {
     id: string;
-    name : string;
+    name: string;
     birthDate: string | null;
     chipNumber: string | null;
-    sex: number;
-    animalType : number;
+    sex: string;
+    animalType: number;
     animalBreed: string;
     animalColor: string;
     reportNumber: string | null;
-    specialNote : string | null;
-    sterilization : boolean;
+    specialNote: string | null;
+    sterilization: boolean;
     tags?: string[];
     images: string[];
     active: boolean;
     thumbnail: string;
 }
-
