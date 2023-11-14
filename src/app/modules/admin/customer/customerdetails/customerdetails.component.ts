@@ -11,6 +11,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog/customer-detail-edit-dialog.component';
+import { PatientDetailsDto } from '../models/PatientDetailsDto';
 
 @Component({
     selector: 'customerdetails',
@@ -26,6 +27,7 @@ export class CustomerDetailsComponent implements OnInit {
     boards: any[];
     id: string;
     customerDetail: CustomerDetailDto
+    patientDetails: PatientDetailsDto[] = [];
     firstname: string
     lastname: string
     constructor(
@@ -49,8 +51,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         this._customerService.getCustomersFindById(model).subscribe(response => {
             if (response.isSuccessful) {
-                debugger;
                 this.customerDetail = response.data;
+                this.patientDetails = this.customerDetail.patientDetails
                 this.firstname = this.customerDetail.firstname;
                 this.lastname = this.customerDetail.lastname;
                 this.customerDetailForm.patchValue({
