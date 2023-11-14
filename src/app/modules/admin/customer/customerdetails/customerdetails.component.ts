@@ -15,10 +15,12 @@ import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog
 @Component({
     selector: 'customerdetails',
     templateUrl: './customerdetails.component.html',
+    styleUrls: ['./customerdetails.component.css']
 })
 export class CustomerDetailsComponent implements OnInit {
     @Output() formDataChanged = new EventEmitter<any>();
-
+    userFirstName: string = "John"; // Kullanıcı adınızı buraya yerine koyun
+    userLastName: string = "Doe"; // Kullanıcı soyadınızı buraya yerine koyun
     customerDetailForm: FormGroup;
     selectedCustomerId: any;
     boards: any[];
@@ -47,6 +49,7 @@ export class CustomerDetailsComponent implements OnInit {
 
         this._customerService.getCustomersFindById(model).subscribe(response => {
             if (response.isSuccessful) {
+                debugger;
                 this.customerDetail = response.data;
                 this.firstname = this.customerDetail.firstname;
                 this.lastname = this.customerDetail.lastname;
@@ -89,6 +92,16 @@ export class CustomerDetailsComponent implements OnInit {
             recordDate: [{ value: '', disabled: true }],
         });
     }
+
+    // getUserAvatarUrl(): string {
+    //     const initials = this.userFirstName.charAt(0) + this.userLastName.charAt(0);
+    //     // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
+    //     // Örneğin: return 'https://example.com/api/getUserAvatar?initials=' + initials;
+    
+    //     // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
+    //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
+    //   }
+
     addPanelOpen(): void {
 
         const model = {
