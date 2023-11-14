@@ -4,6 +4,8 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateEditPatientsDialogComponent } from '../customerlist/patientsdialogs/create-edit-patients';
 
 @Component({
     selector: 'app-farmclientadd',
@@ -12,8 +14,39 @@ import {
 })
 export class FarmclientaddComponent implements OnInit {
     horizontalStepperForm: UntypedFormGroup;
+    items = [
+        {
+          title: 'Öğe 1',
+          description: 'Bu, kart listesinin birinci öğesi.'
+        },
+        {
+          title: 'Öğe 2',
+          description: 'Bu, kart listesinin ikinci öğesi.'
+        },
+        {
+          title: 'Öğe 3',
+          description: 'Bu, kart listesinin üçüncü öğesi.'
+        },
+        {
+            title: 'Öğe 4',
+            description: 'Bu, kart listesinin üçüncü öğesi.'
+          },
+          {
+            title: 'Öğe 5',
+            description: 'Bu, kart listesinin üçüncü öğesi.'
+          },
+          {
+            title: 'Öğe 6',
+            description: 'Bu, kart listesinin üçüncü öğesi.'
+          }
+        // Buraya istediğiniz kadar öğe ekleyebilirsiniz
+      ];
 
-    constructor(private _formBuilder: UntypedFormBuilder) {}
+    constructor(private _formBuilder: UntypedFormBuilder,  
+                private _dialog: MatDialog) 
+    {
+
+    }
 
     ngOnInit() {
         this.horizontalStepperForm = this._formBuilder.group({
@@ -61,5 +94,25 @@ export class FarmclientaddComponent implements OnInit {
         this.horizontalStepperForm.get(formControlName).setValue(formattedValue);
     }
 
+    addPanelOpen(): void {
+        //this.erpfinancemonitorForm.reset();
+        const dialog = this._dialog
+            .open(CreateEditPatientsDialogComponent, {
+                // maxWidth: '400vw !important',
+                // minHeight: '2000px !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    // debugger;
+                    // response.data.forEach(item => {
+                    //     this.patients.push(item);
+                    // });
+                    // this.dataSource = new MatTableDataSource(this.patients);
+                }
+            });
+    }
     
 }

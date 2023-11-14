@@ -87,17 +87,17 @@
                         </mat-form-field>
                     </div>
                     <div class="flex">
-                        <mat-form-field class="flex-auto">
+                        <mat-form-field class="flex-auto gt-xs:pl-3">
                             <input matInput [formControlName]="'email'" [placeholder]="'E-Mail'" required>
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex">
-                        <mat-form-field class="flex-auto">
+                        <mat-form-field class="flex-auto gt-xs:pl-3">
                             <input placeholder="(555) 555-5555"
                                 (input)="formatPhoneNumber($event.target.value, 'phoneNumber')" matInput
                                 [formControlName]="'phoneNumber'">
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex">
@@ -121,40 +121,26 @@
 
                 <mat-step [formGroupName]="'step3'" [stepControl]="horizontalStepperForm.get('step3')">
                     <ng-template matStepLabel>Hasta Ekle</ng-template>
-                    <p class="my-6 font-medium">
-                        We'll always let you know about important changes, but you pick what else you want to hear
-                        about.
-                    </p>
+                    <button class="ml-3 mr-6" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+                        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                        Hasta Ekle
+                    </button>  
                     <div class="flex flex-col gt-sm:flex-row">
                         <div class="flex flex-col">
-                            <span class="font-medium mb-2">By Email</span>
-                            <div class="flex flex-col" [formGroupName]="'byEmail'">
-                                <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'companyNews'">
-                                    Company News
-                                </mat-checkbox>
-                                <mat-checkbox class="mb-1" [color]="'primary'" [formControlName]="'featuredProducts'">
-                                    Featured Products
-                                </mat-checkbox>
-                                <mat-checkbox [color]="'primary'" [formControlName]="'messages'">
-                                    Messages
-                                </mat-checkbox>
-                            </div>
+                            <mat-grid-list cols="fit" rowHeight="200px">
+                                <mat-grid-tile *ngFor="let item of items">
+                                  <mat-card>
+                                    <mat-card-header>
+                                      <mat-card-title>{{ item.title }}</mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                      <p>{{ item.description }}</p>
+                                    </mat-card-content>
+                                  </mat-card>
+                                </mat-grid-tile>
+                              </mat-grid-list>
                         </div>
-                        <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                            <span class="font-medium mb-2">Push Notifications</span>
-                            <mat-radio-group class="flex flex-col" [color]="'primary'"
-                                [formControlName]="'pushNotifications'">
-                                <mat-radio-button class="mb-2" [value]="'everything'">
-                                    Everything
-                                </mat-radio-button>
-                                <mat-radio-button class="mb-2" [value]="'just-good'">
-                                    Just the good stuff
-                                </mat-radio-button>
-                                <mat-radio-button [value]="'no-push'">
-                                    No push notifications
-                                </mat-radio-button>
-                            </mat-radio-group>
-                        </div>
+                        
                     </div>
                     <div class="flex justify-end mt-8">
                         <button class="px-8 mr-2" mat-flat-button [color]="'accent'" type="button" matStepperPrevious>
