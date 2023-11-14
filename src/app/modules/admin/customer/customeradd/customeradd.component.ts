@@ -53,6 +53,8 @@ import { AnimalColorsDefListDto } from '../models/AnimalColorsDefListDto';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
 import { VetAnimalBreedsDefDto } from '../models/VetAnimalBreedsDefDto';
 import { VetVetAnimalsTypeListDto } from '../models/VetVetAnimalsTypeListDto';
+import { Duration } from 'luxon';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'customeradd',
@@ -120,7 +122,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _customergroup: CustomerGroupService,
-        private _animalColorDefService: AnimalColorsDefService
+        private _animalColorDefService: AnimalColorsDefService,
+        private router: Router, private route: ActivatedRoute,
     ) {}
 
     ngOnInit() {
@@ -253,10 +256,13 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                             'success',
                             'sweetalert.transactionSuccessful'
                         );
+                        this.router.navigate(['customerlist/customerdetails', response.data]);
+
                     } else {
+                        debugger
                         this.showSweetAlert(
                             'error',
-                            'sweetalert.transactionFailed'
+                            response.errors[0]
                         );
                     }
                 },
@@ -300,7 +306,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
                 this.translate(text),
-                SweetalertType.error
+                SweetalertType.error,
             );
             GeneralService.sweetAlert(sweetAlertDto);
         }
