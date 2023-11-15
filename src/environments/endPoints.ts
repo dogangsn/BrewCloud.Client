@@ -106,7 +106,8 @@ export const endPoints = {
         demandsList : 'vet/Demands/DemandList',
         createdemand : 'vet/Demands/CreateDemand',
         updatedemand : 'vet/Demands/UpdateDemand',
-        deletedemand : 'vet/Demands/DeleteDemand'
+        deletedemand : 'vet/Demands/DeleteDemand',
+        updatebuydemands:'vet/Demands/UpdateDemandIsBuying'
     },
     demandTrans : {
         demandsTransList : 'vet/Demands/DemandTransList',
@@ -116,5 +117,9 @@ export const endPoints = {
     },
     lab : {
         customersLabList : 'vet/lab/CustomersLabList'
+    },
+    parameters : {
+        parametersList : 'vet/Settings/ParametersList',
+        updateparameters : 'vet/Settings/UpdateParameters',
     }
 }
