@@ -9,6 +9,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
+import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
 
 @Component({
     selector: 'buying',
@@ -31,7 +32,6 @@ export class BuyingComponent implements OnInit {
     salebuyList: SaleBuyListDto[] = [];
     dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyList);
     isUpdateButtonActive: boolean;
-
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
@@ -85,6 +85,27 @@ export class BuyingComponent implements OnInit {
 
         const dialog = this._dialog
             .open(CreateEditSalesBuyComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getSaleBuy();
+                }
+            });
+    }
+    createBuyingOrder(): void {
+        const model = {
+            selectedsalebuy: null,
+            visibleCustomer: false,
+            salebuyType: 2, //satis
+            isSupplier: true,
+        };
+
+        const dialog = this._dialog
+            .open(CreateEditBuyOrderComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
                 data: model,

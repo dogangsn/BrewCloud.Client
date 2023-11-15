@@ -1,0 +1,31 @@
+import { Injectable } from "@angular/core";
+import { HttpService } from "app/core/auth/Http.service";
+import { BehaviorSubject, filter, map, of, switchMap, take, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from 'app/modules/admin/demands/demand1/models/demandProductsListDto';
+// import { CreateCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/CreateCasingDefinitionCommand";
+// import { DeleteCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/DeleteCasingDefinitionCommand";
+// import { UpdateCasingDefinitionCommand } from "app/modules/admin/definition/casingdefinition/models/UpdateCasingDefinitionCommand";
+import { endPoints } from "environments/endPoints";
+import { Observable } from "rxjs";
+import { parametersListDto } from "app/modules/admin/settings/parameters/models/parametersListDto";
+import { UpdateParametersCommand } from "app/modules/admin/settings/parameters/models/UpdateParametersCommand";
+
+import { UpdateDemandProductsCommand } from "app/modules/admin/demands/demand1/models/UpdateDemandProductsCommand";
+@Injectable({
+    providedIn: 'root'
+})
+
+export class ParametersService {
+    
+    constructor(private _httpService: HttpService) { }
+    getparameterList() : Observable<any>{
+        return this._httpService.getRequest(endPoints.parameters.parametersList);
+    }
+    updateParameters(model: UpdateParametersCommand): Observable<any> {
+        return this._httpService.post(endPoints.parameters.updateparameters, model);
+    }
+
+
+
+}

@@ -140,10 +140,12 @@
 
                     <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/male-04.jpg"
                         alt="User avatar" />
-                    <h1 style="font-size: 20px; padding-top: 50px; padding-left: 25px;">{{this.firstname}} {{this.lastname}}</h1>
+                    <h1 style="font-size: 40px; padding-top: 50px; padding-left: 25px;">{{this.firstname}}
+                        {{this.lastname}}</h1>
                     <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
                 </div>
-                <div class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden" [formGroup]="customerDetailForm" >
+                <div class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden"
+                    [formGroup]="customerDetailForm">
                     <div class="flex float:right md:max-sm:flex-column" style="justify-content: flex-end;">
                         <button mat-icon-button color="accent" matTooltip="Düzenle" (click)="addPanelOpen()">
                             <mat-icon aria-label="Edit">edit</mat-icon>
@@ -208,17 +210,19 @@
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label class="boldFont">SMS Bildirimi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'smsNotification'" 
-                                   [ngStyle]="{'color': customerDetailForm.get('smsNotification').value ? 'green' : 'red'}">
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                          </mat-form-field>
-                          
-                          <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <input matInput disabled="true" [formControlName]="'smsNotification'"
+                                [ngStyle]="{'color': customerDetailForm.get('smsNotification').value ? 'green' : 'red'}">
+                            <mat-icon class="icon-size-5" matSuffix
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label class="boldFont">E-Mail Bildirimi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'emailNotification'" 
-                                   [ngStyle]="{'color': customerDetailForm.get('emailNotification').value ? 'green' : 'red'}">
-                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                          </mat-form-field>
+                            <input matInput disabled="true" [formControlName]="'emailNotification'"
+                                [ngStyle]="{'color': customerDetailForm.get('emailNotification').value ? 'green' : 'red'}">
+                            <mat-icon class="icon-size-5" matSuffix
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
@@ -229,7 +233,8 @@
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label class="boldFont">Müşteri İndirim Oranı</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerdiscount'" class="disableCustomCss">
+                            <input matInput disabled="true" [formControlName]="'customerdiscount'"
+                                class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
@@ -237,7 +242,8 @@
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label class="boldFont">Müşteri Grubu</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerGroup'" class="disableCustomCss">
+                            <input matInput disabled="true" [formControlName]="'customerGroup'"
+                                class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
@@ -256,11 +262,33 @@
 
             <div class="w-full md:w-6/12 p-2">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
-                        <div
-                            class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10">
+                    <div class="flex flex-col flex-auto items-center p-6 sm:p-10" style="padding: 0 !important;">
+                        <!-- <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10">
                             Hasta
+                        </div> -->
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full min-w-0">
+                            <ng-container *ngFor="let patient of patientDetails">
+                                <div
+                                    class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
+                                    <!-- Avatar & Info -->
+                                    <div class="flex flex-col flex-auto w-full p-8 text-center">
+                                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden">
+                                            <img class="w-full h-full object-cover"
+                                                src="assets/images/avatars/male-04.jpg">
+                                        </div>
+                                        <div class="mt-6 font-medium">Hasta Adı : {{patient.name}}</div>
+                                        <div class="font-medium"> Hasta Tipi : {{patient.animalType}}</div>
+                                        <div class="font-medium"> Hasta Cinsi : {{patient.breedType}}</div>
+                                        <div class="font-medium"> Hasta Rengi : {{patient.animalColor}}</div>
+                                        <div class="font-medium"> Hasta Cinsiyeti : {{patient.sex}}</div>
+                                        <div class="font-medium"> Hasta Doğumgünü: {{patient.birthDate}}</div>
+                                        <div class="font-medium"> Hasta Çip No : {{patient.chipNumber}}</div>
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
                             <ng-container *ngFor="let board of boards; trackBy: trackByFn">
                                 <a class="flex flex-col items-start w-56 p-6 rounded-lg shadow bg-card rounded-lg hover:shadow-xl transition-shadow duration-150 ease-in-out"

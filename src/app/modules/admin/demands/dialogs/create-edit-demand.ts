@@ -90,13 +90,13 @@ export class CreateEditDemandDialogComponent implements OnInit {
         debugger;
         this.getProductstedarik();
         this.demandList = this._formBuilder.group({
-            date: ['', Validators.required],
+            date: [new Date(), Validators.required],
             documentno: ['', Validators.required],
             deliverydate: ['', Validators.required],
             note: ['', Validators.required],
             state: [0, Validators.required],
-            suppliers:[],
-            iscomplated: [true],
+            suppliers:[,Validators.required],
+            iscomplated: [true,Validators.required],
             
         });
         this.selectedProductForm = this._formBuilder.group({
@@ -248,13 +248,81 @@ export class CreateEditDemandDialogComponent implements OnInit {
         // Set the value
         this.demandList.get('state').setValue(priority);
     }
+    controlProperty(): boolean {
+        const cdeliverydate = this.getFormValueByName('deliverydate').toLocaleString();
+        const cdocumentno = this.getFormValueByName('documentno');
+        const csuppliers = this.getFormValueByName('suppliers');
+        // const cnote = this.getFormValueByName('note');
+        const ccstate = this.getFormValueByName('state');
+        if (!cdeliverydate || cdeliverydate === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Teslimat Tarihi Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        if (!cdocumentno || cdocumentno === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Döküman No Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        if (!csuppliers || csuppliers === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Tedarikçi Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        // if (!cnote || cnote === null) {
+        //     const sweetAlertDto = new SweetAlertDto(
+        //         this.translate('sweetalert.error'),
+        //         this.translate('Not Giriniz.'),
+        //         SweetalertType.warning
+        //     );
+        //     GeneralService.sweetAlert(sweetAlertDto);
+        //     return false;
+        // }
+        if (!ccstate || ccstate === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Durum Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        return true;
+
+    }
     addDemand(): void {
         debugger;
+        if(!this.controlProperty())
+        {
+            return;
+        }
         const rowdate = this.getFormValueByName('date').toLocaleString();
         const rowdeliverydate = this.getFormValueByName('deliverydate').toLocaleString();
         // const formattedDate = new Date(rowdate).toISOString();
         // const formattedDeliveryDate = new Date(rowdeliverydate).toISOString();
         const filterDemandProductList = this.demandProductList.filter(x=>x.selected === true);
+        if(filterDemandProductList.length === 0)
+        {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Lütfen en az 1 tane Talep Seçiniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return;
+        }
         //const demandItem = null;
         debugger;
         const demandItem = new CreateDemandCommand( 
