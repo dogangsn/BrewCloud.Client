@@ -79,9 +79,11 @@
                                 </div>
                             </div> -->
                             <div class="hidden lg:flex items-center">
-                                <div class="min-w-4">{{demand.date.split('T')[0].split('-')[2] + '-' + demand.date.split('T')[0].split('-')[1] + '-' + demand.date.split('T')[0].split('-')[0]}}</div>
+                                <div class="min-w-4">{{demand.date.split('T')[0].split('-')[2] + '-' +
+                                    demand.date.split('T')[0].split('-')[1] + '-' +
+                                    demand.date.split('T')[0].split('-')[0]}}</div>
                             </div>
-                            
+
                             <!-- <div class="form-check"><input type="checkbox" [(ngModel)]="product.selected"></div> -->
                             <!-- <div class="flex items-center">
                                       <div
@@ -109,15 +111,18 @@
                             </div>
                             <!-- Price -->
                             <div class="hidden sm:block">
-                                {{ demand.documentno.length > 10 ? demand.documentno.slice(0, 10) + '...' : demand.documentno }}
+                                {{ demand.documentno.length > 10 ? demand.documentno.slice(0, 10) + '...' :
+                                demand.documentno }}
                             </div>
-                            
+
 
                             <!-- Stock -->
                             <div class="hidden lg:flex items-center">
-                                <div class="min-w-4">{{demand.deliverydate.split('T')[0].split('-')[2] + '-' + demand.deliverydate.split('T')[0].split('-')[1] + '-' + demand.deliverydate.split('T')[0].split('-')[0]}}</div>
+                                <div class="min-w-4">{{demand.deliverydate.split('T')[0].split('-')[2] + '-' +
+                                    demand.deliverydate.split('T')[0].split('-')[1] + '-' +
+                                    demand.deliverydate.split('T')[0].split('-')[0]}}</div>
                             </div>
-                            
+
                             <ng-container *ngFor="let suppliersCards of supplierscards">
                                 <div class="truncate" *ngIf="suppliersCards.id === demand.suppliers">
                                     {{ suppliersCards.suppliername }}
@@ -127,31 +132,27 @@
 
                             <!-- Details button -->
                             <div *ngIf="stateNumber === 2">
-                                <button class="min-w-10 min-h-7 h-7 px-2 leading-6"  mat-stroked-button
-                                    (click)="toggleDetails(demand.id)" >
+                                <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                    (click)="toggleDetails(demand.id)">
                                     <mat-icon class="icon-size-5 text-gray-500"
                                         [svgIcon]="selectedDemand?.id === demand.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
                                 </button>
                             </div>
                             <!-- <div></div> -->
-                            <div>
-                                <button class="bg-green-400 text-white text-xs p-0.5 w-0.5 h-0.5" mat-flat-button (click)="addDemandComplate(demand.id)">
-                                    <mat-icon class="text-green-400 icon-size-5"
-                                    [svgIcon]="'heroicons_solid:check'"></mat-icon> 
+                            <div style="display: flex; align-items: center;">
+                                <button class="min-w-5 min-h-1 h-7 max-w-5 bg-green-400 text-white" mat-flat-button (click)="addDemandComplate(demand.id)">
+                                    <mat-icon class="text-green-400 text-xs icon-size-5" [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                 </button>
-                                    
+                                <button class="left-4 min-w-2 max-w-5 leading-6" mat-icon-button color="warn" (click)="deleteDemandComplate(demand.id)">
+                                    <mat-icon class="mat-18">delete</mat-icon>
+                                </button>
+                            </div>
+                            
+                            <!-- <div>
+                            
                                 
-                                
-
+                            </div> -->
                         </div>
-                        <div>
-                            <!-- <button class="bg-warn-500 text-white text-xs  w-1 h-1" mat-flat-button >
-                            Geri Al
-                        </button> -->
-                        <button mat-icon-button color="warn" (click)="deleteDemandComplate(demand.id)">
-                            <mat-icon class="mat-18">delete</mat-icon>
-                        </button>
-                    </div></div>
 
                         <div class="grid">
                             <ng-container *ngIf="selectedDemand?.id === demand.id">
@@ -208,13 +209,13 @@
                                                 class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                                 <!-- <div class="flex flex-col gt-sm:flex-row"> -->
-                                                    <!-- <div class="flex flex-col"> -->
+                                                <!-- <div class="flex flex-col"> -->
 
-                                                        <!-- <mat-checkbox class="mb-2" type="checkbox" [checked]="false" [(ngModel)]="product.selected"  [color]="'primary'">
+                                                <!-- <mat-checkbox class="mb-2" type="checkbox" [checked]="false" [(ngModel)]="product.selected"  [color]="'primary'">
                                                                     
                                                                 </mat-checkbox> -->
 
-                                                    <!-- </div> -->
+                                                <!-- </div> -->
 
                                                 <!-- </div> -->
 

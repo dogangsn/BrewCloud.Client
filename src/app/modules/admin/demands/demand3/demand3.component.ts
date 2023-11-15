@@ -25,6 +25,7 @@ import { InventoryCategory,demandsListDto,demandTransList } from '../models/dema
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 import { suppliersListDto } from '../../suppliers/models/suppliersListDto';
 import Swal from 'sweetalert2';
+import { CreateEditBuyOrderComponent } from '../../retail/create-edit-buying-order/create-edit-buying-order.component';
 @Component({
     selector: 'app-demand3',
     template: './demand3/demand3.component.html',
@@ -36,7 +37,7 @@ import Swal from 'sweetalert2';
             grid-template-columns: 48px auto 40px;
 
             @screen sm {
-                grid-template-columns: 48px auto 112px 72px;
+                grid-template-columns: 48px auto 112px 72px 96px 72px;
             }
 
             @screen md {
@@ -44,7 +45,7 @@ import Swal from 'sweetalert2';
             }
 
             @screen lg {
-                grid-template-columns: 96px auto 112px 112px 96px 96px 72px 112px;
+                grid-template-columns: 96px auto 112px 112px 96px 48px 96px 72px 72px;
             }
         }
         `
@@ -122,7 +123,10 @@ export class Demand3Component implements OnInit, OnDestroy {
             suppliers       : ['', Validators.required],
             deliverydate         : ['', Validators.required],
             note         : ['', Validators.required],
-            state : [0]
+            state : [0],
+            isBuying: [false],
+            isAccounting: [false]
+
         });
 
         this.getProducts();
@@ -215,6 +219,7 @@ export class Demand3Component implements OnInit, OnDestroy {
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
             if (response && response.data) {
+                debugger;
                 this.demandList = response.data;
                 this.cdr.markForCheck();     
                 console.log(this.demandList);
@@ -223,7 +228,51 @@ export class Demand3Component implements OnInit, OnDestroy {
         });
 
     }
+    createBuyingOrder(demandId: string): void {
+        debugger;
+        this.stateNumber = 1;
+       
+            var demand = this.demandList.find(x=>x.id === demandId);
+               this.selectedDemand = demand;
 
+
+        const model = {
+            selectedsalebuy: null,
+            visibleCustomer: false,
+            salebuyType: 2, //satis
+            isSupplier: false,
+            demandList: this.selectedDemand,
+        };
+
+        const dialog = this._dialog
+            .open(CreateEditBuyOrderComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    // this.getSaleBuy();
+                    this.selectedDemand = undefined;
+                    this.getProducts();
+                    this.getDemands();
+                    this.getDemandsTedarikci();
+                    this.getDemandProducts();
+                }
+            });
+    }
+
+    // getSaleBuy() : void {
+
+    //     const model = {
+    //         type : 2
+    //     };
+    //     this._salebuyservice.getBuySaleList(model).subscribe((response) => {
+    //         this.salebuyList = response.data;
+    //         console.log(this.salebuyList);
+    //     });
+    // }
 
   /**
      * After view init

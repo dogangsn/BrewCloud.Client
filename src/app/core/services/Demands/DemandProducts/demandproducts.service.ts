@@ -73,7 +73,10 @@ export class DemandProductsService {
         debugger;
         return this._httpService.post(endPoints.demands.updatedemand, model);
     }
-
+    updateBuyDemands(model: UpdateDemandCommand): Observable<any> {
+        debugger;
+        return this._httpService.post(endPoints.demands.updatebuydemands, model);
+    }
     getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
         Observable<{ pagination: InventoryPagination; products: demandProductsListDto[] }>
     {
