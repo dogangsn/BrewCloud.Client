@@ -113,5 +113,8 @@ export const endPoints = {
     },
     demandComplate : {
         demandsComplateList : 'vet/Demands/DemandComplatedList'
+    },
+    lab : {
+        customersLabList : 'vet/lab/CustomersLabList'
     }
 }

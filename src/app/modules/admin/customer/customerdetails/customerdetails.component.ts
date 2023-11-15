@@ -11,19 +11,23 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog/customer-detail-edit-dialog.component';
+import { PatientDetailsDto } from '../models/PatientDetailsDto';
 
 @Component({
     selector: 'customerdetails',
     templateUrl: './customerdetails.component.html',
+    styleUrls: ['./customerdetails.component.css']
 })
 export class CustomerDetailsComponent implements OnInit {
     @Output() formDataChanged = new EventEmitter<any>();
-
+    userFirstName: string = "John"; // Kullanıcı adınızı buraya yerine koyun
+    userLastName: string = "Doe"; // Kullanıcı soyadınızı buraya yerine koyun
     customerDetailForm: FormGroup;
     selectedCustomerId: any;
     boards: any[];
     id: string;
     customerDetail: CustomerDetailDto
+    patientDetails: PatientDetailsDto[] = [];
     firstname: string
     lastname: string
     constructor(
@@ -48,6 +52,7 @@ export class CustomerDetailsComponent implements OnInit {
         this._customerService.getCustomersFindById(model).subscribe(response => {
             if (response.isSuccessful) {
                 this.customerDetail = response.data;
+                this.patientDetails = this.customerDetail.patientDetails
                 this.firstname = this.customerDetail.firstname;
                 this.lastname = this.customerDetail.lastname;
                 this.customerDetailForm.patchValue({
@@ -89,6 +94,16 @@ export class CustomerDetailsComponent implements OnInit {
             recordDate: [{ value: '', disabled: true }],
         });
     }
+
+    // getUserAvatarUrl(): string {
+    //     const initials = this.userFirstName.charAt(0) + this.userLastName.charAt(0);
+    //     // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
+    //     // Örneğin: return 'https://example.com/api/getUserAvatar?initials=' + initials;
+    
+    //     // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
+    //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
+    //   }
+
     addPanelOpen(): void {
 
         const model = {

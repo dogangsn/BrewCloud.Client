@@ -65,15 +65,22 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>SMS Bildirimi</mat-label>
-                <input matInput [formControlName]="'smsNotification'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-select [formControlName]="'smsNotification'" name="smsNotification">
+                  <mat-option [value]="true">Evet</mat-option>
+                  <mat-option [value]="false">Hayır</mat-option>
+                </mat-select>
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
-              <mat-form-field>
+              <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>E-Mail Bildirimi</mat-label>
-                <input matInput [formControlName]="'emailNotification'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-select [formControlName]="'emailNotification'" name="emailNotification"
+                            [ngStyle]="{'color': customerEditForm.get('emailNotification').value ? 'green' : 'red'}">
+                  <mat-option [value]="true">Evet</mat-option>
+                  <mat-option [value]="false">Hayır</mat-option>
+                </mat-select>
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">

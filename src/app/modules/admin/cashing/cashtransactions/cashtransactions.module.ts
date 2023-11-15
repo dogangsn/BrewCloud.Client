@@ -19,7 +19,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
