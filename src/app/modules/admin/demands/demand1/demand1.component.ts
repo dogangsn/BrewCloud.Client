@@ -558,6 +558,7 @@ addDemand(): void {
         unitPrice        : [0],
         amount           : [0],
         isActive         : [0],
+        isActive         : [{value:0,disabled:true}],
         quantity         : [0],
         
     });
