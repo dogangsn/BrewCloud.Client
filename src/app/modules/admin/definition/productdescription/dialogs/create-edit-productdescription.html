@@ -163,7 +163,7 @@
                     <!-- Save as draft -->
                     <!-- Send -->
                     <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
-                        (click)="addOrUpdateProductDef()">
+                        (click)="addOrUpdateProductDef()"  [disabled]="buttonDisabled" >
                         Kaydet
                     </button>
                 </div>

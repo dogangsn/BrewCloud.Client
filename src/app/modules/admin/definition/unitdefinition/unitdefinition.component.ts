@@ -100,7 +100,8 @@ export class UnitComponent implements OnInit {
                                 );
                                 GeneralService.sweetAlert(sweetAlertDto2);
                             } else {
-                                console.error('Silme işlemi başarısız.');
+                                this.showSweetAlert('error', response.errors[0]);
+                                console.log(response.errors[0]);
                             }
                         });
                 }
@@ -109,7 +110,7 @@ export class UnitComponent implements OnInit {
     };
 
     
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, message: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
@@ -120,7 +121,7 @@ export class UnitComponent implements OnInit {
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(message),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);

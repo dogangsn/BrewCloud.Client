@@ -2,8 +2,10 @@ import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, Inject
 import { DOCUMENT } from '@angular/common';
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Subject, takeUntil } from 'rxjs';
-import { QuickChatService } from 'app/layout/common/quick-chat/quick-chat.service';
 import { Chat } from 'app/layout/common/quick-chat/quick-chat.types';
+import { UsersService } from 'app/core/services/settings/users/users.service';
+import { UserListDto } from 'app/modules/admin/generalsettings/authority/models/UserListDto';
+import { ChatService } from 'app/core/services/chat/chat.service';
 
 @Component({
     selector     : 'quick-chat',
@@ -24,13 +26,15 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
     private _overlay: HTMLElement;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+    //userlist: UserListDto[] = [];
+
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _elementRef: ElementRef,
         private _renderer2: Renderer2,
         private _ngZone: NgZone,
-        private _quickChatService: QuickChatService,
-        private _scrollStrategyOptions: ScrollStrategyOptions
+        private _scrollStrategyOptions: ScrollStrategyOptions,
+        private _chatService: ChatService, 
     )
     {
     }
@@ -63,26 +67,30 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
 
     ngOnInit(): void
     {
+
+        this.getUsersList();
+
+
         // Chat
-        this._quickChatService.chat$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((chat: Chat) => {
-                this.chat = chat;
-            });
+        // this._quickChatService.chat$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((chat: Chat) => {
+        //         this.chat = chat;
+        //     });
 
         // Chats
-        this._quickChatService.chats$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((chats: Chat[]) => {
-                this.chats = chats;
-            });
+        // this._quickChatService.chats$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((chats: Chat[]) => {
+        //         this.chats = chats;
+        //     });
 
         // Selected chat
-        this._quickChatService.chat$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((chat: Chat) => {
-                this.selectedChat = chat;
-            });
+        // this._quickChatService.chat$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((chat: Chat) => {
+        //         this.selectedChat = chat;
+        //     });
     }
 
     ngAfterViewInit(): void
@@ -153,18 +161,13 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
-    /**
-     * Select the chat
-     *
-     * @param id
-     */
     selectChat(id: string): void
     {
         // Open the panel
         this._toggleOpened(true);
 
         // Get the chat data
-        this._quickChatService.getChatById(id).subscribe();
+        //this._quickChatService.getChatById(id).subscribe();
     }
 
     trackByFn(index: number, item: any): any
@@ -227,4 +230,17 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy
             this._hideOverlay();
         }
     }
+
+
+    getUsersList(): void {
+        debugger;
+        this._chatService.getChatUsers().subscribe((response) => {
+            this.chats = response.data;
+            console.log(this.chats);
+        });
+    }
+
+
+
+
 }

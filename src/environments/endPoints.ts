@@ -121,5 +121,8 @@ export const endPoints = {
     parameters : {
         parametersList : 'vet/Settings/ParametersList',
         updateparameters : 'vet/Settings/UpdateParameters',
+    },
+    chat:{
+        getAllUsers: 'chat/Account/GetAllUsers'
     }
 }

@@ -18,7 +18,7 @@ import { UpdatePaymentMethodsCommand } from '../models/UpdatePaymentMethodsComma
 export class CreateEditPaymentMethodsDialogComponent implements OnInit {
     selectedPaymentMethods: PaymentMethodsDto;
     paymentmethods: FormGroup;
-
+    buttonDisabled = false;
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -49,6 +49,7 @@ export class CreateEditPaymentMethodsDialogComponent implements OnInit {
     }
 
     addOrUpdatepaymentmethods(): void {
+        this.buttonDisabled = true;
         this.selectedPaymentMethods
             ? this.updatepaymentmethods()
             : this.addpaymentmethods();

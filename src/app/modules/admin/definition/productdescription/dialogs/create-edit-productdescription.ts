@@ -41,7 +41,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     visibleProductType: boolean;
     mapproducttype: { name: string; id: number }[] = [];
     isInvalidPrice: boolean;
-
+    buttonDisabled = false;
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -141,6 +141,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     addOrUpdateProductDef(): void {
+        this.buttonDisabled = true;
         this.selectedProductdescription
             ? this.updateProductDef()
             : this.addProductDef();
