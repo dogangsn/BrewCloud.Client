@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Activity } from './model/Activity';
 
 @Component({
   selector: 'app-myactivities',
@@ -7,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyactivitiesComponent implements OnInit {
 
+  activities$: Observable<Activity[]>;
+  
   constructor() { }
 
   ngOnInit() {

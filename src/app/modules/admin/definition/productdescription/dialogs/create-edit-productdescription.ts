@@ -24,6 +24,8 @@ import { SuppliersService } from 'app/core/services/suppliers/suppliers.service'
 import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
 import { ProductType } from 'app/modules/bases/enums/producttype.enum';
 import { CustomNumericValidator } from 'app/modules/bases/CustomNumericValidator';
+import { CustomerService } from 'app/core/services/customers/customers.service';
+import { VetVetAnimalsTypeListDto } from 'app/modules/admin/customer/models/VetVetAnimalsTypeListDto';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -36,6 +38,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     units: unitdefinitionListDto[] = [];
     productcategories: ProductCategoriesListDto[] = [];
     supplierscards: suppliersListDto[] = [];
+    animalTypesList: VetVetAnimalsTypeListDto[] = [];
+
     selectedValue: string;
     producttype: number;
     visibleProductType: boolean;
@@ -50,6 +54,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         private _unitsservice: UnitsService,
         private _productcategoryservice: ProductCategoryService,
         private _suppliersService: SuppliersService,
+        private _customerService: CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.producttype = data.producttype;
@@ -67,6 +72,10 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         this.UnitsList();
         this.ProductCategoryList();
         this.getSuppliers();
+
+        if(this.visibleProductType){
+            this.getAnimalTypesList();
+        }
 
         this.productdescription = this._formBuilder.group({
             name: ['', [Validators.required]],
@@ -312,5 +321,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             const formattedValue = parsedValue.toFixed(2);
             console.log(formattedValue); // Formatlanmış değeri kullanabilirsiniz
         }
+    }
+
+    getAnimalTypesList() {
+        this._customerService.getVetVetAnimalsType().subscribe((response) => {
+            this.animalTypesList = response.data;
+            console.log('anımals', this.animalTypesList);
+        });
     }
 }

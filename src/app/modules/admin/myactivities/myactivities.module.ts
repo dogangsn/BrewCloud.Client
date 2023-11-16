@@ -95,6 +95,6 @@ const root: Route[] = [
     ]
     
 })
-export class LabModule
+export class MyActivitiesModule
 {
 }

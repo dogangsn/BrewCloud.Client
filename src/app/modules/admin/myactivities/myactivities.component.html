@@ -7,8 +7,8 @@
       <div class="w-full max-w-3xl">
 
           <!-- Title -->
-          <div class="text-4xl font-extrabold tracking-tight leading-none">All Activities</div>
-          <div class="mt-1.5 text-lg text-secondary">Application wide activities are listed here as individual items, starting with the most recent.</div>
+          <div class="text-4xl font-extrabold tracking-tight leading-none">Aktivitelerim</div>
+          <div class="mt-1.5 text-lg text-secondary">Uygulama çapındaki etkinlikler burada en yenisinden başlayarak ayrı ayrı öğeler halinde listelenir.</div>
 
           <ng-container *ngIf="(activities$ | async) as activities; else loading">
               <ng-container *ngIf="activities.length; else noActivity">
