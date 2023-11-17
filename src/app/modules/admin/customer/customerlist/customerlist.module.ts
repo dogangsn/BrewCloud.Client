@@ -105,7 +105,7 @@ const root: Route[] = [
         CreateEditCustomerAddDialogComponent,
         CreateEditPatientsDialogComponent,
         CustomerDetailsComponent,
-        CustomerDetailEditDialogComponent
+        CustomerDetailEditDialogComponent,
     ]
 
     

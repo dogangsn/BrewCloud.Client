@@ -1,3 +1,6 @@
+import { PatientDetails } from "./PatientDetailsCommand";
+import { PatientDetailsDto } from "./PatientDetailsDto";
+
 export class CustomerDetailDto {
     id: string;
     firstname: string;
@@ -17,7 +20,7 @@ export class CustomerDetailDto {
     city: string;
     district: string;
     longadress: string;
-
+    patientDetails: Array<PatientDetailsDto>
     constructor(
         id: string,
         firstname: string,
@@ -36,7 +39,8 @@ export class CustomerDetailDto {
         createdate: string,
         city: string,
         district: string,
-        longadress: string) {
+        longadress: string,
+        patientDetails: Array<PatientDetailsDto>) {
 
         this.id = id;
         this.firstname = firstname;
@@ -56,6 +60,7 @@ export class CustomerDetailDto {
         this.city = city;
         this.district = district;
         this.longadress = longadress;
+        this.patientDetails = patientDetails;
     }
 
 }

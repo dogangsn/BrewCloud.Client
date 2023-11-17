@@ -30,11 +30,11 @@ export class CreateEditSalesBuyComponent implements OnInit {
     productdescription: ProductDescriptionsDto[] = [];
     supplierscards: suppliersListDto[] = [];
     payments: PaymentMethodsDto[] = [];
-    
+
     visibleCustomer: boolean;
     salebuyType: number;
     isSupplier: boolean;
-
+    buttonDisabled = false;
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -43,7 +43,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         private _customerListService: CustomerService,
         private _productdescriptionService: ProductDescriptionService,
         private _suppliersService: SuppliersService,
-        private _paymentmethodsService : PaymentMethodservice,
+        private _paymentmethodsService: PaymentMethodservice,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.visibleCustomer = data.visibleCustomer;
@@ -56,7 +56,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         this.getProductList();
         this.paymentsList();
 
-        if(this.isSupplier){
+        if (this.isSupplier) {
             this.getSuppliers();
         }
 
@@ -71,7 +71,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
             supplierId: ['00000000-0000-0000-0000-000000000000'],
             invoiceNo: [''],
             paymentType: [1],
-            amount:[1]
+            amount: [1],
         });
     }
 
@@ -98,10 +98,12 @@ export class CreateEditSalesBuyComponent implements OnInit {
     }
 
     paymentsList() {
-        this._paymentmethodsService.getPaymentMethodsList().subscribe((response) => {
-            this.payments = response.data;
-            console.log(this.payments);
-        });
+        this._paymentmethodsService
+            .getPaymentMethodsList()
+            .subscribe((response) => {
+                this.payments = response.data;
+                console.log(this.payments);
+            });
     }
 
     closeDialog(): void {
@@ -121,15 +123,18 @@ export class CreateEditSalesBuyComponent implements OnInit {
     }
 
     addOrUpdateSaleBuy(): void {
+        this.buttonDisabled = true;
         this.selectedsalebuy ? this.updateBuySale() : this.addBuySale();
     }
 
     addBuySale(): void {
         if (this.salebuy.valid) {
-
             const _amount = this.getFormValueByName('amount');
-            if(_amount == 0){
-                this.showSweetAlert('error', 'Miktar Bilgisi 0(sıfır) büyük olmalıdır.');
+            if (_amount == 0) {
+                this.showSweetAlert(
+                    'error',
+                    'Miktar Bilgisi 0(sıfır) büyük olmalıdır.'
+                );
             }
 
             const saleBuyItem = new CreateSaleBuyCommand(
@@ -154,15 +159,14 @@ export class CreateEditSalesBuyComponent implements OnInit {
                             status: true,
                         });
                     } else {
-                        this.showSweetAlert('error','sweetalert.error');
+                        this.showSweetAlert('error', 'sweetalert.error');
                     }
                 },
                 (err) => {
                     console.log(err);
                 }
             );
-        }
-        else{
+        } else {
             if (!this.salebuy.get('productId').value) {
                 this.showSweetAlert('error', 'Ürün Seçimi Yapınız.');
             }

@@ -37,7 +37,7 @@ import { forEach } from 'lodash';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'name'
+        'name', 'chipNumber', 'birthDate'
     ];
 
     selectedcustomeradd: customersListDto;

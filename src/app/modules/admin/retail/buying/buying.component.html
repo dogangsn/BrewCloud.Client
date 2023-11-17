@@ -31,6 +31,10 @@
                   [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
               Yeni Tedarikçiden Alış
           </button> -->
+            <button class="ml-3" mat-flat-button  (click)="createBuyingOrder()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                Kayıtlı Siparişten Alış
+            </button>
             <button class="ml-3" mat-flat-button [color]="'primary'" (click)="createSupplierSales()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Kayıtlı Tedarikçiden Alış

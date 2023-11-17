@@ -47,8 +47,64 @@
   <!-- Main -->
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
       <!-- CONTENT GOES HERE -->
-      <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
+    
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="customerlist">
+  
+          <!-- Position Column -->
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> İsim</th>
+            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Soyisim </th>
+            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+          </ng-container>
+  
+          <!-- Weight Column -->
+          <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef> Tel.No </th>
+            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+          </ng-container>
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="phoneNumber2">
+            <th mat-header-cell *matHeaderCellDef> Tel.No2 </th>
+            <td mat-cell *matCellDef="let element"> {{element.phoneNumber2}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="eMail">
+            <th mat-header-cell *matHeaderCellDef> E-Posta </th>
+            <td mat-cell *matCellDef="let element"> {{element.eMail}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="note">
+            <th mat-header-cell *matHeaderCellDef> Note </th>
+            <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="accent"  (click)="redirectToUpdate(element.id)">
+                <mat-icon aria-label="heroicons_outline:document-search">edit</mat-icon>
+              </button>
 
+            </td>
+  
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+  
+  
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+        </mat-paginator>
+  
+      </div>
   </div>
 
 </div>

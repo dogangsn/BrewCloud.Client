@@ -19,7 +19,7 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
     selectedcasingdefinition: casingDefinitionListDto;
     casingDefinition: FormGroup;
     isUpdateButtonActive: Boolean;
-
+    buttonDisabled = false;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -52,6 +52,7 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
     addOrUpdateStore(): void {
+        this.buttonDisabled = true;
         this.selectedcasingdefinition
             ? this.updateCase()
             : this.addcasingDefinitions();

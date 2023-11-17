@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectFilterModule } from 'mat-select-filter';
+import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
 
 const root: Route[] = [
     {
@@ -81,7 +82,8 @@ const root: Route[] = [
     ],
     declarations: [
         SalesComponent,
-        CreateEditSalesBuyComponent
+        CreateEditSalesBuyComponent,
+        CreateEditBuyOrderComponent
     ]
     
 })

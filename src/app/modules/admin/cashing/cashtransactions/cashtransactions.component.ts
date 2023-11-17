@@ -19,6 +19,7 @@ import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 export class CashtransactionsComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
+        'type',
         'invoiceNo',
         'supplierName',
         'payment',
@@ -26,7 +27,7 @@ export class CashtransactionsComponent implements OnInit {
         'kdv',
         'discount',
         'total',
-        'actions',
+        // 'actions',
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 

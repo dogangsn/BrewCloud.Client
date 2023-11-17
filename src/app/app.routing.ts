@@ -320,6 +320,14 @@ export const appRoutes: Route[] = [
                         (m) => m.GeneralSettings
                     ),
             },
+            {
+                path: 'myactivities',
+                loadChildren: () =>
+                    import('app/modules/admin/myactivities/myactivities.module').then(
+                        (m) => m.MyActivitiesModule
+                    ),
+            },
+
 
         ],
     },

@@ -19,7 +19,7 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
     selectedsuppliers: suppliersListDto;
     suppliers: FormGroup;
     isUpdateButtonActive: Boolean;
-
+    buttonDisabled = false;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -55,6 +55,7 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
     addOrUpdateStore(): void {
+        this.buttonDisabled = true;
         this.selectedsuppliers
             ? this.updateSupplier()
             : this.addsuppliers();

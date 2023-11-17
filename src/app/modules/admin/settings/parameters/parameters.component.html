@@ -23,6 +23,12 @@
             <div class="font-medium tracking-tight text-secondary">Sistem Yöneticisi tarafından işleniş parametreleri
             </div>
         </div>
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="saveParameter()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                Kaydet
+            </button>
+        </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- <button mat-stroked-button>
@@ -45,32 +51,150 @@
 
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-            <!-- CONTENT GOES HERE -->
-            <form [formGroup]="parameters">
+        <form [formGroup]="parameters">
+            <div class="grid grid-cols-2 gap-6 w-full mt-8">
 
-                <div class="grid grid-cols-1 gap-6 w-full mt-8">
-                    <!-- Communication -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex-auto cursor-pointer" (click)="communication.toggle()">
-                            <div class="leading-6 font-medium">Otomatik Satış</div>
-                        </div>
-                        <mat-slide-toggle class="ml-2" [color]="'primary'" [formControlName]="'communication'"
-                            #communication>
-                        </mat-slide-toggle>
-                    </div>
-                    <!-- Security -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex-auto cursor-pointer" (click)="securityToggle.toggle()">
-                            <div class="leading-6 font-medium">Otomatik Müşteri Hoşgeldin Mesajı Gönderilsin mi?</div>
-                        </div>
-                        <mat-slide-toggle class="ml-2" [color]="'primary'" [formControlName]="'security'"
-                            #securityToggle>
-                        </mat-slide-toggle>
-                    </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Ajanda Notu Hatırlatma(Gün)</div>
+                    <mat-form-field>
+                        <input class="ml-2" type="number" matInput [formControlName]="'agendaNoteReminder'">
+                    </mat-form-field>
                 </div>
-            </form>
-        </div>
+
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">SMS Şirketi</div>
+                    <mat-form-field class="w-full">
+                        <mat-select [formControlName]="'smsCompany'" [placeholder]="''" #securityToggle name=""
+                            (selectionChange)="onSmsCompanySelectionChange($event)">
+                            <mat-option>None</mat-option>
+                            <!-- <mat-option *ngFor="let productdescript of productdescription"
+                                [value]="productdescript.id">{{productdescript.name}}</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Randevu Hatırlatma Süresi(Gün)</div>
+                    <mat-form-field>
+                        <input class="ml-2" type="number" matInput [formControlName]="'appointmentReminderDuration'">
+                    </mat-form-field>
+                </div>
+
+
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Çalışma Günleri</div>
+                    <mat-form-field>
+                        <mat-select class="ml-2" [formControl]="selectedDays" multiple>
+                            <mat-option (click)="selectAllDays($event)"
+                                [value]="allselectcheck">{{allselectcheck}}</mat-option>
+                            <mat-option *ngFor="let day of days" [value]="day">{{ day }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Nakit Kasa Hesabı</div>
+                    <mat-form-field style="width:100%">
+                        <mat-select [formControlName]="'cashAccount'" [placeholder]="'Nakit Kasa Hesabı'">
+                            <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCasingId"
+                                (ngModelChange)="filterCustomerId($event)">
+                            </mat-select-filter>
+                            <mat-option *ngFor="let item of casingcards"
+                                [value]="item.id">{{item.casename}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Kredi Kartı Kasa Hesabı</div>
+                    <mat-form-field style="width:100%">
+                        <mat-select [formControlName]="'creditCardCashAccount'"
+                            [placeholder]="'Kredi Kartı Kasa Hesabı'">
+                            <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCasingId"
+                                (ngModelChange)="filterCustomerId($event)">
+                            </mat-select-filter>
+                            <mat-option *ngFor="let item of casingcards"
+                                [value]="item.id">{{item.casename}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Banka Havale Kasa Hesabı</div>
+                    <mat-form-field style="width:100%">
+                        <mat-select [formControlName]="'bankTransferCashAccount'"
+                            [placeholder]="'Banka Havale Kasa Hesabı'">
+                            <mat-select-filter [ngModelOptions]="{standalone: true}" [ngModel]="selectedCasingId"
+                                (ngModelChange)="filterCustomerId($event)">
+                            </mat-select-filter>
+                            <mat-option *ngFor="let item of casingcards"
+                                [value]="item.id">{{item.casename}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="w-full">
+                        <mat-select [formControlName]="'bankTransferCashAccount'" [placeholder]="''"
+                            #bankTransferCashAccountToggle name=""
+                            (selectionChange)="onbankTransferCashAccountSelectionChange($event)">
+                            <mat-option>None</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Whatsapp Şablonu</div>
+                    <mat-form-field class="w-full">
+                        <mat-select [formControlName]="'whatsappTemplate'" [placeholder]="''" #whatsappTemplateToggle
+                            name="" (selectionChange)="onwhatsappTemplateSelectionChange($event)">
+                            <mat-option>None</mat-option>
+                            <!-- <mat-option *ngFor="let productdescript of productdescription"
+                                    [value]="productdescript.id">{{productdescript.name}}</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Müşteri Hoşgeldin Şablonu</div>
+                    <mat-form-field class="w-full">
+                        <mat-select [formControlName]="'customerWelcomeTemplate'" [placeholder]="''"
+                            #customerWelcomeTemplateToggle name=""
+                            (selectionChange)="oncustomerWelcomeTemplateSelectionChange($event)">
+                            <mat-option>None</mat-option>
+                            <!-- <mat-option *ngFor="let productdescript of productdescription"
+                                    [value]="productdescript.id">{{productdescript.name}}</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Otomatik Randevu Hatırlatma Mesajı Şablonu</div>
+                    <mat-form-field class="w-full">
+                        <mat-select [formControlName]="'automaticAppointmentReminderMessageTemplate'" [placeholder]="''"
+                            #customerWelcomeTemplateToggle name=""
+                            (selectionChange)="onautomaticAppointmentReminderMessageTemplateSelectionChange($event)">
+                            <mat-option>None</mat-option>
+                            <!-- <mat-option *ngFor="let productdescript of productdescription"
+                                    [value]="productdescript.id">{{productdescript.name}}</mat-option> -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex items-center justify-between cursor-pointer" (click)="displayVetNoToggle.toggle()">
+                    <div class="leading-6 font-medium">Veteriner Numarası Gözüksün(SMS)</div>
+                    <mat-slide-toggle class="ml-2" [color]="'primary'" (click)="displayVetNoToggle.toggle()"
+                        [formControlName]="'displayVetNo'" #displayVetNoToggle>
+                    </mat-slide-toggle>
+                </div>
+                <div class="flex items-center justify-between cursor-pointer"
+                    (click)="isOtoCustomerWelcomeMessageToggle.toggle()">
+                    <div class="leading-6 font-medium">Otomatik Müşteri Hoşgeldin Mesajı Gönderilsin mi?</div>
+                    <mat-slide-toggle class="ml-2" [color]="'primary'"
+                        (click)="isOtoCustomerWelcomeMessageToggle.toggle()"
+                        [formControlName]="'isOtoCustomerWelcomeMessage'" #isOtoCustomerWelcomeMessageToggle>
+                    </mat-slide-toggle>
+                </div>
+                <div class="flex items-center justify-between cursor-pointer" (click)="autoSmsToggle.toggle()">
+                    <div class="leading-6 font-medium">Otomatik Sms</div>
+                    <mat-slide-toggle class="ml-2" [color]="'primary'" (click)="autoSmsToggle.toggle()"
+                        [formControlName]="'autoSms'" #autoSmsToggle>
+                    </mat-slide-toggle>
+                </div>
+                <!-- </div> -->
+            </div>
+        </form>
+
     </div>
 
 

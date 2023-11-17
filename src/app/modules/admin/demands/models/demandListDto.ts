@@ -11,6 +11,8 @@ export class demandsListDto {
     iscomplated:boolean;
     demandProductList : demandProductsListDto[];
     selected: boolean;
+    isBuying: boolean;
+    isAccounting: boolean;
 }
 
 

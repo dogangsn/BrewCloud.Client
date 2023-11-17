@@ -18,7 +18,7 @@ import { UpdateUnitsCommand } from '../models/UpdateUnitsCommand';
 export class CreateEditUnitDefinitionDialogComponent implements OnInit {
     selectedunitdefinition: unitdefinitionListDto;
     unitdefinition: FormGroup;
-
+    buttonDisabled = false;
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -46,6 +46,7 @@ export class CreateEditUnitDefinitionDialogComponent implements OnInit {
     }
 
     addOrUpdateUnitDef(): void {
+        this.buttonDisabled = true;
         this.selectedunitdefinition
             ? this.updateunitdefinition()
             : this.addunitdefinition();
