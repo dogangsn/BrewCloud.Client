@@ -27,6 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
 
 const root: Route[] = [
@@ -72,6 +73,10 @@ const root: Route[] = [
           MatPaginatorModule,
           MatCheckboxModule,
           MatSelectModule,
+          NgxMatDatetimePickerModule,
+          NgxMatTimepickerModule,
+          ReactiveFormsModule,
+          NgxMatNativeDateModule,
           
     ],
     declarations: [

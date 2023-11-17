@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -51,7 +49,7 @@ export class AppointmentComponent {
     ) {}
 
     events: CalendarEvent[] = [
-        {
+        { 
             start: subDays(startOfDay(new Date()), 1),
             end: addDays(new Date(), 1),
             title: 'A 3 day event',
