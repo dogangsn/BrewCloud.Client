@@ -35,13 +35,13 @@
                     <div class="flex float : left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label>Telefon Numarası</mat-label>
-                            <input matInput [formControlName]="'phoneNumber'">
+                            <input placeholder="(555) 555-5555" matInput [formControlName]="'phoneNumber'" (input)="formatPhoneNumber($event.target.value, 'phoneNumber')">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Telefon Numarası 2</mat-label>
-                            <input matInput [formControlName]="'phoneNumber2'">
+                            <input placeholder="(555) 555-5555" matInput [formControlName]="'phoneNumber2'" (input)="formatPhoneNumber($event.target.value, 'phoneNumber2')">
                             <mat-icon class="icon-size-5" matSuffix
                             [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                         </mat-form-field>
@@ -110,8 +110,7 @@
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Müşteri İndirim Kodu</mat-label>
                             <input matInput [formControlName]="'discountRate'">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float : left gt-xs:flex-row">

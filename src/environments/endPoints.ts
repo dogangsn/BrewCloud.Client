@@ -124,5 +124,11 @@ export const endPoints = {
     },
     chat:{
         getAllUsers: 'chat/Account/GetAllUsers'
+    },
+    appointments : {
+        appointmensList : 'vet/Appointment/AppointmentsList',
+        createappointment : 'vet/Appointment/CreateAppointment',
+        deleteappointment : 'vet/Appointment/DeleteAppointment',
+        updateappointment : 'vet/Appointment/UpdateAppointmentById'
     }
 }

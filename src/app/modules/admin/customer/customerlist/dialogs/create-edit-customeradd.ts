@@ -29,6 +29,7 @@ import { CreateEditPatientsDialogComponent } from '../patientsdialogs/create-edi
 import { VeriServisi } from '../service/veri-servisi';
 import { MatTableDataSource } from '@angular/material/table';
 import { forEach } from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-create-edit-customeradd-dialog',
@@ -59,6 +60,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         private _customerService: CustomerService,
         private _customergroup: CustomerGroupService,
         private veriServisi: VeriServisi,
+        private router: Router, private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         debugger;
@@ -105,35 +107,102 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     addOrUpdateCustomer(): void {
-        this.selectedcustomeradd ? this.updateCustomer() : this.addCustomer();
+        this.selectedcustomeradd ? this.updateCustomer() : this.addCustomers();
     }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
 
-    addCustomer(): void {
-        const model = {
-            createcustomers: this.customers,
-        };
-
-        this._customerService.createCustomers(model).subscribe(
-            (response) => {
-                debugger;
-
-                if (response.isSuccessful) {
-                    this.showSweetAlert('success');
-                    this._dialogRef.close({
-                        status: true,
-                    });
-                } else {
-                    this.showSweetAlert('error');
-                }
-            },
-            (err) => {
-                console.log(err);
+    addCustomers(): any {
+        debugger;
+        if (this.customeradd.invalid) {
+            this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
+            return;
+        }
+        if (this.fillSelectedInvoice()) {
+            const model = {
+                createcustomers: this.customers,
+            };
+            if (!this.phoneNumberValidator(this.customers.phoneNumber)) {
+                this.showSweetAlert(
+                    'error',
+                    'Telefon Numarası Alan Kodu Hatalı. Kontrol Ediniz.'
+                );
+                return;
             }
-        );
+
+            this._customerService.createCustomers(model).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                         
+                        const sweetAlertDto = new SweetAlertDto(
+                            'Kayıt İşlemi Gerçekleşti',
+                            'Müşteri Detay Ekranına Yönlendirilmek İster Misiniz?',
+                            SweetalertType.success
+                        );
+                        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+                            (swalResponse) => {
+                                if (swalResponse.isConfirmed) {
+                                    this.router.navigate(['customerlist/customerdetails', response.data]);
+                                }
+                            }
+                        )
+                    } else {
+                        debugger
+                        this.showSweetAlert(
+                            'error',
+                            response.errors[0]
+                        );
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+    }
+
+    fillSelectedInvoice(): boolean {
+        const firstName = this.getFormValueByName('firstName');
+        if (!firstName || firstName === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Hasta Sahibi Adı Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+
+        if (this.patients.length == 0 || this.patients === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Hasta Bilgisi Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+
+        this.customers.firstName = this.getFormValueByName('firstName');
+        this.customers.lastName = this.getFormValueByName('lastName');
+        this.customers.phoneNumber = this.getFormValueByName('phoneNumber');
+        this.customers.phoneNumber2 = this.getFormValueByName('phoneNumber2');
+        this.customers.eMail = this.getFormValueByName('eMail');
+        this.customers.taxOffice = this.getFormValueByName('taxOffice');
+        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo');
+        this.customers.note = this.getFormValueByName('note');
+        this.customers.discountRate = this.getFormValueByName('discountRate');
+        this.customers.province = this.getFormValueByName('province');
+        this.customers.district = this.getFormValueByName('district');
+        this.customers.longAdress = this.getFormValueByName('longAdress');
+        this.customers.PatientDetails = this.patients;
+
+        return true;
     }
 
     updateCustomer() {}
@@ -145,19 +214,19 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         return this.customeradd.get(formName).value;        
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
-                SweetalertType.error
+                this.translate(text),
+                SweetalertType.error,
             );
             GeneralService.sweetAlert(sweetAlertDto);
         }
@@ -191,5 +260,86 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                     this.dataSource = new MatTableDataSource(this.patients);
                 }
             });
+    }
+
+    phoneNumberValidator(phoneNumber: any): boolean {
+        debugger;
+        const phoneNumberPattern = /^\(\d{3}\) \d{3}-\d{4}$/; // İstenen telefon numarası formatı
+        const validAreaCodes = [
+            '(505)',
+            '(506)',
+            '(507)',
+            '(551)',
+            '(552)',
+            '(553)',
+            '(554)',
+            '(555)',
+            '(556)',
+            '(557)',
+            '(558)',
+            '(559)',
+            '(501)',
+            '(502)',
+            '(503)',
+            '(504)',
+            '(540)',
+            '(541)',
+            '(542)',
+            '(543)',
+            '(544)',
+            '(545)',
+            '(546)',
+            '(547)',
+            '(548)',
+            '(549)',
+            '(530)',
+            '(531)',
+            '(532)',
+            '(533)',
+            '(534)',
+            '(535)',
+            '(536)',
+            '(537)',
+            '(538)',
+            '(539)',
+            '(501)',
+            '(502)',
+            '(503)',
+            '(504)',
+            '(505)',
+            '(506)',
+            '(507)',
+        ];
+
+        // if (!phoneNumberPattern.test(phoneNumber)) {
+        //     return { invalidPhoneNumber: { value: phoneNumber } };
+        // }
+
+        const inputAreaCode = phoneNumber.substring(0, 5); // Telefon numarasından alan kodunu al
+
+        if (!validAreaCodes.includes(inputAreaCode)) {
+            return false; // Geçersiz alan kodu hatası
+        }
+        return true;
+    }
+
+    formatPhoneNumber(inputValue: string, formControlName: string): void {
+        // Sadece sayıları alarak filtreleme yapın
+        const numericValue = inputValue.replace(/\D/g, '');
+
+        // Sayıları uygun formatta düzenle
+        let formattedValue = '';
+        if (numericValue.length > 0) {
+            formattedValue += '(' + numericValue.substring(0, 3) + ')';
+        }
+        if (numericValue.length > 3) {
+            formattedValue += ' ' + numericValue.substring(3, 6);
+        }
+        if (numericValue.length > 6) {
+            formattedValue += '-' + numericValue.substring(6, 10);
+        }
+
+        // Düzenlenmiş değeri input alanına atayın
+        this.customeradd.get(formControlName).setValue(formattedValue);
     }
 }

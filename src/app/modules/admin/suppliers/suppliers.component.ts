@@ -88,22 +88,32 @@ public redirectToUpdate = (id: string) => {
 };
 
 public redirectToDelete = (id?: string) => {
-    const suppliersItem = new DeleteCasingDefinitionCommand(id);
-debugger;
-    this._suppliersService.deleteSuppliers(suppliersItem).subscribe(
-        (response) => {
 
-            if (response.isSuccessful) {
-                this.getSuppliers();
-                this.showSweetAlert('success');
-            } else {
-                this.showSweetAlert('error');
-            }
-        },
-        (err) => {
-            console.log(err);
-        }
+    const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.areYouSure'),
+        this.translate('sweetalert.areYouSureDelete'),
+        SweetalertType.warning
     );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+        (swalResponse) => {
+            if (swalResponse.isConfirmed) {
+                const suppliersItem = new DeleteCasingDefinitionCommand(id);
+                this._suppliersService.deleteSuppliers(suppliersItem).subscribe(
+                    (response) => {
+            
+                        if (response.isSuccessful) {
+                            this.getSuppliers();
+                            this.showSweetAlert('success');
+                        } else {
+                            this.showSweetAlert('error');
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            }
+        })
 }
 showSweetAlert(type: string): void {
     if (type === 'success') {

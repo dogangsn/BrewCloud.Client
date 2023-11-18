@@ -252,12 +252,19 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             this._customerService.createCustomers(model).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
-                        this.showSweetAlert(
-                            'success',
-                            'sweetalert.transactionSuccessful'
+                        
+                        const sweetAlertDto = new SweetAlertDto(
+                            'Kayıt İşlemi Gerçekleşti',
+                            'Müşteri Detay Ekranına Yönlendirilmek İster Misiniz?',
+                            SweetalertType.success
                         );
-                        this.router.navigate(['customerlist/customerdetails', response.data]);
-
+                        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+                            (swalResponse) => {
+                                if (swalResponse.isConfirmed) {
+                                    this.router.navigate(['customerlist/customerdetails', response.data]);
+                                }
+                            }
+                        )
                     } else {
                         debugger
                         this.showSweetAlert(
@@ -422,6 +429,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.patients.splice(index, 1);
                         this.selectedPatients = null;
                     }
+                    
                     // const product =
                     //     this.selectedPatientDetailsForm.getRawValue();
                     // const productIndex = this.patients.findIndex(
@@ -587,6 +595,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.patients = [];
+        this.selectedPatientDetailsForm.reset(); 
         // this._unsubscribeAll.next(null);
         // this._unsubscribeAll.complete();
     }

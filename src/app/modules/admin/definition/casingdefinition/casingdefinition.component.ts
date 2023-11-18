@@ -87,22 +87,33 @@ public redirectToUpdate = (id: string) => {
 };
 
 public redirectToDelete = (id?: string) => {
-    const casedefinitionItem = new DeleteCasingDefinitionCommand(id);
 
-    this._casingdefinitionService.deleteCasingDefinition(casedefinitionItem).subscribe(
-        (response) => {
-
-            if (response.isSuccessful) {
-                this.getCasingDefinition();
-                this.showSweetAlert('success');
-            } else {
-                this.showSweetAlert('error');
-            }
-        },
-        (err) => {
-            console.log(err);
-        }
+    const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.areYouSure'),
+        this.translate('sweetalert.areYouSureDelete'),
+        SweetalertType.warning
     );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+        (swalResponse) => {
+            if (swalResponse.isConfirmed) {
+                const casedefinitionItem = new DeleteCasingDefinitionCommand(id);
+                this._casingdefinitionService.deleteCasingDefinition(casedefinitionItem).subscribe(
+                    (response) => {
+            
+                        if (response.isSuccessful) {
+                            this.getCasingDefinition();
+                            this.showSweetAlert('success');
+                        } else {
+                            this.showSweetAlert('error');
+                        }
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            }
+        })
+
 }
 getFormValueByName(formName: string): any {
     return this.casingDefinition.get(formName).value;

@@ -34,6 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
             }
         `,
     ],
+    
 })
 export class AppointmentComponent {
     debugger;
@@ -95,6 +96,8 @@ export class AppointmentComponent {
             return true;
         }
 
+        
+
         delete event.cssClass;
         // don't allow dragging or resizing events to different days
         const sameDay = isSameDay(newStart, newEnd);
@@ -149,4 +152,8 @@ export class AppointmentComponent {
                 }
             });
     }
+
+    day(event: CalendarEvent, title: string): string {
+        return event.title;
+      }
 }
