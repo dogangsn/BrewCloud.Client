@@ -148,7 +148,7 @@ export class TasksMockApi
         this._fuseMockApiService
             .onGet('api/apps/tasks/search')
             .reply(({request}) => {
-
+                debugger;
                 // Get the search query
                 const query = request.params.get('query');
 
@@ -192,7 +192,7 @@ export class TasksMockApi
         this._fuseMockApiService
             .onPatch('api/apps/tasks/order')
             .reply(({request}) => {
-
+                debugger;
                 // Get the tasks
                 const tasks = request.body.tasks;
 
@@ -241,17 +241,17 @@ export class TasksMockApi
         this._fuseMockApiService
             .onPost('api/apps/tasks/task')
             .reply(({request}) => {
-
+                debugger;
                 // Generate a new task
                 const newTask = {
                     id       : FuseMockApiUtils.guid(),
-                    type     : request.body.type,
-                    title    : '',
-                    notes    : null,
-                    completed: false,
-                    dueDate  : null,
+                    agendaType     : request.body.type,
+                    agendaTitle    : '',
+                    notes    : '',
+                    isActive: 0,
+                    dueDate  : new Date(),
                     priority : 1,
-                    tags     : [],
+                    agendaTags     : [],
                     order    : 0
                 };
 

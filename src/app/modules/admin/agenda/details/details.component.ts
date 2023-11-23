@@ -19,6 +19,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { agendaTagsDto } from '../models/agendaTagsDto';
+import {  agendaDto } from '../models/agendaDto';
+import { AgendaListByIdQuery } from '../models/AgendaListByIdQuery';
 @Component({
     selector       : 'Agenda-details',
     templateUrl    : './details.component.html',
@@ -30,25 +32,32 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild('tagsPanelOrigin') private _tagsPanelOrigin: ElementRef;
     @ViewChild('tagsPanel') private _tagsPanel: TemplateRef<any>;
     @ViewChild('titleField') private _titleField: ElementRef;
-    displayedColumns: string[] = ['agendano'
-    ,'agendatype'
-    ,'isactive' 
-    ,'agendatitle'
+    displayedColumns: string[] = ['agendaNo'
+    ,'agendaType'
+    ,'isActive' 
+    ,'agendaTitle'
     ,'priority'
-    ,'duedate'
+    ,'dueDate'
     ,'notes'
-    ,'agendatags',
+    ,'agendaTags',
     ];
     tags: Tag[];
     tag : agendaTagsDto[];
     tagsEditMode: boolean = false;
     filteredTags: Tag[];
+    filteredTag: agendaTagsDto[];
+    tagsLength : number = 0;
     agenda: Agenda;
+    agendaDto: agendaDto;
     AgendaForm: FormGroup;
+    agendasDtos: agendaDto[];
     agendas: Agenda[];
     private _tagsPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     newtag : agendaTagsDto;
+    agendaById : AgendaListByIdQuery;
+    visibleCheck : boolean = false;
+    agendaByIdList : any;
     /**
      * Constructor
      */
@@ -102,15 +111,18 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.AgendaForm = this._formBuilder.group({
-            agendano: ['', Validators.required],
-            agendatype: ['', Validators.required],
-            isactive: ['', Validators.required],
-            agendatitle: ['', Validators.required],
-            priority: ['', Validators.required],
-            duedate: [''],
+        this.visible = true;
+            debugger;       
+            this.AgendaForm = this._formBuilder.group({
+            id:['',Validators.required],
+            agendaNo: ['', Validators.required],
+            agendaType: [0, Validators.required],
+            isActive: ['', Validators.required],
+            agendaTitle: ['', Validators.required],
+            priority: [1, Validators.required],
+            dueDate: [''],
             notes: ['', Validators.required],
-            agendatags: ['', Validators.required],
+            agendaTags: ['', Validators.required],
         })
             
         // Open the drawer
@@ -141,26 +153,26 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         // Get the Agendas
-        this._AgendaService.agendas$
+        this._AgendaService.agendasDto$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((agenda: Agenda[]) => {
-                this.agendas = agenda;
+            .subscribe((agenda: agendaDto[]) => {
+                this.agendasDtos = agenda;
                 this._AgendaListComponent.visible = false;
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
         // Get the Agenda
-        this._AgendaService.agenda$
+        this._AgendaService.agendaDto$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((agenda: Agenda) => {
+            .subscribe((agenda: agendaDto) => {
 
                 // Open the drawer in case it is closed
                 this._AgendaListComponent.matDrawer.open();
 
                 // Get the Agenda
-                this.agenda = agenda;
-
+                this.agendaDto = agenda;
+                this.agendaByIdList = agenda;
                 // Patch values to the form from the Agenda
                 this.AgendaForm.patchValue(agenda, {emitEvent: false});
 
@@ -168,36 +180,156 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 this._changeDetectorRef.markForCheck();
             });
 
+
+            this._AgendaService.agendas$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((agenda: Agenda[]) => {
+                this.agendas = agenda;
+                this._AgendaListComponent.visible = false;
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+        // Get the Agenda
+        this._AgendaService.agenda$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((agenda: Agenda) => {
+                debugger;
+                // Open the drawer in case it is closed
+                this._AgendaListComponent.matDrawer.open();
+                // Get the Agenda
+                this.agenda = agenda;
+                // Patch values to the form from the Agenda
+                // this.AgendaForm.patchValue(agenda, {emitEvent: false});
+            });
+        //    this._AgendaService.getAgendaById(this.agendaDto.id).subscribe((response) => {
+        //     this.agendaById = response;
+        //    });
+        //    if(this.agenda === null)
+        //    {
+        //      this.agenda = new Agenda(
+        //         this.agendaById.id,
+        //         this.agendaById.agendano,
+        //         this.agendaById.agendatitle,
+        //         this.agendaById
+        //      );
+
+        //    }
         // Update Agenda when there is a value change on the Agenda form
+        debugger;
+        // const priority = this.agendaDto.priority ;
+
+        if(this.agendaDto != undefined || this.agendaDto !== null)
+        {
+            this.visible = false;
+            const agendano = this.agendaByIdList.agendaNo;
+            const agendaType = this.agendaByIdList.agendaType;
+            const agendaTitle = this.agendaByIdList.agendaTitle;
+            debugger;
+            const duedate = this.agendaByIdList.dueDate;
+            if(this.agenda !== null)
+            {
+                this.agenda.dueDate = duedate;
+                this.agenda.priority = this.agendaByIdList.priority;
+                this.agenda.id = this.agendaByIdList.id;
+                this.agenda.agendaNo = agendano;
+                this.agenda.agendaType = agendaType;
+
+            }
+            else{
+                const x = this.agendaByIdList;
+                const ag = new Agenda;
+                ag.agendaNo = x.agendaNo;
+                ag.id = x.id;
+                ag.agendaTags = x.agendaTags;
+                ag.agendaTitle = x.agendaTitle;
+                ag.dueDate = x.dueDate;
+                ag.isActive = x.isActive;
+                ag.priority = x.priority;
+                ag.agendaType = x.agendaType;
+                ag.notes = x.notes;
+                this.agenda= ag;
+            }
+            if(this.agenda.agendaType == 0)
+            {
+                this.visibleCheck = true;
+            }
+            this.AgendaForm = this._formBuilder.group({
+                id:[this.agendaDto.id],
+                agendaNo: [agendano],
+                agendaType: [agendaType],
+                isActive: [this.agendaDto.isActive],
+                agendaTitle: [agendaTitle],
+                priority: [this.agendaDto.priority.toString() === "" ? 1 : this.agendaDto.priority],
+                dueDate: [new Date(duedate)],
+                notes: [this.agendaDto.notes],
+                agendaTags: [this.agendaDto.agendaTags]
+            })
+        }
+        else{
+            this.AgendaForm = this._formBuilder.group({
+                id:[this.agenda.id],
+                agendaNo: [this.agenda.agendaNo],
+                agendaType: [this.agenda.agendaType],
+                isActive: [this.agenda.isActive],
+                agendaTitle: [this.agenda.agendaTitle],
+                priority: [this.agenda.priority],
+                dueDate: [new Date(this.agenda.dueDate)],
+                notes: [this.agenda.notes],
+                agendaTags: [[]]
+            })
+            this.visible = true;
+            if(this.agenda.agendaType == 0)
+            {
+                this.visibleCheck = true;
+            }
+        }
+        // const priority = this.agenda.priority.toString() === '' ? 1 :  this.agenda.priority;
         this.AgendaForm.valueChanges
             .pipe(
                 tap((value) => {
-                    
+                    debugger;
                     // Update the Agenda object
+                    debugger;
+                    // this.agenda.priority = priority;
                     this.agenda = assign(this.agenda, value);
+                    this._changeDetectorRef.markForCheck();
+
+                    // this.AgendaForm.patchValue(value);
                 }),
                 debounceTime(300),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe((value) => {
-
+                debugger;
                 // Update the Agenda on the server
                 this._AgendaService.updateAgenda(value.id, value).subscribe();
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-
+            debugger;
         // Listen for NavigationEnd event to focus on the title field
         this._router.events
             .pipe(
                 takeUntil(this._unsubscribeAll),
                 filter(event => event instanceof NavigationEnd)
             )
-            .subscribe(() => {
-
+            .subscribe((response) => {
+                debugger;
+                const ss = response;
                 // Focus on the title field
+                this.agenda.dueDate =this.agendaByIdList.dueDate
+                this.agenda.priority = this.agendaByIdList.priority;
+                if(this.agendaByIdList.agendaType === 0)
+                {
+                    this.visibleCheck = true;
+                }
+                else{
+                    this.visibleCheck = false;
+                }
                 this._titleField.nativeElement.focus();
+                this._changeDetectorRef.markForCheck();
+                // this.isOverdue();
             });
     }
 
@@ -206,6 +338,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     ngAfterViewInit(): void
     {
+        debugger;
         // Listen for matDrawer opened change
         this._AgendaListComponent.matDrawer.openedChange
             .pipe(
@@ -253,7 +386,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     toggleCompleted(): void
     {
         // Get the form control for 'completed'
-        const completedFormControl = this.AgendaForm.get('isactive');
+        const completedFormControl = this.AgendaForm.get('isActive');
 
         // Toggle the completed status
         completedFormControl.setValue(!completedFormControl.value);
@@ -305,7 +438,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             {
                 // Detach it
                 this._tagsPanelOverlayRef.detach();
-
+                debugger;
                 // Reset the tag filter
                 this.filteredTags = this.tags;
 
@@ -341,7 +474,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         const value = event.target.value.toLowerCase();
 
         // Filter the tags
-        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+        this.filteredTags = this.tags.filter(tag => tag.tags.toLowerCase().includes(value));
     }
 
     /**
@@ -351,6 +484,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     filterTagsInputKeyDown(event): void
     {
+        debugger;
         // Return if the pressed key is not 'Enter'
         if ( event.key !== 'Enter' )
         {
@@ -372,7 +506,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
         // If there is a tag...
         const tag = this.filteredTags[0];
-        const isTagApplied = this.agenda.tags.find(id => id === tag.id);
+        const isTagApplied = this.agenda.agendaTags.find(id => id === tag.id);
 
         // If the found tag is already applied to the Agenda...
         if ( isTagApplied )
@@ -390,13 +524,13 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Create a new tag
      *
-     * @param title
+     * @param tags
      */
-    createTag(title: string): void
+    createTag(tags: string): void
     {
         debugger;
         const tag = {
-            title
+            tags
         };
 
         // Create tag on the server
@@ -414,10 +548,11 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      * @param tag
      * @param event
      */
-    updateTagTitle(tag: Tag, event): void
+    updateTagTitle(tag: agendaTagsDto, event): void
     {
+        debugger;
         // Update the title on the tag
-        tag.title = event.target.value;
+        tag.tags = event.target.value;
 
         // Update the tag on the server
         this._AgendaService.updateTag(tag.id, tag)
@@ -451,7 +586,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     {
         debugger;
         // Add the tag
-        this.agenda.tags.unshift(tag.id);
+        this.agenda.agendaTags.unshift(tag.id);
 
         // Update the Agenda form
         // this.AgendaForm.get('tags').patchValue(this.agenda.tags);
@@ -468,10 +603,10 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     deleteTagFromAgenda(tag: Tag): void
     {
         // Remove the tag
-        this.agenda.tags.splice(this.agenda.tags.findIndex(item => item === tag.id), 1);
+        this.agenda.agendaTags.splice(this.agenda.agendaTags.findIndex(item => item === tag.id), 1);
 
         // Update the Agenda form
-        this.AgendaForm.get('tags').patchValue(this.agenda.tags);
+        this.AgendaForm.get('tags').patchValue(this.agenda.agendaTags);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -484,7 +619,8 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     toggleAgendaTag(tag: Tag): void
     {
-        if ( this.agenda.tags.includes(tag.id) )
+        debugger;
+        if ( this.agenda.agendaTags.includes(tag.id) )
         {
             this.deleteTagFromAgenda(tag);
         }
@@ -501,7 +637,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     shouldShowCreateTagButton(inputValue: string): boolean
     {
-        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.tags.toLowerCase() === inputValue.toLowerCase()) > -1);
     }
 
     /**
@@ -520,7 +656,8 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
      */
     isOverdue(): boolean
     {
-        return DateTime.fromISO(this.agenda.duedate).startOf('day') < DateTime.now().startOf('day');
+        debugger;
+        return DateTime.fromISO(this.agenda.dueDate).startOf('day') < DateTime.now().startOf('day');
     }
 
     /**
@@ -550,9 +687,9 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 const id = this.agenda.id;
 
                 // Get the next/previous Agenda's id
-                const currentAgendaIndex = this.agendas.findIndex(item => item.id === id);
-                const nextAgendaIndex = currentAgendaIndex + ((currentAgendaIndex === (this.agendas.length - 1)) ? -1 : 1);
-                const nextAgendaId = (this.agendas.length === 1 && this.agenda[0].id === id) ? null : this.agendas[nextAgendaIndex].id;
+                const currentAgendaIndex = this.agendasDtos.findIndex(item => item.id === id);
+                const nextAgendaIndex = currentAgendaIndex + ((currentAgendaIndex === (this.agendasDtos.length - 1)) ? -1 : 1);
+                const nextAgendaId = (this.agendasDtos.length === 1 && this.agenda[0].id === id) ? null : this.agendasDtos[nextAgendaIndex].id;
 
                 // Delete the Agenda
                 this._AgendaService.deleteAgenda(id)
@@ -581,35 +718,122 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             }
         });
     }
-    saveAgendadetail(type: 'agenda' | 'section') : void{
-        const types = type;
-        const typenumber = type=='agenda' ? 0 : 1;
-        const agendaItem = new CreateAgendaCommand( 
-            this.getFormValueByName('agendano'),
-            this.getFormValueByName('agendatype'),
-            this.getFormValueByName('isactive'),
-            this.getFormValueByName('agendatitle'),
+    controlProperty(): boolean {
+        debugger;
+        const cagendatitle = this.getFormValueByName('agendaTitle');
+        const cpriority = this.getFormValueByName('priority');
+        const cnotes = this.getFormValueByName('notes');
+        const cduedate = this.getFormValueByName('dueDate');
+        const cagendatags = this.tagsLength;
+        // const cnote = this.getFormValueByName('note');
+        // const ccstate = this.getFormValueByName('state');
+        if (!cagendatitle || cagendatitle === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Başlık Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        if (cpriority === undefined || cpriority === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Öncelik Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        if (!cnotes || cnotes === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Not Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        if (!cduedate || cduedate === null) {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('Bitiş tarihi Giriniz.'),
+                SweetalertType.warning
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+            return false;
+        }
+        // if (cagendatags === 0 || cagendatags === null) {
+        //     const sweetAlertDto = new SweetAlertDto(
+        //         this.translate('sweetalert.error'),
+        //         this.translate('Etiket Seçiniz'),
+        //         SweetalertType.warning
+        //     );
+        //     GeneralService.sweetAlert(sweetAlertDto);
+        //     return false;
+        // }
+        return true;
+
+    }
+    updateAgendadetail(agenda : Agenda) : void{
+        debugger;
+
+        const agendaItem = new UpdateAgendaCommand(
+            agenda.id,
+            this.getFormValueByName('agendaNo'),
+            ( this.getFormValueByName('agendaType') == 0 ? 0 : 1),
+            ( this.getFormValueByName('isActive')  === 1 ? 0 : 1),
+            this.getFormValueByName('agendaTitle'),
             this.getFormValueByName('priority'),
             this.getFormValueByName('notes'),
-            this.getFormValueByName('duedate'),
-            this.getFormValueByName('agendatags'),
+            this.getFormValueByName('dueDate'),
+            []
+        );
+        this._AgendaService.updateAgendas(agendaItem).subscribe((response) => {
+            if(response.isSuccessful)
+            {
+                this._AgendaListComponent.getAgendaTags();
+                    this._AgendaListComponent.getAgendaList();
+                    this.closePage();
+                this._changeDetectorRef.markForCheck();
+            }
+        });
+        debugger;
+        const ii = agenda;
+    }
+    saveAgendadetail(type: number) : void{
+        debugger;
+
+        // const types = type;
+        // const typenumber = type=='agenda' ? 0 : 1;
+        const agendaItem = new CreateAgendaCommand( 
+            this.getFormValueByName('agendaNo'),
+            this.getFormValueByName('agendaType'),
+            this.getFormValueByName('isActive'),
+            this.getFormValueByName('agendaTitle'),
+            this.getFormValueByName('priority'),
+            this.getFormValueByName('notes'),
+            this.getFormValueByName('dueDate'),
+            this.getFormValueByName('agendaTags'),
 
 
             );
-            agendaItem.agendano = this._AgendaListComponent.agendasCount.total;
-            agendaItem.agendatags = [];
-            agendaItem.agendatype = typenumber;
-            agendaItem.isactive = this.agenda.isactive == true ? 1 : 0;
-            this.filteredTags = this.tags.filter(tag => this.agenda.tags.includes(tag.id));
+            debugger;
+            agendaItem.agendaNo = this._AgendaListComponent.agendasCount.rowNo;
+            agendaItem.agendaTags = [];
+            agendaItem.agendaType = type;
+            agendaItem.isActive = this.agenda.isActive == true ? 1 : 0;
+            this.filteredTags = this.tags.filter(tag => this.agenda.agendaTags.includes(tag.id));
+            this.tagsLength = this.filteredTags.length;
             for (const item of this.filteredTags) {
                 const newTag: agendaTagsDto = {
                   id  : '00000000-0000-0000-0000-000000000000',
-                  tags: item.title,
+                  tags: item.tags,
                   tagsId: item.id,
                 };
                 try
                 {
-                    agendaItem.agendatags.push(newTag);
+                    agendaItem.agendaTags.push(newTag);
 
                 }
                 catch(error){
@@ -617,13 +841,21 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
                 }
             }
 
-
+            if(!this.controlProperty())
+            {
+                return;
+            }
         
             this._AgendaService.createAgendas(agendaItem).subscribe(
                 (response) => {
                     
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
+                    debugger;
+                    // this._AgendaListComponent.visible = true;
+                    this._AgendaListComponent.getAgendaTags();
+                    this._AgendaListComponent.getAgendaList();
+                    this.closePage();
                 } else {
                      this.showSweetAlert('error');
                 }
@@ -652,6 +884,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
     getFormValueByName(formName: string): any {
+        debugger;
         return this.AgendaForm.get(formName).value;
     }
     /**
