@@ -8,6 +8,8 @@ import { CreateAgendaCommand } from "app/modules/admin/agenda/models/CreateAgend
  import { UpdateAgendaCommand } from "app/modules/admin/agenda/models/UpdateAgendaCommand";
  import { HttpService } from "app/core/auth/Http.service";
 import { agendaDto } from 'app/modules/admin/agenda/models/agendaDto';
+import { AgendaListByIdQuery } from 'app/modules/admin/agenda/models/AgendaListByIdQuery';
+import { agendaTagsDto } from 'app/modules/admin/agenda/models/agendaTagsDto';
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +17,12 @@ import { agendaDto } from 'app/modules/admin/agenda/models/agendaDto';
 export class AgendaService
 {
     // Private
-    private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
-    private _agenda: BehaviorSubject<Agenda | null> = new BehaviorSubject(null);
+    private _tags: BehaviorSubject<agendaTagsDto[] | null> = new BehaviorSubject(null);
+    private _agenda: BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _agendas: BehaviorSubject<Agenda[] | null> = new BehaviorSubject(null);
-
+    private _agendasDto: BehaviorSubject<agendaDto[] | null> = new BehaviorSubject(null);
+    private _agendaDto: BehaviorSubject<agendaDto | null> = new BehaviorSubject(null);
+    private agendaList : any;
     /**
      * Constructor
      */
@@ -27,7 +31,12 @@ export class AgendaService
     // }
     constructor(private _httpService: HttpService, private _httpClient: HttpClient) { }
     getAgendaList() : Observable<any>{
-        return this._httpService.getRequest(endPoints.agenda.agendaList);
+        const agendaListRes = this._httpService.getRequest(endPoints.agenda.agendaList);
+        agendaListRes.subscribe((response =>{
+            this._agendasDto.next(response.data);
+            this.getAgenda();
+        }));
+        return agendaListRes;
     }
 
     createAgendas(model: any): Observable<any> {
@@ -36,21 +45,146 @@ export class AgendaService
     // deleteAgenda(id?: DeleteAgendaCommand): Observable<any> {
     //     return this._httpService.post(endPoints.agenda.Deleteagenda, id);
     // }
-    // updateAgenda(model: UpdateAgendaCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.agenda.Updateagenda, model);
-    // }
+    updateAgendas(model: UpdateAgendaCommand): Observable<any> {
+        return this._httpService.post(endPoints.agenda.Updateagenda, model);
+    }
+    updateAgendasMulti(model: UpdateAgendaCommand): Observable<any> {
+        return this._httpService.post(endPoints.agenda.Updateagenda, model);
+    }
+    getAgendaById(buyId: string): Observable<AgendaListByIdQuery>
+    {
+        debugger;
+        const itemBy = new AgendaListByIdQuery(
+            buyId,
+            0,
+            0,
+            0,
+            '0',
+            0,
+            '0',
+            '0',
+            []
+
+        )
+        debugger;
+
+        return new Observable<AgendaListByIdQuery>((observer) => {
+            this._httpService.post(endPoints.agenda.agendaListById, itemBy).subscribe((response) => {
+                if (response.isSuccessful) {
+                    debugger;
+                    const responses = response.data;
+                   
+                    if(responses !== null && responses !== undefined)
+                    {
+                        const agenda1   = responses.find((x) => x.id === buyId) || null;
+                        this._agendaDto.next(agenda1);
+                        this._agendas.pipe().subscribe((response)=>{
+                            const req = response[0];
+                            debugger;
+                                if(req !== null && req !== undefined )
+                                {
+                                    const agenda = req;
+                                    debugger;
+                                // Update the agenda
+                                this._agenda.next(agenda);
+                                observer.next(agenda1); 
+                                observer.complete(); 
+                                return agenda;
+                                }
+                        });
+
+
+                        // this._agendas.pipe(
+                        //     take(1),
+                        //     map((agendas) => {
+                        //         // Find the agenda
+                                
+                                
+                
+                        //         // Return the agenda
+                               
+                        //     }),
+                        //     switchMap((agenda) => {
+                
+                        //         if ( !agenda )
+                        //         {
+                        //             return throwError('Could not found agenda with id of ' + buyId + '!');
+                        //         }
+                
+                        //         return of(agenda);
+                        //     })
+                        // );
+                            
+                    }
+                    
+                  
+                        // if(agenda === null)
+                        // {
+                        //     this.getAgendaById2(buyId);
+                        // }
+                        // else{
+                        // agenda.dueDate = new Date(agenda.dueDate);
+                            
+                        // }
+                    
+
+                    // }
+                } else {
+                    observer.error('Failed to fetch agenda by ID'); // Emit an error if needed
+                }
+            });
+        });
+
+        //    this._httpService.post(endPoints.agenda.agendaListById,itemBy).subscribe((response) => {
+        //     if(response.isSuccessful)
+        //     {
+        //         const responses = response.data;
+        //         this._agendaDto.next(responses.find(x=>x.id === buyId) || null);
+        //         return this._agendaDto;
+        //     }
+        //     else{
+        //         this._agendaDto.error('Failed to fetch agenda by ID');
+        //     }
+        //  });
+        //  const ag = 
+        //  this._agendasDto.pipe(
+        //     take(1),
+        //     map((agendas) => {
+        //         debugger;
+        //         // Find the task
+        //         debugger;
+        //         const agenda = agendas.find(x=>x.id === buyId) || null;
+
+        //         // Update the task
+        //         this._agendaDto.next(agenda);
+
+        //         // Return the task
+        //         return agenda;
+        //     }),
+        //     switchMap((agendass) => {
+
+        //         if ( !agendass )
+        //         {
+        //             return throwError('Could not found task with id of ' + buyId + '!');
+        //         }
+
+        //         return of(agendass);
+        //     })
+        // );
+        //  this._agenda=list;
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
     get agendasservice$(): Observable<any>
     {
-        debugger;
         return this._httpService.getRequest(endPoints.agenda.agendaList);
     }
     /**
      * Getter for tags
      */
-    get tags$(): Observable<Tag[]>
+    get tags$(): Observable<agendaTagsDto[]>
     {
         return this._tags.asObservable();
     }
@@ -60,7 +194,12 @@ export class AgendaService
      */
     get agenda$(): Observable<Agenda>
     {
+        debugger;
         return this._agenda.asObservable();
+    }
+    get agendaDto$(): Observable<agendaDto>
+    {
+        return this._agendaDto.asObservable();
     }
 
     /**
@@ -70,6 +209,10 @@ export class AgendaService
     {
         return this._agendas.asObservable();
     }
+    get agendasDto$(): Observable<agendaDto[]>
+    {
+        return this._agendasDto.asObservable();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -78,7 +221,7 @@ export class AgendaService
     /**
      * Get tags
      */
-    getTags(): Observable<Tag[]>
+    getTags(): Observable<agendaTagsDto[]>
     {
         return this._httpClient.get<Tag[]>('api/apps/tasks/tags').pipe(
             tap((response: any) => {
@@ -92,7 +235,7 @@ export class AgendaService
      *
      * @param tag
      */
-    createTag(tag: Tag): Observable<Tag>
+    createTag(tag: agendaTagsDto): Observable<agendaTagsDto>
     {
         return this.tags$.pipe(
             take(1),
@@ -115,11 +258,11 @@ export class AgendaService
      * @param id
      * @param tag
      */
-    updateTag(id: string, tag: Tag): Observable<Tag>
+    updateTag(id: string, tag: agendaTagsDto): Observable<agendaTagsDto>
     {
         return this.tags$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.patch<Tag>('api/apps/tasks/tag', {
+            switchMap(tags => this._httpClient.patch<agendaTagsDto>('api/apps/tasks/tag', {
                 id,
                 tag
             }).pipe(
@@ -173,12 +316,12 @@ export class AgendaService
                         // Iterate through the agendas
                         agendas.forEach((agenda) => {
 
-                            const tagIndex = agenda.tags.findIndex(tag => tag === id);
+                            const tagIndex = agenda.agendaTags.findIndex(tag => tag === id);
 
                             // If the task has a tag, remove it
                             if ( tagIndex > -1 )
                             {
-                                agenda.tags.splice(tagIndex, 1);
+                                agenda.agendaTags.splice(tagIndex, 1);
                             }
                         });
 
@@ -225,20 +368,25 @@ export class AgendaService
     /**
      * Get task by id
      */
-    getAgendaById(id: string): Observable<Agenda>
+    getAgendaById2(id: string): Observable<Agenda>
     {
+        debugger;
         return this._agendas.pipe(
             take(1),
             map((agendas) => {
-
                 // Find the agenda
-                const agenda = agendas.find(item => item.id === id) || null;
-
+                if(agendas !== null && agendas !== undefined )
+                {
+                    const agenda = agendas.find(item => item.id === id) || null;
+                    debugger;
                 // Update the agenda
                 this._agenda.next(agenda);
+                return agenda;
+                }
+                
 
                 // Return the agenda
-                return agenda;
+               
             }),
             switchMap((agenda) => {
 
@@ -257,14 +405,12 @@ export class AgendaService
      *
      * @param type
      */
-    createAgenda(type: String,count : number): Observable<Agenda>
+    createAgenda(type: number,count : number): Observable<Agenda>
     {
-        debugger;
         return this.agendas$.pipe(
             take(1),
             switchMap(agendas => this._httpClient.post<Agenda>('api/apps/tasks/task', {type}).pipe(
                 map((newAgenda) => {
-
                     // Update the agendas with the new agenda
                     this._agendas.next([newAgenda, ...agendas]);
 
@@ -283,6 +429,7 @@ export class AgendaService
      */
     updateAgenda(id: string, agenda: Agenda): Observable<Agenda>
     {
+        debugger;
         return this.agendas$
                    .pipe(
                        take(1),
@@ -310,6 +457,7 @@ export class AgendaService
                                tap(() => {
 
                                    // Update the agenda if it's selected
+                                   debugger;
                                    this._agenda.next(updatedAgenda);
 
                                    // Return the updated agenda

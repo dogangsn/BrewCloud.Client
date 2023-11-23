@@ -2,12 +2,12 @@ import { agendaTagsDto } from "./agendaTagsDto";
 
 export class agendaDto {
     id: string;
-    agendano:number;
-    agendatype: number;
-    isactive: number;
-    agendatitle:string;
-    priority:string;
+    agendaNo:number;
+    agendaType: number;
+    isActive: number;
+    agendaTitle:string;
+    priority:number;
     notes:string;
-    duedate: string;
+    dueDate: string;
     agendaTags: agendaTagsDto[];
 }

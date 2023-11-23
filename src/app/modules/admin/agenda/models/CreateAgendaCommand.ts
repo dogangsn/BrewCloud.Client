@@ -1,33 +1,32 @@
 import { agendaTagsDto } from "./agendaTagsDto";
 
 export class CreateAgendaCommand {
-    agendano:number;
-    agendatype: number;
-    isactive: number;
-    agendatitle:string;
-    priority:string;
+    agendaNo:number;
+    agendaType: number;
+    isActive: number;
+    agendaTitle:string;
+    priority:number;
     notes:string;
-    duedate: string;
-    agendatags: agendaTagsDto[];
+    dueDate: string;
+    agendaTags: agendaTagsDto[];
 
     constructor(
-        agendano:number,
-        agendatype: number,
-        isactive: number,
-        agendatitle:string,
-        priority:string,
+        agendaNo:number,
+        agendaType: number,
+        isActive: number,
+        agendaTitle:string,
+        priority:number,
         notes:string,
-        duedate: string,
-        agendatags: agendaTagsDto[]) {
-        this.agendano = agendano;
-        this.agendatype = agendatype;
-        this.agendatype = agendatype;
-        this.isactive = isactive;
-        this.agendatitle = agendatitle;
+        dueDate: string,
+        agendaTags: agendaTagsDto[]) {
+        this.agendaNo = agendaNo;
+        this.agendaType = agendaType;
+        this.isActive = isActive;
+        this.agendaTitle = agendaTitle;
         this.priority = priority;
         this.notes = notes;
-        this.duedate = duedate;
-        this.agendatags = agendatags;
+        this.dueDate = dueDate;
+        this.agendaTags = agendaTags;
 
 
     }
