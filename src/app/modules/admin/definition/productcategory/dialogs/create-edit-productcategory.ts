@@ -19,6 +19,7 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
     productcategory: FormGroup;
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
+    buttonDisabled = false;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,

@@ -22,8 +22,8 @@
                             <mat-form-field style="width:100%">
                                 <mat-label>Kasa Adı</mat-label>
                                 <input matInput [formControlName]="'casename'" >
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                <!-- <mat-icon class="icon-size-5" matSuffix
+                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col gt-sm:flex-row">
@@ -81,7 +81,7 @@
                         class="order-first sm:order-last"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addOrUpdateStore()">
+                        (click)="addOrUpdateStore()"  [disabled]="buttonDisabled" >
                         Kaydet
                     </button>
                 </div>

@@ -13,6 +13,8 @@
         "test": "ng test"
     },
     "dependencies": {
+        "@angular-material-components/datetime-picker": "^16.0.1",
+        "@angular-material-components/moment-adapter": "^16.0.1",
         "@angular/animations": "15.1.1",
         "@angular/cdk": "15.1.1",
         "@angular/common": "15.1.1",
@@ -41,6 +43,7 @@
         "lodash-es": "4.17.21",
         "luxon": "3.2.1",
         "mat-select-filter": "^2.4.1",
+        "moment": "^2.29.4",
         "ng": "^0.0.0",
         "ng-apexcharts": "1.7.4",
         "ngx-quill": "20.0.1",

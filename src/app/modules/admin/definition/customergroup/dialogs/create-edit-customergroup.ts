@@ -19,7 +19,7 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
     selectedcustomergroup: CustomerGroupListDto;
     productcategory: FormGroup;
     isUpdateButtonActive: Boolean;
-
+    buttonDisabled = false;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -51,6 +51,7 @@ export class CreateEditCustomerGroupDialogComponent implements OnInit {
     }
 
     addOrUpdateCustomergroup(): void {
+        this.buttonDisabled = true;
         this.selectedcustomergroup
             ? this.updatecustomergroup()
             : this.addcustomergroup();

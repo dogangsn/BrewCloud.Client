@@ -107,4 +107,8 @@ export class UserComponent implements OnInit, OnDestroy
         //console.log('settings');
         this._router.navigate(['/generalsettings']);
     }
+
+    onMyactivities() : void {
+        this._router.navigate(['/myactivities']);
+    }
 }

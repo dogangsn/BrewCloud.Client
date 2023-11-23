@@ -19,16 +19,16 @@
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
               <mat-label>Müşteri</mat-label>
-              <mat-select [placeholder]="'Müşteri'" [(ngModel)]="selectedCustomer" [formControlName]="'customer'" name="customer">
+              <mat-select [placeholder]="'Müşteri'" [(ngModel)]="selectedCustomer" [formControlName]="'customerId'" name="customer">
                   <mat-option>None</mat-option>
                   <mat-option *ngFor="let customer of customers"
-                      [value]="customer.firstName">{{customer.firstName}}</mat-option>
+                      [value]="customer.id">{{customer.firstName}}</mat-option>
               </mat-select>
               <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
             </mat-form-field>
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
               <mat-label>Hekim</mat-label>
-              <mat-select [placeholder]="'Hekim'" [(ngModel)]="selectedDoctor" [formControlName]="'doctor'" name="doctor">
+              <mat-select [placeholder]="'Hekim'" [(ngModel)]="selectedDoctor" [formControlName]="'doctorId'" name="doctor">
                   <mat-option>None</mat-option>
               </mat-select>
               <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
@@ -36,43 +36,30 @@
           </div>
 
           <div class="flex float : left gt-xs:flex-row">
+
             <mat-form-field class="flex-auto gt-xs:pr-3">
-              <mat-label>Randevu Tarihi</mat-label>
-              <input matInput [matDatepicker]="picker" [formControlName]="'appointmentDate'" />
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <mat-label>Randevu Başlangıç</mat-label>
+              <input matInput type="datetime-local" [formControlName]="'beginDate'" placeholder="start date">
             </mat-form-field>
 
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-              <mat-label>Randevu Saati</mat-label>
-              <input matInput type="time" [formControlName]="'appointmentTime'" />
+              <mat-label>Randevu Bitiş</mat-label>
+              <input matInput type="datetime-local" [formControlName]="'endDate'" placeholder="end date">
             </mat-form-field>
           </div>
           
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pr-3">
               <mat-label>Telefon Numarası</mat-label>
-              <input matInput [formControlName]="'phoneNumber'" />
+              <input matInput />
               <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-            </mat-form-field>
+            </mat-form-field>            
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-              <mat-label>E-Mail</mat-label>
-              <input matInput [formControlName]="'eMail'" />
-              <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-            </mat-form-field>
-          </div>
-          <div class="flex float : left gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pr-3">
               <mat-label>Not</mat-label>
               <input matInput [formControlName]="'note'" />
               <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-            </mat-form-field>
-            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-              <mat-label>VN/T.C Numarası</mat-label>
-              <input matInput [formControlName]="'vKNTCNo'" />
-              <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-            </mat-form-field>
-          </div>
+            </mat-form-field>  
+          </div>          
         </div>
       </div>
     </div>

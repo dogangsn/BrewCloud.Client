@@ -19,6 +19,7 @@ export class CreateEditStoreDialogComponent implements OnInit {
     selectedstore: StoreListDto;
     store: FormGroup;
     isUpdateButtonActive: Boolean;
+    buttonDisabled = false;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -56,6 +57,7 @@ export class CreateEditStoreDialogComponent implements OnInit {
     }
 
     addOrUpdateStore(): void {
+        this.buttonDisabled = true;
         this.selectedstore
             ? this.updatestore()
             : this.addstore();

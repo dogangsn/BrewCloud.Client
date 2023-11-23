@@ -87,7 +87,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
             animalColor: [''],
             reportNumber: [''],
             specialNote: [''],
-            sterilization: [''],
+            sterilization: [false],
             images: [[]],
             active: [false],
         });
