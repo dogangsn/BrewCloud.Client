@@ -12,25 +12,24 @@ import { agendaDto } from '../models/agendaDto';
 import { UpdateAgendaCommand } from '../models/UpdateAgendaCommand';
 
 @Component({
-    selector       : 'agendas-list',
-    templateUrl    : './list.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'agendas-list',
+    templateUrl: './list.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AgendaListComponent implements OnInit, OnDestroy
-{
-    @ViewChild('matDrawer', {static: true}) matDrawer: MatDrawer;
+export class AgendaListComponent implements OnInit, OnDestroy {
+    @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
     drawerMode: 'side' | 'over';
     selectedAgenda: Agenda;
     tags: Tag[];
     agendas: agendaDto[];
     agendasCount: any = {
-        completed : 0,
+        completed: 0,
         incomplete: 0,
-        total     : 0,
-        rowNo      : 0 
+        total: 0,
+        rowNo: 0
     };
-    agendaTagsList : string[] = [];
+    agendaTagsList: string[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -44,8 +43,7 @@ export class AgendaListComponent implements OnInit, OnDestroy
         private _agendaService: AgendaService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,14 +55,12 @@ export class AgendaListComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // this.createAgendaLoading(0);
-        debugger;
         this.createAgendaLoading(0);
         // Get the tags
         this.getAgendaTags();
-            
+
         // Get the Agendas
         this.getAgendaList();
 
@@ -102,57 +98,47 @@ export class AgendaListComponent implements OnInit, OnDestroy
             .subscribe((event: KeyboardEvent) => {
 
                 // If the '/' pressed
-                if ( event.key === '/' )
-                {
+                if (event.key === '/') {
                     this.createAgenda(0);
                 }
 
                 // If the '.' pressed
-                if ( event.key === '.' )
-                {
+                if (event.key === '.') {
                     this.createAgenda(1);
                 }
             });
     }
-    createAgendaLoading(type: 0 ): void
-    {
-        debugger;
+    createAgendaLoading(type: 0): void {
         // Create the agendas
-        this._agendaService.createAgenda(type,this.agendasCount).subscribe((newAgenda) => {
+        this._agendaService.createAgenda(type, this.agendasCount).subscribe((newAgenda) => {
 
             // Go to the new agendas
-            debugger;
             // this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
 
             // Mark for check
             // this._changeDetectorRef.markForCheck();
-                // this.visible = false;
-                debugger;
+            // this.visible = false;
 
 
-            
+
         });
     }
-    getAgendaTags(){
+    getAgendaTags() {
         this._agendaService.tags$
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((tags: Tag[]) => {
-            this.tags = tags;
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((tags: Tag[]) => {
+                this.tags = tags;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        });
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
     }
-    getAgendaList(){
-        debugger;
+    getAgendaList() {
         this._agendaService.getAgendaList()
-            .subscribe((response) =>{
+            .subscribe((response) => {
                 this.agendas = response.data;
-                debugger;
                 // Update the counts
-                debugger;
                 this.agendasCount.rowNo = this.agendas.length;
-                debugger;
                 this.agendasCount.total = this.agendas.filter(agenda => agenda.agendaType === 0).length;
                 this.agendasCount.completed = this.agendas.filter(agenda => agenda.agendaType === 0 && agenda.isActive).length;
                 this.agendasCount.incomplete = this.agendasCount.total - this.agendasCount.completed;
@@ -167,28 +153,26 @@ export class AgendaListComponent implements OnInit, OnDestroy
                     const mainNavigationComponent = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>('mainNavigation');
 
                     // If the main navigation component exists...
-                    if ( mainNavigationComponent )
-                    {
-                        
+                    if (mainNavigationComponent) {
+
                         const mainNavigation = mainNavigationComponent.navigation;
                         const menuItem = this._fuseNavigationService.getItem('agenda', mainNavigation);
 
-                            
-                            menuItem.subtitle = this.agendasCount.incomplete.toString() + ' kalan Ajanda';
-   
-                           // Refresh the navigation
-                           mainNavigationComponent.refresh();
+
+                        menuItem.subtitle = this.agendasCount.incomplete.toString() + ' kalan Ajanda';
+
+                        // Refresh the navigation
+                        mainNavigationComponent.refresh();
 
                         // Update the subtitle of the item
-                        }
+                    }
                 });
             });
     }
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
@@ -201,11 +185,9 @@ export class AgendaListComponent implements OnInit, OnDestroy
     /**
      * On backdrop clicked
      */
-    onBackdropClicked(): void
-    {
-        debugger;
+    onBackdropClicked(): void {
         // Go back to the list
-        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
+        this._router.navigate(['./'], { relativeTo: this._activatedRoute });
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -216,27 +198,22 @@ export class AgendaListComponent implements OnInit, OnDestroy
      *
      * @param type
      */
-    createAgenda(type: 0 | 1): void
-    {
-        debugger;
+    createAgenda(type: 0 | 1): void {
         // Create the agendas
-        this._agendaService.createAgenda(type,this.agendasCount).subscribe((newAgenda) => {
+        this._agendaService.createAgenda(type, this.agendasCount).subscribe((newAgenda) => {
 
             // Go to the new agendas
-            debugger;
-            this._router.navigate(['./', newAgenda.id], {relativeTo: this._activatedRoute});
+            this._router.navigate(['./', newAgenda.id], { relativeTo: this._activatedRoute });
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
-                this.visible = false;
-                debugger;
+            this.visible = false;
 
 
-            
+
         });
     }
-    getSelectedAgenda(Selectagenda : getAgendaModel): void {
-        debugger;
+    getSelectedAgenda(Selectagenda: getAgendaModel): void {
         // Create the agendas
         // this._agendaService.getAgendaById(Selectagenda.id).subscribe((newAgenda) => {
 
@@ -249,19 +226,18 @@ export class AgendaListComponent implements OnInit, OnDestroy
         //         debugger;
 
 
-            
+
         // });
     }
-    toggleCompleted(agendastype : AgendaTitleUpdate): void {
+    toggleCompleted(agendastype: AgendaTitleUpdate): void {
         // this.getAgendaTags();
 
         this.agendaTagsList = agendastype.agendaTags;
-        debugger;
         const agendaItem = new UpdateAgendaCommand(
             agendastype.id,
             agendastype.agendaNo,
             (agendastype.agendaType == 0 ? 0 : 1),
-            (agendastype.isActive  === 1 ? 0 : 1),
+            (agendastype.isActive === 1 ? 0 : 1),
             agendastype.agendaTitle,
             agendastype.priority,
             agendastype.notes,
@@ -269,8 +245,7 @@ export class AgendaListComponent implements OnInit, OnDestroy
             this.agendaTagsList
         );
         this._agendaService.updateAgendas(agendaItem).subscribe((response) => {
-            if(response.isSuccessful)
-            {
+            if (response.isSuccessful) {
                 this.getAgendaTags();
                 this.getAgendaList();
                 this._changeDetectorRef.markForCheck();
@@ -282,7 +257,7 @@ export class AgendaListComponent implements OnInit, OnDestroy
 
 
 
-        
+
     }
     /**
      * Toggle the completed status
@@ -309,38 +284,35 @@ export class AgendaListComponent implements OnInit, OnDestroy
      *
      * @param event
      */
-    dropped(event: CdkDragDrop<Agenda[]>): void
-    {
+    dropped(event: CdkDragDrop<Agenda[]>): void {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         // Move the item in the array
 
         // Save the new order
-        
-            const agendass = event.container.data;
-            this.agendas.forEach((ag) => {
-                debugger;
-                ag.agendaNo = agendass.findIndex((item : any) => item.id === ag.id);
-                const agendaItem = new UpdateAgendaCommand(
-                    ag.id,
-                    ag.agendaNo,
-                    (ag.agendaType == 0 ? 0 : 1),
-                    (ag.isActive),
-                    ag.agendaTitle,
-                    ag.priority,
-                    ag.notes,
-                    ag.dueDate,
-                    this.agendaTagsList
-                );
-                this._agendaService.updateAgendasMulti(agendaItem).subscribe((response) => {
-                    if(response.isSuccessful)
-                    {
-                        this.getAgendaList();
-                        this._changeDetectorRef.markForCheck();
-                    }
-                });
-            })
 
-        
+        const agendass = event.container.data;
+        this.agendas.forEach((ag) => {
+            ag.agendaNo = agendass.findIndex((item: any) => item.id === ag.id);
+            const agendaItem = new UpdateAgendaCommand(
+                ag.id,
+                ag.agendaNo,
+                (ag.agendaType == 0 ? 0 : 1),
+                (ag.isActive),
+                ag.agendaTitle,
+                ag.priority,
+                ag.notes,
+                ag.dueDate,
+                this.agendaTagsList
+            );
+            this._agendaService.updateAgendasMulti(agendaItem).subscribe((response) => {
+                if (response.isSuccessful) {
+                    this.getAgendaList();
+                    this._changeDetectorRef.markForCheck();
+                }
+            });
+        })
+
+
         // this._agendaService.updateAgendasOrders(event.container.data).subscribe();
 
         // Mark for check
@@ -353,8 +325,7 @@ export class AgendaListComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 }
