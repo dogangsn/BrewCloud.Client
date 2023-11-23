@@ -34,11 +34,11 @@ export interface InventoryVendor {
 export interface PatientDetails {
     id: string;
     name: string;
-    birthDate: string | null;
+    birthDate: Date | null;
     chipNumber: string | null;
     sex: string;
     animalType: number;
-    animalBreed: string;
+    animalBreed: number;
     animalColor: string;
     reportNumber: string | null;
     specialNote: string | null;

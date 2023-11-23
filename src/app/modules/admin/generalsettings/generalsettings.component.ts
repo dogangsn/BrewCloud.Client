@@ -44,12 +44,6 @@ export class GeneralsettingsComponent implements OnInit {
                 description:
                     'Kulalnıcı işlemlerinde rol tanımlarını yapılması, Menü, Ekran Ayarları üzerinde yetki kontrollerin yapılması',
             },
-            // {
-            //     id: 'appkey',
-            //     icon: 'heroicons_outline:lock-closed',
-            //     title: 'App Key',
-            //     description: 'Entegrasyon İşlemlerinde Oluşturulacak Key',
-            // },
             {
                 id: 'logs',
                 icon: 'heroicons_outline:user-group',
@@ -77,48 +71,22 @@ export class GeneralsettingsComponent implements OnInit {
             });
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Navigate to the panel
-     *
-     * @param panel
-     */
     goToPanel(panel: string): void {
         this.selectedPanel = panel;
-
-        // Close the drawer on 'over' mode
         if (this.drawerMode === 'over') {
             this.drawer.close();
         }
     }
-
-    /**
-     * Get the details of the panel
-     *
-     * @param id
-     */
+ 
     getPanelInfo(id: string): any {
         return this.panels.find((panel) => panel.id === id);
     }
-
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
+ 
     trackByFn(index: number, item: any): any {
         return item.id || index;
     }

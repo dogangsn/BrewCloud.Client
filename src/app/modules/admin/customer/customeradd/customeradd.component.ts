@@ -123,7 +123,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _fuseConfirmationService: FuseConfirmationService,
         private _customergroup: CustomerGroupService,
         private _animalColorDefService: AnimalColorsDefService,
-        private router: Router, private route: ActivatedRoute,
+        private router: Router,
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -176,6 +177,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.AnimalTypeControl.valueChanges.subscribe((selectedVendor) => {
             this.filterTagsByVendor(selectedVendor);
         });
+        this.patients = [];
+        console.log(this.patients);
     }
 
     filterTagsByVendor(selectedVendor: any) {
@@ -186,7 +189,11 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.filteredTags = this.animalBreedsDef.filter(
             (tag) => tag.animaltype == selectedValue
         );
-    }
+        this.animalBreedsDef.forEach((tag) => {
+            tag.isSelected = false;
+        });
+        this.selectedPatientDetailsForm.get('animalBreed').setValue(null);
+        this.selectedPatients.animalBreed = null;    }
 
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;
@@ -252,7 +259,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             this._customerService.createCustomers(model).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
-                        
                         const sweetAlertDto = new SweetAlertDto(
                             'Kayıt İşlemi Gerçekleşti',
                             'Müşteri Detay Ekranına Yönlendirilmek İster Misiniz?',
@@ -261,16 +267,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
                             (swalResponse) => {
                                 if (swalResponse.isConfirmed) {
-                                    this.router.navigate(['customerlist/customerdetails', response.data]);
+                                    this.router.navigate([
+                                        'customerlist/customerdetails',
+                                        response.data,
+                                    ]);
                                 }
                             }
-                        )
-                    } else {
-                        debugger
-                        this.showSweetAlert(
-                            'error',
-                            response.errors[0]
                         );
+                    } else {
+                        debugger;
+                        this.showSweetAlert('error', response.errors[0]);
                     }
                 },
                 (err) => {
@@ -313,7 +319,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
                 this.translate(text),
-                SweetalertType.error,
+                SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
         }
@@ -346,14 +352,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             const newPatient: PatientDetails = {
                 id: newId,
                 name: '',
-                birthDate: formattedDate,
+                birthDate: today,
                 chipNumber: '',
                 reportNumber: '',
                 specialNote: '',
                 sterilization: false,
                 sex: '1',
                 animalType: 0,
-                animalBreed: '',
+                animalBreed: null,
                 animalColor: '',
                 tags: [],
                 images: [],
@@ -368,14 +374,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         const newPatient: PatientDetails = {
             id: newId,
             name: '',
-            birthDate: formattedDate,
+            birthDate: today,
             chipNumber: '',
             reportNumber: '',
             specialNote: '',
             sterilization: false,
             sex: '1',
             animalType: 0,
-            animalBreed: '',
+            animalBreed: null,
             animalColor: '',
             tags: [],
             images: [],
@@ -428,8 +434,9 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (index !== -1) {
                         this.patients.splice(index, 1);
                         this.selectedPatients = null;
+                        this.selectedPatientDetailsForm.reset();
                     }
-                    
+
                     // const product =
                     //     this.selectedPatientDetailsForm.getRawValue();
                     // const productIndex = this.patients.findIndex(
@@ -534,14 +541,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 const newPatient: PatientDetails = {
                     id: newId,
                     name: '',
-                    birthDate: '',
+                    birthDate: null,
                     chipNumber: '',
                     reportNumber: '',
                     specialNote: '',
                     sterilization: false,
                     sex: '0',
                     animalType: 2,
-                    animalBreed: '',
+                    animalBreed: null,
                     animalColor: '',
                     tags: [],
                     images: [],
@@ -591,11 +598,12 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.selectedPatientDetailsForm.value?.images;
             }
         }
+        console.log('patients', this.patients);
     }
 
     ngOnDestroy(): void {
         this.patients = [];
-        this.selectedPatientDetailsForm.reset(); 
+        this.selectedPatientDetailsForm.reset();
         // this._unsubscribeAll.next(null);
         // this._unsubscribeAll.complete();
     }
@@ -755,11 +763,21 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         tag: VetAnimalBreedsDefDto,
         change: MatCheckboxChange
     ): void {
-        // if (change.checked) {
-        //     this.addTagToProduct(tag);
-        // } else {
-        //     this.removeTagFromProduct(tag);
-        // }
+        debugger;
+        if (change.checked) {
+            this.filteredTags.forEach((tag) => {
+                tag.isSelected = false;
+            });
+            tag.isSelected = true;
+            this.selectedPatientDetailsForm
+                .get('animalBreed')
+                .setValue(tag.recId);
+            this.selectedPatients.animalBreed = tag.recId;
+        } else {
+            tag.isSelected = false;
+            this.selectedPatientDetailsForm.get('animalBreed').setValue(null);
+            this.selectedPatients.animalBreed = null;
+        }
     }
 
     shouldShowCreateTagButton(inputValue: string): boolean {

@@ -30,6 +30,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { CustomerDetailEditDialogComponent } from '../customerdetails/customer-detail-edit-dialog/customer-detail-edit-dialog.component';
+import { CreateEditCustomersalesComponent } from '../customerdetails/create-edit-customersales/create-edit-customersales.component';
 
 const root: Route[] = [
     {
@@ -106,6 +107,7 @@ const root: Route[] = [
         CreateEditPatientsDialogComponent,
         CustomerDetailsComponent,
         CustomerDetailEditDialogComponent,
+        CreateEditCustomersalesComponent
     ]
 
     

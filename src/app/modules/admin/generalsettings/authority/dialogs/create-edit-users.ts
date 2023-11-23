@@ -23,6 +23,16 @@ export class CreateEditUsersDialogComponent implements OnInit {
 
     rols: RoleSettingDto[] = [];
 
+    unvanListesi: string[] = [
+        'Bay',
+        'Bayan',
+        'Dr.',
+        'Prof.',
+        'Yüksek Mühendis',
+        'Uzman',
+        // ...diğer ünvanlar
+      ];
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -39,6 +49,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
         this.users = this._formBuilder.group({
             active: [true],
             firstLastName: [''],
+            title: [''],
             email: ['', Validators.required],
             phone: [''],
             appKey : [''],

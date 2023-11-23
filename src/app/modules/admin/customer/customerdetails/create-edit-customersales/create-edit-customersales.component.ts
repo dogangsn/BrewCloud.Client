@@ -1,40 +1,36 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { CustomerSalesDto } from '../../models/customersalesDto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { SaleBuyListDto } from '../model/SaleBuyListDto';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { customersListDto } from '../../customer/models/customersListDto';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
-import { ProductDescriptionsDto } from '../../definition/productdescription/models/ProductDescriptionsDto';
-import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { GeneralService } from 'app/core/services/general/general.service';
-import { CreateSaleBuyCommand } from '../model/CreateSaleBuyCommand';
-import { suppliersListDto } from '../../suppliers/models/suppliersListDto';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
-import { PaymentMethodsDto } from '../../definition/paymentmethods/models/PaymentMethodsDto';
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
+import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdescription/models/ProductDescriptionsDto';
+import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/models/PaymentMethodsDto';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { CreateSaleBuyCommand } from 'app/modules/admin/retail/model/CreateSaleBuyCommand';
 
 @Component({
-    selector: 'app-create-edit-salesbuy',
-    templateUrl: './create-edit-salesbuy.component.html',
+    selector: 'app-create-edit-customersales',
+    templateUrl: './create-edit-customersales.component.html',
+    styleUrls: ['./create-edit-customersales.component.css'],
 })
-export class CreateEditSalesBuyComponent implements OnInit {
-    selectedsalebuy: SaleBuyListDto;
-    salebuy: FormGroup;
-    customerlist: customersListDto[] = [];
-    selectedCustomerId: any = '';
-    selectedProductId: any = '';
-    productdescription: ProductDescriptionsDto[] = [];
-    supplierscards: suppliersListDto[] = [];
-    payments: PaymentMethodsDto[] = [];
-
-    visibleCustomer: boolean;
-    salebuyType: number;
-    isSupplier: boolean;
+export class CreateEditCustomersalesComponent implements OnInit {
+    selectedcustomersale: CustomerSalesDto;
     buttonDisabled = false;
+
+    productdescription: ProductDescriptionsDto[] = [];
+    payments: PaymentMethodsDto[] = [];
+    selectedProductId: any = '';
+    salebuy: FormGroup;
+
+    selectedCustomerId: any;
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -46,55 +42,40 @@ export class CreateEditSalesBuyComponent implements OnInit {
         private _paymentmethodsService: PaymentMethodservice,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.visibleCustomer = data.visibleCustomer;
-        this.salebuyType = data.salebuyType;
-        this.selectedsalebuy = data.selectedsalebuy;
-        this.isSupplier = data.isSupplier;
+        this.selectedCustomerId = data;
     }
+
     ngOnInit() {
-        this.getCustomerList();
         this.getProductList();
         this.paymentsList();
 
-        if (this.isSupplier) {
-            this.getSuppliers();
-        }
-
         this.salebuy = this._formBuilder.group({
-            customerId: ['00000000-0000-0000-0000-000000000000'],
             date: [new Date()],
             productId: [
                 '00000000-0000-0000-0000-000000000000',
                 Validators.required,
             ],
             remark: [''],
-            supplierId: ['00000000-0000-0000-0000-000000000000'],
-            invoiceNo: [''],
             paymentType: [1],
             amount: [1],
         });
     }
 
-    getCustomerList() {
-        this._customerListService.getcustomerlist().subscribe((response) => {
-            this.customerlist = response.data;
-            console.log(this.customerlist);
-        });
+    addOrUpdateCustomerSale(): void {
+        this.buttonDisabled = true;
+        this.selectedcustomersale ? this.updateBuySale() : this.addBuySale();
     }
 
     getProductList() {
+        const model = {
+            ProductType : 1
+        }
         this._productdescriptionService
-            .GetProductDescriptionList()
+            .getProductDescriptionFilters(model)
             .subscribe((response) => {
                 this.productdescription = response.data;
+                console.log(this.productdescription);
             });
-    }
-
-    getSuppliers() {
-        this._suppliersService.getSuppliersList().subscribe((response) => {
-            this.supplierscards = response.data;
-            console.log(this.supplierscards);
-        });
     }
 
     paymentsList() {
@@ -104,27 +85,6 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 this.payments = response.data;
                 console.log(this.payments);
             });
-    }
-
-    closeDialog(): void {
-        this._dialogRef.close({ status: null });
-    }
-
-    filterCustomerId(value: any): void {
-        this.selectedCustomerId = value;
-    }
-
-    filterProductId(value: any): void {
-        this.selectedProductId = value;
-    }
-
-    getFormValueByName(formName: string): any {
-        return this.salebuy.get(formName).value;
-    }
-
-    addOrUpdateSaleBuy(): void {
-        this.buttonDisabled = true;
-        this.selectedsalebuy ? this.updateBuySale() : this.addBuySale();
     }
 
     addBuySale(): void {
@@ -138,17 +98,16 @@ export class CreateEditSalesBuyComponent implements OnInit {
             }
 
             const saleBuyItem = new CreateSaleBuyCommand(
-                this.getFormValueByName('customerId'),
+                this.selectedCustomerId.customerId,
                 this.getFormValueByName('date'),
                 this.getFormValueByName('productId'),
                 this.getFormValueByName('remark'),
-                this.salebuyType,
-                this.getFormValueByName('supplierId'),
-                this.getFormValueByName('invoiceNo'),
+                1,
+                '00000000-0000-0000-0000-000000000000',
+                '',
                 this.getFormValueByName('paymentType'),
                 this.getFormValueByName('amount')
             );
-
             this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(
                 (response) => {
                     debugger;
@@ -175,6 +134,10 @@ export class CreateEditSalesBuyComponent implements OnInit {
 
     updateBuySale(): void {}
 
+    getFormValueByName(formName: string): any {
+        return this.salebuy.get(formName).value;
+    }
+
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
@@ -195,5 +158,13 @@ export class CreateEditSalesBuyComponent implements OnInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    closeDialog(): void {
+        this._dialogRef.close({ status: null });
+    }
+
+    filterProductId(value: any): void {
+        this.selectedProductId = value;
     }
 }

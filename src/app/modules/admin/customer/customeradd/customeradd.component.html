@@ -74,7 +74,7 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                 </mat-form-field>
             </div>
-  
+
             <div class="flex float : left gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
                     <mat-label>İl</mat-label>
@@ -116,7 +116,7 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
                 </mat-form-field>
             </div>
-                      
+
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Not</mat-label>
@@ -446,7 +446,7 @@
                                                 <ng-container *ngIf="!tagsEditMode">
                                                     <ng-container *ngFor="let tag of filteredTags; trackBy: trackByFn">
                                                         <mat-checkbox class="flex items-center h-10 min-h-10 pl-1 pr-4"
-                                                            [color]="'primary'"
+                                                            [color]="'primary'" [checked]="tag.isSelected"
                                                             (change)="toggleProductTag(tag, $event)">
                                                             {{ tag.breedName }}
                                                         </mat-checkbox>

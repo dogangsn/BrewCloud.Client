@@ -1,5 +1,6 @@
 export class VetAnimalBreedsDefDto {
-    recid : number;
+    recId: number;
     animaltype: number;
-    breedName : string;
+    breedName: string;
+    isSelected: boolean = false;
 }

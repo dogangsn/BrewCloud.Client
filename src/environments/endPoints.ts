@@ -92,6 +92,7 @@ export const endPoints = {
     },
     agenda : {
         agendaList : 'vet/Agenda/AgendaList',
+        agendaListById : 'vet/Agenda/AgendaListById',
         Createagenda : 'vet/Agenda/CreateAgenda',
         Updateagenda : 'vet/Agenda/UpdateAgenda',
         Deleteagenda : 'vet/Agenda/DeleteAgenda'

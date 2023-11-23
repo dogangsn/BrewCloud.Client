@@ -12,6 +12,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog/customer-detail-edit-dialog.component';
 import { PatientDetailsDto } from '../models/PatientDetailsDto';
+import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
 
 @Component({
     selector: 'customerdetails',
@@ -152,4 +153,29 @@ export class CustomerDetailsComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+
+    openSaleCustomers() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(CreateEditCustomersalesComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
+
+
+
+
 }
