@@ -24,18 +24,43 @@
               <mat-form-field style="width:100%">
                 <mat-label>Role Adi</mat-label>
                 <input matInput [formControlName]="'rolecode'">
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <!-- <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
               </mat-form-field>
             </div>
-            <div class="col-sm-12 mt-2 common-width">
-              <mat-form-field style="width:100%">
+            <div class="float : left flex  gt-xs:flex-row">
+
+              <mat-form-field class="flex-auto gt-xs:pl-3">
                 <mat-label>Giriş Sayfası</mat-label>
                 <mat-select [formControlName]="'mainpage'">
                   <mat-option *ngFor="let item of selectedItemsTitle" [value]="item">{{ item }}</mat-option>
                 </mat-select>
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <!-- <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
               </mat-form-field>
+
+              <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                <mat-label>Yetki Aksiyonu</mat-label>
+                <mat-select
+                [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'"
+                 
+                disableOptionCentering
+                #roleSelect="matSelect">
+                <mat-select-trigger class="text-md">
+                    <span>Role:</span>
+                    <span class="ml-1 font-medium">{{roleSelect.value | titlecase}}</span>
+                </mat-select-trigger>
+                <ng-container *ngFor="let role of rolesAction">
+                    <mat-option
+                        class="h-auto py-4 leading-none"
+                        [value]="role.value">
+                        <div class="font-medium">{{role.label}}</div>
+                        <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}</div>
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+            </mat-form-field>
+
             </div>
+
             <div style="height: 10vw; overflow: auto;">
               <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="height: 100%;">
                 <!-- This is the tree node template for leaf nodes -->

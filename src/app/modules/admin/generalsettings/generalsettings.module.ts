@@ -31,6 +31,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CreateEditUsersDialogComponent } from './authority/dialogs/create-edit-users';
 import { CreateEditRoleDefComponent } from './rolDef/dialogs/create-edit-roleDef/create-edit-roleDef.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { TitleComponent } from './title/title.component';
+import { CreateEditTitleComponent } from './title/dialogs/create-edit-title';
 
 const root: Route[] = [
     {
@@ -113,6 +115,8 @@ const root: Route[] = [
         SettingsAppKeyComponent,
         CreateEditUsersDialogComponent,
         CreateEditRoleDefComponent,
+        TitleComponent,
+        CreateEditTitleComponent
     ],
 })
 export class GeneralSettings {}

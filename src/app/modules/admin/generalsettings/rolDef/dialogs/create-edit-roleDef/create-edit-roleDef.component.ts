@@ -59,6 +59,9 @@ interface ExampleFlatNode {
     checked: boolean;
 }
 
+
+
+
 @Component({
     selector: 'app-create-edit-roleDef',
     templateUrl: './create-edit-roleDef.component.html',
@@ -70,6 +73,9 @@ export class CreateEditRoleDefComponent implements OnInit {
     roles: FormGroup;
     selectedItems: string[] = [];
     selectedItemsTitle: string[] = [];
+
+    rolesAction: any[];
+    
 
     private _transformer = (node: FoodNode, level: number) => {
         return {
@@ -99,6 +105,8 @@ export class CreateEditRoleDefComponent implements OnInit {
         this.treeFlattener
     );
 
+
+    
     hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
     constructor(
@@ -123,6 +131,24 @@ export class CreateEditRoleDefComponent implements OnInit {
             rolecode: ['', Validators.required],
             mainpage: ['', Validators.required]
         });
+
+        this.rolesAction = [
+            {
+                label      : 'Read',
+                value      : 'read',
+                description: 'Can read and clone this repository. Can also open and comment on issues and pull requests.'
+            },
+            {
+                label      : 'Write',
+                value      : 'write',
+                description: 'Can read, clone, and push to this repository. Can also manage issues and pull requests.'
+            },
+            {
+                label      : 'Admin',
+                value      : 'admin',
+                description: 'Can read, clone, and push to this repository. Can also manage issues, pull requests, and repository settings, including adding collaborators.'
+            }
+        ];
 
     }
 

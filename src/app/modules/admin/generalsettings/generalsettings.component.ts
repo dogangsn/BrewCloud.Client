@@ -38,6 +38,13 @@ export class GeneralsettingsComponent implements OnInit {
                     'Sistem üzerindeki Kullanıcı Eklnemesi, Düzenlenmesi',
             },
             {
+                id: 'title',
+                icon: 'heroicons_outline:credit-card',
+                title: 'Ünvan Tanım',
+                description:
+                    'Sistem üzerindeki Kullanıcı işlemlerinde ünvan tanımları',
+            },
+            {
                 id: 'rolDef',
                 icon: 'heroicons_outline:bell',
                 title: 'Roller',

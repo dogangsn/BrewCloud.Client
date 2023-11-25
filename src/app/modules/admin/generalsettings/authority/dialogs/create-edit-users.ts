@@ -10,6 +10,8 @@ import { CreateUserCommand } from '../models/CreateUserCommand';
 import { UsersService } from 'app/core/services/settings/users/users.service';
 import { RolsService } from 'app/core/services/generalsettings/rols/rols.service';
 import { RoleSettingDto } from '../../rolDef/models/RoleSettingDto';
+import { TitleService } from 'app/core/services/generalsettings/title/title.service';
+import { TitleDefinationDto } from '../../title/model/titleDefinationDto';
 
 @Component({
     selector: 'app-create-edit-users-dialog',
@@ -22,6 +24,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
     isUpdateButtonActive: Boolean;
 
     rols: RoleSettingDto[] = [];
+    title: TitleDefinationDto[] = [];
 
     unvanListesi: string[] = [
         'Bay',
@@ -39,6 +42,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _usersService: UsersService,
         private _rolsSettings : RolsService,
+        private _titleService : TitleService,
         @Inject(MAT_DIALOG_DATA) public data: UserListDto
     ) {
         this.selectedusers = data;
@@ -46,6 +50,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.getRolsist();
+        this.getTileList();
         this.users = this._formBuilder.group({
             active: [true],
             firstLastName: [''],
@@ -65,6 +70,12 @@ export class CreateEditUsersDialogComponent implements OnInit {
                 email: selectedSuppliers.email,
             });
         }
+    }
+
+    getTileList(): void {
+        this._titleService.getTitleList().subscribe((response) => {
+            this.title = response.data;
+        });
     }
 
     closeDialog(): void {
