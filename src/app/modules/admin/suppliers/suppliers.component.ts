@@ -26,8 +26,9 @@ export class SuppliersComponent {
   ,'active'
   ,'actions',];
   suppliers: FormGroup;
-    
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild('paginator') paginator: MatPaginator;
+
   supplierscards: suppliersListDto[] = [];
   dataSource = new MatTableDataSource<suppliersListDto>(this.supplierscards);
   
@@ -46,8 +47,15 @@ export class SuppliersComponent {
       this._suppliersService.getSuppliersList().subscribe((response) => {
           this.supplierscards = response.data;
           console.log(this.supplierscards);
+
+          this.dataSource = new MatTableDataSource<suppliersListDto>(
+            this.supplierscards
+        );
+        this.dataSource.paginator = this.paginator;
+
       });
   }
+  
   addPanelOpen(): void {
     //this.erpfinancemonitorForm.reset();
     this.isUpdateButtonActive = false;

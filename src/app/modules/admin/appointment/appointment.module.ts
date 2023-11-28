@@ -25,66 +25,57 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatRadioModule} from '@angular/material/radio';
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import {
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+import {
+    BrowserModule,
+    BrowserTransferStateModule,
+} from '@angular/platform-browser';
+import { DxSchedulerModule } from 'devextreme-angular';
 
 const root: Route[] = [
     {
-        path     : '',
-        component: AppointmentComponent
-    }
+        path: '',
+        component: AppointmentComponent,
+    },
 ];
 
 @NgModule({
-
-    imports     : [
+    imports: [
+        CommonModule ,
         FormsModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         RouterModule.forChild(root),
-        FormsModule,
         ReactiveFormsModule,
         FuseCardModule,
         MatMenuModule,
-        FormsModule,
         MatTableModule,
         FullCalendarModule,
-        CommonModule,
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-          }),
-          DemoUtilsModule,
-          MatDialogModule,
-          MatDatepickerModule,
-          MatSelectModule,
-          MatRadioModule,
-          SharedModule,
-          MatTooltipModule,
-          MatSlideToggleModule,
-          MatSortModule,
-          MatRippleModule,
-          MatNativeDateModule,
-          MatProgressBarModule,
-          MatPaginatorModule,
-          MatCheckboxModule,
-          MatSelectModule,
-          NgxMatDatetimePickerModule,
-          NgxMatTimepickerModule,
-          ReactiveFormsModule,
-          NgxMatNativeDateModule,
-          
-    ],
-    declarations: [
-        AppointmentComponent,
-        AddApponitnmentDialogComponent
-    ]
+        MatDialogModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatRadioModule,
+        SharedModule,
+        MatTooltipModule,
+        MatSlideToggleModule,
+        MatSortModule,
+        MatRippleModule,
+        MatNativeDateModule,
+        MatProgressBarModule,
+        MatPaginatorModule,
+        MatCheckboxModule,
+        MatSelectModule,
     
+        DxSchedulerModule,
+    ],
+    declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
 })
-export class AppointmentModule
-{
-}
+export class AppointmentModule {}

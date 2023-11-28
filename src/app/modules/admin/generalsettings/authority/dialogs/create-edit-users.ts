@@ -58,7 +58,8 @@ export class CreateEditUsersDialogComponent implements OnInit {
             email: ['', Validators.required],
             phone: [''],
             appKey : [''],
-            roleId : ['',  Validators.required]
+            roleId : ['',  Validators.required],
+            titleid: ['']
         });
         this.fillFormData(this.selectedusers);
     }
@@ -118,6 +119,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
         user.phone = this.getFormValueByName('phone');
         user.appKey = this.getFormValueByName('appKey');
         user.roleId = this.getFormValueByName('roleId');
+        user.titleId = this.getFormValueByName('titleid');
         user.userName = user.email;
 
         this._usersService.addUser(user).subscribe(

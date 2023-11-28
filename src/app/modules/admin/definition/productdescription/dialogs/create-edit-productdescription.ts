@@ -231,7 +231,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('sellingIncludeKDV'),
             this.getFormValueByName('buyingIncludeKDV'),
             this.getFormValueByName('fixPrice'),
-            this.getFormValueByName('isExpirationDate')
+            this.getFormValueByName('isExpirationDate'),
+            this.getFormValueByName('animalType'),
+            this.getFormValueByName('numberRepetitions')
         );
 
         this._productDefService.updateProductDescription(storeItem).subscribe(

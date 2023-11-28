@@ -44,7 +44,9 @@ const routerConfig: ExtraOptions = {
         MatStepperModule,
         // Layout module of your application
         LayoutModule,
-        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+        FormsModule,
+        // CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+
 
     ],
     schemas: [

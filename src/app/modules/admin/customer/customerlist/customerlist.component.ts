@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
@@ -18,12 +18,18 @@ import { CustomerDetailsService } from './service/customerdetailservice';
     templateUrl: './customerlist.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class CustomersListComponent {
+export class CustomersListComponent implements OnInit, AfterViewInit  {
     displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note', 'actions'];
     
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
+
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
+
+
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
     
     constructor(private _customerListService: CustomerService,
                 private _dialog: MatDialog,
@@ -39,6 +45,13 @@ export class CustomersListComponent {
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
             this.customerlist = response.data;
+            console.log(this.customerlist);
+
+            this.dataSource = new MatTableDataSource<customersListDto>(
+                this.customerlist
+            );
+
+            this.dataSource.paginator = this.paginator;
             console.log(this.customerlist);
         });
     }

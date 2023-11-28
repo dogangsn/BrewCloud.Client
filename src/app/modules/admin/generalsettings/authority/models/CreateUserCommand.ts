@@ -11,5 +11,5 @@ export class CreateUserCommand {
     accountType: number;
     phone: string;
     appKey: string;
-
+    titleId: string;
 }

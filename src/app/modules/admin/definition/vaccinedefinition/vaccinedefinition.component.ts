@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ProductDescriptionsDto } from '../productdescription/models/ProductDescriptionsDto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
     templateUrl: './vaccinedefinition.component.html',
     styleUrls: ['./vaccinedefinition.component.css'],
 })
-export class VaccinedefinitionComponent implements OnInit {
+export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'name',
         'productCode',
@@ -25,7 +25,7 @@ export class VaccinedefinitionComponent implements OnInit {
         'actions',
     ];
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
     productdescription: ProductDescriptionsDto[] = [];
     dataSource = new MatTableDataSource<ProductDescriptionsDto>(
         this.productdescription
@@ -40,6 +40,10 @@ export class VaccinedefinitionComponent implements OnInit {
         private _translocoService: TranslocoService
     ) {}
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
     ngOnInit() {
         this.getProductList();
     }
@@ -53,6 +57,12 @@ export class VaccinedefinitionComponent implements OnInit {
             .subscribe((response) => {
                 this.productdescription = response.data;
                 console.log(this.productdescription);
+
+                this.dataSource = new MatTableDataSource<ProductDescriptionsDto>(
+                    this.productdescription
+                );
+    
+                this.dataSource.paginator = this.paginator;
             });
     }
 
@@ -86,17 +96,23 @@ export class VaccinedefinitionComponent implements OnInit {
         this.isUpdateButtonActive = true;
         this.visibleProductType = true;
         this.producttype = 2;
-        
+
         const selectedProduct = this.productdescription.find(
             (product) => product.id === id
         );
+        const model = {
+            selectedProductdescription: selectedProduct,
+            producttype: 2,
+            visibleProductType: true,
+        };
+        
         if (selectedProduct) {
             const dialogRef = this._dialog.open(
                 CreateEditProductDescriptionDialogComponent,
                 {
                     maxWidth: '100vw !important',
                     disableClose: true,
-                    data: selectedProduct,
+                    data: model,
                 }
             );
 

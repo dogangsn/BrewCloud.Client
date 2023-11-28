@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { SaleBuyListDto } from '../model/SaleBuyListDto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,8 @@ import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-
     selector: 'buying',
     templateUrl: './buying.component.html',
 })
-export class BuyingComponent implements OnInit {
+export class BuyingComponent implements OnInit, AfterViewInit {
+
     displayedColumns: string[] = [
         'date',
         'invoiceNo',
@@ -27,16 +28,25 @@ export class BuyingComponent implements OnInit {
         'total',
         'actions',
     ];
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    @ViewChild('paginator') paginator: MatPaginator;
 
     salebuyList: SaleBuyListDto[] = [];
     dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyList);
     isUpdateButtonActive: boolean;
+
+
+
+
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _salebuyservice: SaleBuyService,
     ) {}
+
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
 
     ngOnInit() {
         this.getSaleBuy();
@@ -49,6 +59,13 @@ export class BuyingComponent implements OnInit {
         };
         this._salebuyservice.getBuySaleList(model).subscribe((response) => {
             this.salebuyList = response.data;
+            console.log(this.salebuyList);
+
+            this.dataSource = new MatTableDataSource<SaleBuyListDto>(
+                this.salebuyList
+            );
+
+            this.dataSource.paginator = this.paginator;
             console.log(this.salebuyList);
         });
     }
@@ -96,6 +113,7 @@ export class BuyingComponent implements OnInit {
                 }
             });
     }
+
     createBuyingOrder(): void {
         const model = {
             selectedsalebuy: null,

@@ -16,6 +16,8 @@ export class UpdateProductDescriptionsCommand{
     buyingIncludeKDV:boolean;
     fixPrice:boolean;
     isExpirationDate : boolean;
+    animalType: number;
+    numberRepetitions: number;
 
     constructor(
         Id:string,
@@ -34,7 +36,9 @@ export class UpdateProductDescriptionsCommand{
         sellingIncludeKDV: boolean,
         buyingIncludeKDV:boolean,
         fixPrice:boolean,
-        isExpirationDate : boolean
+        isExpirationDate : boolean,
+        animalType: number,
+        numberRepetitions: number
     ){
         this.Id = Id;
         this.name = name;
@@ -53,6 +57,9 @@ export class UpdateProductDescriptionsCommand{
         this.buyingIncludeKDV = buyingIncludeKDV;
         this.fixPrice = fixPrice;
         this.isExpirationDate = isExpirationDate;
+        this.animalType = animalType;
+        this.numberRepetitions = numberRepetitions;
+
 
     }
 }

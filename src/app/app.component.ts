@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { loadMessages, locale } from 'devextreme/localization';
+import localeMessages from 'devextreme/localization/messages/tr.json';
 
 @Component({
     selector   : 'app-root',
@@ -12,5 +14,8 @@ export class AppComponent
      */
     constructor()
     {
+        console.log(navigator.language)
+        loadMessages(localeMessages);
+        locale(navigator.language);
     }
 }

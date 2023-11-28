@@ -9,6 +9,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { SharedModule } from 'app/shared/shared.module';
 
 const exampleRoutes: Route[] = [
     {
@@ -26,17 +33,19 @@ const exampleRoutes: Route[] = [
         MatIconModule,
         RouterModule.forChild(exampleRoutes),
         MatButtonModule,
+        MatButtonToggleModule,
         MatDividerModule,
+        MatIconModule,
         MatMenuModule,
         MatProgressBarModule,
         MatRippleModule,
+        MatSidenavModule,
+        MatSortModule,
+        MatTableModule,
+        MatTabsModule,
+        NgApexchartsModule,
         TranslocoModule,
-        MatButtonModule,
-        //MatSidenavModule,
-        // MatSortModule,
-        // MatTableModule,
-        // MatTabsModule,
-        // NgApexchartsModule
+        SharedModule
     ]
 })
 export class DashboardsModule

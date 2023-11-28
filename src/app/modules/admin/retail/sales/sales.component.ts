@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,7 +15,7 @@ import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
     selector: 'sales',
     templateUrl: './sales.component.html',
 })
-export class SalesComponent implements OnInit {
+export class SalesComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'date',
         'invoiceNo',
@@ -27,17 +27,25 @@ export class SalesComponent implements OnInit {
         'total',
         'actions',
     ];
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    //@ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
+    //@ViewChild('paginatorPageSize') paginatorPageSize: MatPaginator;
 
     salebuyList: SaleBuyListDto[] = [];
     dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyList);
     isUpdateButtonActive: boolean;
+
+    salebuyListsSource = new MatTableDataSource(this.salebuyList);
 
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _salebuyservice: SaleBuyService
     ) {}
+
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
 
     ngOnInit() {
         this.getSaleBuy();
@@ -49,6 +57,11 @@ export class SalesComponent implements OnInit {
         };
         this._salebuyservice.getBuySaleList(model).subscribe((response) => {
             this.salebuyList = response.data;
+            this.dataSource = new MatTableDataSource<SaleBuyListDto>(
+                this.salebuyList
+            );
+
+            this.dataSource.paginator = this.paginator;
             console.log(this.salebuyList);
         });
     }
@@ -137,7 +150,9 @@ export class SalesComponent implements OnInit {
                                 this.getSaleBuy();
                                 const sweetAlertDto2 = new SweetAlertDto(
                                     this.translate('sweetalert.success'),
-                                    this.translate('sweetalert.transactionSuccessful'),
+                                    this.translate(
+                                        'sweetalert.transactionSuccessful'
+                                    ),
                                     SweetalertType.success
                                 );
                                 GeneralService.sweetAlert(sweetAlertDto2);
@@ -181,8 +196,5 @@ export class SalesComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
-    public redirectToPrint = (id: string) => {
-        
-    }
-
+    public redirectToPrint = (id: string) => {};
 }

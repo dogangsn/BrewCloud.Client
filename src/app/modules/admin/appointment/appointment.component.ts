@@ -23,121 +23,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-appointment',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './appointment.component.html',
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
-            .invalid-position .cal-event {
-                background-color: #ad2121 !important;
-                color: #fff;
-            }
-        `,
-    ],
+    styleUrls: ['./appointment.component.css'],
     
 })
 export class AppointmentComponent {
-    debugger;
-    view: CalendarView = CalendarView.Week;
 
-    viewDate: Date = new Date();
+    appointmentsData: Appointment[];
+
+    currentDate: Date = new Date();
 
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private router: Router,
         private route: ActivatedRoute
-    ) {}
-
-    events: CalendarEvent[] = [
-        { 
-            start: subDays(startOfDay(new Date()), 1),
-            end: addDays(new Date(), 1),
-            title: 'A 3 day event',
-            color: colors.blue,
-            allDay: true,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-        {
-            start: addHours(startOfDay(setDay(new Date(), 3)), 2),
-            end: subSeconds(addHours(startOfDay(setDay(new Date(), 3)), 3), 1),
-            title: 'An short event',
-            color: colors.yellow,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-        {
-            start: addHours(startOfDay(setDay(new Date(), 3)), 5),
-            end: subSeconds(addHours(startOfDay(setDay(new Date(), 3)), 10), 1),
-            title: 'A draggable and resizable event',
-            color: colors.yellow,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-    ];
-
-    refresh = new Subject<void>();
-
-    validateEventTimesChanged = (
-        { event, newStart, newEnd, allDay }: CalendarEventTimesChangedEvent,
-        addCssClass = true
-    ) => {
-        if (event.allDay) {
-            return true;
-        }
-
-        
-
-        delete event.cssClass;
-        // don't allow dragging or resizing events to different days
-        const sameDay = isSameDay(newStart, newEnd);
-
-        if (!sameDay) {
-            return false;
-        }
-
-        // don't allow dragging events to the same times as other events
-        const overlappingEvent = this.events.find((otherEvent) => {
-            return (
-                otherEvent !== event &&
-                !otherEvent.allDay &&
-                ((otherEvent.start < newStart && newStart < otherEvent.end) ||
-                    (otherEvent.start < newEnd && newStart < otherEvent.end))
-            );
-        });
-
-        if (overlappingEvent) {
-            if (addCssClass) {
-                event.cssClass = 'invalid-position';
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    eventTimesChanged(
-        eventTimesChangedEvent: CalendarEventTimesChangedEvent
-    ): void {
-        delete eventTimesChangedEvent.event.cssClass;
-        if (this.validateEventTimesChanged(eventTimesChangedEvent, false)) {
-            const { event, newStart, newEnd } = eventTimesChangedEvent;
-            event.start = newStart;
-            event.end = newEnd;
-            this.refresh.next();
-        }
+    ) {
+        this.appointmentsData = appointments;
     }
+
 
     addPanelOpen(): void {
         const dialog = this._dialog
@@ -157,3 +61,82 @@ export class AppointmentComponent {
         return event.title;
       }
 }
+
+
+
+export class Appointment {
+    text: string;
+    startDate: Date;
+    endDate: Date;
+    allDay?: boolean;
+  }
+  
+  const appointments: Appointment[] = [
+    {
+      text: 'Website Re-Design Plan',
+      startDate: new Date('2023-11-26T16:30:00.000Z'),
+      endDate: new Date('2023-11-26T18:30:00.000Z'),
+    }, {
+      text: 'Book Flights to San Fran for Sales Trip',
+      startDate: new Date('2023-11-26T19:00:00.000Z'),
+      endDate: new Date('2023-11-26T20:00:00.000Z'),
+      allDay: true,
+    }, {
+      text: 'Install New Router in Dev Room',
+      startDate: new Date('2023-11-26T21:30:00.000Z'),
+      endDate: new Date('2023-11-26T22:30:00.000Z'),
+    }, {
+      text: 'Approve Personal Computer Upgrade Plan',
+      startDate: new Date('2023-11-27T17:00:00.000Z'),
+      endDate: new Date('2023-11-27T18:00:00.000Z'),
+    }, {
+      text: 'Final Budget Review',
+      startDate: new Date('2023-11-27T19:00:00.000Z'),
+      endDate: new Date('2023-11-27T20:35:00.000Z'),
+    }, {
+      text: 'New Brochures',
+      startDate: new Date('2023-11-27T21:30:00.000Z'),
+      endDate: new Date('2023-11-27T22:45:00.000Z'),
+    }, {
+      text: 'Install New Database',
+      startDate: new Date('2023-11-28T16:45:00.000Z'),
+      endDate: new Date('2023-11-28T18:15:00.000Z'),
+    }, {
+      text: 'Approve New Online Marketing Strategy',
+      startDate: new Date('2023-11-28T19:00:00.000Z'),
+      endDate: new Date('2023-11-28T21:00:00.000Z'),
+    }, {
+      text: 'Upgrade Personal Computers',
+      startDate: new Date('2023-11-28T22:15:00.000Z'),
+      endDate: new Date('2023-11-28T23:30:00.000Z'),
+    }, {
+      text: 'Customer Workshop',
+      startDate: new Date('2023-11-29T18:00:00.000Z'),
+      endDate: new Date('2023-11-29T19:00:00.000Z'),
+      allDay: true,
+    }, {
+      text: 'Prepare 2023 Marketing Plan',
+      startDate: new Date('2023-11-29T18:00:00.000Z'),
+      endDate: new Date('2023-11-29T20:30:00.000Z'),
+    }, {
+      text: 'Brochure Design Review',
+      startDate: new Date('2023-11-29T21:00:00.000Z'),
+      endDate: new Date('2023-11-29T22:30:00.000Z'),
+    }, {
+      text: 'Create Icons for Website',
+      startDate: new Date('2023-11-30T17:00:00.000Z'),
+      endDate: new Date('2023-11-30T18:30:00.000Z'),
+    }, {
+      text: 'Upgrade Server Hardware',
+      startDate: new Date('2023-11-30T21:30:00.000Z'),
+      endDate: new Date('2023-11-30T23:00:00.000Z'),
+    }, {
+      text: 'Submit New Website Design',
+      startDate: new Date('2023-11-30T23:30:00.000Z'),
+      endDate: new Date('2023-05-01T01:00:00.000Z'),
+    }, {
+      text: 'Launch New Website',
+      startDate: new Date('2023-11-30T19:20:00.000Z'),
+      endDate: new Date('2023-11-30T21:00:00.000Z'),
+    },
+  ];

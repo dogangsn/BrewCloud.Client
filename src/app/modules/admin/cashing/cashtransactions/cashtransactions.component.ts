@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { PaymentMethodsDto } from '../../definition/paymentmethods/models/PaymentMethodsDto';
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +16,7 @@ import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
     templateUrl: './cashtransactions.component.html',
     styleUrls: ['./cashtransactions.component.css'],
 })
-export class CashtransactionsComponent implements OnInit {
+export class CashtransactionsComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'date',
         'type',
@@ -46,6 +46,10 @@ export class CashtransactionsComponent implements OnInit {
         private _salebuyservice: SaleBuyService,
     ) {}
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
     ngOnInit() {
         this.paymentsList();
 
@@ -69,6 +73,7 @@ export class CashtransactionsComponent implements OnInit {
             .subscribe((response) => {
                 this.payments = response.data;
                 console.log(this.payments);
+
             });
     }
 
@@ -160,6 +165,12 @@ export class CashtransactionsComponent implements OnInit {
         this._salebuyservice.getBuySaleFilterList(model).subscribe((response) => {
             this.salebuyLists = response.data;
             console.log(this.salebuyLists);
+
+            
+            this.dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyLists);
+    
+            this.dataSource.paginator = this.paginator;
+            console.log(this.payments);
         });
 
     }
