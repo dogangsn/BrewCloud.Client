@@ -35,6 +35,7 @@ export class CreateEditTitleComponent implements OnInit {
         this.title = this._formBuilder.group({
             name: ['', Validators.required],
             remark: ['', Validators.required],
+            isAppointmentShow: [false]
         });
 
         this.fillFormData(this.selectedtitle);
@@ -45,6 +46,7 @@ export class CreateEditTitleComponent implements OnInit {
             this.title.setValue({
                 name: selectedTile.name,
                 remark: selectedTile.remark,
+                isAppointmentShow : selectedTile.isAppointmentShow
             });
         }
     }
@@ -58,6 +60,7 @@ export class CreateEditTitleComponent implements OnInit {
         const titleItem = new CreateTitleCommand(
             this.getFormValueByName('name'),
             this.getFormValueByName('remark'),
+            this.getFormValueByName('isAppointmentShow')
         );
         this._titleService.createTitle(titleItem).subscribe(
             (response) => {
@@ -82,6 +85,7 @@ export class CreateEditTitleComponent implements OnInit {
             this.selectedtitle.id,
             this.getFormValueByName('name'),
             this.getFormValueByName('remark'),
+            this.getFormValueByName('isAppointmentShow')
         );
         this._titleService.updateTitle(storeItem).subscribe(
             (response) => {

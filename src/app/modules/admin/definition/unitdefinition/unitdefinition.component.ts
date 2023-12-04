@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditUnitDefinitionDialogComponent } from './dialogs/create-edit-unitdefinition';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,28 +15,39 @@ import { TranslocoService } from '@ngneat/transloco';
     templateUrl: './unitdefinition.component.html',
     styleUrls: ['./unitdefinition.component.scss'],
 })
-export class UnitComponent implements OnInit {
+export class UnitComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = ['unitCode', 'unitName', 'actions'];
 
     isUpdateButtonActive: boolean;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
     units: unitdefinitionListDto[] = [];
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
 
     constructor(
         private _dialog: MatDialog,
         private _unitsservice: UnitsService,
-        private _translocoService: TranslocoService
+        private _translocoService: TranslocoService,
     ) {}
 
     ngOnInit() {
       this.UnitsList();
     }
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
+
     UnitsList() {
         this._unitsservice.getUnitsList().subscribe((response) => {
             this.units = response.data;
             console.log(this.units);
+
+            this.dataSource = new MatTableDataSource<unitdefinitionListDto>(
+                this.units
+            );
+
+            this.dataSource.paginator = this.paginator;
         });
     }
 

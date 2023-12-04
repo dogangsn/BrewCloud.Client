@@ -20,11 +20,11 @@ export class UnitsService {
     }
 
     updateUnits(model: any): Observable<any> {
-        return this._httpService.post(endPoints.units.createUnits, model);
+        return this._httpService.post(endPoints.units.updateUnits, model);
     }
 
     deleteUnits(model: any): Observable<any> {
-        return this._httpService.post(endPoints.units.createUnits, model);
+        return this._httpService.post(endPoints.units.deleteUnits, model);
     }
 
 

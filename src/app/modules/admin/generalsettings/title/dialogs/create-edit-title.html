@@ -18,6 +18,7 @@
 
               <div class="container-fluid" [formGroup]="title">
                   <div class="row">
+             
                       <div class="col-sm-12 mt-2 common-width">
                           <mat-form-field style="width:100%">
                               <mat-label>Ünvan Adı</mat-label>
@@ -30,6 +31,11 @@
                               <input matInput [formControlName]="'remark'" >
                           </mat-form-field>
                       </div>
+                      <div class="col-sm-12 mt-2 common-width">
+                        <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'isAppointmentShow'">
+                            Randevu Takviminde Gözüksün
+                        </mat-checkbox>
+                    </div>
                   </div>
 
               </div>

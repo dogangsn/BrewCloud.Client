@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { unitdefinitionListDto } from '../models/unitdefinitionListDto';
 import { UnitsService } from 'app/core/services/definition/unitdefinition/units.service';
@@ -23,8 +23,11 @@ export class CreateEditUnitDefinitionDialogComponent implements OnInit {
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _unitservice : UnitsService,
-        private _translocoService: TranslocoService
-    ) {}
+        private _translocoService: TranslocoService,
+        @Inject(MAT_DIALOG_DATA) public data: unitdefinitionListDto
+    ) {
+        this.selectedunitdefinition = data;
+    }
 
     ngOnInit(): void {
         this.unitdefinition = this._formBuilder.group({

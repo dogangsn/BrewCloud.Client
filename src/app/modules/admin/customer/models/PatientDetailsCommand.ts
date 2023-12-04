@@ -44,7 +44,7 @@ export interface PatientDetails {
     specialNote: string | null;
     sterilization: boolean;
     tags?: string[];
-    images: string[];
+    images?: string[];
     active: boolean;
-    thumbnail: string;
+    thumbnail?: string;
 }

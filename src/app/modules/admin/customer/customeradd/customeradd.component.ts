@@ -193,7 +193,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             tag.isSelected = false;
         });
         this.selectedPatientDetailsForm.get('animalBreed').setValue(null);
-        this.selectedPatients.animalBreed = null;    }
+        this.selectedPatients.animalBreed = null;
+    }
 
     getFormValueByName(formName: string): any {
         return this.accountForm.get(formName).value;

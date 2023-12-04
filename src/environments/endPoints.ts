@@ -31,7 +31,8 @@ export const endPoints = {
         animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
         animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
         getCustomersFindById: 'vet/Customers/GetCustomersFindById',
-        updateCustomerById: 'vet/Customers/UpdateCustomerById'
+        updateCustomerById: 'vet/Customers/UpdateCustomerById',
+        createPatient : 'vet/Customers/CreatePatient',
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
@@ -48,7 +49,9 @@ export const endPoints = {
     },
     units : {
         unitsList : 'vet/Definition/UnitsList',
-        createUnits : 'vet/Definition/CreateUnits'
+        createUnits : 'vet/Definition/CreateUnits',
+        updateUnits : 'vet/Definition/UpdateUnits',
+        deleteUnits : 'vet/Definition/DeleteUnits',
     },
     casedefinition : {
         casedefinitionList : 'vet/Definition/CasingDefinitionList',

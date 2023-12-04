@@ -11,7 +11,7 @@
   <form [formGroup]="titleForm">
 
     <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="title">
+      <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Ünvan Adı </th>
@@ -42,8 +42,9 @@
       </ng-container>
 
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-      </mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+      aria-label="Select page of periodic elements">
+  </mat-paginator>
     </div>
 
   </form>

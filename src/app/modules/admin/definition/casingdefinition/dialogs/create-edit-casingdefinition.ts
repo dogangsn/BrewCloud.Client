@@ -34,10 +34,9 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
     ngOnInit(): void {
         this.casingDefinition = this._formBuilder.group({
             casename: ['', Validators.required],
-            active: [true]
+            active: [true],
         });
         this.fillFormData(this.selectedcasingdefinition);
-
     }
     fillFormData(selectedCase: casingDefinitionListDto) {
         debugger;
@@ -57,7 +56,7 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
             ? this.updateCase()
             : this.addcasingDefinitions();
     }
-        updateCase(): void {
+    updateCase(): void {
         const caseItem = new UpdateCasingDefinitionCommand(
             this.selectedcasingdefinition.id,
             this.getFormValueByName('casename'),
@@ -83,33 +82,31 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
         );
     }
     addcasingDefinitions(): void {
-
-         
         debugger;
-        const casedefinitionItem = new CreateCasingDefinitionCommand( 
+        const casedefinitionItem = new CreateCasingDefinitionCommand(
             this.getFormValueByName('casename'),
             this.getFormValueByName('active')
-            );
-            
-            this._CasingDefinition.createCasingDefinition(casedefinitionItem).subscribe(
-                (response) => {
-                    
-                    debugger;
-
-                if (response.isSuccessful) {
-                    this.showSweetAlert('success');
-                    this._dialogRef.close({
-                        status: true,
-                    });
-                } else {
-                     this.showSweetAlert('error');
-                }
-            },
-            (err) => {
-                console.log(err);
-            }
         );
 
+        this._CasingDefinition
+            .createCasingDefinition(casedefinitionItem)
+            .subscribe(
+                (response) => {
+                    debugger;
+
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success');
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                    } else {
+                        this.showSweetAlert('error');
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
     }
 
     getFormValueByName(formName: string): any {
@@ -137,8 +134,4 @@ export class CreateEditCasingDefinitionDialogComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
-
-    
-
-
 }

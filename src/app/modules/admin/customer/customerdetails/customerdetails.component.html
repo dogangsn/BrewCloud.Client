@@ -23,21 +23,41 @@
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button mat-stroked-button (click)="openSaleCustomers()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                Satış
+                &nbsp;Satış
+            </button>
+            <button class="ml-3" mat-flat-button [color]="'primary'"  (click)="addAppointment()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                &nbsp;Randevu/Aşı Takvimi Oluştur
             </button>
             <button class="ml-3" mat-flat-button [color]="'primary'">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                Randevu/Aşı Takvimi Oluştur
+                &nbsp;Randevu Geçmişi
+            </button>
+            <button class="ml-3" mat-stroked-button  (click)="openNewPatients()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                &nbsp;Hasta Ekle
             </button>
             <button class="ml-3" mat-flat-button [color]="'primary'">
-                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                Hasta Ekle
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+                &nbsp;Aşı Kartı
             </button>
+            <button class="ml-3"  mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Tahsilat</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Tahsilat Al</button>
+              <button mat-menu-item>Tahsilat İşlemleri</button>
+            </mat-menu>
             <button class="ml-3" mat-flat-button [color]="'primary'">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Ödeme Tablosu
             </button>
+            <button class="ml-3"  mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>SMS Gönder</button>
+              <button mat-menu-item>Whatsapp Mesaj Gönder</button>
+            </mat-menu>
+          
         </div>
+        <div class="my-10 border-t"></div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
             <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
@@ -46,14 +66,14 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Yapılan Satış
                         </div>
-                        <div class="ml-2 -mt-2 -mr-3">
+                        <!-- <div class="ml-2 -mt-2 -mr-3">
                             <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #summaryMenu="matMenu">
                                 <button mat-menu-item>Yesterday</button>
                             </mat-menu>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
@@ -68,14 +88,14 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Ziyaret Sayısı
                         </div>
-                        <div class="ml-2 -mt-2 -mr-3">
+                        <!-- <div class="ml-2 -mt-2 -mr-3">
                             <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #summaryMenu="matMenu">
                                 <button mat-menu-item>Yesterday</button>
                             </mat-menu>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
@@ -90,14 +110,14 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Kazanç
                         </div>
-                        <div class="ml-2 -mt-2 -mr-3">
+                        <!-- <div class="ml-2 -mt-2 -mr-3">
                             <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #summaryMenu="matMenu">
                                 <button mat-menu-item>Yesterday</button>
                             </mat-menu>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
@@ -112,14 +132,14 @@
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Gönderilen Mesaj Sayısı
                         </div>
-                        <div class="ml-2 -mt-2 -mr-3">
+                        <!-- <div class="ml-2 -mt-2 -mr-3">
                             <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
                                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
                             </button>
                             <mat-menu #summaryMenu="matMenu">
                                 <button mat-menu-item>Yesterday</button>
                             </mat-menu>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
@@ -138,7 +158,7 @@
                 <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
                     style="justify-content: space-between; margin-bottom: 3px;">
 
-                    <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/male-04.jpg"
+                    <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/noimage.jpg"
                         alt="User avatar" />
                     <h1 style="font-size: 40px; padding-top: 50px; padding-left: 25px;">{{this.firstname}}
                         {{this.lastname}}</h1>
@@ -155,54 +175,74 @@
                         <mat-form-field class="flex-auto gt-xs:pr-6">
                             <mat-label class="boldFont">E-mail</mat-label>
                             <input matInput disabled="true" [formControlName]="'email'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-6">
                             <mat-label class="boldFont">Telefon No</mat-label>
                             <input matInput disabled="true" [formControlName]="'phonenumber'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label class="boldFont">Telefon No 2</mat-label>
                             <input matInput disabled="true" [formControlName]="'phonenumber2'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label class="boldFont">İl</mat-label>
                             <input matInput disabled="true" [formControlName]="'city'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label class="boldFont">İlçe</mat-label>
                             <input matInput disabled="true" [formControlName]="'district'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label class="boldFont">Vergi Dairesi</mat-label>
                             <input matInput disabled="true" [formControlName]="'taxoffice'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                    
                         </mat-form-field>
                     </div>
                     <div class="flex float:left gt-xs:flex-row">
                         <mat-form-field class="flex-auto gt-xs:pr-3">
                             <mat-label class="boldFont">VN/TC No</mat-label>
                             <input matInput disabled="true" [formControlName]="'vkntcno'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label class="boldFont">Not</mat-label>
                             <input matInput disabled="true" [formControlName]="'note'" class="disableCustomCss">
+ 
+                        </mat-form-field>
+                    </div>
+           
+                    <div class="flex float:left gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3">
+                            <mat-label class="boldFont">Adres</mat-label>
+                            <input matInput disabled="true" [formControlName]="'address'" class="disableCustomCss">
+                            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label class="boldFont">Müşteri İndirim Oranı</mat-label>
+                            <input matInput disabled="true" [formControlName]="'customerdiscount'"
+                                class="disableCustomCss">
+                                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex float:left gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3">
+                            <mat-label class="boldFont">Müşteri Grubu</mat-label>
+                            <input matInput disabled="true" [formControlName]="'customerGroup'"
+                                class="disableCustomCss">
+        
+                        </mat-form-field>
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label class="boldFont">Kayıt Tarihi</mat-label>
+                            <input matInput disabled="true" [formControlName]="'recordDate'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
@@ -220,36 +260,6 @@
                             <mat-label class="boldFont">E-Mail Bildirimi</mat-label>
                             <input matInput disabled="true" [formControlName]="'emailNotification'"
                                 [ngStyle]="{'color': customerDetailForm.get('emailNotification').value ? 'green' : 'red'}">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex float:left gt-xs:flex-row">
-                        <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label class="boldFont">Adres</mat-label>
-                            <input matInput disabled="true" [formControlName]="'address'" class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label class="boldFont">Müşteri İndirim Oranı</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerdiscount'"
-                                class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <div class="flex float:left gt-xs:flex-row">
-                        <mat-form-field class="flex-auto gt-xs:pr-3">
-                            <mat-label class="boldFont">Müşteri Grubu</mat-label>
-                            <input matInput disabled="true" [formControlName]="'customerGroup'"
-                                class="disableCustomCss">
-                            <mat-icon class="icon-size-5" matSuffix
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label class="boldFont">Kayıt Tarihi</mat-label>
-                            <input matInput disabled="true" [formControlName]="'recordDate'" class="disableCustomCss">
                             <mat-icon class="icon-size-5" matSuffix
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                         </mat-form-field>
@@ -275,7 +285,7 @@
                                     <div class="flex flex-col flex-auto w-full p-8 text-center">
                                         <div class="w-24 h-24 mx-auto rounded-full overflow-hidden">
                                             <img class="w-full h-full object-cover"
-                                                src="assets/images/avatars/male-04.jpg">
+                                                src="assets/images/avatars/noimage.jpg">
                                         </div>
                                         <div class="mt-6 font-medium">Hasta Adı : {{patient.name}}</div>
                                         <div class="font-medium"> Hasta Tipi : {{patient.animalType}}</div>
@@ -361,3 +371,4 @@
         </div>
     </div>
 </div>
+ 

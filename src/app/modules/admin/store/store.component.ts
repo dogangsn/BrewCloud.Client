@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { StoreListDto } from './models/StoreListDto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,14 +15,14 @@ import { GeneralService } from 'app/core/services/general/general.service';
     templateUrl: './store.component.html',
     styleUrls: ['./store.component.css'],
 })
-export class StoreComponent implements OnInit {
+export class StoreComponent implements OnInit,AfterViewInit {
     displayedColumns: string[] = [
         'depotName',
         'depotCode',
         'active',
         'actions',
     ];
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
 
     storeList: StoreListDto[] = [];
     dataSource = new MatTableDataSource<StoreListDto>(this.storeList);
@@ -34,6 +34,10 @@ export class StoreComponent implements OnInit {
         private _translocoService: TranslocoService
     ) {}
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
     ngOnInit() {
         this.getStoreList();
     }
@@ -41,6 +45,12 @@ export class StoreComponent implements OnInit {
     getStoreList() {
         this._storeservice.getStoreList().subscribe((response) => {
             this.storeList = response.data;
+
+            this.dataSource = new MatTableDataSource<StoreListDto>(
+                this.storeList
+            );
+
+            this.dataSource.paginator = this.paginator;
         });
     }
 

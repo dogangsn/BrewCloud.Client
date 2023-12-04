@@ -20,48 +20,48 @@
               <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input matInput [formControlName]="'email'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Telefon No</mat-label>
                 <input matInput [formControlName]="'phonenumber'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Telefon No 2</mat-label>
                 <input matInput [formControlName]="'phonenumber2'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>İl</mat-label>
                 <input matInput [formControlName]="'city'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>İlçe</mat-label>
                 <input matInput [formControlName]="'district'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Vergi Dairesi</mat-label>
                 <input matInput [formControlName]="'taxoffice'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>VN/TC No</mat-label>
                 <input matInput [formControlName]="'vkntcno'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Not</mat-label>
                 <input matInput [formControlName]="'note'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+       
               </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -87,20 +87,29 @@
               <mat-form-field>
                 <mat-label>Adres</mat-label>
                 <input matInput [formControlName]="'address'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Müşteri İndirim Oranı</mat-label>
                 <input matInput [formControlName]="'customerdiscount'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:receipt-tax'"></mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
+              <!-- <mat-form-field>
                 <mat-label>Müşteri Grubu</mat-label>
                 <input matInput [formControlName]="'customerGroup'" />
                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-              </mat-form-field>
+              </mat-form-field> -->
+              <mat-form-field >
+                <mat-label>Müşteri Grubu</mat-label>
+                <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let customergroup of customergroupList"
+                        [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                </mat-select>
+                <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+            </mat-form-field>
             </div>
             <div class="col-md-12">
               <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"

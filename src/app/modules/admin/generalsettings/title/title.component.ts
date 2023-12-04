@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     OnInit,
@@ -24,11 +25,11 @@ import { TitleService } from 'app/core/services/generalsettings/title/title.serv
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TitleComponent implements OnInit {
+export class TitleComponent implements OnInit,AfterViewInit {
     titleForm: UntypedFormGroup;
     titleDef: FormGroup;
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
     title: TitleDefinationDto[] = [];
     dataSource = new MatTableDataSource<TitleDefinationDto>(this.title);
 
@@ -39,6 +40,10 @@ export class TitleComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _titleService : TitleService,
     ) {}
+
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
 
     ngOnInit() {
         this.getTileList();
@@ -65,14 +70,20 @@ export class TitleComponent implements OnInit {
     getTileList(): void {
         this._titleService.getTitleList().subscribe((response) => {
             this.title = response.data;
-            this.dataSource = new MatTableDataSource<TitleDefinationDto>(this.title);
+     
+            this.dataSource = new MatTableDataSource<TitleDefinationDto>(
+                this.title
+            );
+
+            this.dataSource.paginator = this.paginator;
+            console.log(this.dataSource);
         });
     }
 
 
     public redirectToUpdate = (id: string) => {
         // this.isUpdateButtonActive = true;
-        const selectedTile = this.title.find((store) => store.id === id);
+        const selectedTile = this.title.find((title) => title.id === id);
         if (selectedTile) {
             const dialogRef = this._dialog.open(
                 CreateEditTitleComponent,

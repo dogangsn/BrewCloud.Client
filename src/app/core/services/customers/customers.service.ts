@@ -39,4 +39,9 @@ export class CustomerService {
     updateCustomerById(model: any): Observable<any> {
         return this._httpService.post(endPoints.customers.updateCustomerById, model);
     }
+
+    createPatients(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.createPatient, model);
+    }
+
 }

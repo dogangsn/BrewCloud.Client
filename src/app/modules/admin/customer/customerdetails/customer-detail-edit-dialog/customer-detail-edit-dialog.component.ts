@@ -7,6 +7,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
+import { CustomerGroupListDto } from 'app/modules/admin/definition/customergroup/models/customerGroupListDto';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 
 @Component({
   selector: 'app-customer-detail-edit-dialog',
@@ -17,13 +19,20 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   customerEditForm: FormGroup;
   updateCustomerDetailDto: CustomerDetailDto;
 
+  customergroupList: CustomerGroupListDto[] = [];
+  selectedValue: string;
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
+    private _customergroup: CustomerGroupService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+
+    this.getCustomerGroupList();
+
     this.customerEditForm = this._formBuilder.group({
       email: [''],
       phonenumber: [''],
@@ -84,6 +93,12 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     });
   }
 
+  getCustomerGroupList() {
+    this._customergroup.getcustomerGroupList().subscribe((response) => {
+        this.customergroupList = response.data;
+    });
+}
+
   showSweetAlert(type: string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
@@ -109,4 +124,6 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   closeDialog(): void {
     this._dialogRef.close({ status: null });
   }
+
+  
 }

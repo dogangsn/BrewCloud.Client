@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog/customer-detail-edit-dialog.component';
 import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
+import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
+import { AddApponitnmentDialogComponent } from '../../appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
 
 @Component({
     selector: 'customerdetails',
@@ -41,42 +43,13 @@ export class CustomerDetailsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+
         this.route.params.subscribe((params) => {
             this.selectedCustomerId = params['id'];
             console.log('Müşteri ID:', this.selectedCustomerId);
         });
 
-        var model = {
-            id: this.selectedCustomerId
-        }
-
-        this._customerService.getCustomersFindById(model).subscribe(response => {
-            if (response.isSuccessful) {
-                this.customerDetail = response.data;
-                this.patientDetails = this.customerDetail.patientDetails
-                this.firstname = this.customerDetail.firstname;
-                this.lastname = this.customerDetail.lastname;
-                this.customerDetailForm.patchValue({
-                    email: this.customerDetail.email,
-                    phonenumber: this.customerDetail.phonenumber,
-                    phonenumber2: this.customerDetail.phonenumber2,
-                    city: this.customerDetail.city,
-                    district: this.customerDetail.district,
-                    taxoffice: this.customerDetail.taxoffice,
-                    vkntcno: this.customerDetail.vkntcno,
-                    note: this.customerDetail.note,
-                    smsNotification: this.customerDetail.isphone,
-                    emailNotification: this.customerDetail.isemail,
-                    address: this.customerDetail.longadress,
-                    customerdiscount: this.customerDetail.discountrate,
-                    customerGroup: this.customerDetail.customergroup,
-                    recordDate: this.customerDetail.createdate,
-                });
-            }
-            else {
-                this.showSweetAlert('error');
-            }
-        });
+        this.getCustomerDetailList();
 
         this.customerDetailForm = this._formBuilder.group({
             email: [{ value: '', disabled: true }],
@@ -154,6 +127,40 @@ export class CustomerDetailsComponent implements OnInit {
         return this._translocoService.translate(key);
     }
 
+    getCustomerDetailList() {
+
+        var model = {
+            id: this.selectedCustomerId
+        }
+
+        this._customerService.getCustomersFindById(model).subscribe(response => {
+            if (response.isSuccessful) {
+                this.customerDetail = response.data;
+                this.patientDetails = this.customerDetail.patientDetails
+                this.firstname = this.customerDetail.firstname;
+                this.lastname = this.customerDetail.lastname;
+                this.customerDetailForm.patchValue({
+                    email: this.customerDetail.email,
+                    phonenumber: this.customerDetail.phonenumber,
+                    phonenumber2: this.customerDetail.phonenumber2,
+                    city: this.customerDetail.city,
+                    district: this.customerDetail.district,
+                    taxoffice: this.customerDetail.taxoffice,
+                    vkntcno: this.customerDetail.vkntcno,
+                    note: this.customerDetail.note,
+                    smsNotification: this.customerDetail.isphone,
+                    emailNotification: this.customerDetail.isemail,
+                    address: this.customerDetail.longadress,
+                    customerdiscount: this.customerDetail.discountrate,
+                    customerGroup: this.customerDetail.customergroup,
+                    recordDate: this.customerDetail.createdate,
+                });
+            }
+            else {
+                this.showSweetAlert('error');
+            }
+        });
+    }
 
     openSaleCustomers() : void {
 
@@ -175,7 +182,38 @@ export class CustomerDetailsComponent implements OnInit {
         });
     }
 
+    openNewPatients() : void {
 
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(CreateEditDetailspatientsComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                 this.getCustomerDetailList();
+            }
+        });
+    }
 
+    addAppointment(): void {
+        const dialog = this._dialog
+            .open(AddApponitnmentDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                }
+            });
+    }
 
 }
