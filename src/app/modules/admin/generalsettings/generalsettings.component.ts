@@ -90,6 +90,7 @@ export class GeneralsettingsComponent implements OnInit {
         // this._unsubscribeAll.next(null);
         // this._unsubscribeAll.complete();
     }
+    
     goToPanel(panel: string): void {
         this.selectedPanel = panel;
         if (this.drawerMode === 'over') {
