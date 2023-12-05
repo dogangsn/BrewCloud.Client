@@ -52,6 +52,13 @@ export class GeneralsettingsComponent implements OnInit {
                     'Kulalnıcı işlemlerinde rol tanımlarını yapılması, Menü, Ekran Ayarları üzerinde yetki kontrollerin yapılması',
             },
             {
+                id: 'mailing',
+                icon: 'heroicons_outline:mail',
+                title: 'Mail Ayarları',
+                description:
+                    'Şirket üzerinde Mail Trafiği üzerine SMTP ayarlarının tanımlanması',
+            },
+            {
                 id: 'logs',
                 icon: 'heroicons_outline:user-group',
                 title: 'Log Kayıtları',

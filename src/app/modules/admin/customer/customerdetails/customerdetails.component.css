@@ -5,3 +5,31 @@
 .boldFont{
     font-weight: bold
 }
+
+@media (min-width: 640px) {
+    .card {
+      flex-direction: row;
+    }
+    .card img {
+      width: 50%;
+      object-fit: cover;
+    }
+    .card .info {
+      width: 50%;
+      padding: 1rem;
+    }
+    
+    /* Kedi bilgisi kartları için */
+    .col-span-6 {
+      grid-column: span 6;
+    }
+    .md\:col-span-3 {
+      grid-column: span 3;
+    }
+    .lg\:col-span-2 {
+      grid-column: span 2;
+    }
+    .xl\:col-span-2 {
+      grid-column: span 2;
+    }
+  }

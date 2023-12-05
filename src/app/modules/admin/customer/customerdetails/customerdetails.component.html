@@ -21,11 +21,11 @@
     </div>
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-stroked-button (click)="openSaleCustomers()">
+            <button mat-flat-button [color]="'primary'"  (click)="openSaleCustomers()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 &nbsp;Satış
             </button>
-            <button class="ml-3" mat-flat-button [color]="'primary'"  (click)="addAppointment()">
+            <button class="ml-3"  mat-stroked-button   (click)="addAppointment()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 &nbsp;Randevu/Aşı Takvimi Oluştur
             </button>
@@ -142,7 +142,7 @@
                         </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
-                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+                        <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
                             0
                         </div>
                     </div>
@@ -270,18 +270,16 @@
             </div>
 
 
-            <div class="w-full md:w-6/12 p-2">
+            <!-- <div class="w-full md:w-6/12 p-2">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex flex-col flex-auto items-center p-6 sm:p-10" style="padding: 0 !important;">
-                        <!-- <div class="mt-4 md:mt-24 text-3xl md:text-6xl font-extrabold tracking-tight leading-7 sm:leading-10">
-                            Hasta
-                        </div> -->
+    
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full min-w-0">
                             <ng-container *ngFor="let patient of patientDetails">
                                 <div
                                     class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
-                                    <!-- Avatar & Info -->
+              
                                     <div class="flex flex-col flex-auto w-full p-8 text-center">
                                         <div class="w-24 h-24 mx-auto rounded-full overflow-hidden">
                                             <img class="w-full h-full object-cover"
@@ -307,15 +305,15 @@
                                         class="flex items-center justify-center p-4 rounded-full bg-primary-50 text-primary-700 dark:bg-primary dark:text-on-primary">
                                         <mat-icon class="text-current" [svgIcon]="board.icon"></mat-icon>
                                     </div>
-                                    <!-- Title -->
+                               
                                     <div class="mt-5 text-lg font-medium leading-5">
                                         {{ board.title }}
                                     </div>
-                                    <!-- Description -->
+                             
                                     <div class="mt-0.5 line-clamp-2 text-secondary">
                                         {{ board.description }}
                                     </div>
-                                    <!-- Members -->
+                             
                                     <ng-container *ngIf="board.members?.length">
                                         <div class="w-12 h-1 mt-6 border-t-2"></div>
                                         <div class="flex items-center mt-6 -space-x-1.5">
@@ -343,7 +341,7 @@
                                             </ng-container>
                                         </div>
                                     </ng-container>
-                                    <!-- Last activity -->
+                     
                                     <div class="flex items-center mt-4 text-md font-md">
                                         <div class="text-secondary">
                                             Edited:
@@ -358,7 +356,7 @@
                                     </div>
                                 </a>
                             </ng-container>
-                            <!-- New board -->
+                   
                             <div
                                 class="flex flex-col items-center justify-center w-56 rounded-lg cursor-pointer border-2 border-gray-300 border-dashed hover:bg-hover transition-colors duration-150 ease-in-out">
                                 <mat-icon class="icon-size-12 text-hint"
@@ -367,7 +365,71 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="w-full md:w-6/12 lg:w-6/12 p-2">
+                <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" style="justify-content: space-between;">
+                    <fuse-card class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article" *ngFor="let patient of patientDetails">
+                        <!-- <div class="flex items-start justify-between">
+                            <div class="ml-2 -mt-2 -mr-3">
+                                <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #summaryMenu="matMenu">
+                                    <button mat-menu-item>Yesterday</button>
+                                </mat-menu>
+                            </div>
+                        </div> -->
+                        <div class="flex items-center">
+                            <img
+                                class="w-20 rounded-lg object-cover"
+                                src="assets/images/avatars/noimage.jpg"
+                                alt="Card cover image">
+                            <div class="flex flex-col ml-6">
+                                <div class="text-2xl font-semibold leading-tight">Hasta Adı</div>
+                                <div class="text-secondary font-medium text-md">{{patient.name}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="container" style="margin-top: 1rem; padding: 0;">
+                            <div class="row">
+                                <div class="col-md-6" style="border-right: 1px solid rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)); display: flex; flex-direction: column; align-items: center; position: relative;">
+                                    <div style="font-weight: 600;">
+                                        Çip Numarası
+                                    </div>
+                                    <div style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
+                                        {{patient.chipNumber}}
+                                    </div>
+                                    <!-- Ortadaki çizgi için ::after seçici kullanılıyor -->
+                                    <div style="content: ''; position: absolute; height: 100%; width: 1px; background-color: black; right: 0;"></div>
+                                </div>
+                                <div class="col-md-6" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative;">
+                                    <div style="font-weight: 600;">
+                                        Hasta Tipi
+                                    </div>
+                                    <div style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
+                                        {{patient.animalType}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 -mx-3">
+                            <a
+                                class="px-3"
+                                mat-button
+                                [color]="'primary'"
+                                [routerLink]="['./']">
+                                Read More
+                            </a>
+                        </div>
+                    </fuse-card>
+                </div>
             </div>
+
+
+
+
         </div>
     </div>
 </div>

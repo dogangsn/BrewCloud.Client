@@ -37,7 +37,7 @@
                             </mat-form-field>
                             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                                 <mat-label>Ünvan</mat-label>
-                                <mat-select [formControlName]="'titleid'" name="titleid">
+                                <mat-select [formControlName]="'titleId'" name="titleId">
                                     <mat-option>None</mat-option>
                                     <mat-option *ngFor="let item of title" [value]="item.id">{{item.name}}</mat-option>
                                 </mat-select>

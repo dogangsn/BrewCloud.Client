@@ -33,6 +33,7 @@ import { CreateEditRoleDefComponent } from './rolDef/dialogs/create-edit-roleDef
 import { MatTreeModule } from '@angular/material/tree';
 import { TitleComponent } from './title/title.component';
 import { CreateEditTitleComponent } from './title/dialogs/create-edit-title';
+import { MailingComponent } from './mailing/mailing.component';
 
 const root: Route[] = [
     {
@@ -116,7 +117,8 @@ const root: Route[] = [
         CreateEditUsersDialogComponent,
         CreateEditRoleDefComponent,
         TitleComponent,
-        CreateEditTitleComponent
+        CreateEditTitleComponent,
+        MailingComponent
     ],
 })
 export class GeneralSettings {}

@@ -17,7 +17,7 @@
         <div class="container-fluid" [formGroup]="appointmentAdd">
          
           <div class="flex float : left gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pr-3">
+            <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
               <mat-label>Müşteri</mat-label>
               <mat-select [placeholder]="'Müşteri'" [(ngModel)]="selectedCustomer" [formControlName]="'customerId'" name="customer">
                   <mat-option>None</mat-option>
@@ -25,7 +25,7 @@
                       [value]="customer.id">{{customer.firstName}}</mat-option>
               </mat-select>
               <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
               <mat-label>Hekim</mat-label>
               <mat-select [placeholder]="'Hekim'" [(ngModel)]="selectedDoctor" [formControlName]="'doctorId'" name="doctor">

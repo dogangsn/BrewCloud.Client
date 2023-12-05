@@ -54,21 +54,26 @@ export class CreateEditUsersDialogComponent implements OnInit {
         this.users = this._formBuilder.group({
             active: [true],
             firstLastName: [''],
-            title: [''],
             email: ['', Validators.required],
             phone: [''],
             appKey : [''],
             roleId : ['',  Validators.required],
-            titleid: ['']
+            titleId: ['']
         });
         this.fillFormData(this.selectedusers);
     }
 
-    fillFormData(selectedSuppliers: UserListDto) {
+    fillFormData(selectedUsers: UserListDto) {
         debugger;
         if (this.selectedusers !== null) {
             this.users.setValue({
-                email: selectedSuppliers.email,
+                active: selectedUsers.active,
+                email: selectedUsers.email,
+                firstLastName: selectedUsers.firstName,
+                phone: selectedUsers.phone,
+                roleId: selectedUsers.roleId,
+                appKey: selectedUsers.appKey,
+                titleId: selectedUsers.titleId,
             });
         }
     }
