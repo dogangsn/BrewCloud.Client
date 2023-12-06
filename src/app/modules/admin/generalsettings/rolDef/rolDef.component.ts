@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     OnInit,
@@ -28,19 +29,16 @@ import { TranslocoService } from '@ngneat/transloco';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsRolDefComponent implements OnInit {
+export class SettingsRolDefComponent implements OnInit, AfterViewInit {
 
-    pageSizeOptions = [5, 10, 20];
-    pageSize = 5; 
-    pageIndex = 0;
-
+ 
     isUpdateButtonActive: boolean;
     notificationsForm: UntypedFormGroup;
 
     displayedColumns: string[] = ['rolecode', 'actions'];
     rolDef: FormGroup;
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('paginator') paginator: MatPaginator;
     rols: RoleSettingDto[] = [];
     dataSource = new MatTableDataSource<RoleSettingDto>(this.rols);
 
@@ -75,13 +73,22 @@ export class SettingsRolDefComponent implements OnInit {
     getRolsist(): void {
         this._rolsSettings.getRolSettings().subscribe((response) => {
             this.rols = response.data;
-            this.dataSource = new MatTableDataSource<RoleSettingDto>(this.rols);
+
+            this.dataSource = new MatTableDataSource<RoleSettingDto>(
+                this.rols
+            );
+
+            this.dataSource.paginator = this.paginator;
+            console.log(this.dataSource);
         });
     }
 
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
     onPageChange(event) {
-        this.pageSize = event.pageSize;
-        this.pageIndex = event.pageIndex;
+ 
       }
 
 

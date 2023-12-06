@@ -140,5 +140,9 @@ export const endPoints = {
         createtitle : 'account/settings/CreateTitleDefination',
         updatetitle : 'account/settings/UpdateTitleDefination',
         deleteTitle : 'account/settings/DeleteTileDefination',
+    },
+    mailing: {
+        getsmptsettingsList : 'mail/Mailing/GetSmtpSettings',
+        createMailSettings : ''
     }
 }
