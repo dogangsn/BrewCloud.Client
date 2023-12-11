@@ -34,6 +34,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { TitleComponent } from './title/title.component';
 import { CreateEditTitleComponent } from './title/dialogs/create-edit-title';
 import { MailingComponent } from './mailing/mailing.component';
+import { CreateEditSmstSettingComponent } from './mailing/dialogs/create-edit-smtpmailsettings';
 
 const root: Route[] = [
     {
@@ -118,7 +119,8 @@ const root: Route[] = [
         CreateEditRoleDefComponent,
         TitleComponent,
         CreateEditTitleComponent,
-        MailingComponent
+        MailingComponent,
+        CreateEditSmstSettingComponent
     ],
 })
 export class GeneralSettings {}

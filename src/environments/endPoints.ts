@@ -143,6 +143,9 @@ export const endPoints = {
     },
     mailing: {
         getsmptsettingsList : 'mail/Mailing/GetSmtpSettings',
-        createMailSettings : ''
+        createMailSettings : 'mail/Mailing/CreateSmtpSetting',
+        deletedMaildSettings : 'mail/Mailing/DeleteSmtpSetting',
+        updateMailSettings: 'mail/Mailing/UpdateSmtpSetting',
+        sendMail : 'mail/Mailing/SendMail'
     }
 }

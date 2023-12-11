@@ -26,7 +26,7 @@
               </mat-select>
               <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
             </mat-form-field> -->
-            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+            <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Hekim</mat-label>
               <mat-select [placeholder]="'Hekim'" [(ngModel)]="selectedDoctor" [formControlName]="'doctorId'" name="doctor">
                   <mat-option>None</mat-option>
@@ -37,15 +37,34 @@
 
           <div class="flex float : left gt-xs:flex-row">
 
-            <mat-form-field class="flex-auto gt-xs:pr-3">
+            <!-- <mat-form-field class="flex-auto gt-xs:pr-3">
               <mat-label>Randevu Başlangıç</mat-label>
               <input matInput type="datetime-local" [formControlName]="'beginDate'" placeholder="start date">
             </mat-form-field>
+           -->
+           <div class="dx-field">
+            <div class="dx-field-label">Randevu Başlangıç</div>
+            <div class="dx-field-value">
+              <dx-date-box
+                [value]="now"
+                type="datetime"
+                [inputAttr]="{ 'aria-label': 'Date And Time' }"
+              >
+              </dx-date-box>
+            </div>
+          </div>
 
-            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-              <mat-label>Randevu Bitiş</mat-label>
-              <input matInput type="datetime-local" [formControlName]="'endDate'" placeholder="end date">
-            </mat-form-field>
+          <div class="dx-field">
+            <div class="dx-field-label">Randevu Başlangıç</div>
+            <div class="dx-field-value">
+              <dx-date-box
+                [value]="now"
+                type="datetime"
+                [inputAttr]="{ 'aria-label': 'Date And Time' }"
+              >
+              </dx-date-box>
+            </div>
+          </div>
           </div>
           
           <div class="flex float : left gt-xs:flex-row">
