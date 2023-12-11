@@ -10,7 +10,8 @@
         "start": "ng serve",
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
-        "test": "ng test"
+        "test": "ng test",
+        "vetsystem": "set NODE_OPTIONS=--max_old_space_size=16192 && ng s -o"
     },
     "dependencies": {
         "@angular-material-components/datetime-picker": "^16.0.1",
