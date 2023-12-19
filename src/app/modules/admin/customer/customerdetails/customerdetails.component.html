@@ -155,7 +155,15 @@
 
         <div class="flex flex-wrap">
             <div class="w-full md:w-6/12 p-2">
-                <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden z-50"
+
+                <div class="grid grid-cols-3 md:grid-cols-3 bg-card shadow rounded-2xl overflow-hidden z-50 ">
+                    <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/noimage.jpg">
+                    <h1 style="font-size: 40px; padding-top: 50px; padding-left: 25px;">{{this.firstname}}
+                        {{this.lastname}}</h1>
+                    <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
+                </div>
+
+                <!-- <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden z-50"
                     style="justify-content: space-between; margin-bottom: 3px; position: absolute; width: 38%; margin-left: 4rem;">
 
                     <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/noimage.jpg"
@@ -163,7 +171,7 @@
                     <h1 style="font-size: 40px; padding-top: 50px; padding-left: 25px;">{{this.firstname}}
                         {{this.lastname}}</h1>
                     <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
-                </div>
+                </div> -->
                 <div class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden" style="margin-top: 5rem;"
                     [formGroup]="customerDetailForm">
                     <div style="margin-top: 5rem;">
