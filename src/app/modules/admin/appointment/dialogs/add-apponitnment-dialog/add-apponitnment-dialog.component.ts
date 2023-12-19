@@ -35,7 +35,8 @@ export class AddApponitnmentDialogComponent implements OnInit {
     customers: customersListDto[] = [];
     appointment: AppointmentDto;
     selectedAppointmentForm: FormGroup;
-  
+    
+    now: Date = new Date();
 
     constructor(
         private _formBuilder: FormBuilder,

@@ -17,14 +17,18 @@ export class MailingService {
     }
 
     updateMailSettings(model: any): Observable<any> {
-        return this._httpService.post(endPoints.title.updatetitle, model);
+        return this._httpService.post(endPoints.mailing.updateMailSettings, model);
     }
 
     createMailSettings(model: any): Observable<any> {
-        return this._httpService.post(endPoints.title.createtitle, model);
+        return this._httpService.post(endPoints.mailing.createMailSettings, model);
     }
 
     deleteMailSettings(model: any): Observable<any> {
-        return this._httpService.post(endPoints.title.deleteTitle, model);
+        return this._httpService.post(endPoints.mailing.deletedMaildSettings, model);
+    }
+
+    sendMail(model: any): Observable<any> {
+        return this._httpService.post(endPoints.mailing.sendMail, model);
     }
 }

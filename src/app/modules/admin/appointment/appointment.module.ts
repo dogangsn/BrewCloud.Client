@@ -37,6 +37,7 @@ import {
     BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { DxSchedulerModule } from 'devextreme-angular';
+import { DxDateBoxModule } from 'devextreme-angular';
 
 const root: Route[] = [
     {
@@ -73,7 +74,7 @@ const root: Route[] = [
         MatPaginatorModule,
         MatCheckboxModule,
         MatSelectModule,
-    
+        DxDateBoxModule,
         DxSchedulerModule,
     ],
     declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
