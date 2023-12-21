@@ -234,6 +234,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.province = this.getFormValueByName('province');
         this.customers.district = this.getFormValueByName('district');
         this.customers.longAdress = this.getFormValueByName('longAdress');
+        this.customers.isPhone = this.getFormValueByName('isPhone');
+        this.customers.isEmail = this.getFormValueByName('isEmail');
         this.customers.PatientDetails = this.patients;
 
         return true;

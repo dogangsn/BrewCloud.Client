@@ -29,7 +29,7 @@
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 &nbsp;Randevu/Aşı Takvimi Oluştur
             </button>
-            <button class="ml-3" mat-flat-button [color]="'primary'">
+            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="openAppointmentHistory()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 &nbsp;Randevu Geçmişi
             </button>
@@ -50,8 +50,8 @@
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Ödeme Tablosu
             </button>
-            <button class="ml-3"  mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
-            <mat-menu #menu="matMenu">
+            <button class="ml-3"  mat-stroked-button [matMenuTriggerFor]="menus"><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
+            <mat-menu #menus="matMenu">
               <button mat-menu-item>SMS Gönder</button>
               <button mat-menu-item>Whatsapp Mesaj Gönder</button>
             </mat-menu>

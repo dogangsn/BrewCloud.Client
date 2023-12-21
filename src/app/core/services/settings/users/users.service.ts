@@ -27,9 +27,10 @@ export class UsersService {
 
     updateUser(model: any): Observable<any> {
         return this._httpService.post(
-            endPoints.settings.createUsers,
+            endPoints.settings.updateUsers,
             model
         );
     }
+
 
 }

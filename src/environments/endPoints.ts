@@ -133,7 +133,9 @@ export const endPoints = {
         appointmensList : 'vet/Appointment/AppointmentsList',
         createappointment : 'vet/Appointment/CreateAppointment',
         deleteappointment : 'vet/Appointment/DeleteAppointment',
-        updateappointment : 'vet/Appointment/UpdateAppointmentById'
+        updateappointment : 'vet/Appointment/UpdateAppointmentById',
+        getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
+        appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList'
     },
     title: {
         titleDefinationList : 'account/settings/GetTitleDefination',

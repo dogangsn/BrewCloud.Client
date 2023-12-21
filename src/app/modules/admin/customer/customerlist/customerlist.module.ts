@@ -32,6 +32,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { CustomerDetailEditDialogComponent } from '../customerdetails/customer-detail-edit-dialog/customer-detail-edit-dialog.component';
 import { CreateEditCustomersalesComponent } from '../customerdetails/create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from '../customerdetails/create-edit-detailspatients/create-edit-detailspatients.component';
+import { AppointmentHistoryComponent } from '../customerdetails/appointment-history/appointment-history.component';
 
 const root: Route[] = [
     {
@@ -109,7 +110,8 @@ const root: Route[] = [
         CustomerDetailsComponent,
         CustomerDetailEditDialogComponent,
         CreateEditCustomersalesComponent,
-        CreateEditDetailspatientsComponent
+        CreateEditDetailspatientsComponent,
+        AppointmentHistoryComponent,
     ]
 
     

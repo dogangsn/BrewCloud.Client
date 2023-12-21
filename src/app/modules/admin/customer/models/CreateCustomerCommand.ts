@@ -13,6 +13,8 @@ export class CreateCustomerCommand {
     province: string;
     district: string;
     longAdress: string;
+    isEmail: boolean;
+    isPhone: boolean;
     PatientDetails : PatientDetails[];
 
 // constructor(

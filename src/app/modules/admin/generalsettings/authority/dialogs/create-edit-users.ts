@@ -12,6 +12,7 @@ import { RolsService } from 'app/core/services/generalsettings/rols/rols.service
 import { RoleSettingDto } from '../../rolDef/models/RoleSettingDto';
 import { TitleService } from 'app/core/services/generalsettings/title/title.service';
 import { TitleDefinationDto } from '../../title/model/titleDefinationDto';
+import { UpdateUserCommand } from '../models/UpdateUserCommand';
 
 @Component({
     selector: 'app-create-edit-users-dialog',
@@ -58,7 +59,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
             phone: [''],
             appKey : [''],
             roleId : ['',  Validators.required],
-            titleId: ['']
+            titleid: ['']
         });
         this.fillFormData(this.selectedusers);
     }
@@ -73,7 +74,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
                 phone: selectedUsers.phone,
                 roleId: selectedUsers.roleId,
                 appKey: selectedUsers.appKey,
-                titleId: selectedUsers.titleId,
+                titleid: selectedUsers.titleId,
             });
         }
     }
@@ -81,6 +82,7 @@ export class CreateEditUsersDialogComponent implements OnInit {
     getTileList(): void {
         this._titleService.getTitleList().subscribe((response) => {
             this.title = response.data;
+            console.log(response.data);
         });
     }
 
@@ -93,9 +95,19 @@ export class CreateEditUsersDialogComponent implements OnInit {
     }
 
     updateUsers(): void {
-        const user = new CreateUserCommand();
+        const user = new UpdateUserCommand();
+        user.active = this.getFormValueByName('active');
+        user.email = this.getFormValueByName('email');
+        user.firstName = this.getFormValueByName('firstLastName');
+        user.phone = this.getFormValueByName('phone');
+        user.appKey = this.getFormValueByName('appKey');
+        user.roleId = this.getFormValueByName('roleId');
+        user.titleId = this.getFormValueByName('titleid');
+        user.userName = user.email;
+        user.userId = this.selectedusers.id;
 
-        this._usersService.addUser(user).subscribe(
+
+        this._usersService.updateUser(user).subscribe(
             (response) => {
                 debugger;
 

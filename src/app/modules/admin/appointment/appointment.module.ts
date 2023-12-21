@@ -38,6 +38,7 @@ import {
 } from '@angular/platform-browser';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { DxDateBoxModule } from 'devextreme-angular';
+import {MatCardModule} from '@angular/material/card';
 
 const root: Route[] = [
     {
@@ -76,6 +77,8 @@ const root: Route[] = [
         MatSelectModule,
         DxDateBoxModule,
         DxSchedulerModule,
+        MatCardModule,
+        DxDateBoxModule
     ],
     declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
 })

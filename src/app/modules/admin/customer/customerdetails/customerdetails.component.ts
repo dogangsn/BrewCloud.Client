@@ -15,6 +15,7 @@ import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
 import { AddApponitnmentDialogComponent } from '../../appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 
 @Component({
     selector: 'customerdetails',
@@ -203,11 +204,16 @@ export class CustomerDetailsComponent implements OnInit {
     }
 
     addAppointment(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+
         const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: null,
+                data: model
             })
             .afterClosed()
             .subscribe((response) => {
@@ -215,5 +221,26 @@ export class CustomerDetailsComponent implements OnInit {
                 }
             });
     }
+
+    openAppointmentHistory() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(AppointmentHistoryComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
+
 
 }
