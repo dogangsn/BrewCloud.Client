@@ -43,10 +43,10 @@
             </button>
             <button class="ml-3"  mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Tahsilat</button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>Tahsilat Al</button>
-              <button mat-menu-item>Tahsilat İşlemleri</button>
+              <button mat-menu-item (click)="openGetCollection()">Tahsilat Al</button>
+              <button mat-menu-item (click)="openCollectionTransaction()">Tahsilat İşlemleri</button>
             </mat-menu>
-            <button class="ml-3" mat-flat-button [color]="'primary'">
+            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="openPayChart()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Ödeme Tablosu
             </button>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
-                            0
+                            {{totalSaleBuyCount}}
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
-                            0
+                            {{totalVisitCount}}
                         </div>
                     </div>
                 </div>

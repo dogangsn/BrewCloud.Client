@@ -33,6 +33,9 @@ import { CustomerDetailEditDialogComponent } from '../customerdetails/customer-d
 import { CreateEditCustomersalesComponent } from '../customerdetails/create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from '../customerdetails/create-edit-detailspatients/create-edit-detailspatients.component';
 import { AppointmentHistoryComponent } from '../customerdetails/appointment-history/appointment-history.component';
+import { GetColectionEditDialogComponent } from '../customerdetails/collection/get-collection-editdialog/get-collection-editdialog.component';
+import { ColectionTransactionsDialogComponent } from '../customerdetails/collection/collection-transactions-dialog/collection-transactions-dialog.component';
+import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.component';
 
 const root: Route[] = [
     {
@@ -112,6 +115,9 @@ const root: Route[] = [
         CreateEditCustomersalesComponent,
         CreateEditDetailspatientsComponent,
         AppointmentHistoryComponent,
+        GetColectionEditDialogComponent,
+        ColectionTransactionsDialogComponent,
+        PayChartComponent
     ]
 
     

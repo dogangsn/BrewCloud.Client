@@ -54,7 +54,6 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     selectedVaccine: UntypedFormGroup;
 
-
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
@@ -80,14 +79,6 @@ export class AddApponitnmentDialogComponent implements OnInit {
             customerId: [''],
             note: [''],
         });
-
-        this.selectedVaccine = this._formBuilder.group({
-            productId: ['00000000-0000-0000-0000-000000000000'],
-            date: [''],
-            isComplated: [false]
-        });
-        
-
 
         const newId = uuidv4();
         const model: addVaccineDto = {
@@ -144,19 +135,19 @@ export class AddApponitnmentDialogComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
                         this.getFormValueByName('doctorId'),
                         this.selectedCustomerId.customerId,
                         this.getFormValueByName('note'),
-                        this.getFormValueByName('appointmentType')
+                        this.getFormValueByName('appointmentType'),
+                        this.addVaccineList
                     );
-            
+
                     this._appointmentService.createAppointment(item).subscribe(
                         (response) => {
                             debugger;
-            
+
                             if (response.isSuccessful) {
                                 this.showSweetAlert('success');
                                 this._dialogRef.close({
@@ -170,10 +161,9 @@ export class AddApponitnmentDialogComponent implements OnInit {
                             console.log(err);
                         }
                     );
-
                 }
-            })
-
+            }
+        );
     }
 
     addVaccine() {
@@ -214,16 +204,27 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.selectedAppointmentType = event.value;
     }
 
-    handleValueChangeList(event: any, selectedId : any) {
+    handleValueChangeList(event: any, selectedId: any) {
+        let selected = this.addVaccineList.find((x) => x.id == selectedId);
+        if (selected) {
+            selected.date = event.value;
+        }
+    }
+
+    onVaccineTypeChange(event: any, selectedId: any) {
+        let selected = this.addVaccineList.find((x) => x.id == selectedId);
+        if (selected) {
+            selected.productId = event.value;
+        }
+    }
+
+    onCheckboxChange(event: any, selectedId: any) {
+        const isChecked = event.checked;
 
         let selected = this.addVaccineList.find((x) => x.id == selectedId);
-
-        if(selected){
-            selected.date = event.value;
-            //selected.productId = productId;
+        if (selected) {
+            selected.isComplated = isChecked;
         }
-
-
     }
 
     handleValueChange(e) {

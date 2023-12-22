@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/models/PaymentMethodsDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 
@@ -14,20 +16,45 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 export class GetColectionEditDialogComponent implements OnInit {
 
     selectedgetcollection : any;
+    getcollection: FormGroup;
+    buttonDisabled = false;
+
+    payments: PaymentMethodsDto[] = [];
+    selectedCustomerId: any;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
-    ) {}
+        private _paymentmethodsService: PaymentMethodservice,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+        this.selectedCustomerId = data;
+    }
 
     ngOnInit(): void {
-        
+        this.paymentsList();
+
+        this.getcollection = this._formBuilder.group({
+            collectionId : ['', Validators.required],
+            paymenttype: ['', Validators.required]
+        });
+
     }
 
     // getFormValueByName(formName: string): any {
     //     return this.salebuy.get(formName).value;
     // }
+
+    paymentsList() {
+        this._paymentmethodsService
+            .getPaymentMethodsList()
+            .subscribe((response) => {
+                this.payments = response.data;
+                console.log(this.payments);
+
+            });
+    }
 
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {

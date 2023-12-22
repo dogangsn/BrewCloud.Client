@@ -62,11 +62,11 @@
                     <div class="content-between flex">                      
                       <mat-form-field class="flex-auto gt-xs:pl-3 w-full">
                         <mat-label>Aşı Tipi</mat-label>
-                        <mat-select [placeholder]="'Randevu Tipi'" name="doctor" (selectionChange)="onVaccineTypeChange($event)">
+                        <mat-select [placeholder]="'Randevu Tipi'" name="doctor" (selectionChange)="onVaccineTypeChange($event, item.id)">
                           <mat-option *ngFor="let item of productdescription" [value]="item.id">{{item.name}}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'">
+                      <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'" (change)="onCheckboxChange($event, item.id)">
                         Yapıldı
                       </mat-checkbox>
                     </div>
@@ -74,8 +74,16 @@
                         <dx-date-box [value]="now" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChangeList($event, item.id)">
                         </dx-date-box>
                     </div>
+                    <div class="order-1 sm:order-2 sm:ml-3">
+                      <button mat-icon-button>
+                          <mat-icon
+                              class="text-hint"
+                              [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                      </button>
+                  </div>
                   </mat-card-content>
                 </fuse-card>
+            
               </div>
             </div>
           </div>
