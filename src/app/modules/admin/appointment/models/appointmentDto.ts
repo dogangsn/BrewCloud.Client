@@ -7,6 +7,7 @@ export class AppointmentDto {
     beginDate: string;
     endDate: string;
     appointmentType: number;
+    text: string;
 
     // constructor(
     //     customerId:string,

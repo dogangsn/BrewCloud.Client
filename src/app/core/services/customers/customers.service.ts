@@ -44,4 +44,8 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.createPatient, model);
     }
 
+    deletePatients(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.deletePatient, model);
+    }
+
 }
