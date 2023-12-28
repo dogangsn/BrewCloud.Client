@@ -13,5 +13,5 @@ export class parametersListDto {
     isOtoCustomerWelcomeMessage: boolean ;
     displayVetNo: boolean ;
     autoSms: boolean ;
-    
+    isAnimalsBreeds: boolean;
 }

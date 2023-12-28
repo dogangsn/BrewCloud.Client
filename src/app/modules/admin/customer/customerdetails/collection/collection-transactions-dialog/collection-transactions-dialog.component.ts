@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TransactionMovementListDto } from './model/TransactionMovementListDto';
+import { CustomerService } from 'app/core/services/customers/customers.service';
 
 @Component({
     selector: 'app-collection-transactions-dialog',
@@ -26,19 +28,36 @@ export class ColectionTransactionsDialogComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
     
     selectedCustomerId: any;
-    collectionTransactionsList : any[] = [];
+    
+    collectionTransactionsList : TransactionMovementListDto[] = [];
     dataSource = new MatTableDataSource<any>(this.collectionTransactionsList);
     
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
-    ) {}
-
-    ngOnInit(): void {
-        
+        private _customerListService: CustomerService,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+        this.selectedCustomerId = data;
     }
 
+    ngOnInit(): void {
+        this.getTransactionMovementList();
+    }
+
+    getTransactionMovementList() {
+        const model = {
+            CustomerId :  this.selectedCustomerId.customerId
+        }
+        this._customerListService.getTransactionMovementList(model).subscribe((response) => {
+            this.collectionTransactionsList = response.data;
+            this.dataSource = new MatTableDataSource<TransactionMovementListDto>(
+                this.collectionTransactionsList
+            );
+            this.dataSource.paginator = this.paginator;
+        });
+    }
 
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {

@@ -33,7 +33,8 @@ export const endPoints = {
         getCustomersFindById: 'vet/Customers/GetCustomersFindById',
         updateCustomerById: 'vet/Customers/UpdateCustomerById',
         createPatient : 'vet/Customers/CreatePatient',
-        deletePatient: 'vet/Customers/DeletePatient'
+        deletePatient: 'vet/Customers/DeletePatient',
+        getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',

@@ -61,7 +61,8 @@ export class ParametersComponent implements OnInit {
       isOtoCustomerWelcomeMessage: [false], //Otomatik Müşteri Hoşgeldin Mesajı - Check
       autoSms: [false],  // Otomatik Sms - check
       displayVetNo: [false], // Veteriner Numarası Gözüksün - check
-      automaticAppointmentReminderMessageTemplate: [""] // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
+      automaticAppointmentReminderMessageTemplate: [""], // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
+      isAnimalsBreeds : [false]
     });
     
     
@@ -88,7 +89,8 @@ export class ParametersComponent implements OnInit {
           isOtoCustomerWelcomeMessage: [false], //Otomatik Müşteri Hoşgeldin Mesajı - Check
           autoSms: [false],  // Otomatik Sms - check
           displayVetNo: [false], // Veteriner Numarası Gözüksün - check
-          automaticAppointmentReminderMessageTemplate: [""] // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
+          automaticAppointmentReminderMessageTemplate: [""], // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
+          isAnimalsBreeds: [false]
         });
       }
       
@@ -137,6 +139,7 @@ export class ParametersComponent implements OnInit {
           autoSms: getparam[0].autoSms,
           displayVetNo: getparam[0].displayVetNo,
           automaticAppointmentReminderMessageTemplate: getparam[0].automaticAppointmentReminderMessageTemplate,
+          isAnimalsBreeds: getparam[0].isAnimalsBreeds
         });
           this.selectedDays.setValue(daysfill);
       
@@ -214,9 +217,8 @@ filterCustomerId(value: any): void {
       this.getFormValueByName('automaticAppointmentReminderMessageTemplate') !== "" ? this.getFormValueByName('automaticAppointmentReminderMessageTemplate') : "00000000-0000-0000-0000-000000000000",
       this.getFormValueByName('isOtoCustomerWelcomeMessage') ,
       this.getFormValueByName('displayVetNo') ,
-      this.getFormValueByName('autoSms')
-
-
+      this.getFormValueByName('autoSms'),
+      this.getFormValueByName('isAnimalsBreeds')
   );
 
         this.selectedDays.value.forEach((x)=> {

@@ -13,7 +13,7 @@ export class UpdateParametersCommand {
     isOtoCustomerWelcomeMessage: boolean ;
     displayVetNo: boolean;
     autoSms: boolean;
-    
+    isAnimalsBreeds: boolean;
 
     constructor(
         id: string,
@@ -30,6 +30,7 @@ export class UpdateParametersCommand {
         isOtoCustomerWelcomeMessage: boolean,
         displayVetNo: boolean,
         autoSms: boolean,
+        isAnimalsBreeds: boolean
         
         ) {
         this.id = id;
@@ -46,5 +47,6 @@ export class UpdateParametersCommand {
         this.isOtoCustomerWelcomeMessage = isOtoCustomerWelcomeMessage;
         this.displayVetNo = displayVetNo;
         this.autoSms = autoSms;
+        this.isAnimalsBreeds = isAnimalsBreeds;
     }
 }

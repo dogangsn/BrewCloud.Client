@@ -40,6 +40,7 @@ export class CustomerDetailsComponent implements OnInit {
 
     totalSaleBuyCount: number;
     totalVisitCount: number;
+    totalEarnings: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -149,6 +150,7 @@ export class CustomerDetailsComponent implements OnInit {
                 this.lastname = this.customerDetail.lastname;
                 this.totalSaleBuyCount = response.data.totalData.totalSaleBuyCount;
                 this.totalVisitCount = response.data.totalData.totalVisitCount;
+                this.totalEarnings = response.data.totalData.totalEarnings;
                 this.customerDetailForm.patchValue({
                     email: this.customerDetail.email,
                     phonenumber: this.customerDetail.phonenumber,

@@ -48,4 +48,8 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.deletePatient, model);
     }
 
+    getTransactionMovementList(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.getTransactionMovement, model);
+    }
+
 }
