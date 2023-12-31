@@ -1,4 +1,4 @@
 export class AnimalColorsDefListDto{
-    id: number;
+    recId: number;
     name: string;
 }

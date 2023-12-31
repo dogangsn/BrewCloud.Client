@@ -112,23 +112,28 @@ export class SalesComponent implements OnInit, AfterViewInit {
 
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
-        // const selectedStore = this.storeList.find((store) => store.id === id);
-        // if (selectedStore) {
-        //     const dialogRef = this._dialog.open(
-        //         CreateEditStoreDialogComponent,
-        //         {
-        //             maxWidth: '100vw !important',
-        //             disableClose: true,
-        //             data: selectedStore
-        //         }
-        //     );
-
-        //     dialogRef.afterClosed().subscribe((response) => {
-        //         if (response.status) {
-        //             this.getStoreList();
-        //         }
-        //     });
-        // }
+        const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+        if (selectedSaleBuy) {
+            const model = {
+                selectedsalebuy: selectedSaleBuy,
+                visibleCustomer: true,
+                salebuyType: 1, //satis
+                isSupplier: false,
+            };
+            const dialogRef = this._dialog.open(
+                CreateEditSalesBuyComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getSaleBuy();
+                }
+            });
+        }
     };
 
     public redirectToDelete = (id: string) => {

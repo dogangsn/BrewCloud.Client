@@ -81,13 +81,15 @@ export const endPoints = {
         Deletesuppliers : 'vet/Suppliers/DeleteSuppliers'
     },
     animalColorsDef: {
-        animalColorsDefList : "vet/Definition/AnimalColorsDefList"
+        animalColorsDefList : "vet/Definition/AnimalColorsDefList",
+        CreateAnimalColorsDef: "vet/Definition/CreateAnimalColorsDef"
     },
     saleBuy: {
         createSaleBuy : "vet/SaleBuy/CreateSaleBuy",
         saleBuyList : "vet/SaleBuy/SaleBuyList",
         saleBuyFilter : 'vet/SaleBuy/SaleBuyListFilter',
-        deleteSaleBuy: 'vet/SaleBuy/DeleteSaleBuy'
+        deleteSaleBuy: 'vet/SaleBuy/DeleteSaleBuy',
+        updateSaleBuy : 'vet/SaleBuy/UpdateSaleBuy'
     },
     paymentmethods : {
         paymentmethodsList : 'vet/Definition/PaymentMethodList',

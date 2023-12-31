@@ -19,6 +19,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
+import { CreateEditAnimalsColorDialogComponent } from './dialog/create-edit-animalscolor';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const root: Route[] = [
     {
@@ -30,6 +34,9 @@ const root: Route[] = [
 @NgModule({
 
     imports     : [
+        MatTableModule,
+        CommonModule,
+        MatDialogModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
@@ -64,7 +71,8 @@ const root: Route[] = [
      
     ],
     declarations: [
-        CustomeraddComponent
+        CustomeraddComponent,
+        CreateEditAnimalsColorDialogComponent
     ]
     
 })

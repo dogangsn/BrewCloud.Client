@@ -16,6 +16,7 @@ import { suppliersListDto } from '../../suppliers/models/suppliersListDto';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 import { PaymentMethodsDto } from '../../definition/paymentmethods/models/PaymentMethodsDto';
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
+import { UpdateSaleBuyCommand } from '../model/UpdateSaleBuyCommand';
 
 @Component({
     selector: 'app-create-edit-salesbuy',
@@ -73,7 +74,24 @@ export class CreateEditSalesBuyComponent implements OnInit {
             paymentType: [1],
             amount: [1],
         });
+
+        this.fillFormData(this.selectedsalebuy);
     }
+
+    fillFormData(selectedSale: SaleBuyListDto) {
+        debugger;
+        if (this.selectedsalebuy !== null) {
+            this.salebuy.setValue({
+                date: selectedSale.date,
+                invoiceNo: selectedSale.invoiceNo,
+                supplierId: selectedSale.supplierName,
+                productId : selectedSale.customerName,
+                paymentType : selectedSale.paymentName,
+                
+            });
+        }
+    }
+    
 
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
@@ -173,7 +191,52 @@ export class CreateEditSalesBuyComponent implements OnInit {
         }
     }
 
-    updateBuySale(): void {}
+    updateBuySale(): void {
+        if (this.salebuy.valid) {
+            const _amount = this.getFormValueByName('amount');
+            if (_amount == 0) {
+                this.showSweetAlert(
+                    'error',
+                    'Miktar Bilgisi 0(sıfır) büyük olmalıdır.'
+                );
+            }
+
+            const saleBuyItem = new UpdateSaleBuyCommand(
+                this.selectedsalebuy.id,
+                this.getFormValueByName('customerId'),
+                this.getFormValueByName('date'),
+                this.getFormValueByName('productId'),
+                this.getFormValueByName('remark'),
+                this.salebuyType,
+                this.getFormValueByName('supplierId'),
+                this.getFormValueByName('invoiceNo'),
+                this.getFormValueByName('paymentType'),
+                this.getFormValueByName('amount')
+            );
+
+            this._salebuyservice.updateSaleBuy(saleBuyItem).subscribe(
+                (response) => {
+                    debugger;
+
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success', 'sweetalert.success');
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                    } else {
+                        this.showSweetAlert('error', 'sweetalert.error');
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        } else {
+            if (!this.salebuy.get('productId').value) {
+                this.showSweetAlert('error', 'Ürün Seçimi Yapınız.');
+            }
+        }
+    }
 
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {

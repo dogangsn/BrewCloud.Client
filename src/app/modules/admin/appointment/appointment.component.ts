@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injectable } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -70,6 +70,13 @@ export class AppointmentComponent implements OnInit  {
     day(event: CalendarEvent, title: string): string {
         return event.title;
     }
+
+    onAppointmentDeleted(e) {
+        //this.showToast('Deleted', e.appointmentData.text, 'warning');
+        console.log(e.appointmentsData.text)
+      }
+
+
 }
 
 export class Appointment {
