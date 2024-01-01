@@ -66,7 +66,6 @@ export const endPoints = {
         createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef',
         updateCustomerGroupDef : 'vet/Definition/UpdateCustomerGroupDef',
         deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef',
-   
     },
     store:{
         storeList : 'vet/Store/StoreList',
@@ -153,5 +152,8 @@ export const endPoints = {
         deletedMaildSettings : 'mail/Mailing/DeleteSmtpSetting',
         updateMailSettings: 'mail/Mailing/UpdateSmtpSetting',
         sendMail : 'mail/Mailing/SendMail'
+    },
+    dashboards: {
+        getdashBoard : 'vet/Dashboard/GetDashBoard'
     }
 }

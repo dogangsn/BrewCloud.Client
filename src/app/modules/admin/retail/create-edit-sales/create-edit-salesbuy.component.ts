@@ -101,11 +101,16 @@ export class CreateEditSalesBuyComponent implements OnInit {
     }
 
     getProductList() {
-        this._productdescriptionService
-            .GetProductDescriptionList()
-            .subscribe((response) => {
-                this.productdescription = response.data;
-            });
+
+            const model = {
+                ProductType: 1,
+            };
+            this._productdescriptionService
+                .getProductDescriptionFilters(model)
+                .subscribe((response) => {
+                    this.productdescription = response.data;
+    
+                });
     }
 
     getSuppliers() {
