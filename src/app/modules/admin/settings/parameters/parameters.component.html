@@ -197,6 +197,12 @@
                         [formControlName]="'isAnimalsBreeds'" #isAnimalsBreedsToggle>
                     </mat-slide-toggle>
                 </div>
+                <div class="flex items-center justify-between cursor-pointer" (click)="isfirstInspectionToggle.toggle()">
+                    <div class="leading-6 font-medium">İşlemlerde "İlk Muayene" Gözüksün</div>
+                    <mat-slide-toggle class="ml-2" [color]="'primary'" (click)="isfirstInspectionToggle.toggle()"
+                        [formControlName]="'isfirstInspection'" #isfirstInspectionToggle>
+                    </mat-slide-toggle>
+                </div>
                 <!-- </div> -->
             </div>
         </form>

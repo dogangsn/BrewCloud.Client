@@ -51,9 +51,11 @@ export class AddApponitnmentDialogComponent implements OnInit {
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
     selectedCustomerId: any;
-
     selectedVaccine: UntypedFormGroup;
 
+    morning8 = new Date();
+    evening8 = new Date();
+ 
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
@@ -64,7 +66,16 @@ export class AddApponitnmentDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.selectedCustomerId = data;
+        this.morning8.setHours(8, 0, 0, 0);
+        this.evening8.setHours(20, 0, 0, 0);
     }
+
+    timeIntervals: any = {
+        type: 'time',
+        interval: 60,
+        min: this.morning8,
+        max: this.evening8
+    };
 
     ngOnInit() {
         this.appointmentsList = appointments;

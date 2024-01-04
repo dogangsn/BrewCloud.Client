@@ -71,7 +71,7 @@
                       </mat-checkbox>
                     </div>
                     <div class="dx-field">
-                        <dx-date-box [value]="now" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChangeList($event, item.id)">
+                        <dx-date-box [value]="now" type="datetime" [min]="now"  [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChangeList($event, item.id)">
                         </dx-date-box>
                     </div>
                     <div class="order-1 sm:order-2 sm:ml-3">
@@ -94,7 +94,7 @@
                 <mat-card>
                   <mat-card-content>
                     <div class="dx-field">
-                        <dx-date-box [value]="now" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)">
+                        <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)" [pickerOptions]="dateTimeIntervals">
                         </dx-date-box>
                     </div>
                   </mat-card-content>
