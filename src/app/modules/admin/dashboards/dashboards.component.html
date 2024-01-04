@@ -8,16 +8,18 @@
                 <div class="flex items-start justify-between">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Eklenen Randevu</div>
                     <div class="ml-2 -mt-2 -mr-3">
-                
-          
+
+
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-2">
-                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"> {{ dashboards.totalCount.dailyAddAppointmentCount }}</div>
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"> {{
+                        dashboards.totalCount.dailyAddAppointmentCount }}</div>
                     <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Randevu</div>
                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                         <div class="text-md font-medium truncate">Tamamlanan:</div>
-                        <div class="ml-1.5 text-lg font-semibold">{{ dashboards.totalCount.dailyAddAppointmentCompletedCount }}</div>
+                        <div class="ml-1.5 text-lg font-semibold">{{
+                            dashboards.totalCount.dailyAddAppointmentCompletedCount }}</div>
                     </div>
                 </div>
             </div>
@@ -26,12 +28,13 @@
                 <div class="flex items-start justify-between">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Yeni Müşteri</div>
                     <div class="ml-2 -mt-2 -mr-3">
-                  
-        
+
+
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-2">
-                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{ dashboards.totalCount.dailyAddCustomerCount }}</div>
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{
+                        dashboards.totalCount.dailyAddCustomerCount }}</div>
                     <div class="text-lg font-medium text-red-600 dark:text-red-500">Müşteri</div>
                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                         <div class="text-md font-medium truncate">Bir Önceki Gün:</div>
@@ -44,14 +47,15 @@
                 <div class="flex items-start justify-between">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Ciro</div>
                     <div class="ml-2 -mt-2 -mr-3">
-        
+
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-2">
-                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500"> {{ dashboards.totalCount.dailyTurnoverAmount | number:'1.2-2' }}</div>
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500"> {{
+                        dashboards.totalCount.dailyTurnoverAmount | number:'1.2-2' }}</div>
                     <div class="text-lg font-medium text-amber-600 dark:text-amber-500">₺</div>
                     <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
-                     
+
                         <div class="ml-1.5 text-lg font-semibold">0.00 ₺</div>
                     </div>
                 </div>
@@ -61,8 +65,8 @@
                 <div class="flex items-start justify-between">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Toplam Stok Değeri</div>
                     <div class="ml-2 -mt-2 -mr-3">
-                     
-                
+
+
                     </div>
                 </div>
                 <div class="flex flex-col items-center mt-2">
@@ -74,13 +78,50 @@
         </div>
 
     </div>
-    
+
     <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
         <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
             <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="text-lg font-medium tracking-tight leading-6 truncate">Yaklaşan Randevular</div>
                 <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
-           
+
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="depotCode">
+                                <th mat-header-cell *matHeaderCellDef> Hasta Sahibi Adı Soyadı </th>
+                                <td mat-cell *matCellDef="let element"> {{element.depotCode}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="depotName">
+                                <th mat-header-cell *matHeaderCellDef> Randevu Tipi </th>
+                                <td mat-cell *matCellDef="let element"> {{element.depotName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="active">
+                                <th mat-header-cell *matHeaderCellDef> Yapılacak İşlem </th>
+                                <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                                        <mat-icon aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </td>
+
+                            </ng-container>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+                            aria-label="Select page of periodic elements">
+                        </mat-paginator>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -91,7 +132,45 @@
             <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                 <div class="text-lg font-medium tracking-tight leading-6 truncate">Geçmiş Randevular</div>
                 <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
-           
+
+                    
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="depotCode">
+                                <th mat-header-cell *matHeaderCellDef> Hasta Sahibi Adı Soyadı </th>
+                                <td mat-cell *matCellDef="let element"> {{element.depotCode}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="depotName">
+                                <th mat-header-cell *matHeaderCellDef> Randevu Tipi </th>
+                                <td mat-cell *matCellDef="let element"> {{element.depotName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="active">
+                                <th mat-header-cell *matHeaderCellDef> Yapılacak İşlem </th>
+                                <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                                        <mat-icon aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </td>
+
+                            </ng-container>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+                            aria-label="Select page of periodic elements">
+                        </mat-paginator>
+
+                    </div>
+                    
                 </div>
             </div>
         </div>

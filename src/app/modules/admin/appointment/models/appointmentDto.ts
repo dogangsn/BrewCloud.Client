@@ -8,6 +8,7 @@ export class AppointmentDto {
     endDate: string;
     appointmentType: number;
     text: string;
+    isComplated: boolean;
 
     // constructor(
     //     customerId:string,

@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ProjectService } from './project.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
 import { DashboardsDto } from './models/DashboardsDto';
 import { DashboardService } from 'app/core/services/dashboards/dashboards.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'dashboards',
@@ -11,6 +13,18 @@ import { DashboardService } from 'app/core/services/dashboards/dashboards.servic
     encapsulation: ViewEncapsulation.None,
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
+
+
+    displayedColumns: string[] = [
+        'depotName',
+        'depotCode',
+        'active',
+        'actions',
+    ];
+    @ViewChild('paginator') paginator: MatPaginator;
+
+    _list: any[] = [];
+    dataSource = new MatTableDataSource<any>(this._list);
 
     chartGithubIssues: ApexOptions = {};
     chartTaskDistribution: ApexOptions = {};
