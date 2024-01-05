@@ -155,5 +155,10 @@ export const endPoints = {
     },
     dashboards: {
         getdashBoard : 'vet/Dashboard/GetDashBoard'
+    },
+    clinicalstatistics: {
+        getClinicalstatisticsList : 'vet/Clinicalstatistics/GetClinicalstatisticsList',
+        getGraphicList : 'vet/Clinicalstatistics/GetGraphicList'
+
     }
 }
