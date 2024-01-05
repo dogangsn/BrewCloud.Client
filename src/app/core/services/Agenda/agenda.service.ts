@@ -51,6 +51,10 @@ export class AgendaService
     updateAgendasMulti(model: UpdateAgendaCommand): Observable<any> {
         return this._httpService.post(endPoints.agenda.Updateagenda, model);
     }
+    deleteAgendaSelected(id: DeleteAgendaCommand):Observable<any> {
+        debugger;
+        return this._httpService.post(endPoints.agenda.Deleteagenda,id);
+    }
     getAgendaById(buyId: string): Observable<AgendaListByIdQuery>
     {
         debugger;
@@ -84,6 +88,15 @@ export class AgendaService
                                 if(req !== null && req !== undefined )
                                 {
                                     const agenda = req;
+                                    debugger;
+                                // Update the agenda
+                                this._agenda.next(agenda);
+                                observer.next(agenda1); 
+                                observer.complete(); 
+                                return agenda;
+                                }
+                                else{
+                                    const agenda = agenda1;
                                     debugger;
                                 // Update the agenda
                                 this._agenda.next(agenda);

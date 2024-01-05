@@ -16,6 +16,10 @@ import { ProductDescriptionService } from 'app/core/services/definition/productd
 import { ProductDescriptionsDto } from '../../definition/productdescription/models/ProductDescriptionsDto';
 import { Subject, takeUntil } from 'rxjs';
 
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 // import { ViewChild } from '@angular/core';
 // import { AfterViewInit, ChangeDetectionStrategy,   OnDestroy,  ViewEncapsulation } from '@angular/core';
 // import { Observable, debounceTime, map, merge, switchMap } from 'rxjs';
@@ -29,6 +33,18 @@ import { Subject, takeUntil } from 'rxjs';
 // import { RepositionScrollStrategy } from '@angular/cdk/overlay';
 // import { MatDialog } from '@angular/material/dialog';
 
+const moment = _rollupMoment || _moment;
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'DDD MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'DDD MMMM YYYY',
+    },
+  };
 
 
 
@@ -55,6 +71,16 @@ import { Subject, takeUntil } from 'rxjs';
             }
         }
     `,
+    ],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {
+            provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+        },
     ],
 })
 export class CreateEditDemandDialogComponent implements OnInit {
@@ -308,6 +334,7 @@ export class CreateEditDemandDialogComponent implements OnInit {
         {
             return;
         }
+        debugger;
         const rowdate = this.getFormValueByName('date').toLocaleString();
         const rowdeliverydate = this.getFormValueByName('deliverydate').toLocaleString();
         // const formattedDate = new Date(rowdate).toISOString();
