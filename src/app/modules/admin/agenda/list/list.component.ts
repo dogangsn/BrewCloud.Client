@@ -154,7 +154,6 @@ export class AgendaListComponent implements OnInit, OnDestroy {
 
                     // If the main navigation component exists...
                     if (mainNavigationComponent) {
-
                         const mainNavigation = mainNavigationComponent.navigation;
                         const menuItem = this._fuseNavigationService.getItem('agenda', mainNavigation);
 
@@ -285,6 +284,7 @@ export class AgendaListComponent implements OnInit, OnDestroy {
      * @param event
      */
     dropped(event: CdkDragDrop<Agenda[]>): void {
+         this._router.navigate(['../agenda/']);
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         // Move the item in the array
 
@@ -306,12 +306,12 @@ export class AgendaListComponent implements OnInit, OnDestroy {
             );
             this._agendaService.updateAgendasMulti(agendaItem).subscribe((response) => {
                 if (response.isSuccessful) {
-                    this.getAgendaList();
-                    this._changeDetectorRef.markForCheck();
+                    // this.getAgendaList();
+                    // this._changeDetectorRef.markForCheck();
                 }
             });
         })
-
+        
 
         // this._agendaService.updateAgendasOrders(event.container.data).subscribe();
 

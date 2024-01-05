@@ -288,7 +288,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
             )
             .subscribe((value) => {
                 // Update the Agenda on the server
-                this._AgendaService.updateAgenda(value.id, value).subscribe();
+                // this._AgendaService.updateAgenda(value.id, value).subscribe();
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -306,9 +306,11 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
                 this.agenda.priority = this.agendaByIdList.priority;
                 if (this.agendaByIdList.agendaType === 0) {
                     this.visibleCheck = true;
+                     this.agenda.agendaType = this.agendaByIdList.agendaType;
                 }
                 else {
                     this.visibleCheck = false;
+                     this.agenda.agendaType = this.agendaByIdList.agendaType;
                 }
                 this._titleField.nativeElement.focus();
                 this._changeDetectorRef.markForCheck();
@@ -629,7 +631,6 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
                 // Get the current Agenda's id
                 const id = this.agenda.id;
 
@@ -656,7 +657,34 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
                             this._router.navigate(['../'], { relativeTo: this._activatedRoute });
                         }
                     });
+                    // this._AgendaService.deleteAgendaSelected(id);
+                    const idd = new DeleteAgendaCommand(id);
+                this._AgendaService.deleteAgendaSelected(idd).subscribe(
+                    (response) => {
+                        if (!response) {
+                            return;
+                        }
+                        // if (nextAgendaId) {
+                        //     this._router.navigate(['../', nextAgendaId], { relativeTo: this._activatedRoute });
+                        // }
+                        // // Otherwise, navigate to the parent
+                        // else {
+                        //     this._router.navigate(['../'], { relativeTo: this._activatedRoute });
+                        // }
+                        if(response.isSuccessful)
+                        {
+                            this._AgendaListComponent.getAgendaTags();
+                            this._AgendaListComponent.getAgendaList();
+                            this.closePage();
 
+                        }
+                        // this._AgendaListComponent.visible = false;
+                        //  this._changeDetectorRef.markForCheck();
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             }
@@ -719,12 +747,11 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
     }
     updateAgendadetail(agenda: Agenda): void {
-
         const agendaItem = new UpdateAgendaCommand(
             agenda.id,
             this.getFormValueByName('agendaNo'),
             (this.getFormValueByName('agendaType') == 0 ? 0 : 1),
-            (this.getFormValueByName('isActive') === 1 ? 0 : 1),
+            (this.getFormValueByName('isActive') === 0 ? 0 : 1),
             this.getFormValueByName('agendaTitle'),
             this.getFormValueByName('priority'),
             this.getFormValueByName('notes'),
@@ -757,7 +784,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
 
 
         );
-        agendaItem.agendaNo = this._AgendaListComponent.agendasCount.rowNo;
+        agendaItem.agendaNo = this._AgendaListComponent.agendasCount.rowNo ;
         agendaItem.agendaTags = [];
         agendaItem.agendaType = type;
         agendaItem.isActive = this.agenda.isActive == true ? 1 : 0;
@@ -791,6 +818,7 @@ export class AgendaDetailsComponent implements OnInit, AfterViewInit, OnDestroy 
                     this._AgendaListComponent.getAgendaTags();
                     this._AgendaListComponent.getAgendaList();
                     this.closePage();
+                    this._changeDetectorRef.markForCheck();
                 } else {
                     this.showSweetAlert('error');
                 }

@@ -7,7 +7,7 @@ const now = DateTime.now();
 export const project = {
     githubIssues      : {
         overview: {
-            'this-week': {
+            'this-year': {
                 'new-issues'   : 214,
                 'closed-issues': 75,
                 'fixed'        : 3,
@@ -15,7 +15,7 @@ export const project = {
                 're-opened'    : 8,
                 'needs-triage' : 6
             },
-            'last-week': {
+            'last-year': {
                 'new-issues'   : 197,
                 'closed-issues': 72,
                 'fixed'        : 6,
@@ -24,33 +24,65 @@ export const project = {
                 'needs-triage' : 5
             }
         },
-        labels  : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels  : ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
         series  : {
-            'this-week': [
+            'this-year': [
                 {
-                    name: 'New issues',
+                    name: 'Satış Tutarı',
                     type: 'line',
-                    data: [42, 28, 43, 34, 20, 25, 22]
+                    data: [42, 28, 43, 34, 20, 25, 22, 33, 44, 11, 33, 22]
                 },
                 {
-                    name: 'Closed issues',
+                    name: 'Alış Tutarı',
                     type: 'column',
-                    data: [11, 10, 8, 11, 8, 10, 17]
+                    data: [11, 10, 8, 11, 8, 10, 17, 1, 5, 2, 9, 15]
                 }
             ],
-            'last-week': [
+            'last-year': [
                 {
-                    name: 'New issues',
+                    name: 'Satış Tutarı',
                     type: 'line',
-                    data: [37, 32, 39, 27, 18, 24, 20]
+                    data: [37, 32, 39, 27, 18, 24, 20, 33, 22, 11, 12, 33]
                 },
                 {
-                    name: 'Closed issues',
+                    name: 'Alış Tutarı',
                     type: 'column',
-                    data: [9, 8, 10, 12, 7, 11, 15]
+                    data: [9, 8, 10, 12, 7, 11, 15, 23, 1, 4, 9, 12]
                 }
             ]
         }
+    },
+    newVsReturning     : {
+        uniqueVisitors: 46085,
+        series        : [80, 20],
+        labels        : [
+            'New',
+            'Returning'
+        ]
+    },
+    gender             : {
+        uniqueVisitors: 46085,
+        series        : [55, 45],
+        labels        : [
+            'Male',
+            'Female'
+        ]
+    },
+    age                : {
+        uniqueVisitors: 46085,
+        series        : [35, 65],
+        labels        : [
+            'Under 30',
+            'Over 30'
+        ]
+    },
+    language           : {
+        uniqueVisitors: 46085,
+        series        : [25, 75],
+        labels        : [
+            'English',
+            'Other'
+        ]
     },
     taskDistribution  : {
         overview: {
@@ -63,10 +95,10 @@ export const project = {
                 'completed': 260
             }
         },
-        labels  : ['API', 'Backend', 'Frontend', 'Issues'],
+        labels  : ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
         series  : {
-            'this-week': [15, 20, 38, 27],
-            'last-week': [19, 16, 42, 23]
+            'this-week': [15, 20, 38, 27, 6 , 44 ,22 ],
+            'last-week': [19, 16, 42, 23 , 33, 44 , 12]
         }
     },
     schedule          : {

@@ -218,7 +218,7 @@
                         <mat-icon
                             class="icon-size-5 text-current"
                             [svgIcon]="'heroicons_solid:arrow-narrow-down'"></mat-icon>
-                        <span  class="ml-2 mr-1 text-md font-medium">Low</span>
+                        <span  class="ml-2 mr-1 text-md font-medium">Planlı</span>
                     </ng-container>
 
                     <!-- Normal -->
@@ -234,7 +234,7 @@
                         <mat-icon
                             class="icon-size-4 text-current"
                             [svgIcon]="'heroicons_solid:arrow-narrow-up'"></mat-icon>
-                        <span  class="ml-2 mr-1 text-md font-medium">High</span>
+                        <span  class="ml-2 mr-1 text-md font-medium">Acil</span>
                     </ng-container>
                 </div>
                 <mat-menu #priorityMenu="matMenu">
@@ -244,7 +244,7 @@
                         mat-menu-item
                         (click)="setAgendaPriority(0)">
                         <span class="inline-flex items-center justify-between w-full min-w-30 leading-5">
-                            <span class="font-medium">Low</span>
+                            <span class="font-medium">Planlı</span>
                             <mat-icon
                                 class="mr-0 icon-size-4 text-green-600 dark:text-green-500"
                                 [svgIcon]="'heroicons_solid:arrow-narrow-down'"></mat-icon>
@@ -270,7 +270,7 @@
                         mat-menu-item
                         (click)="setAgendaPriority(2)">
                         <span class="inline-flex items-center justify-between w-full min-w-30 leading-5">
-                            <span class="font-medium">High</span>
+                            <span class="font-medium">Acil</span>
                             <mat-icon
                                 class="mr-0 icon-size-4 text-red-600 dark:text-red-500"
                                 [svgIcon]="'heroicons_solid:arrow-narrow-up'"></mat-icon>
