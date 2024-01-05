@@ -33,6 +33,8 @@ export const endPoints = {
         getCustomersFindById: 'vet/Customers/GetCustomersFindById',
         updateCustomerById: 'vet/Customers/UpdateCustomerById',
         createPatient : 'vet/Customers/CreatePatient',
+        deletePatient: 'vet/Customers/DeletePatient',
+        getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
@@ -64,7 +66,6 @@ export const endPoints = {
         createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef',
         updateCustomerGroupDef : 'vet/Definition/UpdateCustomerGroupDef',
         deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef',
-   
     },
     store:{
         storeList : 'vet/Store/StoreList',
@@ -79,13 +80,15 @@ export const endPoints = {
         Deletesuppliers : 'vet/Suppliers/DeleteSuppliers'
     },
     animalColorsDef: {
-        animalColorsDefList : "vet/Definition/AnimalColorsDefList"
+        animalColorsDefList : "vet/Definition/AnimalColorsDefList",
+        CreateAnimalColorsDef: "vet/Definition/CreateAnimalColorsDef"
     },
     saleBuy: {
         createSaleBuy : "vet/SaleBuy/CreateSaleBuy",
         saleBuyList : "vet/SaleBuy/SaleBuyList",
         saleBuyFilter : 'vet/SaleBuy/SaleBuyListFilter',
-        deleteSaleBuy: 'vet/SaleBuy/DeleteSaleBuy'
+        deleteSaleBuy: 'vet/SaleBuy/DeleteSaleBuy',
+        updateSaleBuy : 'vet/SaleBuy/UpdateSaleBuy'
     },
     paymentmethods : {
         paymentmethodsList : 'vet/Definition/PaymentMethodList',
@@ -133,7 +136,9 @@ export const endPoints = {
         appointmensList : 'vet/Appointment/AppointmentsList',
         createappointment : 'vet/Appointment/CreateAppointment',
         deleteappointment : 'vet/Appointment/DeleteAppointment',
-        updateappointment : 'vet/Appointment/UpdateAppointmentById'
+        updateappointment : 'vet/Appointment/UpdateAppointmentById',
+        getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
+        appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList'
     },
     title: {
         titleDefinationList : 'account/settings/GetTitleDefination',
@@ -143,6 +148,12 @@ export const endPoints = {
     },
     mailing: {
         getsmptsettingsList : 'mail/Mailing/GetSmtpSettings',
-        createMailSettings : ''
+        createMailSettings : 'mail/Mailing/CreateSmtpSetting',
+        deletedMaildSettings : 'mail/Mailing/DeleteSmtpSetting',
+        updateMailSettings: 'mail/Mailing/UpdateSmtpSetting',
+        sendMail : 'mail/Mailing/SendMail'
+    },
+    dashboards: {
+        getdashBoard : 'vet/Dashboard/GetDashBoard'
     }
 }

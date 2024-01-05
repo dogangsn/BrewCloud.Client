@@ -28,7 +28,7 @@ export class SaleBuyService {
         return this._httpService.post(endPoints.saleBuy.deleteSaleBuy, model);
     }
 
-    // updateStores(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.store.updateStore, model);
-    // }
+    updateSaleBuy(model: any): Observable<any> {
+        return this._httpService.post(endPoints.saleBuy.updateSaleBuy, model);
+    }
 }

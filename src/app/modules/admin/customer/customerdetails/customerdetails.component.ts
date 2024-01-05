@@ -15,6 +15,10 @@ import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
 import { AddApponitnmentDialogComponent } from '../../appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
+import { GetColectionEditDialogComponent } from './collection/get-collection-editdialog/get-collection-editdialog.component';
+import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
+import { PayChartComponent } from './pay-chart/pay-chart.component';
 
 @Component({
     selector: 'customerdetails',
@@ -33,6 +37,11 @@ export class CustomerDetailsComponent implements OnInit {
     patientDetails: PatientDetailsDto[] = [];
     firstname: string
     lastname: string
+
+    totalSaleBuyCount: number;
+    totalVisitCount: number;
+    totalEarnings: number;
+
     constructor(
         private route: ActivatedRoute,
         private _router: Router,
@@ -139,6 +148,9 @@ export class CustomerDetailsComponent implements OnInit {
                 this.patientDetails = this.customerDetail.patientDetails
                 this.firstname = this.customerDetail.firstname;
                 this.lastname = this.customerDetail.lastname;
+                this.totalSaleBuyCount = response.data.totalData.totalSaleBuyCount;
+                this.totalVisitCount = response.data.totalData.totalVisitCount;
+                this.totalEarnings = response.data.totalData.totalEarnings;
                 this.customerDetailForm.patchValue({
                     email: this.customerDetail.email,
                     phonenumber: this.customerDetail.phonenumber,
@@ -177,7 +189,7 @@ export class CustomerDetailsComponent implements OnInit {
         .afterClosed()
         .subscribe((response) => {
             if (response.status) {
-                // this.getCustomerList();
+                this.getCustomerDetailList();
             }
         });
     }
@@ -203,17 +215,141 @@ export class CustomerDetailsComponent implements OnInit {
     }
 
     addAppointment(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+
         const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: null,
+                data: model
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
                 }
             });
+    }
+
+    openAppointmentHistory() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(AppointmentHistoryComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                this.getCustomerDetailList();
+            }
+        });
+    }
+
+    //openGetCollection
+    openGetCollection() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(GetColectionEditDialogComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
+
+    //openCollectionTransaction
+    openCollectionTransaction() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(ColectionTransactionsDialogComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
+
+    //openPayChart
+    openPayChart() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(PayChartComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
+
+
+    public redirectToUpdatePatient = (id: string) => {
+    }
+
+    public redirectToDeletePatient = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._customerService
+                        .deletePatients(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getCustomerDetailList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate('sweetalert.transactionSuccessful'),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
     }
 
 }

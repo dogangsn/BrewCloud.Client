@@ -39,7 +39,7 @@ export interface PatientDetails {
     sex: string;
     animalType: number;
     animalBreed: number;
-    animalColor: string;
+    animalColor: number;
     reportNumber: string | null;
     specialNote: string | null;
     sterilization: boolean;

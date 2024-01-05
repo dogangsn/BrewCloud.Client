@@ -55,6 +55,8 @@ import { VetAnimalBreedsDefDto } from '../models/VetAnimalBreedsDefDto';
 import { VetVetAnimalsTypeListDto } from '../models/VetVetAnimalsTypeListDto';
 import { Duration } from 'luxon';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateEditAnimalsColorDialogComponent } from './dialog/create-edit-animalscolor';
 
 @Component({
     selector: 'customeradd',
@@ -124,7 +126,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _customergroup: CustomerGroupService,
         private _animalColorDefService: AnimalColorsDefService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private _dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -234,6 +237,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.province = this.getFormValueByName('province');
         this.customers.district = this.getFormValueByName('district');
         this.customers.longAdress = this.getFormValueByName('longAdress');
+        this.customers.isPhone = this.getFormValueByName('isPhone');
+        this.customers.isEmail = this.getFormValueByName('isEmail');
         this.customers.PatientDetails = this.patients;
 
         return true;
@@ -361,7 +366,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 sex: '1',
                 animalType: 0,
                 animalBreed: null,
-                animalColor: '',
+                animalColor: 0,
                 tags: [],
                 images: [],
                 active: true,
@@ -383,7 +388,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             sex: '1',
             animalType: 0,
             animalBreed: null,
-            animalColor: '',
+            animalColor: 0,
             tags: [],
             images: [],
             active: true,
@@ -550,7 +555,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     sex: '0',
                     animalType: 2,
                     animalBreed: null,
-                    animalColor: '',
+                    animalColor: 0,
                     tags: [],
                     images: [],
                     active: true,
@@ -879,6 +884,25 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         return true;
     }
+
+    addPanelOpen(): void {
+        const dialog = this._dialog
+            .open(CreateEditAnimalsColorDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getAnimalColorsDefList();
+                }
+            });
+            
+    }
+
+
+
 }
 
 export const sextype = [
