@@ -35,6 +35,7 @@ export const endPoints = {
         createPatient : 'vet/Customers/CreatePatient',
         deletePatient: 'vet/Customers/DeletePatient',
         getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
+        getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList'
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
@@ -158,7 +159,8 @@ export const endPoints = {
     },
     clinicalstatistics: {
         getClinicalstatisticsList : 'vet/Clinicalstatistics/GetClinicalstatisticsList',
-        getGraphicList : 'vet/Clinicalstatistics/GetGraphicList'
-
+        getGraphicList : 'vet/Clinicalstatistics/GetGraphicList',
+        getweekVisitList : 'vet/Clinicalstatistics/WeekVisitList',
+        getbagelSliceGraphList: 'vet/Clinicalstatistics/BagelSliceGraphList'
     }
 }

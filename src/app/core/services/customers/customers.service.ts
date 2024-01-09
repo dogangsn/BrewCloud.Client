@@ -52,4 +52,8 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.getTransactionMovement, model);
     }
 
+    getPaymentTransactionList(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.getPaymentTransaction, model);
+    }
+
 }

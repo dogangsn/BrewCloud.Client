@@ -1,7 +1,7 @@
 
 
 export class addVaccineDto {
-    id : number;
+    id : string;
     productId : string;
     date : Date;
     isComplated:boolean;

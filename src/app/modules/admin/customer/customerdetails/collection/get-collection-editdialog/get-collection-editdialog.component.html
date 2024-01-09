@@ -18,10 +18,16 @@
         <div class="container-fluid" [formGroup]="getcollection">
 
           <div class="flex float : left gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pl-3" >
+            <!-- <mat-form-field class="flex-auto gt-xs:pl-3" >
               <mat-label>Ödemesi Yapılacak İşlem</mat-label>
               <mat-select [formControlName]="'collectionId'">
                 <mat-option>None</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+            <mat-form-field class="flex-auto gt-xs:pl-3" >
+              <mat-label>Ödemesi Yapılacak İşlem</mat-label>
+              <mat-select  [formControlName]="'collectionId'">
+                <mat-option *ngFor="let item of paymentTransaction" [value]="item.id">{{item.textValue}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

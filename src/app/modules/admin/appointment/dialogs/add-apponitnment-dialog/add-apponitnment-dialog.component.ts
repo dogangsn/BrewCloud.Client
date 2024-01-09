@@ -243,6 +243,13 @@ export class AddApponitnmentDialogComponent implements OnInit {
         console.log('Yeni tarih ve saat: ', this.lastSelectedValue);
         // Yeni değeri kullanmak için burada işlemler yapabilirsiniz
     }
+
+    public deletedVaccine = (id: string) => {
+        const selectedvaccine = this.addVaccineList.findIndex((item) => item.id === id);
+        if (selectedvaccine !== -1) {
+            this.addVaccineList.splice(selectedvaccine, 1);
+        }
+    }
 }
 
 const appointments: AppointmentTypeDto[] = [

@@ -7,6 +7,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/models/PaymentMethodsDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { PaymentTransactionListDto } from './model/PaymentTransactionListDto';
+import { CustomerService } from 'app/core/services/customers/customers.service';
 
 @Component({
     selector: 'app-get-collection-editdialog',
@@ -21,12 +23,14 @@ export class GetColectionEditDialogComponent implements OnInit {
 
     payments: PaymentMethodsDto[] = [];
     selectedCustomerId: any;
+    paymentTransaction : PaymentTransactionListDto[] = [];
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
         private _paymentmethodsService: PaymentMethodservice,
+        private _customerService: CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.selectedCustomerId = data;
@@ -34,6 +38,7 @@ export class GetColectionEditDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.paymentsList();
+        this.getPaymentTransactiopnList();
 
         this.getcollection = this._formBuilder.group({
             collectionId : ['', Validators.required],
@@ -54,6 +59,21 @@ export class GetColectionEditDialogComponent implements OnInit {
                 console.log(this.payments);
 
             });
+    }
+
+    getPaymentTransactiopnList(){
+
+        const model = {
+            CustomerId :  this.selectedCustomerId.customerId
+        }
+
+        this._customerService
+        .getPaymentTransactionList(model)
+        .subscribe((response) => {
+            this.paymentTransaction = response.data;
+            console.log(this.paymentTransaction);
+
+        });
     }
 
     showSweetAlert(type: string, message: string): void {
@@ -81,4 +101,5 @@ export class GetColectionEditDialogComponent implements OnInit {
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
+
 }
