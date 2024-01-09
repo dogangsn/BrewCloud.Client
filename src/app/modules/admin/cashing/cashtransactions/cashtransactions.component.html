@@ -58,9 +58,9 @@
             </mat-form-field>
             <mat-form-field class="ml-12 flex-auto gt-xs:pl-3">
                 <mat-label>Bitiş Tarihi</mat-label>
-                <input matInput [matDatepicker]="picker" [formControlName]="'endDate'">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <input matInput [matDatepicker]="pickers" [formControlName]="'endDate'">
+                <mat-datepicker-toggle matIconSuffix [for]="pickers"></mat-datepicker-toggle>
+                <mat-datepicker #pickers></mat-datepicker>
             </mat-form-field>
             <div class="ml-12 flex-auto gt-xs:pl-3">
                 <mat-label></mat-label>

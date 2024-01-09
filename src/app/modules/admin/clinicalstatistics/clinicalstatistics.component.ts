@@ -21,7 +21,14 @@ import { CustomerService } from 'app/core/services/customers/customers.service';
 
 import { OnDestroy } from '@angular/core';
 import { C } from '@fullcalendar/core/internal-common';
-
+import { weekVisitListDto, weekVisitListRequestDto } from './models/weekVisitListDto';
+import { sum } from 'lodash';
+import { bagelSliceGraphListDto } from './models/bagelSliceGraphListDto';
+import { VetVetAnimalsTypeListDto } from '../customer/models/VetVetAnimalsTypeListDto';
+import { ProductDescriptionsDto } from '../definition/productdescription/models/ProductDescriptionsDto';
+import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { suppliersListDto } from '../suppliers/models/suppliersListDto';
+import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
@@ -87,11 +94,20 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
     public selectedDateType: string;
     selectedYear: number;
     newGithubIssuesSeries: any;
+    newTaskDistribution: any;
+    newVsReturnings: any;
+    newchartGender: any;
+    newchartAge: any;
     clinicalTotalAmountSale: clinicalstatisticsListDto[] = [];
     clinicalTotalAmountBuy: clinicalstatisticsListDto[] = [];
-    clinicalTotalAmountWeek: clinicalstatisticsListDto[] = [];
+    clinicalTotalAmountWeek: clinicalstatisticsListDto[] = []; X
     graphicList: graphicListDto[] = [];
-   
+    weekVisitList: weekVisitListDto[] = [];
+    bagelSliceGraphList: bagelSliceGraphListDto[] = [];
+    animalTypesList: VetVetAnimalsTypeListDto[] = [];
+
+    supplierList: suppliersListDto[] = [];
+    productdescription: ProductDescriptionsDto[] = [];
 
     public chartOptions: Partial<ChartOptions>;
     chartGithubIssues: ApexOptions = {};
@@ -118,6 +134,8 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         private clinicalStatisticService: ClinicalStatisticsService,
         private cdr: ChangeDetectorRef,
         private _customerListService: CustomerService,
+        private _suppliersService: SuppliersService,
+        private productDescriptionService: ProductDescriptionService,
 
 
 
@@ -129,98 +147,118 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         //     paymentType3: ['', Validators.required],
         //     // ...
         // });
-        
+
 
 
     }
 
     ngOnInit() {
-        // this.newGithubIssuesSeries = { series :{
-        //     'this-year': [
-        //         {
-        //             name: 'Satış Tutarı',
-        //             type: 'line',
-        //             data: [0, 0, 0, 0, 0, 0,
-        //                 0, 0, 0, 0, 0, 0]
-        //         },
-        //         {
-        //             name: 'Alış Tutarı',
-        //             type: 'column',
-        //             data: [0, 0, 0, 0, 0, 0,
-        //                 0, 0, 0, 0, 0, 0]
-        //         }
-        //     ],
-        //     'last-year': [
-        //         {
-        //             name: 'Satış Tutarı',
-        //             type: 'line',
-        //             data: [0, 0, 0, 0, 0, 0,
-        //                 0, 0, 0, 0, 0, 0]
-        //         },
-        //         {
-        //             name: 'Alış Tutarı',
-        //             type: 'column',
-        //             data: [0, 0, 0, 0, 0, 0,
-        //                 0, 0, 0, 0, 0, 0]
-        //         }
-        //     ]
-        // }}
-        this.newGithubIssuesSeries = { series :{
-            'this-year': [
-                
-                {
-                    name: 'Alış Tutarı',
-                    type: 'column',
-                    data: [0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0]
-                },
-                {
-                    name: 'Satış Tutarı',
-                    type: 'line',
-                    data: [0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0]
-                }
-            ],
-            'last-year': [
-                
-                {
-                    name: 'Alış Tutarı',
-                    type: 'column',
-                    data: [0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0]
-                },
-                {
-                    name: 'Satış Tutarı',
-                    type: 'line',
-                    data: [0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0]
-                },
+        this.newchartAge = {
+            uniqueVisitors: 46085,
+            series: [0, 0],
+            labels: [
+                '',
+                ''
             ]
-        },
-        overview: {
-            'this-year': {
-                'new-issues'   : 0,
-                'closed-issues': 0,
-                'fixed'        : 0,
-                'wont-fix'     : 0,
-                're-opened'    : 0,
-                'needs-triage' : 0
+        }
+        this.newchartGender = {
+            uniqueVisitors: 46085,
+            series: [0, 0],
+            labels: [
+                '',
+                ''
+            ]
+        }
+        this.newVsReturnings = {
+            uniqueVisitors: 46085,
+            series: [0, 0],
+            labels: [
+                '',
+                ''
+            ]
+        }
+        this.newGithubIssuesSeries = {
+            series: {
+                'this-year': [
+
+                    {
+                        name: 'Alış Tutarı',
+                        type: 'column',
+                        data: [0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0]
+                    },
+                    {
+                        name: 'Satış Tutarı',
+                        type: 'line',
+                        data: [0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0]
+                    }
+                ],
+                'last-year': [
+
+                    {
+                        name: 'Alış Tutarı',
+                        type: 'column',
+                        data: [0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0]
+                    },
+                    {
+                        name: 'Satış Tutarı',
+                        type: 'line',
+                        data: [0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0]
+                    },
+                ]
             },
-            'last-year': {
-                'new-issues'   : 0,
-                'closed-issues': 0,
-                'fixed'        : 0,
-                'wont-fix'     : 0,
-                're-opened'    : 0,
-                'needs-triage' : 0
+            overview: {
+                'this-year': {
+                    'new-issues': 0,
+                    'closed-issues': 0,
+                    'fixed': 0,
+                    'wont-fix': 0,
+                    're-opened': 0,
+                    'needs-triage': 0
+                },
+                'last-year': {
+                    'new-issues': 0,
+                    'closed-issues': 0,
+                    'fixed': 0,
+                    'wont-fix': 0,
+                    're-opened': 0,
+                    'needs-triage': 0
+                }
+            },
+        }
+        this.newTaskDistribution = {
+
+            overview: {
+                'this-week': {
+                    'new': 0,
+                    'completed': 0,
+                    'activeVisit': 0
+                },
+                'last-week': {
+                    'new': 0,
+                    'completed': 0,
+                    'activeVisit': 0
+                }
+            },
+            labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+            series: {
+                'this-week': [0, 0, 0, 0, 0, 0, 0],
+                'last-week': [0, 0, 0, 0, 0, 0, 0]
             }
-        },
-    }
+
+        }
+        this.getSuppliersList();
+        this.getProducts();
         this.paymentsList();
         this.getCustomerList();
         this.getGraphicList(1);
+        this.getWeekVisitList(0);
+        this.getAnimalTypeList();
+        this.getbagelSliceGraphList();
         // this.getBuyTotalAmount();
-        debugger;
         this.getAllList(1);
         this.clinicalstatics = this.fb.group({
             paymentType1: ['', Validators.required],
@@ -312,9 +350,16 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
     onYearSelected(event: any): void {
         this.selectedMonthandYear = event;
     }
+    getAnimalTypeList() {
+        this._customerListService.getVetVetAnimalsType().subscribe((responses) => {
+            this.animalTypesList = responses.data;
+        });
+    }
 
     private _prepareChartData(): void {
         // Github issues
+        const ss3 = this.newVsReturnings.labels;
+        const ss4 = this.newVsReturnings.series
         this.chartNewVsReturning = {
             chart: {
                 animations: {
@@ -332,7 +377,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                 }
             },
             colors: ['#3182CE', '#63B3ED'],
-            labels: this.data.newVsReturning.labels,
+            labels: this.newVsReturnings.labels,
             plotOptions: {
                 pie: {
                     customScale: 0.9,
@@ -342,7 +387,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     }
                 }
             },
-            series: this.data.newVsReturning.series,
+            series: this.newVsReturnings.series,
             states: {
                 hover: {
                     filter: {
@@ -369,7 +414,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                                                 </div>`
             }
         };
-        debugger;
         const ss = this.newGithubIssuesSeries.series;
         this.chartGithubIssues = {
             chart: {
@@ -404,8 +448,8 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     columnWidth: '50%'
                 }
             },
-             series: this.newGithubIssuesSeries.series,
-             //series: this.data.githubIssues.series,
+            series: this.newGithubIssuesSeries.series,
+            //series: this.data.githubIssues.series,
             states: {
                 hover: {
                     filter: {
@@ -447,6 +491,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
             }
         };
         // Task distribution
+        const sss = this.newTaskDistribution.series;
         this.chartTaskDistribution = {
             chart: {
                 fontFamily: 'inherit',
@@ -474,7 +519,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     }
                 }
             },
-            series: this.data.taskDistribution.series,
+            series: this.newTaskDistribution.series,
             states: {
                 hover: {
                     filter: {
@@ -723,7 +768,8 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
             //                                     </div>`
             // }
         };
-
+        const ss7 = this.newchartAge.labels;
+        const ss8 = this.newchartAge.series;
         this.chartAge = {
             chart: {
                 animations: {
@@ -741,7 +787,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                 }
             },
             colors: ['#DD6B20', '#F6AD55'],
-            labels: this.data.age.labels,
+            labels: this.newchartAge.labels,
             plotOptions: {
                 pie: {
                     customScale: 0.9,
@@ -751,7 +797,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     }
                 }
             },
-            series: this.data.age.series,
+            series: this.newchartAge.series,
             states: {
                 hover: {
                     filter: {
@@ -778,6 +824,8 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                                                 </div>`
             }
         };
+        const ss5 = this.newchartGender.labels;
+        const ss6 = this.newchartGender.series;
         this.chartGender = {
             chart: {
                 animations: {
@@ -795,7 +843,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                 }
             },
             colors: ['#319795', '#4FD1C5'],
-            labels: this.data.gender.labels,
+            labels: this.newchartGender.labels,
             plotOptions: {
                 pie: {
                     customScale: 0.9,
@@ -805,7 +853,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     }
                 }
             },
-            series: this.data.gender.series,
+            series: this.newchartGender.series,
             states: {
                 hover: {
                     filter: {
@@ -848,6 +896,22 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                 el.setAttribute('fill', `url(${currentURL}${attrVal.slice(attrVal.indexOf('#'))}`);
             });
     }
+    getSuppliersList() {
+        this._suppliersService.getSuppliersList().subscribe((response) => {
+            this.supplierList = response.data;
+        });
+    }
+    getProducts() {
+        this.productDescriptionService.GetProductDescriptionList()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response) => {
+                if (response && response.data) {
+                    this.productdescription = response.data;
+                    this.cdr.markForCheck();
+                }
+            });
+
+    }
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
             this.customerlist = response.data;
@@ -870,7 +934,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
             });
     }
     getGraphicList(number: number) {
-        debugger;
 
         if (number === 1) {
             const dateYear = new Date();
@@ -883,7 +946,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         }
         const graphicRequest = new graphicListRequestDto(this.selectedYear)
         this.clinicalStatisticService.getGraphicList(graphicRequest).subscribe((response) => {
-            debugger;
             this.graphicList = response.data;
             console.log(this.customerlist);
             if (this.graphicList.length > 0) {
@@ -891,66 +953,123 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                 const satisListMonth = satisList.months[0];
                 const alisList = this.graphicList[1];
                 const alisListMonth = alisList.months[0];
-                debugger;
                 if (number === 1) {
-                    debugger;
-                    this.newGithubIssuesSeries = { series :{
-                        'this-year': [
-                            
-                            {
-                                name: alisList.name,
-                                type: alisList.types,
-                                data: [alisListMonth.ocak, alisListMonth.subat, alisListMonth.mart, alisListMonth.nisan, alisListMonth.mayis, alisListMonth.haziran,
-                                alisListMonth.temmuz, alisListMonth.agustos, alisListMonth.eylul, alisListMonth.ekim, alisListMonth.kasim, alisListMonth.aralik]
+                    this.newGithubIssuesSeries = {
+                        series: {
+                            'this-year': [
+
+                                {
+                                    name: alisList.name,
+                                    type: alisList.types,
+                                    data: [alisListMonth.ocak, alisListMonth.subat, alisListMonth.mart, alisListMonth.nisan, alisListMonth.mayis, alisListMonth.haziran,
+                                    alisListMonth.temmuz, alisListMonth.agustos, alisListMonth.eylul, alisListMonth.ekim, alisListMonth.kasim, alisListMonth.aralik]
+                                },
+                                {
+                                    name: satisList.name,
+                                    type: satisList.types,
+                                    data: [satisListMonth.ocak, satisListMonth.subat, satisListMonth.mart, satisListMonth.nisan, satisListMonth.mayis, satisListMonth.haziran,
+                                    satisListMonth.temmuz, satisListMonth.agustos, satisListMonth.eylul, satisListMonth.ekim, satisListMonth.kasim, satisListMonth.aralik]
+                                }
+                            ],
+                            'last-year': [
+
+                                {
+                                    name: 'Alış Tutarı',
+                                    type: 'column',
+                                    data: [0, 0, 0, 0, 0, 0,
+                                        0, 0, 0, 0, 0, 0]
+                                },
+                                {
+                                    name: 'Satış Tutarı',
+                                    type: 'line',
+                                    data: [0, 0, 0, 0, 0, 0,
+                                        0, 0, 0, 0, 0, 0]
+                                }
+                            ]
+                        }
+                        ,
+                        overview: {
+                            'this-year': {
+                                'new-issues': Number(satisList.sumSatis.toFixed(2)),
+                                'closed-issues': Number(alisList.sumAlis.toFixed(2)),
+                                'fixed': Number((satisList.netPriceSum + alisList.netPriceSum).toFixed(2)),
+                                'wont-fix': Number((satisList.kdvSum + alisList.kdvSum).toFixed(2)),
+                                're-opened': 0,
+                                'needs-triage': 0
                             },
-                            {
-                                name: satisList.name,
-                                type: satisList.types,
-                                data: [satisListMonth.ocak, satisListMonth.subat, satisListMonth.mart, satisListMonth.nisan, satisListMonth.mayis, satisListMonth.haziran,
-                                satisListMonth.temmuz, satisListMonth.agustos, satisListMonth.eylul, satisListMonth.ekim, satisListMonth.kasim, satisListMonth.aralik]
+                            'last-year': {
+                                'new-issues': 0,
+                                'closed-issues': 0,
+                                'fixed': 0,
+                                'wont-fix': 0,
+                                're-opened': 0,
+                                'needs-triage': 0
                             }
-                        ],
-                        'last-year': [
-                            
-                            {
-                                name: 'Alış Tutarı',
-                                type: 'column',
-                                data: [0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0, 0]
-                            },
-                            {
-                                name: 'Satış Tutarı',
-                                type: 'line',
-                                data: [0, 0, 0, 0, 0, 0,
-                                    0, 0, 0, 0, 0, 0]
-                            }
-                        ]
+                        },
                     }
-                ,
-                overview: {
-                    'this-year': {
-                        'new-issues'   : satisList.sumSatis,
-                        'closed-issues': alisList.sumAlis,
-                        'fixed'        : (satisList.netPriceSum + alisList.netPriceSum),
-                        'wont-fix'     : (satisList.kdvSum + alisList.kdvSum),
-                        're-opened'    : 0,
-                        'needs-triage' : 0
-                    },
-                    'last-year': {
-                        'new-issues'   : 0,
-                        'closed-issues': 0,
-                        'fixed'        : 0,
-                        'wont-fix'     : 0,
-                        're-opened'    : 0,
-                        'needs-triage' : 0
-                    }
-                },
-            }
                 }
                 if (number === 2) {
-                    this.newGithubIssuesSeries = { series :{
+                    this.newGithubIssuesSeries = {
+                        series: {
+                            'this-year': [
+
+                                {
+                                    name: 'Alış Tutarı',
+                                    type: 'column',
+                                    data: [0, 0, 0, 0, 0, 0,
+                                        0, 0, 0, 0, 0, 0]
+                                },
+                                {
+                                    name: 'Satış Tutarı',
+                                    type: 'line',
+                                    data: [0, 0, 0, 0, 0, 0,
+                                        0, 0, 0, 0, 0, 0]
+                                }
+                            ],
+                            'last-year': [
+
+                                {
+                                    name: alisList.name,
+                                    type: alisList.types,
+                                    data: [alisListMonth.ocak, alisListMonth.subat, alisListMonth.mart, alisListMonth.nisan, alisListMonth.mayis, alisListMonth.haziran,
+                                    alisListMonth.temmuz, alisListMonth.agustos, alisListMonth.eylul, alisListMonth.ekim, alisListMonth.kasim, alisListMonth.aralik]
+                                },
+                                {
+                                    name: satisList.name,
+                                    type: satisList.types,
+                                    data: [satisListMonth.ocak, satisListMonth.subat, satisListMonth.mart, satisListMonth.nisan, satisListMonth.mayis, satisListMonth.haziran,
+                                    satisListMonth.temmuz, satisListMonth.agustos, satisListMonth.eylul, satisListMonth.ekim, satisListMonth.kasim, satisListMonth.aralik]
+                                }
+                            ]
+
+                        },
+                        overview: {
+                            'this-year': {
+                                'new-issues': 0,
+                                'closed-issues': 0,
+                                'fixed': 0,
+                                'wont-fix': 0,
+                                're-opened': 0,
+                                'needs-triage': 0
+                            },
+                            'last-year': {
+                                'new-issues': satisList.sumSatis,
+                                'closed-issues': alisList.sumAlis,
+                                'fixed': (satisList.netPriceSum + alisList.netPriceSum),
+                                'wont-fix': (satisList.kdvSum + alisList.kdvSum),
+                                're-opened': 0,
+                                'needs-triage': 0
+                            }
+
+                        },
+                    }
+                }
+            }
+            else {
+                this.newGithubIssuesSeries = {
+                    series: {
                         'this-year': [
-                            
+
                             {
                                 name: 'Alış Tutarı',
                                 type: 'column',
@@ -965,108 +1084,50 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                             }
                         ],
                         'last-year': [
-                            
+
                             {
-                                name: alisList.name,
-                                type: alisList.types,
-                                data: [alisListMonth.ocak, alisListMonth.subat, alisListMonth.mart, alisListMonth.nisan, alisListMonth.mayis, alisListMonth.haziran,
-                                alisListMonth.temmuz, alisListMonth.agustos, alisListMonth.eylul, alisListMonth.ekim, alisListMonth.kasim, alisListMonth.aralik]
+                                name: 'Alış Tutarı',
+                                type: 'column',
+                                data: [0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0, 0]
                             },
                             {
-                                name: satisList.name,
-                                type: satisList.types,
-                                data: [satisListMonth.ocak, satisListMonth.subat, satisListMonth.mart, satisListMonth.nisan, satisListMonth.mayis, satisListMonth.haziran,
-                                satisListMonth.temmuz, satisListMonth.agustos, satisListMonth.eylul, satisListMonth.ekim, satisListMonth.kasim, satisListMonth.aralik]
-                            }
+                                name: 'Satış Tutarı',
+                                type: 'line',
+                                data: [0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0, 0]
+                            },
                         ]
-
                     },
                     overview: {
                         'this-year': {
-                            'new-issues'   : 0,
+                            'new-issues': 0,
                             'closed-issues': 0,
-                            'fixed'        : 0,
-                            'wont-fix'     : 0,
-                            're-opened'    : 0,
-                            'needs-triage' : 0
+                            'fixed': 0,
+                            'wont-fix': 0,
+                            're-opened': 0,
+                            'needs-triage': 0
                         },
                         'last-year': {
-                            'new-issues'   : satisList.sumSatis,
-                            'closed-issues': alisList.sumAlis,
-                            'fixed'        : (satisList.netPriceSum + alisList.netPriceSum),
-                            'wont-fix'     : (satisList.kdvSum + alisList.kdvSum),
-                            're-opened'    : 0,
-                            'needs-triage' : 0
+                            'new-issues': 0,
+                            'closed-issues': 0,
+                            'fixed': 0,
+                            'wont-fix': 0,
+                            're-opened': 0,
+                            'needs-triage': 0
                         }
-                        
                     },
                 }
-                }
             }
-            else{
-                this.newGithubIssuesSeries = { series :{
-                    'this-year': [
-                        
-                        {
-                            name: 'Alış Tutarı',
-                            type: 'column',
-                            data: [0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0]
-                        },
-                        {
-                            name: 'Satış Tutarı',
-                            type: 'line',
-                            data: [0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0]
-                        }
-                    ],
-                    'last-year': [
-                        
-                        {
-                            name: 'Alış Tutarı',
-                            type: 'column',
-                            data: [0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0]
-                        },
-                        {
-                            name: 'Satış Tutarı',
-                            type: 'line',
-                            data: [0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0]
-                        },
-                    ]
-                },
-                overview: {
-                    'this-year': {
-                        'new-issues'   : 0,
-                        'closed-issues': 0,
-                        'fixed'        : 0,
-                        'wont-fix'     : 0,
-                        're-opened'    : 0,
-                        'needs-triage' : 0
-                    },
-                    'last-year': {
-                        'new-issues'   : 0,
-                        'closed-issues': 0,
-                        'fixed'        : 0,
-                        'wont-fix'     : 0,
-                        're-opened'    : 0,
-                        'needs-triage' : 0
-                    }
-                },
-            }
-            }
-            debugger;
             this._analyticsService.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-                // Store the data
-                this.data = data;
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((data) => {
+                    // Store the data
+                    this.data = data;
 
-                // Prepare the chart data
-                this._prepareChartData();
-            });
-            debugger;
+                    // Prepare the chart data
+                    this._prepareChartData();
+                });
             window['Apex'] = {
                 chart: {
                     events: {
@@ -1081,10 +1142,213 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
             };
             // this.chartGithubIssues.series = this.newGithubIssuesSeries.series;
             this.cdr.markForCheck();
-            
+
 
 
         });
+    }
+    getWeekVisitList(number: number) {
+        const model = new weekVisitListRequestDto(
+            number
+        );
+        this.clinicalStatisticService
+            .getWeekVisitList(model)
+            .subscribe((response) => {
+                this.weekVisitList = response.data;
+
+                if (this.weekVisitList.length > 0) {
+                    const dt = this.weekVisitList;
+                    if (model.thisAndLastType == 0) {
+
+                        this.newTaskDistribution = {
+                            overview: {
+                                'this-week': {
+                                    'new': dt.reduce((sum, current) => sum + current.allVisitcount, 0) > 0 ? dt.reduce((sum, current) => sum + current.allVisitcount, 0) : 0,
+                                    'completed': dt.reduce((sum, current) => sum + current.unVisitCountSum, 0) > 0 ? dt.reduce((sum, current) => sum + current.unVisitCountSum, 0) : 0,
+                                    'activeVisit': dt.reduce((sum, current) => sum + current.visitCountSum, 0) > 0 ? dt.reduce((sum, current) => sum + current.visitCountSum, 0) : 0
+                                },
+                                'last-week': {
+                                    'new': 0,
+                                    'completed': 0,
+                                    'activeVisit': 0
+                                }
+                            },
+                            labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+                            series: {
+                                'this-week': [
+                                    (dt.filter(x => x.dayName === "Pazartesi").length > 0 ? dt.find(x => x.dayName === "Pazartesi").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Salı").length > 0 ? dt.find(x => x.dayName === "Salı").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Çarşamba").length > 0 ? dt.find(x => x.dayName === "Çarşamba").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Perşembe").length > 0 ? dt.find(x => x.dayName === "Perşembe").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Cuma").length > 0 ? dt.find(x => x.dayName === "Cuma").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Cumartesi").length > 0 ? dt.find(x => x.dayName === "Cumartesi").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Pazar").length > 0 ? dt.find(x => x.dayName === "Pazar").visitCountSum : 0)
+                                ],
+                                'last-week': [0, 0, 0, 0, 0, 0, 0]
+                            }
+                        }
+                    }
+                    else if (model.thisAndLastType == 1) {
+                        this.newTaskDistribution = {
+                            overview: {
+                                'this-week': {
+                                    'new': 0,
+                                    'completed': 0,
+                                    'activeVisit': 0
+                                },
+                                'last-week': {
+                                    'new': dt.reduce((sum, current) => sum + current.allVisitcount, 0) > 0 ? dt.reduce((sum, current) => sum + current.allVisitcount, 0) : 0,
+                                    'completed': dt.reduce((sum, current) => sum + current.unVisitCountSum, 0) > 0 ? dt.reduce((sum, current) => sum + current.unVisitCountSum, 0) : 0,
+                                    'activeVisit': dt.reduce((sum, current) => sum + current.visitCountSum, 0) > 0 ? dt.reduce((sum, current) => sum + current.visitCountSum, 0) : 0
+                                }
+                            },
+                            labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+                            series: {
+                                'this-week': [0, 0, 0, 0, 0, 0, 0],
+                                'last-week': [
+                                    (dt.filter(x => x.dayName === "Pazartesi").length > 0 ? dt.find(x => x.dayName === "Pazartesi").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Salı").length > 0 ? dt.find(x => x.dayName === "Salı").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Çarşamba").length > 0 ? dt.find(x => x.dayName === "Çarşamba").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Perşembe").length > 0 ? dt.find(x => x.dayName === "Perşembe").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Cuma").length > 0 ? dt.find(x => x.dayName === "Cuma").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Cumartesi").length > 0 ? dt.find(x => x.dayName === "Cumartesi").visitCountSum : 0),
+                                    (dt.filter(x => x.dayName === "Pazar").length > 0 ? dt.find(x => x.dayName === "Pazar").visitCountSum : 0)
+                                ]
+                            }
+                        }
+                    }
+                    else {
+                        this.newTaskDistribution = {
+
+                            overview: {
+                                'this-week': {
+                                    'new': 0,
+                                    'completed': 0,
+                                    'activeVisit': 0
+                                },
+                                'last-week': {
+                                    'new': 0,
+                                    'completed': 0,
+                                    'activeVisit': 0
+                                }
+                            },
+                            labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+                            series: {
+                                'this-week': [0, 0, 0, 0, 0, 0, 0],
+                                'last-week': [0, 0, 0, 0, 0, 0, 0]
+                            }
+
+                        }
+                    }
+                    this._analyticsService.data$
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe((data) => {
+                            // Store the data
+                            this.data = data;
+
+                            // Prepare the chart data
+                            this._prepareChartData();
+                        });
+                    window['Apex'] = {
+                        chart: {
+                            events: {
+                                mounted: (chart: any, options?: any): void => {
+                                    this._fixSvgFill(chart.el);
+                                },
+                                updated: (chart: any, options?: any): void => {
+                                    this._fixSvgFill(chart.el);
+                                }
+                            }
+                        }
+                    };
+                    // this.chartGithubIssues.series = this.newGithubIssuesSeries.series;
+                    this.cdr.markForCheck();
+
+                }
+
+
+                // console.log(this.payments);
+            });
+    }
+    getbagelSliceGraphList() {
+        this.clinicalStatisticService
+            .getBagelSliceGraphList()
+            .subscribe((response) => {
+
+
+                this.bagelSliceGraphList = response.data;
+                const animalid = this.bagelSliceGraphList.filter(x => x.id != null && x.guidId == null && x.types == 1);
+                const findAnimal1 = this.animalTypesList.find(x => x.type == Number(animalid[0].id));
+                const findAnimal2 = this.animalTypesList.find(x => x.type == Number(animalid[1].id));
+                const animalCount1 = animalid[0].counts;
+                const animalCount2 = animalid[1].counts;
+                const resultAnimal1 = Number(((animalCount1 / (animalCount1 + animalCount2)) * 100).toFixed(2));
+                const resultAnimal2 = Number(((animalCount2 / (animalCount1 + animalCount2)) * 100).toFixed(2));
+                this.newVsReturnings = {
+                    uniqueVisitors: 46085,
+                    series: [resultAnimal1, resultAnimal2],
+                    labels: [
+                        findAnimal1.name,
+                        findAnimal2.name
+                    ]
+                }
+
+                const suppliersId = this.bagelSliceGraphList.filter(x => x.id == null && x.guidId != null && x.types == 2);
+                const findSuppliers1 = this.supplierList.find(x => x.id == suppliersId[0].guidId);
+                const findSuppliers2 = this.supplierList.find(x => x.id == suppliersId[1].guidId);
+                const suppCount1 = suppliersId[0].counts;
+                const suppCount2 = suppliersId[1].counts;
+                const resultSuppliers1 = Number(((suppCount1 / (suppCount1 + suppCount2)) * 100).toFixed(2));
+                const resultSuppliers2 = Number(((suppCount2 / (suppCount1 + suppCount2)) * 100).toFixed(2));
+                this.newchartGender = {
+                    uniqueVisitors: 46085,
+                    series: [resultSuppliers1, resultSuppliers2],
+                    labels: [
+                        findSuppliers1.suppliername,
+                        findSuppliers2.suppliername
+                    ]
+                }
+
+                const productId = this.bagelSliceGraphList.filter(x => x.id == null && x.guidId != null && x.types == 3);
+                const findProduct1 = this.productdescription.find(x => x.id == productId[0].guidId);
+                const findProduct2 = this.productdescription.find(x => x.id == productId[1].guidId);
+                const productCount1 = productId[0].counts;
+                const productCount2 = productId[1].counts;
+                const resultProduct1 = Number(((productCount1 / (productCount1 + productCount2)) * 100).toFixed(2));
+                const resultProduct2 = Number(((productCount2 / (productCount1 + productCount2)) * 100).toFixed(2));
+                this.newchartAge = {
+                    uniqueVisitors: 46085,
+                    series: [resultProduct1, resultProduct2],
+                    labels: [
+                        findProduct1.name,
+                        findProduct2.name
+                    ]
+                }
+                this._analyticsService.data$
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe((data) => {
+                        // Store the data
+                        this.data = data;
+
+                        // Prepare the chart data
+                        this._prepareChartData();
+                    });
+                window['Apex'] = {
+                    chart: {
+                        events: {
+                            mounted: (chart: any, options?: any): void => {
+                                this._fixSvgFill(chart.el);
+                            },
+                            updated: (chart: any, options?: any): void => {
+                                this._fixSvgFill(chart.el);
+                            }
+                        }
+                    }
+                };
+                this.cdr.markForCheck();
+
+            })
+
     }
     getAllList(num: number) {
         const dates = this.dates.getRawValue();
@@ -1120,7 +1384,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
             4,
             num,
         );
-        debugger;
         const clinicalStatisticItem = new clinicalstatisticsResponseDto(
             ThisWeekCustomerTotal,
             PaymentTypeTotal,
@@ -1136,9 +1399,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                         //   console.log(this.clinicalTotalAmount);
                         this.clinicalTotalAmountWeek = response.data.filter(x => x.requestType === 2)
                         if (this.clinicalTotalAmountWeek.length !== 0) {
-                            debugger;
                             this.clinicalTotalAmountWeek.forEach(item => {
-                                debugger;
                                 const payType = item.paymentType;
                                 const custemerId = item.customerId;
                                 item.paymentType = this.payments.find(x => x.recId === payType).name;
@@ -1153,7 +1414,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                         //   console.log(this.clinicalTotalAmount);
                         this.clinicalstaticscardsBuy = response.data.filter(x => x.requestType === 3)
                         if (this.clinicalstaticscardsBuy.length !== 0) {
-                            debugger;
                             this.clinicalstaticscardsBuy.forEach(item => {
                                 const payType = item.paymentType;
                                 item.paymentType = this.payments.find(x => x.recId === payType).name
@@ -1168,7 +1428,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     this.cdr.markForCheck();
                     //   console.log(this.clinicalTotalAmount);
                     this.clinicalstaticscardsSale = response.data.filter(x => x.requestType === 4)
-                    debugger;
                     if (this.clinicalstaticscardsSale.length !== 0) {
                         this.clinicalstaticscardsSale.forEach(item => {
                             const payType = item.paymentType;
@@ -1206,7 +1465,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         //             this.cdr.markForCheck();
         //             //   console.log(this.clinicalTotalAmount);
         //             this.clinicalstaticscardsSale = response.data
-        //             debugger;
         //             if (this.clinicalstaticscardsSale.length !== 0) {
         //                 this.clinicalstaticscardsSale.forEach(item => {
         //                     const payType = item.paymenttype;
@@ -1219,31 +1477,6 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         //         }
         //     });
     }
-    // getBuyTotalAmount() {
-    //     debugger;
-    //     // const paymentType = this.getFormValueByName('paymentType1');
-    //     const date = new Date();
-    //     const dates = this.dates.getRawValue();
-    //     const clinicalStatisticItem = new clinicalstatisticsRequestDto(
-    //         '0',
-    //         '0',
-    //         date.getFullYear(),
-    //         false,
-    //         2
-    //     );
-    //     //this.getTransforid.id = ;
-
-
-    //     this.clinicalStatisticService.getClinicalstatisticsList(clinicalStatisticItem)
-    //         .pipe(takeUntil(this._unsubscribeAll))
-    //         .subscribe((response) => {
-    //             if (response && response.data) {
-    //                 debugger;
-
-    //                 // Diğer işlemleri burada gerçekleştirin.
-    //             }
-    //         });
-    // }
     getFormValueByName(formName: string): any {
         return this.clinicalstatics.get(formName).value;
     }
