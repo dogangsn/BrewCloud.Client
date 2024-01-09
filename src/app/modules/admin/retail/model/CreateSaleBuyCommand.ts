@@ -8,8 +8,8 @@ export class CreateSaleBuyCommand {
     invoiceNo: string;
     paymentType: number;
     amount: number;
-
-    constructor(customerId: string, date: string, productId:string, remark: string, type:number, supplierId:string, invoiceNo:string, paymentType: number, amount: number) {
+    demandsGuidId: string;
+    constructor(customerId: string, date: string, productId:string, remark: string, type:number, supplierId:string, invoiceNo:string, paymentType: number, amount: number, demandsGuidId:string) {
         this.customerId = customerId;
         this.date = date;
         this.productId = productId;
@@ -19,5 +19,6 @@ export class CreateSaleBuyCommand {
         this.invoiceNo = invoiceNo;
         this.paymentType = paymentType;
         this.amount = amount;
+        this.demandsGuidId = demandsGuidId
     }
 }

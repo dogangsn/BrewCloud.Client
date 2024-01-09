@@ -11,6 +11,7 @@ import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-sa
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
 
+
 @Component({
     selector: 'buying',
     templateUrl: './buying.component.html',
