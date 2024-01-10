@@ -18,9 +18,35 @@ import { PaymentMethodsDto } from '../../definition/paymentmethods/models/Paymen
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 import { UpdateSaleBuyCommand } from '../model/UpdateSaleBuyCommand';
 
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+const moment = _rollupMoment || _moment;
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'DDD MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'DDD MMMM YYYY',
+    },
+  };
 @Component({
     selector: 'app-create-edit-salesbuy',
     templateUrl: './create-edit-salesbuy.component.html',
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {
+            provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+        },
+    ],
 })
 export class CreateEditSalesBuyComponent implements OnInit {
     selectedsalebuy: SaleBuyListDto;
@@ -169,7 +195,8 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 this.getFormValueByName('supplierId'),
                 this.getFormValueByName('invoiceNo'),
                 this.getFormValueByName('paymentType'),
-                this.getFormValueByName('amount')
+                this.getFormValueByName('amount'),
+                '00000000-0000-0000-0000-000000000000'
             );
 
             this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(

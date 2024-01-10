@@ -18,6 +18,23 @@ import { demandTransList, demandsListDto } from '../../demands/models/demandList
 import { DemandProductsService } from 'app/core/services/Demands/DemandProducts/demandproducts.service';
 import { Subject, takeUntil } from 'rxjs';
 
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+
+const moment = _rollupMoment || _moment;
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'DDD MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'DDD MMMM YYYY',
+    },
+  };
 
 @Component({
     selector: 'app-create-edit-buying-order',
@@ -40,7 +57,17 @@ import { Subject, takeUntil } from 'rxjs';
                 grid-template-columns: 96px auto 112px 112px 96px 48px 96px 72px 72px;
             }
         }
-        `]
+        `],
+        providers: [
+            {
+                provide: DateAdapter,
+                useClass: MomentDateAdapter,
+                deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+            },
+            {
+                provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+            },
+        ],
 })
 export class CreateEditBuyOrderComponent implements OnInit {
     selectedsalebuy: SaleBuyListDto;
@@ -101,6 +128,7 @@ export class CreateEditBuyOrderComponent implements OnInit {
             paymentType: [1],
             amount:[1]
         });
+        debugger;
         this.getCustomerList();
         this.getProductList();
         this.paymentsList();
@@ -251,7 +279,8 @@ export class CreateEditBuyOrderComponent implements OnInit {
                         documNo,
                         this.getFormValueByName('paymentType'),
                         // this.getFormValueByName('amount')
-                        item.stockState
+                        item.stockState,
+                        this.selectedDemand.id
                     );
                         debugger;
                     this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(

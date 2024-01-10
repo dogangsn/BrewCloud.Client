@@ -106,7 +106,8 @@ export class CreateEditCustomersalesComponent implements OnInit {
                 '00000000-0000-0000-0000-000000000000',
                 '',
                 this.getFormValueByName('paymentType'),
-                this.getFormValueByName('amount')
+                this.getFormValueByName('amount'),
+                '00000000-0000-0000-0000-000000000000'
             );
             this._salebuyservice.createSaleBuy(saleBuyItem).subscribe(
                 (response) => {
