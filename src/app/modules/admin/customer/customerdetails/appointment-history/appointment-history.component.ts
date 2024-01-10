@@ -129,9 +129,17 @@ export class AppointmentHistoryComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
-
     toggleCompleted(item: any): void {
-    }
 
+        item.isComplated = !item.isComplated;
+        const model = {
+            id :  item.id,
+            isCompleted : item.isComplated
+        }
+        this._appointmentService.updateCompletedAppointment(model).subscribe((response) => {
+            this.getAppointmentsByIdList();
+        });
+        console.log(item);
+    }
 
 }

@@ -35,4 +35,13 @@ export class AppointmentService {
     getAppointmentsByIdList(model: any) : Observable<any> {
         return this._httpService.post(endPoints.appointments.appointmentsByIdList, model);
     }
+
+    updatePaymentReceivedAppointment(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.appointments.updatePaymentReceivedAppointment, model);
+    }
+
+    updateCompletedAppointment(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.appointments.updateCompletedAppointment, model);
+    }
+
 }
