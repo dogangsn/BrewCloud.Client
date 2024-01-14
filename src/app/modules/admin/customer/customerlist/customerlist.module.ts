@@ -36,6 +36,7 @@ import { AppointmentHistoryComponent } from '../customerdetails/appointment-hist
 import { GetColectionEditDialogComponent } from '../customerdetails/collection/get-collection-editdialog/get-collection-editdialog.component';
 import { ColectionTransactionsDialogComponent } from '../customerdetails/collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.component';
+import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 
 const root: Route[] = [
     {
@@ -117,7 +118,8 @@ const root: Route[] = [
         AppointmentHistoryComponent,
         GetColectionEditDialogComponent,
         ColectionTransactionsDialogComponent,
-        PayChartComponent
+        PayChartComponent,
+        VaccinationCard
     ]
 
     

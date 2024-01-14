@@ -4,9 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
+import { CustomerService } from 'app/core/services/customers/customers.service';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { PayChartListDto } from './model/PayChartListDto';
 
 @Component({
     selector: 'app-pay-chart',
@@ -14,7 +16,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
     styleUrls: ['./pay-chart.component.css'],
 })
 export class PayChartComponent implements OnInit {
-  
+
     displayedColumns: string[] = [
         'date',
         'operation',
@@ -27,46 +29,77 @@ export class PayChartComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
 
     selectedCustomerId: any;
-    payChartList: any[] = [];
+    payChartList: PayChartListDto[] = [];
     dataSource = new MatTableDataSource<any>(this.payChartList);
 
-    constructor(       
+    constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
         private _translocoService: TranslocoService,
+        private _customerService: CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any
-        ) {
-          this.selectedCustomerId = data;
+    ) {
+        this.selectedCustomerId = data;
+    }
+
+    ngOnInit() { 
+        this.getPaymentTransactiopnList();
+    }
+
+    getPaymentTransactiopnList() {
+
+        const model = {
+            CustomerId: this.selectedCustomerId.customerId
         }
 
-    ngOnInit() {}
+        this._customerService
+            .getPayChartList(model)
+            .subscribe((response) => {
+                this.payChartList = response.data;
+                this.dataSource = new MatTableDataSource<PayChartListDto>(
+                    this.payChartList
+                );
+    
+                this.dataSource.paginator = this.paginator;
+
+            });
+    }
 
     closeDialog(): void {
-      this._dialogRef.close({ status: null });
-  }
+        this._dialogRef.close({ status: null });
+    }
 
-  showSweetAlert(type: string): void {
-      if (type === 'success') {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.success'),
-              this.translate('sweetalert.transactionSuccessful'),
-              SweetalertType.success
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      } else {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.error'),
-              this.translate('sweetalert.transactionFailed'),
-              SweetalertType.error
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      }
-  }
+    showSweetAlert(type: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
 
-  translate(key: string): any {
-      return this._translocoService.translate(key);
-  }
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
 
-
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
 
 }

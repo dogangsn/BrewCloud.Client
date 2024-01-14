@@ -85,5 +85,15 @@ export class ColectionTransactionsDialogComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
 
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
     
 }

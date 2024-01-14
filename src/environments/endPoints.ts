@@ -36,7 +36,8 @@ export const endPoints = {
         deletePatient: 'vet/Customers/DeletePatient',
         getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
         getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList',
-        createCollection : 'vet/Customers/CreateCollection'
+        createCollection : 'vet/Customers/CreateCollection',
+        getpaychartList : 'vet/Customers/GetPayChartList'
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
