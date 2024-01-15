@@ -54,15 +54,21 @@ export class AppointmentComponent implements OnInit  {
     }
 
     addPanelOpen(): void {
+
+        const model = {
+            visibleCustomer: true,
+        };
+
         const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: null,
+                data: model,
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
+                    this.getApponitmentList();
                 }
             });
     }

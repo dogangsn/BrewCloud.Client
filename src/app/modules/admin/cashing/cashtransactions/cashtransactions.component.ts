@@ -208,5 +208,15 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         return this.formGroup.get(formName).value;
     }
 
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
 
 }

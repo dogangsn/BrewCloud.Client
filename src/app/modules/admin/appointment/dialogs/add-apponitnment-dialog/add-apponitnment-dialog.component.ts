@@ -48,6 +48,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
 
+    visibleCustomer: boolean;
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
     selectedCustomerId: any;
@@ -65,7 +66,8 @@ export class AddApponitnmentDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.selectedCustomerId = data;
+        this.selectedCustomerId = data.customerId;
+        this.visibleCustomer = data.visibleCustomer;
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
     }
@@ -112,7 +114,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 console.log(this.productdescription);
             });
     }
-
+    
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
             debugger;
@@ -149,7 +151,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
                         this.getFormValueByName('doctorId'),
-                        this.selectedCustomerId.customerId,
+                        (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId.customerId),
                         this.getFormValueByName('note'),
                         this.getFormValueByName('appointmentType'),
                         this.addVaccineList

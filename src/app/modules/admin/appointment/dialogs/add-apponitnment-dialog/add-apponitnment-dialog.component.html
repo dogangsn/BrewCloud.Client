@@ -41,6 +41,19 @@
               <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>
           </div>
+          <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleCustomer">
+            <mat-form-field class="flex-auto gt-xs:pl-3">
+                <mat-label>Müşteri</mat-label>
+                <mat-select [formControlName]="'customerId'" [placeholder]="'Müşteri'"
+                    name="customerId">
+                    <mat-select-filter [ngModelOptions]="{standalone: true}"
+                        [ngModel]="selectedCustomerId" (ngModelChange)="filterCustomerId($event)">
+                    </mat-select-filter>
+                    <mat-option *ngFor="let item of customers" [value]="item.id">{{item.firstName}}
+                        {{item.lastName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
           <div class="flex float: left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Randevu Tipi</mat-label>
