@@ -105,7 +105,7 @@ export class CustomerDetailsComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    // this.getCustomerList();
+                     this.getCustomerDetailList();
                 }
             });
     }

@@ -13,7 +13,7 @@
             </h5>
         </div>
 
-        <mat-horizontal-stepper>
+        <mat-horizontal-stepper  #stepper (selectionChange)="onStepChange($event)">
             <!-- Generate steps dynamically based on numberOfSteps -->
             <ng-container *ngFor="let patientStep of patientSteps; let i = index">
                 <mat-step [stepControl]="selectedPatientDetailsForm" [label]="'Hasta ' + (i + 1)">
@@ -223,10 +223,13 @@
                                 </div>
                                 <ng-container *ngIf="isLastStep()" class="mt-2 h-full">
                                     <div class="bottom-0">
-                                        <button mat-button matStepperPrevious (click)="patientBack()" class="mr-3">
-                                            Back
-                                        </button>
-                                        <button mat-button (click)="addOrUpdatePatients()" [disabled]="this.selectedPatientDetailsForm.get('name').invalid || this.selectedPatientDetailsForm.get('birthDate').invalid 
+                                            <button *ngIf="stepIndex != 0" mat-button matStepperPrevious (click)="patientBack()" class="mr-3">
+                                                Back
+                                            </button>
+                                            <button *ngIf="stepIndex < patientSteps.length-1 && patientSteps.length > 1 " mat-button matStepperNext (click)="patientBack()" class="bg-primary text-white">
+                                                Next
+                                            </button>
+                                        <button mat-button *ngIf="stepIndex == patientSteps.length-1 " (click)="addOrUpdatePatients()" [disabled]="this.selectedPatientDetailsForm.get('name').invalid || this.selectedPatientDetailsForm.get('birthDate').invalid 
                                                 || this.selectedPatientDetailsForm.get('sex').invalid"
                                             class="bg-primary text-white">
                                             Bitir

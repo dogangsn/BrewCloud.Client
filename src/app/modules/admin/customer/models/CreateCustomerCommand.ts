@@ -1,6 +1,7 @@
 import { PatientDetails } from "./PatientDetailsCommand";
 
 export class CreateCustomerCommand {
+    // Id:string;
     firstName: string;
     lastName: string;
     phoneNumber: string;

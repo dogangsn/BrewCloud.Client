@@ -4,7 +4,7 @@ import {
     Inject,
     Input,
     OnInit,
-    Output,
+    Output,ViewChildren,QueryList 
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +22,25 @@ import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
 import { MatStepperModule } from '@angular/material/stepper';
 
+import * as _moment from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatStepper } from '@angular/material/stepper';
+
+const moment = _rollupMoment || _moment;
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'DDD MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'DDD MMMM YYYY',
+    },
+  };
+
 export interface DialogData {
     count: string;
 }
@@ -30,9 +49,20 @@ export interface DialogData {
     selector: 'app-create-edit-patients-dialog',
     styleUrls: ['./create-edit-patients.css'],
     templateUrl: './create-edit-patients.html',
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {
+            provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+        },
+    ],
 })
 export class CreateEditPatientsDialogComponent implements OnInit {
     selectedpatients: PatientDetails;
+    selectedpatients2: any[] = []; 
     selectedPatientDetailsForm: FormGroup;
     selectedImage: string | ArrayBuffer | null = null;
     stepIndex: number;
@@ -52,6 +82,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     patients: any[] = [];
 
     @Output() modalKapatildi = new EventEmitter();
+    @ViewChildren(MatStepper) stepper: QueryList<MatStepper>;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -69,7 +100,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
-        debugger;
         this.counter = parseInt(this.tabCount.count);
         this.counter ? 0 : (this.counter = 1);
         for (let i = 0; i < this.counter; i++) {
@@ -90,6 +120,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
             sterilization: [false],
             images: [[]],
             active: [false],
+            isIndex:[0]
         });
         this.fillFormData(this.selectedpatients);
         this.sextype = sextype;
@@ -100,7 +131,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     }
 
     fillFormData(selectedPatientDetailsForm: PatientDetails) {
-        debugger;
         // if (this.selectedunitdefinition !== null) {
         //     this.unitdefinition.setValue({
         //         unitCode: selectedUnitdef.unitCode,
@@ -109,12 +139,27 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         // }
     }
 
-    addOrUpdatePatients(): void {        
-        this.selectedpatients = this.selectedPatientDetailsForm.value;
-        this.patients.push(this.selectedpatients);
+    addOrUpdatePatients(): void {       
+        // this.selectedpatients = this.selectedPatientDetailsForm.value;
+        if(this.selectedpatients2.length > 0)
+        {
+            this.selectedpatients2.forEach(element => {
+                const state1 : boolean = this.getBoolState()
+                this.patients.push(element);
+            });
+        }
+        else{
+            this.selectedpatients = this.selectedPatientDetailsForm.value;
+            this.patients.push(this.selectedpatients);
+        }
+        
+        
         this.addpatients();
     }
+    getBoolState():boolean{
 
+        return true;
+    }
     closeDialog(data?: any): void {
         this._dialogRef.close({ status: data ? true : false, data: data });
     }
@@ -137,7 +182,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     }
 
     patientNext(): void {
-        debugger;
         if (this.selectedPatientDetailsForm.get('name').valid || this.selectedPatientDetailsForm.get('birthDate').valid 
         || this.selectedPatientDetailsForm.get('sex').valid ) {
             // "Hasta Adı" is filled, allow the user to proceed
@@ -150,10 +194,39 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     }
 
     patientBack(): void {
-        debugger
         if (this.counter>1) {
-            this.stepIndex--;            
+            // this.stepIndex--;            
         }
+    }
+    onStepChange(event : any){
+        
+        // const ss = event.selectedIndex;
+        const currentIndex = event.selectedIndex;
+        const currentStepForm = this.selectedPatientDetailsForm;
+        
+        if( this.selectedpatients2[this.stepIndex] == undefined)
+        {
+            this.selectedpatients2[this.stepIndex] = currentStepForm.value;
+            this.selectedpatients2[this.stepIndex].isIndex = this.stepIndex;
+        }
+        else{
+            if(this.stepIndex == currentStepForm.value.isIndex)
+            {
+                this.selectedpatients2[this.stepIndex] = currentStepForm.value;
+                this.selectedpatients2[this.stepIndex].isIndex = this.stepIndex;
+            }
+            if(this.selectedpatients2[this.stepIndex].isIndex == this.stepIndex)
+            {
+                this.selectedPatientDetailsForm.patchValue(this.selectedpatients2[currentIndex]);
+                this.stepIndex = event.selectedIndex;
+                this.selectedpatients2[this.stepIndex] = this.selectedPatientDetailsForm.value;
+                this.selectedpatients2[this.stepIndex].isIndex = this.stepIndex;
+
+            }
+            
+        }
+        this.stepIndex = event.selectedIndex;
+
     }
 
     updatepatients(): void {}
@@ -164,12 +237,26 @@ export class CreateEditPatientsDialogComponent implements OnInit {
 
     isLastStep(): boolean {
         // Mevcut adımın endeksini kontrol edin
-        return this.stepIndex === this.patientSteps.length - 1;
+        if(this.patientSteps.length > 0)
+        {
+            if(this.stepIndex == this.patientSteps.length  )
+            {
+                return true
+            }
+            else{
+                // this.stepIndex == this.patientSteps.length 
+                return true;
+            }
+        }
+        else{
+            this.stepIndex == this.patientSteps.length -1
+           return false;
+        }
     }
 
-    isFirstStep(): boolean {
-        return this.stepIndex === 0;
-    }
+    // isFirstStep(): boolean {
+    //     return this.stepIndex === 0;
+    // }
 
     finish() {
         // Bitir düğmesi tıklandığında yapılacak işlem
@@ -216,7 +303,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
     }
 
     filterTagsByVendor(selectedVendor: any) {
-        debugger;
         const selectedValue = selectedVendor.value;
         // Seçilen vendor'a ait tagleri filtrele
         this.filteredTags = this.animalBreedsDef.filter(

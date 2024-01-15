@@ -63,7 +63,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         private router: Router, private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        debugger;
     }
 
     ngOnInit(): void {
@@ -92,7 +91,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     fillFormData(selectedproductdesf: customersListDto) {
-        debugger;
         if (this.selectedcustomeradd !== null) {
             this.customeradd.setValue({
                 //name: selectedproductdesf.name,
@@ -115,12 +113,33 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     addCustomers(): any {
-        debugger;
         if (this.customeradd.invalid) {
             this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
             return;
         }
+        const isEmail = this.getFormValueByName('isEmail');
+        const isPhone = this.getFormValueByName('isEmail');
+        this.customers.isEmail = isEmail;
+        this.customers.isPhone = isPhone;
+        // this.customers.Id = "00000000-0000-0000-0000-000000000000";
+        
         if (this.fillSelectedInvoice()) {
+            this.customers.PatientDetails.forEach((item)=>{
+                if(item.animalBreed.toString() == "")
+                {
+                    item.animalBreed = 0;
+                }
+                if(item.animalColor.toString()=="")
+                {
+                    item.animalColor = 0;
+                }
+                if(item.animalType.toString() =="")
+                {
+                    item.animalType = 0;
+                }
+                item.id="00000000-0000-0000-0000-000000000000";
+                item.images = null;
+            })
             const model = {
                 createcustomers: this.customers,
             };
@@ -131,7 +150,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                 );
                 return;
             }
-
             this._customerService.createCustomers(model).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
@@ -152,7 +170,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                             }
                         )
                     } else {
-                        debugger
                         this.showSweetAlert(
                             'error',
                             response.errors[0]
@@ -238,7 +255,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
-        debugger    
         this.patientCount=this.patientsAdd.value.count;
         console.log(this.patientCount);
         
@@ -252,7 +268,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    debugger;
                     response.data.forEach(item => {
                         this.patients.push(item);
                     });
@@ -263,7 +278,6 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
     }
 
     phoneNumberValidator(phoneNumber: any): boolean {
-        debugger;
         const phoneNumberPattern = /^\(\d{3}\) \d{3}-\d{4}$/; // İstenen telefon numarası formatı
         const validAreaCodes = [
             '(505)',
