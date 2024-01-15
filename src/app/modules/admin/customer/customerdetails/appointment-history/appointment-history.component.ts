@@ -61,18 +61,18 @@ export class AppointmentHistoryComponent implements OnInit {
         this._dialogRef.close({ status: null });
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(text),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
@@ -129,9 +129,22 @@ export class AppointmentHistoryComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
-
     toggleCompleted(item: any): void {
-    }
 
+        const model = {
+            id :  item.id,
+            isCompleted : item.isComplated
+        }
+        this._appointmentService.updateCompletedAppointment(model).subscribe((response) => {
+            if (response.isSuccessful) {
+                item.isComplated = !item.isComplated; 
+                this.getAppointmentsByIdList();
+            }else {
+                this.showSweetAlert('error', response.errors[0]);
+            }
+           
+        });
+        console.log(item);
+    }
 
 }

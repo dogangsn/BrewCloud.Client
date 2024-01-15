@@ -56,4 +56,13 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.getPaymentTransaction, model);
     }
 
+    createCollection(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.createCollection, model);
+    }
+
+    getPayChartList(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.getpaychartList, model);
+    }
+
+
 }

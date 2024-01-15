@@ -19,6 +19,7 @@ import { AppointmentHistoryComponent } from './appointment-history/appointment-h
 import { GetColectionEditDialogComponent } from './collection/get-collection-editdialog/get-collection-editdialog.component';
 import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { PayChartComponent } from './pay-chart/pay-chart.component';
+import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
 
 @Component({
     selector: 'customerdetails',
@@ -316,6 +317,26 @@ export class CustomerDetailsComponent implements OnInit {
         });
     }
 
+    //openvaccinationcard
+    openvaccinationcard() : void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+        .open(VaccinationCard, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                // this.getCustomerList();
+            }
+        });
+    }
 
     public redirectToUpdatePatient = (id: string) => {
     }

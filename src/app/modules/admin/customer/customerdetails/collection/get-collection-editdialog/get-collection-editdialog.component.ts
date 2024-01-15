@@ -17,13 +17,18 @@ import { CustomerService } from 'app/core/services/customers/customers.service';
 })
 export class GetColectionEditDialogComponent implements OnInit {
 
-    selectedgetcollection : any;
+    selectedgetcollection: any;
     getcollection: FormGroup;
     buttonDisabled = false;
 
+    ratioVisible = false;
+
     payments: PaymentMethodsDto[] = [];
     selectedCustomerId: any;
-    paymentTransaction : PaymentTransactionListDto[] = [];
+    paymentTransaction: PaymentTransactionListDto[] = [];
+    selectedValue: string;
+    selectedItemSellingPrice: any;
+    selectedVaccineid : any;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -39,17 +44,20 @@ export class GetColectionEditDialogComponent implements OnInit {
     ngOnInit(): void {
         this.paymentsList();
         this.getPaymentTransactiopnList();
-
         this.getcollection = this._formBuilder.group({
-            collectionId : ['', Validators.required],
-            paymenttype: ['', Validators.required]
+            collectionId: ['', Validators.required],
+            paymenttype: [1, Validators.required],
+            amount: [0],
+            ratio: [0],
+            enterAmount : [false]
         });
-
+        this.selectedItemSellingPrice = 0;
+        this.getcollection.get('amount').disable();
     }
 
-    // getFormValueByName(formName: string): any {
-    //     return this.salebuy.get(formName).value;
-    // }
+    getFormValueByName(formName: string): any {
+        return this.getcollection.get(formName).value;
+    }
 
     paymentsList() {
         this._paymentmethodsService
@@ -61,22 +69,22 @@ export class GetColectionEditDialogComponent implements OnInit {
             });
     }
 
-    getPaymentTransactiopnList(){
+    getPaymentTransactiopnList() {
 
         const model = {
-            CustomerId :  this.selectedCustomerId.customerId
+            CustomerId: this.selectedCustomerId.customerId
         }
 
         this._customerService
-        .getPaymentTransactionList(model)
-        .subscribe((response) => {
-            this.paymentTransaction = response.data;
-            console.log(this.paymentTransaction);
+            .getPaymentTransactionList(model)
+            .subscribe((response) => {
+                this.paymentTransaction = response.data;
+                console.log(this.paymentTransaction);
 
-        });
+            });
     }
 
-    showSweetAlert(type: string, message: string): void {
+    showSweetAlert(type: string, message: string, alertTYpe: SweetalertType): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate(message),
@@ -88,7 +96,7 @@ export class GetColectionEditDialogComponent implements OnInit {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate(message),
                 this.translate('sweetalert.transactionFailed'),
-                SweetalertType.error
+                alertTYpe
             );
             GeneralService.sweetAlert(sweetAlertDto);
         }
@@ -101,5 +109,72 @@ export class GetColectionEditDialogComponent implements OnInit {
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
+
+    onSelectionChange(event: any) {
+        this.selectedValue = event.value;
+
+        const selectedItem = this.paymentTransaction.find(item => item.id === this.selectedValue);
+        if (selectedItem) {
+            this.selectedItemSellingPrice = selectedItem.sellingPrice;
+            this.selectedVaccineid = selectedItem.vaccineid;
+        }
+
+    }
+
+    addOrUpdateCollection(): void {
+        this.buttonDisabled = true;
+        this.selectedgetcollection ? this.updateCollection() : this.addCollection();
+    }
+
+    addCollection(): void {
+        debugger;
+        if (this.fillSelectedInvoice()) {
+
+            const model = {
+                CustomerId :  this.selectedCustomerId.customerId,
+                CollectionId :  this.getFormValueByName('collectionId'),
+                PaymentType : this.getFormValueByName('paymenttype'),
+                Amount : this.selectedItemSellingPrice > 0 ? this.selectedItemSellingPrice : this.getFormValueByName('amount'),
+                Ratio : this.getFormValueByName('ratio'),
+                EnterAmount : this.getFormValueByName('enterAmount'),
+                Vaccineid : this.selectedVaccineid
+            }
+            this._customerService.createCollection(model).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success', 'sweetalert.success', SweetalertType.success);
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                    } else {
+                        debugger;
+                        this.showSweetAlert('error', response.errors[0], SweetalertType.error);
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+
+        }
+    }
+
+    updateCollection(): void {
+    }
+
+    fillSelectedInvoice(): boolean {
+ 
+        return true;
+    }
+
+    toggleAmountInput(checked: boolean) {
+        if (checked) {
+          this.getcollection.get('amount').enable();  
+          this.ratioVisible = true;
+        } else {
+          this.getcollection.get('amount').disable();
+          this.ratioVisible = false;
+        }
+      }
 
 }

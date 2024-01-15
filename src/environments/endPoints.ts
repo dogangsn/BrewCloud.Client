@@ -35,7 +35,9 @@ export const endPoints = {
         createPatient : 'vet/Customers/CreatePatient',
         deletePatient: 'vet/Customers/DeletePatient',
         getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
-        getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList'
+        getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList',
+        createCollection : 'vet/Customers/CreateCollection',
+        getpaychartList : 'vet/Customers/GetPayChartList'
     },
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
@@ -139,7 +141,9 @@ export const endPoints = {
         deleteappointment : 'vet/Appointment/DeleteAppointment',
         updateappointment : 'vet/Appointment/UpdateAppointmentById',
         getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
-        appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList'
+        appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
+        updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',
+        updateCompletedAppointment : 'vet/Appointment/UpdateCompletedAppointment'
     },
     title: {
         titleDefinationList : 'account/settings/GetTitleDefination',
