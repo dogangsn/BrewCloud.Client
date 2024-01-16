@@ -21,7 +21,7 @@ import { AnimalColorsDefService } from 'app/core/services/definition/animalColor
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
 import { MatStepperModule } from '@angular/material/stepper';
-
+import { v4 as uuidv4 } from 'uuid';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -143,13 +143,22 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         // this.selectedpatients = this.selectedPatientDetailsForm.value;
         if(this.selectedpatients2.length > 0)
         {
+            if(this.counter !== this.selectedpatients2.length)
+            {
+                this.selectedpatients = this.selectedPatientDetailsForm.value;
+                this.selectedpatients.id =  uuidv4();
+                this.patients.push(this.selectedpatients);
+
+            }
             this.selectedpatients2.forEach(element => {
+                element.id =  uuidv4();
                 const state1 : boolean = this.getBoolState()
                 this.patients.push(element);
             });
         }
         else{
             this.selectedpatients = this.selectedPatientDetailsForm.value;
+            this.selectedpatients.id =  uuidv4();
             this.patients.push(this.selectedpatients);
         }
         
@@ -203,7 +212,6 @@ export class CreateEditPatientsDialogComponent implements OnInit {
         // const ss = event.selectedIndex;
         const currentIndex = event.selectedIndex;
         const currentStepForm = this.selectedPatientDetailsForm;
-        
         if( this.selectedpatients2[this.stepIndex] == undefined)
         {
             this.selectedpatients2[this.stepIndex] = currentStepForm.value;
@@ -372,3 +380,4 @@ export const sextype = [
         slug: 'Dişi',
     },
 ];
+
