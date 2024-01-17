@@ -64,5 +64,9 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.getpaychartList, model);
     }
 
+    deletePayChart(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.deletePayChart, model);
+    }
+
 
 }

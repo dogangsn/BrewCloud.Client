@@ -102,4 +102,36 @@ export class PayChartComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
+    public redirectToDelete = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._customerService
+                        .deletePayChart(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getPaymentTransactiopnList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate('sweetalert.transactionSuccessful'),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
+    };
+
 }
