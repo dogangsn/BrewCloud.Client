@@ -38,7 +38,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'name', 'chipNumber', 'birthDate'
+        'name', 'chipNumber', 'birthDate','delete'
     ];
 
     selectedcustomeradd: customersListDto;
@@ -103,7 +103,12 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             this.customergroupList = response.data;
         });
     }
-
+    redirectToDelete(id : string){
+        debugger;
+        this.dataSource.data = this.dataSource.data.filter(x=>x.id !== id);
+        this.patients = this.patients.filter(x=>x.id !== id);
+        // this.dataSource.data.
+    }
     addOrUpdateCustomer(): void {
         this.selectedcustomeradd ? this.updateCustomer() : this.addCustomers();
     }
@@ -271,7 +276,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                     response.data.forEach(item => {
                         this.patients.push(item);
                     });
-                    
+                    debugger;
                     this.dataSource = new MatTableDataSource(this.patients);
                 }
             });
