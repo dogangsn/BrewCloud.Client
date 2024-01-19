@@ -6,4 +6,5 @@ export class PayChartListDto {
     paid: number;
     totalPaid : number;
     total : number;
+    appointmentId: string;
 }

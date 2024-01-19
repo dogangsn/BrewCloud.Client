@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
@@ -9,6 +9,7 @@ import { AppointmentDto } from 'app/modules/admin/appointment/models/appointment
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatTableDataSource } from '@angular/material/table';
+import { AddApponitnmentDialogComponent } from 'app/modules/admin/appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
 
 @Component({
     selector: 'app-appointment-history',
@@ -34,7 +35,8 @@ export class AppointmentHistoryComponent implements OnInit {
         private _dialogRef: MatDialogRef<any>,
         private _translocoService: TranslocoService,
         private _appointmentService: AppointmentService,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private _dialog: MatDialog,
     ) {
         this.selectedCustomerId = data;
     }
@@ -84,6 +86,29 @@ export class AppointmentHistoryComponent implements OnInit {
     }
 
     public redirectToUpdate = (id: string) => {
+        const selectedAppointment = this.appointmentList.find((item) => item.id == id);
+        if(selectedAppointment){
+
+            const model = {
+                visibleCustomer: false,
+                selectedAppointment : selectedAppointment,
+                customerId : this.selectedCustomerId
+            };
+
+            const dialogRef = this._dialog.open(
+                AddApponitnmentDialogComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getAppointmentsByIdList();
+                }
+            });
+        }
     }
 
     public redirectToDelete = (id: string) => {

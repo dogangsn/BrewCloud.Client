@@ -1,6 +1,7 @@
 
 
 export class AppointmentDto {
+    id: string;
     customerId:string;
     doctorId: string;
     note:string;

@@ -340,6 +340,27 @@ export class CustomerDetailsComponent implements OnInit {
     }
 
     public redirectToUpdatePatient = (id: string) => {
+
+        const selectedPatients = this.patientDetails.find((item) => item.recId == id);
+        if(selectedPatients){
+            const model = {
+                customerId: this.selectedCustomerId,
+                selectedpatients: selectedPatients
+            }
+            console.log(model);
+            const dialog = this._dialog
+            .open(CreateEditDetailspatientsComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                     this.getCustomerDetailList();
+                }
+            });
+        }
     }
 
     public redirectToDeletePatient = (id: string) => {

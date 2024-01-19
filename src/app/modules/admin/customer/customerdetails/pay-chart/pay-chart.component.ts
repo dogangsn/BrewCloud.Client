@@ -111,24 +111,28 @@ export class PayChartComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const model = {
-                        id: id,
-                    };
-                    this._customerService
-                        .deletePayChart(model)
-                        .subscribe((response) => {
-                            if (response.isSuccessful) {
-                                this.getPaymentTransactiopnList();
-                                const sweetAlertDto2 = new SweetAlertDto(
-                                    this.translate('sweetalert.success'),
-                                    this.translate('sweetalert.transactionSuccessful'),
-                                    SweetalertType.success
-                                );
-                                GeneralService.sweetAlert(sweetAlertDto2);
-                            } else {
-                                console.error('Silme işlemi başarısız.');
-                            }
-                        });
+                    const selectedPayChart = this.payChartList.find((item) => item.id == id);
+                    if(selectedPayChart) {
+                        const model = {
+                            id: id,
+                            appointmentId: selectedPayChart.appointmentId
+                        };
+                        this._customerService
+                            .deletePayChart(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getPaymentTransactiopnList();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate('sweetalert.transactionSuccessful'),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+                    }
                 }
             }
         );

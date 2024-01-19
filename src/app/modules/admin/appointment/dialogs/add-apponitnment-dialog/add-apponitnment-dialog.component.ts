@@ -48,6 +48,8 @@ export class AddApponitnmentDialogComponent implements OnInit {
     appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
 
+    selectedAppointment: AppointmentDto;
+
     visibleCustomer: boolean;
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
@@ -66,6 +68,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        this.selectedAppointment = data.selectedAppointment;
         this.selectedCustomerId = data.customerId;
         this.visibleCustomer = data.visibleCustomer;
         this.morning8.setHours(8, 0, 0, 0);

@@ -46,7 +46,8 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         private _customerService: CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.selectedCustomerId = data;
+        this.selectedCustomerId = data.customerId;
+        this.selectedpatients = data.selectedpatients
     }
 
     ngOnInit() {
