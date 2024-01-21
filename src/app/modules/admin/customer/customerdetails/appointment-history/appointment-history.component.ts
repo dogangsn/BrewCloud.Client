@@ -95,19 +95,19 @@ export class AppointmentHistoryComponent implements OnInit {
                 customerId : this.selectedCustomerId
             };
 
-            const dialogRef = this._dialog.open(
-                AddApponitnmentDialogComponent,
-                {
-                    maxWidth: '100vw !important',
-                    disableClose: true,
-                    data: model
-                }
-            );
-            dialogRef.afterClosed().subscribe((response) => {
-                if (response.status) {
-                    this.getAppointmentsByIdList();
-                }
-            });
+            // const dialogRef = this._dialog.open(
+            //     AddApponitnmentDialogComponent,
+            //     {
+            //         maxWidth: '100vw !important',
+            //         disableClose: true,
+            //         data: model
+            //     }
+            // );
+            // dialogRef.afterClosed().subscribe((response) => {
+            //     if (response.status) {
+            //         this.getAppointmentsByIdList();
+            //     }
+            // });
         }
     }
 
@@ -155,7 +155,7 @@ export class AppointmentHistoryComponent implements OnInit {
     }
 
     toggleCompleted(item: any): void {
-
+        debugger;
         const model = {
             id :  item.id,
             isCompleted : item.isComplated

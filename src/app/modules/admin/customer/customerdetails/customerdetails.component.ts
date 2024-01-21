@@ -219,6 +219,7 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
+            visibleCustomer : false
         }
 
         const dialog = this._dialog

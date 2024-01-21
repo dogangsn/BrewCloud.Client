@@ -104,6 +104,8 @@ export class AddApponitnmentDialogComponent implements OnInit {
             productId: '00000000-0000-0000-0000-000000000000',
         };
         this.addVaccineList.push(model);
+
+        this.fillFormData(this.selectedAppointment);
     }
 
     getProductList() {
@@ -154,7 +156,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
                         this.getFormValueByName('doctorId'),
-                        (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId.customerId),
+                        (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
                         this.getFormValueByName('note'),
                         this.getFormValueByName('appointmentType'),
                         this.addVaccineList
@@ -255,6 +257,17 @@ export class AddApponitnmentDialogComponent implements OnInit {
             this.addVaccineList.splice(selectedvaccine, 1);
         }
     }
+
+    fillFormData(selectedAppointments: AppointmentDto) {
+        
+        if (this.selectedAppointment !== null) {
+            this.appointmentAdd.setValue({
+               
+            });
+        }
+    }
+
+
 }
 
 const appointments: AppointmentTypeDto[] = [
