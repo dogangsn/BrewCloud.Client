@@ -10,6 +10,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddApponitnmentDialogComponent } from 'app/modules/admin/appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { EditAppointmentComponent } from './dialogs/edit-appointment.component';
 
 @Component({
     selector: 'app-appointment-history',
@@ -95,19 +96,19 @@ export class AppointmentHistoryComponent implements OnInit {
                 customerId : this.selectedCustomerId
             };
 
-            // const dialogRef = this._dialog.open(
-            //     AddApponitnmentDialogComponent,
-            //     {
-            //         maxWidth: '100vw !important',
-            //         disableClose: true,
-            //         data: model
-            //     }
-            // );
-            // dialogRef.afterClosed().subscribe((response) => {
-            //     if (response.status) {
-            //         this.getAppointmentsByIdList();
-            //     }
-            // });
+            const dialogRef = this._dialog.open(
+                EditAppointmentComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getAppointmentsByIdList();
+                }
+            });
         }
     }
 
@@ -155,7 +156,13 @@ export class AppointmentHistoryComponent implements OnInit {
     }
 
     toggleCompleted(item: any): void {
-        debugger;
+        
+        if(item.isComplated){
+            item.isComplated = false;
+        }else{
+            item.isComplated = true;
+        }
+
         const model = {
             id :  item.id,
             isCompleted : item.isComplated

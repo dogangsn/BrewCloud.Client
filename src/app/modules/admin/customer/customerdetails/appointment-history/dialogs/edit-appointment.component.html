@@ -1,0 +1,32 @@
+<h1 mat-dialog-title class="mat-dialog-title">
+    <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
+        <span class="material-icons"> highlight_off </span>
+    </button>
+</h1>
+
+<div class="modalForm">
+    <mat-dialog-content>
+        <div class="modal-header">
+            <h5 class="modal-title">
+                <span>Randevu Güncelle</span>
+            </h5>
+        </div>
+        <div class="modal-body mbody-customeradd">
+            <div class="qm-pr-content">
+                <div class="container-fluid" [formGroup]="appointmentEdit">
+
+                    <div class="flex float: left gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pl-3">
+                          <mat-label>Randevu Tipi</mat-label>
+                          <mat-select [placeholder]="'Randevu Tipi'" [formControlName]="'appointmentType'" name="doctor" (selectionChange)="onAppointmentTypeChange($event)">
+                            <mat-option *ngFor="let item of appointmentsList" [value]="item.id">{{item.remark}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
