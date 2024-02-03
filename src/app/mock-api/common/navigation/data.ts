@@ -113,6 +113,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         
     },
     {
+        id   : 'filemanager',
+        title: 'Dosya Yöneticisi',
+        type : 'basic',
+        icon : 'heroicons_outline:cloud',
+        link : '/filemanager'
+    },
+    {
         id   : 'demands',
         title: 'Alım Talep',
         type : 'basic',
@@ -201,6 +208,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:cash',
                 link : '/paymentmethods'
+            },
+            {
+                id   : 'smstemplate',
+                title: 'Sms Şablonları',
+                type : 'basic',
+                icon : 'heroicons_outline:cash',
+                link : '/smstemplate'
             },
 
         ]

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { AppointmentDto } from "app/modules/admin/appointment/models/appointmentDto";
 import { CreateAppointmentCommand } from "app/modules/admin/appointment/models/createAppointmentCommand";
+import { UpdateAppointmentCommand } from "app/modules/admin/customer/customerdetails/appointment-history/models/UpdateAppointmentCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -24,7 +25,7 @@ export class AppointmentService {
         return this._httpService.post(endPoints.appointments.deleteappointment, model);
     }
 
-    updateAppointmentById(model: AppointmentDto): Observable<any> {
+    updateAppointment(model: UpdateAppointmentCommand): Observable<any> {
         return this._httpService.post(endPoints.appointments.updateappointment, model);
     }
     

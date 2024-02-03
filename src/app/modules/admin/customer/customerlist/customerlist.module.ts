@@ -38,6 +38,7 @@ import { ColectionTransactionsDialogComponent } from '../customerdetails/collect
 import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.component';
 import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/appointment-history/dialogs/edit-appointment.component';
+import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
 
 const root: Route[] = [
     {
@@ -106,6 +107,8 @@ const root: Route[] = [
         MatTooltipModule,
         NgApexchartsModule,
         MatStepperModule,
+        DxDateBoxModule,
+        DxCheckBoxModule,
         RouterModule.forChild(root),
     ],
     declarations: [

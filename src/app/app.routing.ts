@@ -215,6 +215,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'filemanager',
+                loadChildren: () =>
+                    import('app/modules/admin/file-manager/file-manager.module').then(
+                        (m) => m.FileManagerModule
+                    ),
+            },
+            {
                 path: 'demands',
                 loadChildren: () =>
                     import('app/modules/admin/demands/demands.module').then(

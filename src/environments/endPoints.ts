@@ -133,6 +133,7 @@ export const endPoints = {
     parameters : {
         parametersList : 'vet/Settings/ParametersList',
         updateparameters : 'vet/Settings/UpdateParameters',
+        createsmsparameters: 'vet/Settings/CreateSmsParameters'
     },
     chat:{
         getAllUsers: 'chat/Account/GetAllUsers'
@@ -141,7 +142,7 @@ export const endPoints = {
         appointmensList : 'vet/Appointment/AppointmentsList',
         createappointment : 'vet/Appointment/CreateAppointment',
         deleteappointment : 'vet/Appointment/DeleteAppointment',
-        updateappointment : 'vet/Appointment/UpdateAppointmentById',
+        updateappointment : 'vet/Appointment/UpdateAppointment',
         getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
         appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
         updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',

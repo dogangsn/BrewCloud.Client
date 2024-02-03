@@ -10,7 +10,7 @@ export class AppointmentDto {
     appointmentType: number;
     text: string;
     isComplated: boolean;
-
+    vaccineId: string;
     // constructor(
     //     customerId:string,
     //     doctorId: string,

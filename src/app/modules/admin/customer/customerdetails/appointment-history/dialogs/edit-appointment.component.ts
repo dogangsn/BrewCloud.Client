@@ -10,6 +10,10 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { AppointmentTypeDto } from 'app/modules/admin/appointment/models/appointmentTypeDto';
 import { AppointmentDto } from 'app/modules/admin/appointment/models/appointmentDto';
+import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdescription/models/ProductDescriptionsDto';
+import { UpdateAppointmentCommand } from '../models/UpdateAppointmentCommand';
+import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 
 @Component({
     selector: 'app-edit-appointment.component',
@@ -20,13 +24,20 @@ export class EditAppointmentComponent implements OnInit {
     appointmentEdit: FormGroup;
     appointmentsList: AppointmentTypeDto[] = [];
     selectedCustomerId: any;
-    selectedAppointment : AppointmentDto;
+    selectedAppointment: AppointmentDto;
     selectedAppointmentType: number;
+    productdescription: ProductDescriptionsDto[] = [];
+    
+    lastSelectedValue: Date = new Date();
+    now: Date = new Date();
+    visibleVaccine: boolean;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
+        private _productdescriptionService: ProductDescriptionService,
+        private _appointmentService: AppointmentService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         console.log(data);
@@ -35,19 +46,32 @@ export class EditAppointmentComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getProductList();
+
         this.appointmentsList = appointments;
 
         this.appointmentEdit = this._formBuilder.group({
             appointmentType: [2, Validators.required],
+            note : [''],
+            vaccineId : ['']
         });
 
         this.fillFormData(this.selectedAppointment);
+
+        if(this.selectedAppointment.vaccineId == '00000000-0000-0000-0000-000000000000'){
+            this.visibleVaccine = false;
+        }else{
+            this.visibleVaccine = true;
+        }
+
     }
 
     fillFormData(selected: AppointmentDto) {
         if (this.selectedAppointment !== null) {
             this.appointmentEdit.setValue({
-                appointmentType : selected.appointmentType
+                appointmentType: selected.appointmentType,
+                note: selected.note,
+                vaccineId: selected.vaccineId
             });
         }
     }
@@ -80,6 +104,68 @@ export class EditAppointmentComponent implements OnInit {
 
     onAppointmentTypeChange(event: any) {
         this.selectedAppointmentType = event.value;
+    }
+
+    handleValueChangeList(event: any) {
+        this.lastSelectedValue = event.value;
+    }
+
+    getProductList() {
+        const model = {
+            ProductType: 2,
+        };
+        this._productdescriptionService
+            .getProductDescriptionFilters(model)
+            .subscribe((response) => {
+                this.productdescription = response.data;
+                console.log(this.productdescription);
+            });
+    }
+
+    UpdateAppointment(): void {
+        debugger;
+
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.apponitnmentAreSure'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const item = new UpdateAppointmentCommand(
+                        this.selectedAppointment.id,
+                        this.lastSelectedValue,
+                        this.selectedCustomerId,
+                        this.getFormValueByName('note'),
+                        this.getFormValueByName('appointmentType'),
+                        this.selectedAppointment.vaccineId 
+                    );
+
+                    this._appointmentService.updateAppointment(item).subscribe(
+                        (response) => {
+                            debugger;
+
+                            if (response.isSuccessful) {
+                                this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
+                                this._dialogRef.close({
+                                    status: true,
+                                });
+                            } else {
+                                this.showSweetAlert('error', 'sweetalert.transactionFailed');
+                            }
+                        },
+                        (err) => {
+                            console.log(err);
+                        }
+                    );
+                }
+            }
+        );
+    }
+
+    getFormValueByName(formName: string): any {
+        return this.appointmentEdit.get(formName).value;
     }
 
 }

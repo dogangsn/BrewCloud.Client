@@ -36,7 +36,7 @@ export interface PatientDetails {
     name: string;
     birthDate: Date | null;
     chipNumber: string | null;
-    sex: string;
+    sex: number;
     animalType: number;
     animalBreed: number;
     animalColor: number;

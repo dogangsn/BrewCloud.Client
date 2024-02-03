@@ -56,14 +56,13 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         this.getAnimalBreedsDefList();
         this.sextype = sextype;
 
+        console.log(this.selectedpatients)
         this.selectedPatientDetailsForm = this._formBuilder.group({
-            id: [''],
             name: ['', [Validators.required]],
             birthDate: [new Date(), [Validators.required]],
             chipNumber: [''],
-            sex: ['', [Validators.required]],
+            sex: [1, [Validators.required]],
             animalType: ['', [Validators.required]],
-            animalBreed: ['', [Validators.required]],
             animalColor: [''],
             reportNumber: [''],
             specialNote: [''],
@@ -71,12 +70,26 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             images: [[]],
             active: [false],
         });
+        
+        this.fillFormData(this.selectedpatients);
+    }
 
-        // this.selectedPatientDetailsForm.valueChanges.subscribe(
-        //     (selectedVendor) => {
-        //         this.filterTagsByVendor(selectedVendor);
-        //     }
-        // );
+    fillFormData(selected: PatientDetails) {
+        if (this.selectedpatients !== null) {
+            this.selectedPatientDetailsForm.setValue({
+                name : selected.name,
+                birthDate : selected.birthDate,
+                chipNumber: selected.chipNumber,
+                sex: selected.sex,
+                animalType: selected.animalType,
+                animalColor: selected.animalColor,
+                reportNumber: selected.reportNumber,
+                specialNote: selected.specialNote,
+                sterilization: selected.sterilization,
+                active: selected.active,
+                images: selected.images ?? []
+            });
+        }
     }
 
     getAnimalColorsDefList() {
