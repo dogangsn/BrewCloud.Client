@@ -43,6 +43,8 @@ export class CustomerDetailsComponent implements OnInit {
     totalVisitCount: number;
     totalEarnings: number;
 
+    loader = true;
+
     constructor(
         private route: ActivatedRoute,
         private _router: Router,
@@ -81,10 +83,10 @@ export class CustomerDetailsComponent implements OnInit {
 
     // getUserAvatarUrl(): string {
     //     const initials = this.userFirstName.charAt(0) + this.userLastName.charAt(0);
-    //     // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
+        // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
     //     // Örneğin: return 'https://example.com/api/getUserAvatar?initials=' + initials;
     
-    //     // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
+        // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
     //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
     //   }
 
@@ -172,6 +174,7 @@ export class CustomerDetailsComponent implements OnInit {
             else {
                 this.showSweetAlert('error');
             }
+            this.loader = false;
         });
     }
 

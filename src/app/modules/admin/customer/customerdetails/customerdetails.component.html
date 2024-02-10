@@ -61,21 +61,20 @@
         </div>
         <div class="my-10 border-t"></div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+        <div role="status" class="animate-pulse grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="loader">
+            <div class="flex items-center justify-center h-36 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+            <div class="flex items-center justify-center h-36 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+            <div class="flex items-center justify-center h-36 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+            <div class="flex items-center justify-center h-36 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="!loader">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Yapılan Satış
                         </div>
-                        <!-- <div class="ml-2 -mt-2 -mr-3">
-                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                            </button>
-                            <mat-menu #summaryMenu="matMenu">
-                                <button mat-menu-item>Yesterday</button>
-                            </mat-menu>
-                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
@@ -84,20 +83,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Ziyaret Sayısı
                         </div>
-                        <!-- <div class="ml-2 -mt-2 -mr-3">
-                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                            </button>
-                            <mat-menu #summaryMenu="matMenu">
-                                <button mat-menu-item>Yesterday</button>
-                            </mat-menu>
-                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
@@ -106,20 +97,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Toplam Kazanç
                         </div>
-                        <!-- <div class="ml-2 -mt-2 -mr-3">
-                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                            </button>
-                            <mat-menu #summaryMenu="matMenu">
-                                <button mat-menu-item>Yesterday</button>
-                            </mat-menu>
-                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
@@ -128,20 +111,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-medium tracking-tight leading-6 truncate">
                             Gönderilen Mesaj Sayısı
                         </div>
-                        <!-- <div class="ml-2 -mt-2 -mr-3">
-                            <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
-                                <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                            </button>
-                            <mat-menu #summaryMenu="matMenu">
-                                <button mat-menu-item>Yesterday</button>
-                            </mat-menu>
-                        </div> -->
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">
@@ -154,8 +129,12 @@
 
         <br />
 
+        <div role="status" class="animate-pulse grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0" *ngIf="loader">
+            <div class="flex items-center justify-center h-192 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+            <div class="flex items-center justify-center h-192 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700"></div>
+        </div>
 
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap" *ngIf="!loader">
             <div class="w-full md:w-6/12 p-2">
 
                 <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden z-50"
@@ -167,16 +146,6 @@
                         {{this.lastname}}</h1>
                     <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
                 </div>
-
-                <!-- <div class="flex flex-row flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden z-50"
-                    style="justify-content: space-between; margin-bottom: 3px; position: absolute; width: 38%; margin-left: 4rem;">
-
-                    <img class="w-32 h-32 rounded-full ring-4 ring-bg-card" src="assets/images/avatars/noimage.jpg"
-                        alt="User avatar" />
-                    <h1 style="font-size: 40px; padding-top: 50px; padding-left: 25px;">{{this.firstname}}
-                        {{this.lastname}}</h1>
-                    <h1 style="padding-top: 110px;">Bakiye: 0,00 TL</h1>
-                </div> -->
                 <div class="flex-auto p-6 sm:p-10 rounded-t-2xl shadow bg-card overflow-hidden"
                     style="margin-top: 5rem;" [formGroup]="customerDetailForm">
                     <div style="margin-top: 5rem;">
@@ -290,119 +259,11 @@
                 </div>
             </div>
 
-
-            <!-- <div class="w-full md:w-6/12 p-2">
-                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                    <div class="flex flex-col flex-auto items-center p-6 sm:p-10" style="padding: 0 !important;">
-    
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full min-w-0">
-                            <ng-container *ngFor="let patient of patientDetails">
-                                <div
-                                    class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
-              
-                                    <div class="flex flex-col flex-auto w-full p-8 text-center">
-                                        <div class="w-24 h-24 mx-auto rounded-full overflow-hidden">
-                                            <img class="w-full h-full object-cover"
-                                                src="assets/images/avatars/noimage.jpg">
-                                        </div>
-                                        <div class="mt-6 font-medium">Hasta Adı : {{patient.name}}</div>
-                                        <div class="font-medium"> Hasta Tipi : {{patient.animalType}}</div>
-                                        <div class="font-medium"> Hasta Cinsi : {{patient.breedType}}</div>
-                                        <div class="font-medium"> Hasta Rengi : {{patient.animalColor}}</div>
-                                        <div class="font-medium"> Hasta Cinsiyeti : {{patient.sex}}</div>
-                                        <div class="font-medium"> Hasta Doğumgünü: {{patient.birthDate}}</div>
-                                        <div class="font-medium"> Hasta Çip No : {{patient.chipNumber}}</div>
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
-                            <ng-container *ngFor="let board of boards; trackBy: trackByFn">
-                                <a class="flex flex-col items-start w-56 p-6 rounded-lg shadow bg-card rounded-lg hover:shadow-xl transition-shadow duration-150 ease-in-out"
-                                    [routerLink]="[board.id]">
-                                    <div
-                                        class="flex items-center justify-center p-4 rounded-full bg-primary-50 text-primary-700 dark:bg-primary dark:text-on-primary">
-                                        <mat-icon class="text-current" [svgIcon]="board.icon"></mat-icon>
-                                    </div>
-                               
-                                    <div class="mt-5 text-lg font-medium leading-5">
-                                        {{ board.title }}
-                                    </div>
-                             
-                                    <div class="mt-0.5 line-clamp-2 text-secondary">
-                                        {{ board.description }}
-                                    </div>
-                             
-                                    <ng-container *ngIf="board.members?.length">
-                                        <div class="w-12 h-1 mt-6 border-t-2"></div>
-                                        <div class="flex items-center mt-6 -space-x-1.5">
-                                            <ng-container *ngFor="
-                                                    let member of board.members.slice(
-                                                        0,
-                                                        5
-                                                    );
-                                                    trackBy: trackByFn
-                                                ">
-                                                <img class="flex-0 w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent object-cover"
-                                                    [src]="member.avatar" alt="Member avatar" />
-                                            </ng-container>
-                                            <ng-container *ngIf="board.members.length > 5">
-                                                <div
-                                                    class="flex flex-0 items-center justify-center w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent bg-gray-200 text-gray-500">
-                                                    <div class="text-md font-semibold">
-                                                        +{{
-                                                        board.members.slice(
-                                                        5
-                                                        ).length
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </ng-container>
-                                        </div>
-                                    </ng-container>
-                     
-                                    <div class="flex items-center mt-4 text-md font-md">
-                                        <div class="text-secondary">
-                                            Edited:
-                                        </div>
-                                        <div class="ml-1">
-                                            {{
-                                            formatDateAsRelative(
-                                            board.lastActivity
-                                            )
-                                            }}
-                                        </div>
-                                    </div>
-                                </a>
-                            </ng-container>
-                   
-                            <div
-                                class="flex flex-col items-center justify-center w-56 rounded-lg cursor-pointer border-2 border-gray-300 border-dashed hover:bg-hover transition-colors duration-150 ease-in-out">
-                                <mat-icon class="icon-size-12 text-hint"
-                                    [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
             <div class="w-full md:w-6/12 lg:w-6/12 p-2">
                 <div class="flex flex-wrap gap-4 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
                     style="justify-content: space-between;">
                     <fuse-card class="flex flex-col max-w-80 w-full p-8 pb-4 filter-article"
                         *ngFor="let patient of patientDetails">
-                        <!-- <div class="flex items-start justify-between">
-                            <div class="ml-2 -mt-2 -mr-3">
-                                <button mat-icon-button [matMenuTriggerFor]="summaryMenu">
-                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
-                                </button>
-                                <mat-menu #summaryMenu="matMenu">
-                                    <button mat-menu-item>Yesterday</button>
-                                </mat-menu>
-                            </div>
-                        </div> -->
                         <div class="flex items-center">
                             <img class="w-20 rounded-lg object-cover" src="assets/images/avatars/noimage.jpg"
                                 alt="Card cover image">
@@ -423,7 +284,6 @@
                                         style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
                                         {{patient.chipNumber}}
                                     </div>
-                                    <!-- Ortadaki çizgi için ::after seçici kullanılıyor -->
                                     <div
                                         style="content: ''; position: absolute; height: 100%; width: 1px; background-color: black; right: 0;">
                                     </div>
