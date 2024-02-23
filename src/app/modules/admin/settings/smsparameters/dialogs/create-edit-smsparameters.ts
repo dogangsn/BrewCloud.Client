@@ -29,12 +29,13 @@ export class CreateEditSmsParameterDialogComponent implements OnInit {
         private _parametersService: ParametersService,
     ) 
     {
+        this.selectedsmsparameters = data.selectedsmsparameters;
         this.smsintegrationtype = data.smsparameterstype;
     }
 
     ngOnInit(): void {
 
-
+        
         this.smsparameters = this._formBuilder.group({
             active: [true],
             username : ['', Validators.required],
@@ -48,6 +49,8 @@ export class CreateEditSmsParameterDialogComponent implements OnInit {
         if (this.selectedsmsparameters !== null && this.selectedsmsparameters !== undefined) {
             this.smsparameters.setValue({
                 active: selected.active,
+                username: selected.userName,
+                password: selected.password
             });
         }
     }

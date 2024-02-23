@@ -5,6 +5,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CreateEditSmsParameterDialogComponent } from './dialogs/create-edit-smsparameters';
+import { ParametersService } from 'app/core/services/settings/parameters.service';
+import { SmsParametersDto } from './models/smsParameterDto';
 
 @Component({
   selector: 'app-smsparameters',
@@ -13,9 +15,12 @@ import { CreateEditSmsParameterDialogComponent } from './dialogs/create-edit-sms
 })
 export class SmsparametersComponent implements OnInit {
 
+  selectedsmsparameters: SmsParametersDto;
+
   constructor(
     private _dialog: MatDialog,
-    private _translocoService: TranslocoService
+    private _translocoService: TranslocoService,
+    private _parametersService: ParametersService,
   ) {
 
   }
@@ -26,8 +31,25 @@ export class SmsparametersComponent implements OnInit {
 
   updatesms(type: number): void {
 
+    const item = {
+      smsIntegrationType: type
+    };
+    this._parametersService.getSmsParametersIdBy(item).subscribe(
+      (response) => {
+        if (response.isSuccessful) {
+          this.selectedsmsparameters = response.data;
+        } else {
+          this.showSweetAlert('error');
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     const model = {
-        smsparameterstype: type
+      smsparameterstype: type,
+      selectedsmsparameters : this.selectedsmsparameters
     }
     const dialog = this._dialog
       .open(CreateEditSmsParameterDialogComponent, {
@@ -38,7 +60,7 @@ export class SmsparametersComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-           
+
         }
       });
   }

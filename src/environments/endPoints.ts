@@ -133,7 +133,8 @@ export const endPoints = {
     parameters : {
         parametersList : 'vet/Settings/ParametersList',
         updateparameters : 'vet/Settings/UpdateParameters',
-        createsmsparameters: 'vet/Settings/CreateSmsParameters'
+        createsmsparameters: 'vet/Settings/CreateSmsParameters',
+        getSmsParametersIdBy : 'vet/Settings/GetSmsParametersIdBy'
     },
     chat:{
         getAllUsers: 'chat/Account/GetAllUsers'
