@@ -300,6 +300,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'appointmenttypes',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/appointmenttypes/appointmenttypes.module').then(
+                        (m) => m.AppointmenttypesModule
+                    ),
+            },
+            {
                 path: 'productcategory',
                 loadChildren: () =>
                     import('app/modules/admin/definition/productcategory/productcategory.module').then(
@@ -318,6 +325,13 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/definition/customergroup/customergroup.module').then(
                         (m) => m.CustomergroupModule
+                    ),
+            },
+            {
+                path: 'smstemplate',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/smstemplate/smstemplate.module').then(
+                        (m) => m.SmstemplateModule
                     ),
             },
             {

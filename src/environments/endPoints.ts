@@ -47,6 +47,7 @@ export const endPoints = {
         updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
         deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
         productDescriptionFilters: 'vet/Definition/ProductDescriptionFilters',
+        productMovementList : 'vet/Definition/ProductMovementList'
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
@@ -134,6 +135,7 @@ export const endPoints = {
         parametersList : 'vet/Settings/ParametersList',
         updateparameters : 'vet/Settings/UpdateParameters',
         createsmsparameters: 'vet/Settings/CreateSmsParameters',
+        updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
         getSmsParametersIdBy : 'vet/Settings/GetSmsParametersIdBy'
     },
     chat:{

@@ -9,6 +9,7 @@ import { StoreService } from 'app/core/services/store/store.service';
 import { SmsParametersDto } from '../models/smsParameterDto';
 import { ParametersService } from 'app/core/services/settings/parameters.service';
 import { CreateSmsParametersCommand } from '../models/createSmsParametersCommand';
+import { UpdateSmsParametersCommand } from '../models/updateSmsParametersCommand';
 
 @Component({
     selector: 'app-create-edit-smsparameters',
@@ -95,30 +96,31 @@ export class CreateEditSmsParameterDialogComponent implements OnInit {
     }
 
     updatesmsparameter(): void {
-        // const storeItem = new UpdateStoreCommand(
-        //     this.selectedstore.id,
-        //     this.getFormValueByName('depotCode'),
-        //     this.getFormValueByName('depotName'),
-        //     this.getFormValueByName('active')
-        // );
+        const item = new UpdateSmsParametersCommand(
+            this.selectedsmsparameters.id,
+            this.getFormValueByName('active'),
+            this.getFormValueByName('username'),
+            this.getFormValueByName('password'),
+            this.smsintegrationtype
+        );
 
-        // this._storeservice.updateStores(storeItem).subscribe(
-        //     (response) => {
-        //         debugger;
+        this._parametersService.updateSmsParameters(item).subscribe(
+            (response) => {
+                debugger;
 
-        //         if (response.isSuccessful) {
-        //             this.showSweetAlert('success');
-        //             this._dialogRef.close({
-        //                 status: true,
-        //             });
-        //         } else {
-        //             this.showSweetAlert('error');
-        //         }
-        //     },
-        //     (err) => {
-        //         console.log(err);
-        //     }
-        // );
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     getFormValueByName(formName: string): any {

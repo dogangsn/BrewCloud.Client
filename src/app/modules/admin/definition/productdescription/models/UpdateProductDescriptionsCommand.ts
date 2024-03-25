@@ -18,6 +18,7 @@ export class UpdateProductDescriptionsCommand{
     isExpirationDate : boolean;
     animalType: number;
     numberRepetitions: number;
+    storeId : string;
 
     constructor(
         Id:string,
@@ -38,7 +39,8 @@ export class UpdateProductDescriptionsCommand{
         fixPrice:boolean,
         isExpirationDate : boolean,
         animalType: number,
-        numberRepetitions: number
+        numberRepetitions: number,
+        storeId : string
     ){
         this.Id = Id;
         this.name = name;
@@ -59,7 +61,7 @@ export class UpdateProductDescriptionsCommand{
         this.isExpirationDate = isExpirationDate;
         this.animalType = animalType;
         this.numberRepetitions = numberRepetitions;
-
+        this.storeId = storeId;
 
     }
 }

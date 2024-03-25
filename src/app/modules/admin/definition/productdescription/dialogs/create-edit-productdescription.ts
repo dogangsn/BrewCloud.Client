@@ -26,6 +26,8 @@ import { ProductType } from 'app/modules/bases/enums/producttype.enum';
 import { CustomNumericValidator } from 'app/modules/bases/CustomNumericValidator';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from 'app/modules/admin/customer/models/VetVetAnimalsTypeListDto';
+import { StoreService } from 'app/core/services/store/store.service';
+import { StoreListDto } from 'app/modules/admin/store/models/StoreListDto';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -46,6 +48,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     mapproducttype: { name: string; id: number }[] = [];
     isInvalidPrice: boolean;
     buttonDisabled = false;
+    storeList: StoreListDto[] = [];
+    
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -55,6 +59,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         private _productcategoryservice: ProductCategoryService,
         private _suppliersService: SuppliersService,
         private _customerService: CustomerService,
+        private _storeservice: StoreService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.producttype = data.producttype;
@@ -72,6 +77,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         this.UnitsList();
         this.ProductCategoryList();
         this.getSuppliers();
+        this.getStoreList();
 
         if(this.visibleProductType){
             this.getAnimalTypesList();
@@ -96,6 +102,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             isExpirationDate: [false],
             animalType: [],
             numberRepetitions: [],
+            storeid: ['00000000-0000-0000-0000-000000000000', Validators.required]
         });
         this.fillFormData(this.selectedProductdescription);
     }
@@ -123,6 +130,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         });
     }
 
+    getStoreList() {
+        this._storeservice.getStoreList().subscribe((response) => {
+            this.storeList = response.data;
+        });
+    }
+
     fillFormData(selectedproductdesf: ProductDescriptionsDto) {
         debugger;
         if (this.selectedProductdescription !== null) {
@@ -144,7 +157,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 fixPrice: selectedproductdesf.fixPrice,
                 isExpirationDate: selectedproductdesf.isExpirationDate,
                 animalType: selectedproductdesf.animalType,
-                numberRepetitions: selectedproductdesf.numberRepetitions
+                numberRepetitions: selectedproductdesf.numberRepetitions,
+                storeid : selectedproductdesf.storeId
             });
         }
     }
@@ -179,10 +193,12 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('fixPrice'),
             this.getFormValueByName('isExpirationDate'),
             this.getFormValueByName('animalType'),
-            this.getFormValueByName('numberRepetitions')
+            this.getFormValueByName('numberRepetitions'),
+            this.getFormValueByName('storeid'),
         );
 
         if (this.validateControl(ProductDefItem)) {
+            this.buttonDisabled = false;
             return;
         }
 
@@ -233,7 +249,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('fixPrice'),
             this.getFormValueByName('isExpirationDate'),
             this.getFormValueByName('animalType'),
-            this.getFormValueByName('numberRepetitions')
+            this.getFormValueByName('numberRepetitions'),
+            this.getFormValueByName('storeid'),
         );
 
         this._productDefService.updateProductDescription(storeItem).subscribe(
@@ -288,6 +305,9 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     validateControl(model: any): boolean {
+
+        debugger;
+
         if (model.buyingPrice <= 0) {
             this.showSweetAlert(
                 'error',
@@ -307,6 +327,10 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 'error',
                 'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.'
             );
+            return true;
+        }
+        if(model.storeId == null || model.storeId == undefined || model.storeId == '00000000-0000-0000-0000-000000000000'){
+            this.showSweetAlert("error", 'Depo Seçimi Zorunludur.');
             return true;
         }
 

@@ -155,7 +155,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 if (swalResponse.isConfirmed) {
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
-                        this.getFormValueByName('doctorId'),
+                        ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('doctorId')) ,
                         (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
                         this.getFormValueByName('note'),
                         this.getFormValueByName('appointmentType'),

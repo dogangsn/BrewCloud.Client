@@ -189,6 +189,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/unitdefinition'
             },
             {
+                id: "appointmenttypes",
+                title: "Randevu Tipleri",
+                type: "basic",
+                icon: "heroicons_outline:queue-list",
+                link: "/appointmenttypes"
+            },
+            {
                 id   : 'customergroup',
                 title: 'Müşteri Grubu',
                 type : 'basic',
@@ -210,12 +217,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/paymentmethods'
             },
             {
-                id   : 'smstemplate',
-                title: 'Sms Şablonları',
-                type : 'basic',
-                icon : 'heroicons_outline:cash',
-                link : '/smstemplate'
-            },
+                id   : "smstemplate",
+                title: "Sms Şablonları",
+                type: "basic",
+                icon: "heroicons_outline:chat-bubble-left",
+                link: "/smstemplate"
+            }
+
 
         ]
         

@@ -95,6 +95,21 @@
                             <input [formControlName]="'criticalAmount'" matInput>
                         </mat-form-field>
                     </div>
+                    <div class="float : left flex  gt-xs:flex-row">
+                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                            <mat-label>Depo</mat-label>
+                            <mat-select [formControlName]="'storeid'"  [placeholder]="'Depo'" 
+                                name="storename">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let store of storeList"
+                                    [value]="store.id">{{store.depotName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+
+
                     <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleProductType">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tür</mat-label>

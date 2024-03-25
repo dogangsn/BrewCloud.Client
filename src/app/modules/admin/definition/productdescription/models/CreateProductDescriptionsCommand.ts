@@ -17,6 +17,7 @@ export class CreateProductDescriptionsCommand {
     isExpirationDate : boolean;
     animalType: number;
     numberRepetitions: number;
+    storeId : string;
 
     constructor(
         name:string,
@@ -36,7 +37,8 @@ export class CreateProductDescriptionsCommand {
         fixPrice:boolean,
         isExpirationDate : boolean,
         animalType: number,
-        numberRepetitions: number
+        numberRepetitions: number,
+        storeId : string
     ){
         this.name = name;
         this.unitId = unitId;
@@ -56,6 +58,7 @@ export class CreateProductDescriptionsCommand {
         this.isExpirationDate = isExpirationDate;
         this.animalType = animalType;
         this.numberRepetitions = numberRepetitions;
+        this.storeId = storeId;
 
     }
 

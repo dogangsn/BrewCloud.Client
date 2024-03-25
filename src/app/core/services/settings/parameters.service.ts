@@ -13,6 +13,7 @@ import { UpdateParametersCommand } from "app/modules/admin/settings/parameters/m
 
 import { UpdateDemandProductsCommand } from "app/modules/admin/demands/demand1/models/UpdateDemandProductsCommand";
 import { CreateSmsParametersCommand } from "app/modules/admin/settings/smsparameters/models/createSmsParametersCommand";
+import { UpdateSmsParametersCommand } from "app/modules/admin/settings/smsparameters/models/updateSmsParametersCommand";
 @Injectable({
     providedIn: 'root'
 })
@@ -23,6 +24,7 @@ export class ParametersService {
     getparameterList() : Observable<any>{
         return this._httpService.getRequest(endPoints.parameters.parametersList);
     }
+
     updateParameters(model: UpdateParametersCommand): Observable<any> {
         return this._httpService.post(endPoints.parameters.updateparameters, model);
     }
@@ -30,6 +32,11 @@ export class ParametersService {
     createSmsParameters(model: CreateSmsParametersCommand): Observable<any> {
         return this._httpService.post(endPoints.parameters.createsmsparameters, model);
     }
+
+    updateSmsParameters(model: UpdateSmsParametersCommand): Observable<any> {
+        return this._httpService.post(endPoints.parameters.updatesmsparameters, model);
+    }
+    
 
     getSmsParametersIdBy(model: any): Observable<any> {
         return this._httpService.post(endPoints.parameters.getSmsParametersIdBy, model);
