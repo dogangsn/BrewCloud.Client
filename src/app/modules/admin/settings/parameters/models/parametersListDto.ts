@@ -14,4 +14,5 @@ export class parametersListDto {
     displayVetNo: boolean ;
     autoSms: boolean ;
     isAnimalsBreeds: boolean;
+    isFirstInspection: boolean;
 }

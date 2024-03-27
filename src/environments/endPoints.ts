@@ -172,5 +172,8 @@ export const endPoints = {
         getGraphicList : 'vet/Clinicalstatistics/GetGraphicList',
         getweekVisitList : 'vet/Clinicalstatistics/WeekVisitList',
         getbagelSliceGraphList: 'vet/Clinicalstatistics/BagelSliceGraphList'
+    },
+    appointmenttypes: {
+        getAppointmentTypes : ''
     }
 }

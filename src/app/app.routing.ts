@@ -307,6 +307,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'taxes',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/taxes/taxes.module').then(
+                        (m) => m.TaxesModule
+                    ),
+            },
+            {
                 path: 'productcategory',
                 loadChildren: () =>
                     import('app/modules/admin/definition/productcategory/productcategory.module').then(
