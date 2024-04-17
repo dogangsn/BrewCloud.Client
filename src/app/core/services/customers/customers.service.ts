@@ -20,6 +20,10 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.createCustomers, model);
     }
 
+    getPatientsByCustomerId(model:any):Observable<any>{
+        return this._httpService.post(endPoints.customers.getPatients, model);
+    }
+
     getVetVetAnimalsType() : Observable<any> {
         return this._httpService.getRequest(endPoints.customers.animalsTypeList);
     }

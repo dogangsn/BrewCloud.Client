@@ -29,7 +29,17 @@
               </div>
  
           </div> -->
-
+          <div class="flex float : left gt-xs:flex-row">
+            <mat-form-field class="flex-auto gt-xs:pl-3">
+              <mat-label>Hasta</mat-label>
+              <mat-select  [formControlName]="'patientId'"name="patient">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let item of patientList"
+                               [value]="item.id">{{item.firstname}}</mat-option>
+              </mat-select>
+              <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+            </mat-form-field>
+          </div>
 
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
@@ -37,7 +47,7 @@
               <mat-select  [formControlName]="'doctorId'"name="doctor">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let item of vetDoctorList"
-                               [value]="item.id">{{item.firstname}}</mat-option>
+                               [value]="item.id">{{item.name}}</mat-option>
               </mat-select>
               <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>

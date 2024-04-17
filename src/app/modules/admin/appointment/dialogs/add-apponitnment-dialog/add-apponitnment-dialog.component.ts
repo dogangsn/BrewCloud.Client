@@ -29,6 +29,7 @@ import { ProductDescriptionService } from 'app/core/services/definition/productd
 import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdescription/models/ProductDescriptionsDto';
 import { addVaccineDto } from '../../models/addVaccineDto';
 import { v4 as uuidv4 } from 'uuid';
+import { PatientDetails } from 'app/modules/admin/customer/models/PatientDetailsCommand';
 
 @Component({
     selector: 'app-add-apponitnment-dialog',
@@ -47,6 +48,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     addVaccineList: addVaccineDto[] = [];
     appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
+    patientList: PatientDetails[] = [];
 
     selectedAppointment: AppointmentDto;
 
@@ -124,6 +126,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this._customerService.getcustomerlist().subscribe((response) => {
             debugger;
             this.customers = response.data;
+        });
+    }
+
+    getPatientList() {
+        this._customerService.getPatientsByCustomerId(this.customers[0].id).subscribe((response) => {
+            this.patientList = response.data;
         });
     }
 
