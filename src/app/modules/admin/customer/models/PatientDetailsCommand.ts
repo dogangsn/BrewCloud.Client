@@ -33,6 +33,7 @@ export interface InventoryVendor {
 
 export interface PatientDetails {
     id: string;
+    recId: string;
     name: string;
     birthDate: Date | null;
     chipNumber: string | null;

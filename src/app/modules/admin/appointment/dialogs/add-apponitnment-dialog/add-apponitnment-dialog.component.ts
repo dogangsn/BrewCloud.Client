@@ -1,3 +1,4 @@
+
 import { CustomerService } from './../../../../../core/services/customers/customers.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
@@ -49,13 +50,13 @@ export class AddApponitnmentDialogComponent implements OnInit {
     appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
     patientList: PatientDetails[] = [];
-
     selectedAppointment: AppointmentDto;
 
     visibleCustomer: boolean;
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
     selectedCustomerId: any;
+    selectedPatientId: any;
     selectedVaccine: UntypedFormGroup;
 
     morning8 = new Date();
@@ -95,6 +96,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             doctorId: ['00000000-0000-0000-0000-000000000000'],
             appointmentType: [2, Validators.required],
             customerId: [''],
+            patientId: [''],
             note: [''],
         });
 
@@ -128,10 +130,21 @@ export class AddApponitnmentDialogComponent implements OnInit {
             this.customers = response.data;
         });
     }
-
     getPatientList() {
+        debugger
         this._customerService.getPatientsByCustomerId(this.customers[0].id).subscribe((response) => {
             this.patientList = response.data;
+        });
+    }
+    handleCustomerChange(event: any) {
+        const model ={
+            id:event.value
+        }
+        this._customerService.getPatientsByCustomerId(model).subscribe((response) => {
+            this.patientList = response.data;
+            if (this.patientList.length === 1) {
+                this.appointmentAdd.get('patientId').patchValue(this.patientList[0].recId);
+            }
         });
     }
 
