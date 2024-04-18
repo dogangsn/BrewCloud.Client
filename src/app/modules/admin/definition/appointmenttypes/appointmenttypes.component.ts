@@ -8,6 +8,7 @@ import { AppointmentTypeservice } from 'app/core/services/definition/appointment
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { CreateEditAppointmenttypesComponent } from './dialogs/create-edit-appointmenttypes.component';
 
 @Component({
   selector: 'app-appointmenttypes',
@@ -30,6 +31,7 @@ export class AppointmenttypesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getAppointmentTypeList();
   }
 
 
@@ -37,82 +39,80 @@ export class AppointmenttypesComponent implements OnInit {
     this._appointmenttypesService.getAppointmentTypes().subscribe((response) => {
       this.appointmentTypes = response.data;
       this.dataSource = new MatTableDataSource<AppointmentTypesDto>(
-          this.appointmentTypes
+        this.appointmentTypes
       );
       this.dataSource.paginator = this.paginator;
-  });
+    });
   }
 
-
   addPanelOpen(): void {
-    // this.isUpdateButtonActive = false;
-    // const dialog = this._dialog
-    //     .open(CreateEditUnitDefinitionDialogComponent, {
-    //         maxWidth: '100vw !important',
-    //         disableClose: true,
-    //         data: null,
-    //     })
-    //     .afterClosed()
-    //     .subscribe((response) => {
-    //         if (response.status) {
-    //             this.UnitsList();
-    //         }
-    //     });
+    this.isUpdateButtonActive = false;
+    const dialog = this._dialog
+      .open(CreateEditAppointmenttypesComponent, {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: null,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response.status) {
+          this.getAppointmentTypeList();
+        }
+      });
   }
 
   public redirectToUpdate = (id: string) => {
-    // this.isUpdateButtonActive = true;
-    // const selectedStore = this.units.find((units) => units.id === id);
-    // if (selectedStore) {
-    //     const dialogRef = this._dialog.open(
-    //         CreateEditUnitDefinitionDialogComponent,
-    //         {
-    //             maxWidth: '100vw !important',
-    //             disableClose: true,
-    //             data: selectedStore
-    //         }
-    //     );
-    //     dialogRef.afterClosed().subscribe((response) => {
-    //         if (response.status) {
-    //             this.UnitsList();
-    //         }
-    //     });
-    // }
+    this.isUpdateButtonActive = true;
+    const selectedAppointment = this.appointmentTypes.find((x) => x.id === id);
+    if (selectedAppointment) {
+        const dialogRef = this._dialog.open(
+          CreateEditAppointmenttypesComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: selectedAppointment
+            }
+        );
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response.status) {
+                this.getAppointmentTypeList();
+            }
+        });
+    }
   };
 
   public redirectToDelete = (id: string) => {
-    // const sweetAlertDto = new SweetAlertDto(
-    //     this.translate('sweetalert.areYouSure'),
-    //     this.translate('sweetalert.areYouSureDelete'),
-    //     SweetalertType.warning
-    // );
-    // GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-    //     (swalResponse) => {
-    //         if (swalResponse.isConfirmed) {
-    //             const model = {
-    //                 id: id,
-    //             };
-    //             this._unitsservice
-    //                 .deleteUnits(model)
-    //                 .subscribe((response) => {
-    //                     if (response.isSuccessful) {
-    //                         this.UnitsList();
-    //                         const sweetAlertDto2 = new SweetAlertDto(
-    //                             this.translate('sweetalert.success'),
-    //                             this.translate('sweetalert.transactionSuccessful'),
-    //                             SweetalertType.success
-    //                         );
-    //                         GeneralService.sweetAlert(sweetAlertDto2);
-    //                     } else {
-    //                         this.showSweetAlert('error', response.errors[0]);
-    //                         console.log(response.errors[0]);
-    //                     }
-    //                 });
-    //         }
-    //     }
-    // );
+    const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.areYouSure'),
+        this.translate('sweetalert.areYouSureDelete'),
+        SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+        (swalResponse) => {
+            if (swalResponse.isConfirmed) {
+                const model = {
+                    id: id,
+                };
+                this._appointmenttypesService
+                    .deleteAppointmentTypes(model)
+                    .subscribe((response) => {
+                        if (response.isSuccessful) {
+                            this.getAppointmentTypeList();
+                            const sweetAlertDto2 = new SweetAlertDto(
+                                this.translate('sweetalert.success'),
+                                this.translate('sweetalert.transactionSuccessful'),
+                                SweetalertType.success
+                            );
+                            GeneralService.sweetAlert(sweetAlertDto2);
+                        } else {
+                            this.showSweetAlert('error', response.errors[0]);
+                            console.log(response.errors[0]);
+                        }
+                    });
+            }
+        }
+    );
   };
-
 
   showSweetAlert(type: string, message: string): void {
     if (type === 'success') {

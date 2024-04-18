@@ -21,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CreateEditAppointmenttypesComponent } from './dialogs/create-edit-appointmenttypes.component';
 
 
 const routes: Routes = [
@@ -76,7 +77,7 @@ const routes: Routes = [
     MatDialogModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AppointmenttypesComponent]
+  declarations: [AppointmenttypesComponent, CreateEditAppointmenttypesComponent]
 })
 
 export class AppointmenttypesModule { }

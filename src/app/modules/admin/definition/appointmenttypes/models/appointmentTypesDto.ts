@@ -1,5 +1,8 @@
 export class AppointmentTypesDto{
+    id: string;
     type: number;
     remark : string;
-    isChange: boolean;
+    isDefaultPrice: boolean = false;
+    price: number;
+    taxisId: string;
 }

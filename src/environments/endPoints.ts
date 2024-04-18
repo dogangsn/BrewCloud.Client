@@ -174,6 +174,15 @@ export const endPoints = {
         getbagelSliceGraphList: 'vet/Clinicalstatistics/BagelSliceGraphList'
     },
     appointmenttypes: {
-        getAppointmentTypes : ''
+        getAppointmentTypes : 'vet/Definition/GetAppointmentTypesList',
+        createAppointmentTypes : 'vet/Definition/CreateAppointmentTypes',
+        deleteAppointmentTypes : 'vet/Definition/DeleteAppointmentTypes',
+        updateAppointmentTypes: 'vet/Definition/UpdateAppointmentTypes'
+    },
+    taxis : {
+        getTaxisList : 'vet/Definition/GetTaxisList',
+        createTaxis : 'vet/Definition/CreateTaxis',
+        deleteTaxis : 'vet/Definition/DeleteTaxis',
+        updateTaxis : 'vet/Definition/UpdateTaxis'
     }
 }
