@@ -357,6 +357,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
             const newPatient: PatientDetails = {
                 id: newId,
+                recId : '',
                 name: '',
                 birthDate: today,
                 chipNumber: '',
@@ -379,6 +380,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         const newId = uuidv4();
         const newPatient: PatientDetails = {
             id: newId,
+            recId:'',
             name: '',
             birthDate: today,
             chipNumber: '',
@@ -546,6 +548,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 const newId = uuidv4();
                 const newPatient: PatientDetails = {
                     id: newId,
+                    recId: '',
                     name: '',
                     birthDate: null,
                     chipNumber: '',

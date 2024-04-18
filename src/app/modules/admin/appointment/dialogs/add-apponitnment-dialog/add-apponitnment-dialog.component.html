@@ -30,14 +30,13 @@
  
           </div> -->
 
-
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Hekim</mat-label>
               <mat-select  [formControlName]="'doctorId'"name="doctor">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let item of vetDoctorList"
-                               [value]="item.id">{{item.firstname}}</mat-option>
+                               [value]="item.id">{{item.name}}</mat-option>
               </mat-select>
               <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>
@@ -46,14 +45,24 @@
             <mat-form-field class="flex-auto gt-xs:pl-3">
                 <mat-label>Müşteri</mat-label>
                 <mat-select [formControlName]="'customerId'" [placeholder]="'Müşteri'"
-                    name="customerId">
+                    name="customerId" (selectionChange)="handleCustomerChange($event)">
                     <mat-select-filter [ngModelOptions]="{standalone: true}"
-                        [ngModel]="selectedCustomerId" (ngModelChange)="filterCustomerId($event)">
+                        [ngModel]="selectedCustomerId">
                     </mat-select-filter>
                     <mat-option *ngFor="let item of customers" [value]="item.id">{{item.firstName}}
                         {{item.lastName}}</mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+        <div class="flex float : left gt-xs:flex-row">
+          <mat-form-field class="flex-auto gt-xs:pl-3">
+            <mat-label>Hasta</mat-label>
+            <mat-select  [formControlName]="'patientId' "name="patientId" [placeholder]="'Hasta'" >
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let item of patientList"
+                             [value]="item.recId">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
           <div class="flex float: left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
