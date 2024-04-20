@@ -19,4 +19,5 @@ export class ProductDescriptionsDto{
     animalType:number;
     numberRepetitions: number;
     storeId: string;
+    taxisId: string;
 }

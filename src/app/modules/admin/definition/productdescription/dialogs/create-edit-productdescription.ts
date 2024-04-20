@@ -28,6 +28,9 @@ import { CustomerService } from 'app/core/services/customers/customers.service';
 import { VetVetAnimalsTypeListDto } from 'app/modules/admin/customer/models/VetVetAnimalsTypeListDto';
 import { StoreService } from 'app/core/services/store/store.service';
 import { StoreListDto } from 'app/modules/admin/store/models/StoreListDto';
+import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
+import { TaxesDto } from '../../taxes/models/taxesDto';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
 
 @Component({
     selector: 'app-create-edit-productdescription-dialog',
@@ -49,7 +52,10 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     isInvalidPrice: boolean;
     buttonDisabled = false;
     storeList: StoreListDto[] = [];
-    
+    taxisList: TaxesDto[] = [];
+
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -60,6 +66,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
         private _suppliersService: SuppliersService,
         private _customerService: CustomerService,
         private _storeservice: StoreService,
+        private _taxisService: TaxisService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.producttype = data.producttype;
@@ -74,12 +81,30 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             }
         }
 
+        zip(
+            this.getTaxisList()
+
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                this.setTaxis(value[0])
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+                this.fillFormData(this.selectedProductdescription);
+
+            }
+        });
+ 
         this.UnitsList();
         this.ProductCategoryList();
         this.getSuppliers();
         this.getStoreList();
 
-        if(this.visibleProductType){
+        if (this.visibleProductType) {
             this.getAnimalTypesList();
         }
 
@@ -91,7 +116,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             supplierId: ['00000000-0000-0000-0000-000000000000'],
             productBarcode: [''],
             productCode: [''],
-            ratio: [0, [Validators.required]],
             buyingPrice: [0, [Validators.required, CustomNumericValidator()]],
             sellingPrice: [0, [Validators.required]],
             criticalAmount: [0],
@@ -102,9 +126,10 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             isExpirationDate: [false],
             animalType: [],
             numberRepetitions: [],
-            storeid: ['00000000-0000-0000-0000-000000000000', Validators.required]
+            storeid: ['00000000-0000-0000-0000-000000000000', Validators.required],
+            taxisId: ['00000000-0000-0000-0000-000000000000']
         });
-        this.fillFormData(this.selectedProductdescription);
+
     }
 
     UnitsList() {
@@ -137,7 +162,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     fillFormData(selectedproductdesf: ProductDescriptionsDto) {
-        debugger;
         if (this.selectedProductdescription !== null) {
             this.productdescription.setValue({
                 name: selectedproductdesf.name,
@@ -147,7 +171,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 supplierId: selectedproductdesf.supplierId,
                 productBarcode: selectedproductdesf.productBarcode,
                 productCode: selectedproductdesf.productCode,
-                ratio: selectedproductdesf.ratio,
                 buyingPrice: selectedproductdesf.buyingPrice,
                 sellingPrice: selectedproductdesf.sellingPrice,
                 criticalAmount: selectedproductdesf.criticalAmount,
@@ -158,7 +181,8 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
                 isExpirationDate: selectedproductdesf.isExpirationDate,
                 animalType: selectedproductdesf.animalType,
                 numberRepetitions: selectedproductdesf.numberRepetitions,
-                storeid : selectedproductdesf.storeId
+                storeid: selectedproductdesf.storeId,
+                taxisId: selectedproductdesf.taxisId
             });
         }
     }
@@ -183,7 +207,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('supplierId'),
             this.getFormValueByName('productBarcode'),
             this.getFormValueByName('productCode'),
-            this.getFormValueByName('ratio'),
             this.getFormValueByName('buyingPrice'),
             this.getFormValueByName('sellingPrice'),
             this.getFormValueByName('criticalAmount'),
@@ -195,6 +218,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('animalType'),
             this.getFormValueByName('numberRepetitions'),
             this.getFormValueByName('storeid'),
+            this.getFormValueByName('taxisId'),
         );
 
         if (this.validateControl(ProductDefItem)) {
@@ -239,7 +263,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('supplierId'),
             this.getFormValueByName('productBarcode'),
             this.getFormValueByName('productCode'),
-            this.getFormValueByName('ratio'),
             this.getFormValueByName('buyingPrice'),
             this.getFormValueByName('sellingPrice'),
             this.getFormValueByName('criticalAmount'),
@@ -251,6 +274,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('animalType'),
             this.getFormValueByName('numberRepetitions'),
             this.getFormValueByName('storeid'),
+            this.getFormValueByName('taxisId'),
         );
 
         this._productDefService.updateProductDescription(storeItem).subscribe(
@@ -329,7 +353,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             );
             return true;
         }
-        if(model.storeId == null || model.storeId == undefined || model.storeId == '00000000-0000-0000-0000-000000000000'){
+        if (model.storeId == null || model.storeId == undefined || model.storeId == '00000000-0000-0000-0000-000000000000') {
             this.showSweetAlert("error", 'Depo Seçimi Zorunludur.');
             return true;
         }
@@ -355,4 +379,15 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             console.log('anımals', this.animalTypesList);
         });
     }
+
+    getTaxisList(): Observable<any> {
+        return this._taxisService.getTaxisList();
+    }
+
+    setTaxis(response: any): void {
+        if (response.data) {
+            this.taxisList = response.data;
+        }
+    }
+
 }

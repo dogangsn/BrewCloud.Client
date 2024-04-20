@@ -6,7 +6,6 @@ export class CreateProductDescriptionsCommand {
     supplierId: string;
     productBarcode: string;
     productCode: string;
-    ratio:number;
     buyingPrice:number;
     sellingPrice: number;
     criticalAmount: number;
@@ -18,6 +17,7 @@ export class CreateProductDescriptionsCommand {
     animalType: number;
     numberRepetitions: number;
     storeId : string;
+    taxisId: string;
 
     constructor(
         name:string,
@@ -27,7 +27,6 @@ export class CreateProductDescriptionsCommand {
         supplierId: string,
         productBarcode: string,
         productCode: string,
-        ratio:number,
         buyingPrice:number,
         sellingPrice: number,
         criticalAmount: number,
@@ -38,7 +37,8 @@ export class CreateProductDescriptionsCommand {
         isExpirationDate : boolean,
         animalType: number,
         numberRepetitions: number,
-        storeId : string
+        storeId : string,
+        taxisId: string
     ){
         this.name = name;
         this.unitId = unitId;
@@ -47,7 +47,6 @@ export class CreateProductDescriptionsCommand {
         this.supplierId = supplierId;
         this.productCode = productCode;
         this.productBarcode = productBarcode;
-        this.ratio = ratio;
         this.buyingPrice = buyingPrice;
         this.sellingPrice = sellingPrice;
         this.criticalAmount = criticalAmount;
@@ -59,6 +58,7 @@ export class CreateProductDescriptionsCommand {
         this.animalType = animalType;
         this.numberRepetitions = numberRepetitions;
         this.storeId = storeId;
+        this.taxisId = taxisId;
 
     }
 

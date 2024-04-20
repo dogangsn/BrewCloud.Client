@@ -30,16 +30,14 @@
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Birim</mat-label>
-                            <mat-select [formControlName]="'unitId'" [placeholder]="'Birim'"
-                                name="units">
+                            <mat-select [formControlName]="'unitId'" [placeholder]="'Birim'" name="units">
                                 <mat-option>None</mat-option>
-                                <mat-option *ngFor="let unit of units"
-                                    [value]="unit.id">{{unit.unitName}}</mat-option>
+                                <mat-option *ngFor="let unit of units" [value]="unit.id">{{unit.unitName}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Kategori</mat-label>
-                            <mat-select [formControlName]="'categoryId'"  [placeholder]="'Ürün Kategori'" 
+                            <mat-select [formControlName]="'categoryId'" [placeholder]="'Ürün Kategori'"
                                 name="productcategori">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let productcategori of productcategories"
@@ -51,14 +49,15 @@
 
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Tipi</mat-label>
-                            <mat-select [formControlName]="'productTypeId'"  [placeholder]="'Ürün Tipi'"  name="mapproducttype" [disabled]="true">
+                            <mat-select [formControlName]="'productTypeId'" [placeholder]="'Ürün Tipi'"
+                                name="mapproducttype" [disabled]="true">
                                 <mat-option *ngFor="let item of mapproducttype"
                                     [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tedarikçi</mat-label>
-                            <mat-select [formControlName]="'supplierId'"  [placeholder]="'Tedarikçi'" 
+                            <mat-select [formControlName]="'supplierId'" [placeholder]="'Tedarikçi'"
                                 name="supplierscard">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let supplierscard of supplierscards"
@@ -70,21 +69,26 @@
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Barkod</mat-label>
-                            <input [formControlName]="'productBarcode'"  matInput>
+                            <input [formControlName]="'productBarcode'" matInput>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Kodu</mat-label>
                             <input [formControlName]="'productCode'" matInput>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                            <mat-label>KDV %</mat-label>
-                            <input [formControlName]="'ratio'" matInput>
+
+                            <mat-label>KDV (%)</mat-label>
+                            <mat-select [formControlName]="'taxisId'" [placeholder]="'KDV (%)'" name="taxisList">
+                                <mat-option *ngFor="let item of taxisList"
+                                    [value]="item.id">{{item.taxRatio}}</mat-option>
+                            </mat-select>
+
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Alış Fiyatı</mat-label>
-                            <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)" >
+                            <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)">
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Satış Fiyatı</mat-label>
@@ -98,8 +102,7 @@
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Depo</mat-label>
-                            <mat-select [formControlName]="'storeid'"  [placeholder]="'Depo'" 
-                                name="storename">
+                            <mat-select [formControlName]="'storeid'" [placeholder]="'Depo'" name="storename">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let store of storeList"
                                     [value]="store.id">{{store.depotName}}</mat-option>
@@ -113,9 +116,9 @@
                     <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleProductType">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tür</mat-label>
-                            <mat-select [formControlName]="'animalType'"  name="animalType">
-                                <mat-option *ngFor="let anmimaltype of animalTypesList"
-                                    [value]="anmimaltype.type"> {{anmimaltype.name}}</mat-option>
+                            <mat-select [formControlName]="'animalType'" name="animalType">
+                                <mat-option *ngFor="let anmimaltype of animalTypesList" [value]="anmimaltype.type">
+                                    {{anmimaltype.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
@@ -129,7 +132,8 @@
 
                     <div class="flex flex-col gt-sm:flex-row">
                         <div class="flex flex-col">
-                            <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'active'">
+                            <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'"
+                                [formControlName]="'active'">
                                 Aktif
                             </mat-checkbox>
                             <mat-checkbox class="mb-2" [color]="'primary'" [formControlName]="'sellingIncludeKDV'">
@@ -178,7 +182,7 @@
                     <!-- Save as draft -->
                     <!-- Send -->
                     <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
-                        (click)="addOrUpdateProductDef()"  [disabled]="buttonDisabled" >
+                        (click)="addOrUpdateProductDef()" [disabled]="buttonDisabled">
                         Kaydet
                     </button>
                 </div>
