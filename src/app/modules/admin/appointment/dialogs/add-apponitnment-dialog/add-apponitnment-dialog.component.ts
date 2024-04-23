@@ -73,6 +73,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     ) {
         this.selectedAppointment = data.selectedAppointment;
         this.selectedCustomerId = data.customerId;
+        this.selectedPatientId = data.patientId;
         this.visibleCustomer = data.visibleCustomer;
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
@@ -109,7 +110,14 @@ export class AddApponitnmentDialogComponent implements OnInit {
         };
         this.addVaccineList.push(model);
 
+        if(this.selectedPatientId!=null){
+            debugger
+            this.handleCustomerChange(this.selectedCustomerId)
+            // this.appointmentAdd.get('patientId').patchValue(this.selectedPatientId);
+        }
+
         this.fillFormData(this.selectedAppointment);
+        
     }
 
     getProductList() {
@@ -126,7 +134,6 @@ export class AddApponitnmentDialogComponent implements OnInit {
     
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
-            debugger;
             this.customers = response.data;
         });
     }
@@ -140,6 +147,11 @@ export class AddApponitnmentDialogComponent implements OnInit {
         const model ={
             id:event.value
         }
+        if (model.id==undefined) {
+            model.id=event;
+        }
+        
+        debugger;   
         this._customerService.getPatientsByCustomerId(model).subscribe((response) => {
             this.patientList = response.data;
             if (this.patientList.length === 1) {
