@@ -64,8 +64,12 @@
 
                     <div class="flex float : left gt-xs:flex-row" *ngIf="ratioVisible">
                         <mat-form-field class="flex-auto gt-xs:pl-3">
-                            <mat-label>KDV %</mat-label>
-                            <input [formControlName]="'ratio'" matInput />
+                            <mat-label>KDV (%)</mat-label>
+                            <mat-select [formControlName]="'taxisId'"  [(ngModel)]="selectedtaxisid" [placeholder]="'KDV (%)'"
+                                name="taxisList">
+                                <mat-option *ngFor="let item of taxisList"
+                                    [value]="item.id">{{item.taxRatio}}</mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
 
@@ -76,12 +80,12 @@
                             [formControlName]="'enterAmount'"
                             (change)="toggleAmountInput($event.checked)"
                         >
-                            Tutar Gir
+                            Tutar Ve KDV Değiştir
                         </mat-checkbox>
                     </div>
                 </div>
             </div>
-
+ 
             <div
                 class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6"
             >
