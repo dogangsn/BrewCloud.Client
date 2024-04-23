@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { customerlistReportComponent } from '../customer/report/customerlistReport/customerlistReport.component';
 
 const exampleRoutes: Route[] = [
     {
@@ -73,6 +74,8 @@ const exampleRoutes: Route[] = [
         MatSlideToggleModule,
         MatTooltipModule,
         MatDialogModule,
+        customerlistReportComponent,
+
     ]
 })
 export class DashboardsModule

@@ -39,6 +39,8 @@ import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.compon
 import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/appointment-history/dialogs/edit-appointment.component';
 import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
+// import { DxReportViewerComponent } from 'devexpress-reporting-angular';
+// import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
 const root: Route[] = [
     {
@@ -124,7 +126,8 @@ const root: Route[] = [
         ColectionTransactionsDialogComponent,
         PayChartComponent,
         VaccinationCard,
-        EditAppointmentComponent
+        EditAppointmentComponent,
+        //  DxReportViewerComponent
     ]
 
     

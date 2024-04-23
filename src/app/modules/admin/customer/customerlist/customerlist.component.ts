@@ -12,6 +12,10 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerDetailsComponent } from '../customerdetails/customerdetails.component';
 import { CustomerDetailsService } from './service/customerdetailservice';
+import { customerlistReportComponent } from '../report/customerlistReport/customerlistReport.component';
+// import { DtoPmsRptParameter } from '../../models/DtoPmsRptParameter';
+import { customerlistRptParameter } from '../report/models/customerlistRptParameter';
+import { formatDate } from '@angular/common';
 
 @Component({
     selector: 'customerslist',
@@ -107,7 +111,30 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
             }
         );
     }
-
+    public redirectToPrint = (id: string) => {
+        const pmsrpt1090 = new customerlistRptParameter()
+        // pmsrpt1090.cinfrom = formatDate(this.getFormValueByName('cindatefrom'), 'yyyy-MM-dd', 'en-US'),
+        // pmsrpt1090.cinto = formatDate(this.getFormValueByName('cindateto'), 'yyyy-MM-dd', 'en-US'),
+        // pmsrpt1090.coutfrom = formatDate(this.getFormValueByName('coutdatefrom'), 'yyyy-MM-dd', 'en-US'),
+        // pmsrpt1090.coutto = formatDate(this.getFormValueByName('coutdateto'), 'yyyy-MM-dd', 'en-US'),
+        
+        pmsrpt1090.resuuid = "00000000-0000-0000-0000-000000000000",
+    
+        // pmsrpt1090.hotelidlist = this.hotelRecIdList.substring(0, this.hotelRecIdList.length - 1);
+        pmsrpt1090.hotelidlist = 'deneme1';
+        
+        // rapora parametreleri backend den döndürmek icin secilen parametrelerin nameleri backend e gönderildi.
+        // pmsrpt1090.hotellist = this.pmsHotelListValue != null ? this.pmsHotelListValue.map(x => x.propertyName).toString() : "";
+        pmsrpt1090.hotellist =  'deneme2';
+        
+        pmsrpt1090.reportId = 1090;
+        debugger;
+        const dialog = this._dialog.open(customerlistReportComponent, {
+            width: '80%',
+            disableClose: true,
+            data: pmsrpt1090//data
+          })
+    }
     showSweetAlert(type: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
