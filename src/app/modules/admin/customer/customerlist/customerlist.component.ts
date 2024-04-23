@@ -29,7 +29,7 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
 
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
-
+    loader=true;
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
@@ -48,15 +48,17 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
     
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
+        
             this.customerlist = response.data;
-            console.log(this.customerlist);
 
             this.dataSource = new MatTableDataSource<customersListDto>(
                 this.customerlist
             );
 
             this.dataSource.paginator = this.paginator;
-            console.log(this.customerlist);
+
+            this.loader=false;
+        
         });
     }
 

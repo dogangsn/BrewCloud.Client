@@ -22,6 +22,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatSelectFilterModule } from 'mat-select-filter';
+import { ProductmovementListComponent } from './dialogs/productmovement-list/productmovement-list.component';
 
 const root: Route[] = [
     {
@@ -78,7 +79,8 @@ const root: Route[] = [
     ],
     declarations: [
         ProductdescriptionComponent,
-        CreateEditProductDescriptionDialogComponent
+        CreateEditProductDescriptionDialogComponent,
+        ProductmovementListComponent
     ]
     
 })

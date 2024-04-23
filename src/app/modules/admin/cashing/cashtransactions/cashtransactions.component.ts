@@ -56,7 +56,7 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         'kdv',
         'discount',
         'total',
-        // 'actions',
+        'actions',
     ];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -139,21 +139,23 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
                     const model = {
                         id: id,
                     };
-                    // this._storeservice
-                    //     .deletedStores(model)
-                    //     .subscribe((response) => {
-                    //         if (response.isSuccessful) {
-                    //             this.getStoreList();
-                    //             const sweetAlertDto2 = new SweetAlertDto(
-                    //                 this.translate('sweetalert.success'),
-                    //                 this.translate('sweetalert.transactionSuccessful'),
-                    //                 SweetalertType.success
-                    //             );
-                    //             GeneralService.sweetAlert(sweetAlertDto2);
-                    //         } else {
-                    //             console.error('Silme işlemi başarısız.');
-                    //         }
-                    //     });
+                    this._salebuyservice
+                    .deletedSaleBuy(model)
+                    .subscribe((response) => {
+                        if (response.isSuccessful) {
+                            this.getRecordFilter();
+                            const sweetAlertDto2 = new SweetAlertDto(
+                                this.translate('sweetalert.success'),
+                                this.translate(
+                                    'sweetalert.transactionSuccessful'
+                                ),
+                                SweetalertType.success
+                            );
+                            GeneralService.sweetAlert(sweetAlertDto2);
+                        } else {
+                            console.error('Silme işlemi başarısız.');
+                        }
+                    });
                 }
             }
         );

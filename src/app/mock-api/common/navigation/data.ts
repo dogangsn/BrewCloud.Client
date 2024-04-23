@@ -113,6 +113,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         
     },
     {
+        id   : 'filemanager',
+        title: 'Dosya Yöneticisi',
+        type : 'basic',
+        icon : 'heroicons_outline:cloud',
+        link : '/filemanager'
+    },
+    {
         id   : 'demands',
         title: 'Alım Talep',
         type : 'basic',
@@ -182,6 +189,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link : '/unitdefinition'
             },
             {
+                id: "appointmenttypes",
+                title: "Randevu Tipleri",
+                type: "basic",
+                icon: "heroicons_outline:queue-list",
+                link: "/appointmenttypes"
+            },
+            {
                 id   : 'customergroup',
                 title: 'Müşteri Grubu',
                 type : 'basic',
@@ -202,6 +216,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon : 'heroicons_outline:cash',
                 link : '/paymentmethods'
             },
+            {
+                id   : "smstemplate",
+                title: "Sms Şablonları",
+                type: "basic",
+                icon: "heroicons_outline:chat-bubble-left",
+                link: "/smstemplate"
+            }
+
 
         ]
         

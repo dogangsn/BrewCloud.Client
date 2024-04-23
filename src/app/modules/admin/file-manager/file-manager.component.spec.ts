@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SmsparametersComponent } from './smsparameters.component';
+import { FileManagerComponent } from './file-manager.component';
 
-describe('SmsparametersComponent', () => {
-  let component: SmsparametersComponent;
-  let fixture: ComponentFixture<SmsparametersComponent>;
+describe('FileManagerComponent', () => {
+  let component: FileManagerComponent;
+  let fixture: ComponentFixture<FileManagerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmsparametersComponent ]
+      declarations: [ FileManagerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmsparametersComponent);
+    fixture = TestBed.createComponent(FileManagerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

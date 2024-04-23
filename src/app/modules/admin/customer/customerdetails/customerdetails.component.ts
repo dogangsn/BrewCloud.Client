@@ -20,6 +20,7 @@ import { GetColectionEditDialogComponent } from './collection/get-collection-edi
 import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { PayChartComponent } from './pay-chart/pay-chart.component';
 import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
+import { PatientDetails } from '../models/PatientDetailsCommand';
 
 @Component({
     selector: 'customerdetails',
@@ -39,9 +40,13 @@ export class CustomerDetailsComponent implements OnInit {
     firstname: string
     lastname: string
 
+    patientList: PatientDetails[] = [];
+
     totalSaleBuyCount: number;
     totalVisitCount: number;
     totalEarnings: number;
+
+    loader = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -81,10 +86,10 @@ export class CustomerDetailsComponent implements OnInit {
 
     // getUserAvatarUrl(): string {
     //     const initials = this.userFirstName.charAt(0) + this.userLastName.charAt(0);
-    //     // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
+        // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
     //     // Örneğin: return 'https://example.com/api/getUserAvatar?initials=' + initials;
     
-    //     // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
+        // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
     //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
     //   }
 
@@ -172,6 +177,7 @@ export class CustomerDetailsComponent implements OnInit {
             else {
                 this.showSweetAlert('error');
             }
+            this.loader = false;
         });
     }
 
@@ -199,6 +205,7 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
+            selectedpatients: null
         }
         console.log(model);
         const dialog = this._dialog
@@ -219,10 +226,20 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
-            visibleCustomer : false
+            visibleCustomer : false,
+            patientId : null
         }
-
-        const dialog = this._dialog
+debugger
+        const patientModel ={
+            id:this.selectedCustomerId
+        }
+        this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
+            debugger
+            this.patientList = response.data;
+            if (this.patientList.length === 1) {
+                model.patientId=this.patientList[0].recId;
+            }
+            const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
@@ -233,6 +250,9 @@ export class CustomerDetailsComponent implements OnInit {
                 if (response.status) {
                 }
             });
+        });
+
+        
     }
 
     openAppointmentHistory() : void {

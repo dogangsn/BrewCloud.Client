@@ -215,6 +215,13 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'filemanager',
+                loadChildren: () =>
+                    import('app/modules/admin/file-manager/file-manager.module').then(
+                        (m) => m.FileManagerModule
+                    ),
+            },
+            {
                 path: 'demands',
                 loadChildren: () =>
                     import('app/modules/admin/demands/demands.module').then(
@@ -293,6 +300,20 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
+                path: 'appointmenttypes',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/appointmenttypes/appointmenttypes.module').then(
+                        (m) => m.AppointmenttypesModule
+                    ),
+            },
+            {
+                path: 'taxes',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/taxes/taxes.module').then(
+                        (m) => m.TaxesModule
+                    ),
+            },
+            {
                 path: 'productcategory',
                 loadChildren: () =>
                     import('app/modules/admin/definition/productcategory/productcategory.module').then(
@@ -311,6 +332,13 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/definition/customergroup/customergroup.module').then(
                         (m) => m.CustomergroupModule
+                    ),
+            },
+            {
+                path: 'smstemplate',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/smstemplate/smstemplate.module').then(
+                        (m) => m.SmstemplateModule
                     ),
             },
             {

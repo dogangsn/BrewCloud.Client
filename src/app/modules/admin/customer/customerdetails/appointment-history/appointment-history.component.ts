@@ -18,7 +18,7 @@ import { EditAppointmentComponent } from './dialogs/edit-appointment.component';
     styleUrls: ['./appointment-history.component.css'],
 })
 export class AppointmentHistoryComponent implements OnInit {
-  
+
     displayedColumns: string[] = [
         'complated',
         'beginDate',
@@ -26,9 +26,9 @@ export class AppointmentHistoryComponent implements OnInit {
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;
-    
+
     selectedCustomerId: any;
-    appointmentList : AppointmentDto[] = [];
+    appointmentList: AppointmentDto[] = [];
     dataSource = new MatTableDataSource<AppointmentDto>(this.appointmentList);
 
     constructor(
@@ -49,7 +49,7 @@ export class AppointmentHistoryComponent implements OnInit {
     getAppointmentsByIdList() {
 
         const model = {
-            CustomerId :  this.selectedCustomerId.customerId
+            CustomerId: this.selectedCustomerId.customerId
         }
         this._appointmentService.getAppointmentsByIdList(model).subscribe((response) => {
             this.appointmentList = response.data;
@@ -58,7 +58,7 @@ export class AppointmentHistoryComponent implements OnInit {
             );
             this.dataSource.paginator = this.paginator;
         });
-    } 
+    }
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
@@ -88,12 +88,12 @@ export class AppointmentHistoryComponent implements OnInit {
 
     public redirectToUpdate = (id: string) => {
         const selectedAppointment = this.appointmentList.find((item) => item.id == id);
-        if(selectedAppointment){
+        if (selectedAppointment) {
 
             const model = {
                 visibleCustomer: false,
-                selectedAppointment : selectedAppointment,
-                customerId : this.selectedCustomerId
+                selectedAppointment: selectedAppointment,
+                customerId: this.selectedCustomerId
             };
 
             const dialogRef = this._dialog.open(
@@ -155,28 +155,52 @@ export class AppointmentHistoryComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
-    toggleCompleted(item: any): void {
-        
-        if(item.isComplated){
+    toggleCompleted(item: AppointmentDto): void {
+
+        if (this.IsDateControl(item)) {
+            this.showSweetAlert('error', 'Geçmiş Randevu Üzerinde işlem yapılamaz.');
+            return;
+        }
+
+        if (item.isComplated) {
             item.isComplated = false;
-        }else{
+        } else {
             item.isComplated = true;
         }
 
         const model = {
-            id :  item.id,
-            isCompleted : item.isComplated
+            id: item.id,
+            isCompleted: item.isComplated
         }
         this._appointmentService.updateCompletedAppointment(model).subscribe((response) => {
             if (response.isSuccessful) {
-                item.isComplated = !item.isComplated; 
+                item.isComplated = !item.isComplated;
                 this.getAppointmentsByIdList();
-            }else {
+            } else {
                 this.showSweetAlert('error', response.errors[0]);
             }
-           
+
         });
         console.log(item);
     }
+
+    shouldMarkExpired(element: AppointmentDto): boolean {
+        // Eğer complated true ise satırı kırmızı yapmamalı
+        if (element.isComplated) {
+            return false;
+        }
+        // Diğer durumlarda tarihin geçmiş olup olmadığını kontrol eder
+        const today = new Date();
+        const rowDate = new Date(element.beginDate);
+        return rowDate < today;
+    }
+
+    IsDateControl(element: AppointmentDto): boolean {
+        const today = new Date();
+        const rowDate = new Date(element.beginDate);
+        return rowDate < today;
+    }
+
+
 
 }

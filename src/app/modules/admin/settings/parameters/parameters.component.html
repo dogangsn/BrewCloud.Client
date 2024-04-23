@@ -52,7 +52,20 @@
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
         <form [formGroup]="parameters">
-            <div class="grid grid-cols-2 gap-6 w-full mt-8">
+            
+            <div role="status" class="animate-pulse" *ngIf="loader">
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4"></div>
+              </div>
+
+            <div class="grid grid-cols-2 gap-6 w-full mt-8" *ngIf="!loader">
+
 
                 <div class="flex-auto items-center justify-between cursor-pointer">
                     <div class="leading-6 font-medium">Ajanda Notu Hatırlatma(Gün)</div>
@@ -200,7 +213,7 @@
                 <div class="flex items-center justify-between cursor-pointer" (click)="isfirstInspectionToggle.toggle()">
                     <div class="leading-6 font-medium">İşlemlerde "İlk Muayene" Gözüksün</div>
                     <mat-slide-toggle class="ml-2" [color]="'primary'" (click)="isfirstInspectionToggle.toggle()"
-                        [formControlName]="'isfirstInspection'" #isfirstInspectionToggle>
+                        [formControlName]="'isFirstInspection'" #isfirstInspectionToggle>
                     </mat-slide-toggle>
                 </div>
                 <!-- </div> -->

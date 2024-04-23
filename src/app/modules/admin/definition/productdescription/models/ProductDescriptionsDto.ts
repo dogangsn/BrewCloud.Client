@@ -18,4 +18,6 @@ export class ProductDescriptionsDto{
     isExpirationDate: boolean;
     animalType:number;
     numberRepetitions: number;
+    storeId: string;
+    taxisId: string;
 }

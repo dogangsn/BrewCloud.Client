@@ -9,6 +9,8 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { PaymentTransactionListDto } from './model/PaymentTransactionListDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
+import { TaxesDto } from 'app/modules/admin/definition/taxes/models/taxesDto';
+import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
 
 @Component({
     selector: 'app-get-collection-editdialog',
@@ -28,7 +30,9 @@ export class GetColectionEditDialogComponent implements OnInit {
     paymentTransaction: PaymentTransactionListDto[] = [];
     selectedValue: string;
     selectedItemSellingPrice: any;
-    selectedVaccineid : any;
+    selectedVaccineid: any;
+    selectedtaxisid:any;
+    taxisList: TaxesDto[] = [];
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -36,6 +40,7 @@ export class GetColectionEditDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _paymentmethodsService: PaymentMethodservice,
         private _customerService: CustomerService,
+        private _taxisService: TaxisService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.selectedCustomerId = data;
@@ -43,13 +48,15 @@ export class GetColectionEditDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.paymentsList();
+        this.getTaxisList();
         this.getPaymentTransactiopnList();
         this.getcollection = this._formBuilder.group({
             collectionId: ['', Validators.required],
             paymenttype: [1, Validators.required],
             amount: [0],
             ratio: [0],
-            enterAmount : [false]
+            enterAmount: [false],
+            taxisId: ['']
         });
         this.selectedItemSellingPrice = 0;
         this.getcollection.get('amount').disable();
@@ -111,13 +118,21 @@ export class GetColectionEditDialogComponent implements OnInit {
     }
 
     onSelectionChange(event: any) {
+
+        debugger;
         this.selectedValue = event.value;
 
         const selectedItem = this.paymentTransaction.find(item => item.id === this.selectedValue);
         if (selectedItem) {
             this.selectedItemSellingPrice = selectedItem.sellingPrice;
             this.selectedVaccineid = selectedItem.vaccineid;
+            this.selectedtaxisid = selectedItem.taxisId
+            if(selectedItem.isDefaultPrice){
+                this.selectedItemSellingPrice = selectedItem.price;
+            }
         }
+
+        this.getcollection.setValue({taxisId:this.selectedtaxisid})
 
     }
 
@@ -131,13 +146,13 @@ export class GetColectionEditDialogComponent implements OnInit {
         if (this.fillSelectedInvoice()) {
 
             const model = {
-                CustomerId :  this.selectedCustomerId.customerId,
-                CollectionId :  this.getFormValueByName('collectionId'),
-                PaymentType : this.getFormValueByName('paymenttype'),
-                Amount : this.selectedItemSellingPrice > 0 ? this.selectedItemSellingPrice : this.getFormValueByName('amount'),
-                Ratio : this.getFormValueByName('ratio'),
-                EnterAmount : this.getFormValueByName('enterAmount'),
-                Vaccineid : this.selectedVaccineid
+                CustomerId: this.selectedCustomerId.customerId,
+                CollectionId: this.getFormValueByName('collectionId'),
+                PaymentType: this.getFormValueByName('paymenttype'),
+                Amount: this.selectedItemSellingPrice > 0 ? this.selectedItemSellingPrice : this.getFormValueByName('amount'),
+                Ratio: this.getFormValueByName('ratio'),
+                EnterAmount: this.getFormValueByName('enterAmount'),
+                Vaccineid: this.selectedVaccineid
             }
             this._customerService.createCollection(model).subscribe(
                 (response) => {
@@ -163,18 +178,25 @@ export class GetColectionEditDialogComponent implements OnInit {
     }
 
     fillSelectedInvoice(): boolean {
- 
+
         return true;
     }
 
     toggleAmountInput(checked: boolean) {
         if (checked) {
-          this.getcollection.get('amount').enable();  
-          this.ratioVisible = true;
+            this.getcollection.get('amount').enable();
+            this.ratioVisible = true;
         } else {
-          this.getcollection.get('amount').disable();
-          this.ratioVisible = false;
+            this.getcollection.get('amount').disable();
+            this.ratioVisible = false;
         }
+    }
+
+    getTaxisList(): void {
+        this._taxisService.getTaxisList().subscribe((response) => {
+          this.taxisList = response.data;
+        });
       }
+    
 
 }

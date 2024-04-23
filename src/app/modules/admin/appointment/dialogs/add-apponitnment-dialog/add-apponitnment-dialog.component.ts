@@ -1,3 +1,4 @@
+
 import { CustomerService } from './../../../../../core/services/customers/customers.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
@@ -29,6 +30,7 @@ import { ProductDescriptionService } from 'app/core/services/definition/productd
 import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdescription/models/ProductDescriptionsDto';
 import { addVaccineDto } from '../../models/addVaccineDto';
 import { v4 as uuidv4 } from 'uuid';
+import { PatientDetails } from 'app/modules/admin/customer/models/PatientDetailsCommand';
 
 @Component({
     selector: 'app-add-apponitnment-dialog',
@@ -47,13 +49,14 @@ export class AddApponitnmentDialogComponent implements OnInit {
     addVaccineList: addVaccineDto[] = [];
     appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
-
+    patientList: PatientDetails[] = [];
     selectedAppointment: AppointmentDto;
 
     visibleCustomer: boolean;
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
     selectedCustomerId: any;
+    selectedPatientId: any;
     selectedVaccine: UntypedFormGroup;
 
     morning8 = new Date();
@@ -70,6 +73,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     ) {
         this.selectedAppointment = data.selectedAppointment;
         this.selectedCustomerId = data.customerId;
+        this.selectedPatientId = data.patientId;
         this.visibleCustomer = data.visibleCustomer;
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
@@ -93,6 +97,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             doctorId: ['00000000-0000-0000-0000-000000000000'],
             appointmentType: [2, Validators.required],
             customerId: [''],
+            patientId: [''],
             note: [''],
         });
 
@@ -105,7 +110,14 @@ export class AddApponitnmentDialogComponent implements OnInit {
         };
         this.addVaccineList.push(model);
 
+        if(this.selectedPatientId!=null){
+            debugger
+            this.handleCustomerChange(this.selectedCustomerId)
+            // this.appointmentAdd.get('patientId').patchValue(this.selectedPatientId);
+        }
+
         this.fillFormData(this.selectedAppointment);
+        
     }
 
     getProductList() {
@@ -122,8 +134,29 @@ export class AddApponitnmentDialogComponent implements OnInit {
     
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
-            debugger;
             this.customers = response.data;
+        });
+    }
+    getPatientList() {
+        debugger
+        this._customerService.getPatientsByCustomerId(this.customers[0].id).subscribe((response) => {
+            this.patientList = response.data;
+        });
+    }
+    handleCustomerChange(event: any) {
+        const model ={
+            id:event.value
+        }
+        if (model.id==undefined) {
+            model.id=event;
+        }
+        
+        debugger;   
+        this._customerService.getPatientsByCustomerId(model).subscribe((response) => {
+            this.patientList = response.data;
+            if (this.patientList.length === 1) {
+                this.appointmentAdd.get('patientId').patchValue(this.patientList[0].recId);
+            }
         });
     }
 
@@ -155,7 +188,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 if (swalResponse.isConfirmed) {
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
-                        this.getFormValueByName('doctorId'),
+                        ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('doctorId')) ,
                         (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
                         this.getFormValueByName('note'),
                         this.getFormValueByName('appointmentType'),

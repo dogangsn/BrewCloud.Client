@@ -357,13 +357,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
             const newPatient: PatientDetails = {
                 id: newId,
+                recId : '',
                 name: '',
                 birthDate: today,
                 chipNumber: '',
                 reportNumber: '',
                 specialNote: '',
                 sterilization: false,
-                sex: '1',
+                sex: 1,
                 animalType: 0,
                 animalBreed: null,
                 animalColor: 0,
@@ -379,13 +380,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         const newId = uuidv4();
         const newPatient: PatientDetails = {
             id: newId,
+            recId:'',
             name: '',
             birthDate: today,
             chipNumber: '',
             reportNumber: '',
             specialNote: '',
             sterilization: false,
-            sex: '1',
+            sex: 1,
             animalType: 0,
             animalBreed: null,
             animalColor: 0,
@@ -546,13 +548,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 const newId = uuidv4();
                 const newPatient: PatientDetails = {
                     id: newId,
+                    recId: '',
                     name: '',
                     birthDate: null,
                     chipNumber: '',
                     reportNumber: '',
                     specialNote: '',
                     sterilization: false,
-                    sex: '0',
+                    sex: 0,
                     animalType: 2,
                     animalBreed: null,
                     animalColor: 0,

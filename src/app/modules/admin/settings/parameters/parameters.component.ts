@@ -42,6 +42,7 @@ export class ParametersComponent implements OnInit {
     updateid: string = '';
     casingcards: casingDefinitionListDto[] = [];
     selectedCasingId: any = '';
+    loader=true;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -51,7 +52,7 @@ export class ParametersComponent implements OnInit {
         private _casingdefinitionService: CasingDefinitionService
     ) // private _dialogRef: MatDialogRef<any>,
 
-    {}
+    { }
 
     ngOnInit() {
         debugger;
@@ -73,7 +74,7 @@ export class ParametersComponent implements OnInit {
             displayVetNo: [false], // Veteriner Numarası Gözüksün - check
             automaticAppointmentReminderMessageTemplate: [''], // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
             isAnimalsBreeds: [false],
-            isfirstInspection: [false],
+            isFirstInspection: [false],
         });
     }
     ngAfterViewInit() {
@@ -131,6 +132,7 @@ export class ParametersComponent implements OnInit {
     }
     fillFormData(getparam: parametersListDto[]) {
         const daysfill = getparam[0].days.split(',').slice(0, -1);
+        debugger;
         if (this.getParameters !== null) {
             this.parameters.setValue({
                 id: getparam[0].id,
@@ -151,9 +153,11 @@ export class ParametersComponent implements OnInit {
                 automaticAppointmentReminderMessageTemplate:
                     getparam[0].automaticAppointmentReminderMessageTemplate,
                 isAnimalsBreeds: getparam[0].isAnimalsBreeds,
+                isFirstInspection: getparam[0].isFirstInspection,
             });
             this.selectedDays.setValue(daysfill);
         }
+        this.loader=false;
     }
     filterCustomerId(value: any): void {
         this.selectedCasingId = value;
@@ -180,14 +184,14 @@ export class ParametersComponent implements OnInit {
         //     this.quantityAdet = selectedProducts.id;
         // }
     }
-    oncashAccountSelectionChange(event: any): void {}
-    oncreditCardCashAccountSelectionChange(event: any): void {}
-    onbankTransferCashAccountSelectionChange(event: any): void {}
-    onwhatsappTemplateSelectionChange(event: any): void {}
-    oncustomerWelcomeTemplateSelectionChange(event: any): void {}
+    oncashAccountSelectionChange(event: any): void { }
+    oncreditCardCashAccountSelectionChange(event: any): void { }
+    onbankTransferCashAccountSelectionChange(event: any): void { }
+    onwhatsappTemplateSelectionChange(event: any): void { }
+    oncustomerWelcomeTemplateSelectionChange(event: any): void { }
     onautomaticAppointmentReminderMessageTemplateSelectionChange(
         event: any
-    ): void {}
+    ): void { }
     getFormValueByName(formName: string): any {
         return this.parameters.get(formName).value;
     }
@@ -226,13 +230,14 @@ export class ParametersComponent implements OnInit {
                 'automaticAppointmentReminderMessageTemplate'
             ) !== ''
                 ? this.getFormValueByName(
-                      'automaticAppointmentReminderMessageTemplate'
-                  )
+                    'automaticAppointmentReminderMessageTemplate'
+                )
                 : '00000000-0000-0000-0000-000000000000',
             this.getFormValueByName('isOtoCustomerWelcomeMessage'),
             this.getFormValueByName('displayVetNo'),
             this.getFormValueByName('autoSms'),
-            this.getFormValueByName('isAnimalsBreeds')
+            this.getFormValueByName('isAnimalsBreeds'),
+            this.getFormValueByName('isFirstInspection')
         );
 
         this.selectedDays.value.forEach((x) => {

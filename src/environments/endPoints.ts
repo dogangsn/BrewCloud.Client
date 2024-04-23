@@ -38,7 +38,8 @@ export const endPoints = {
         getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList',
         createCollection : 'vet/Customers/CreateCollection',
         getpaychartList : 'vet/Customers/GetPayChartList',
-        deletePayChart : 'vet/Customers/DeletePayChart'
+        deletePayChart : 'vet/Customers/DeletePayChart',
+        getPatients: 'vet/Customers/GetPatientsByCustomerId'
 
     },
     productdescription:{
@@ -47,6 +48,7 @@ export const endPoints = {
         updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
         deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
         productDescriptionFilters: 'vet/Definition/ProductDescriptionFilters',
+        productMovementList : 'vet/Definition/ProductMovementList'
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
@@ -133,6 +135,9 @@ export const endPoints = {
     parameters : {
         parametersList : 'vet/Settings/ParametersList',
         updateparameters : 'vet/Settings/UpdateParameters',
+        createsmsparameters: 'vet/Settings/CreateSmsParameters',
+        updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
+        getSmsParametersIdBy : 'vet/Settings/GetSmsParametersIdBy'
     },
     chat:{
         getAllUsers: 'chat/Account/GetAllUsers'
@@ -141,7 +146,7 @@ export const endPoints = {
         appointmensList : 'vet/Appointment/AppointmentsList',
         createappointment : 'vet/Appointment/CreateAppointment',
         deleteappointment : 'vet/Appointment/DeleteAppointment',
-        updateappointment : 'vet/Appointment/UpdateAppointmentById',
+        updateappointment : 'vet/Appointment/UpdateAppointment',
         getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
         appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
         updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',
@@ -168,5 +173,17 @@ export const endPoints = {
         getGraphicList : 'vet/Clinicalstatistics/GetGraphicList',
         getweekVisitList : 'vet/Clinicalstatistics/WeekVisitList',
         getbagelSliceGraphList: 'vet/Clinicalstatistics/BagelSliceGraphList'
+    },
+    appointmenttypes: {
+        getAppointmentTypes : 'vet/Definition/GetAppointmentTypesList',
+        createAppointmentTypes : 'vet/Definition/CreateAppointmentTypes',
+        deleteAppointmentTypes : 'vet/Definition/DeleteAppointmentTypes',
+        updateAppointmentTypes: 'vet/Definition/UpdateAppointmentTypes'
+    },
+    taxis : {
+        getTaxisList : 'vet/Definition/GetTaxisList',
+        createTaxis : 'vet/Definition/CreateTaxis',
+        deleteTaxis : 'vet/Definition/DeleteTaxis',
+        updateTaxis : 'vet/Definition/UpdateTaxis'
     }
 }

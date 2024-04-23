@@ -9,6 +9,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
+import { ProductmovementListComponent } from './dialogs/productmovement-list/productmovement-list.component';
 
 @Component({
     selector: 'app-productdescription',
@@ -159,6 +160,27 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
             }
         );
     };
+
+    public redirectToMovement = (id: string) => {
+        debugger;
+        const model = {
+            productid : id
+        };
+
+        const dialogRef = this._dialog.open(
+            ProductmovementListComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model,
+            }
+        );
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response.status) {
+                this.getProductList();
+            }
+        });
+    }
 
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {
