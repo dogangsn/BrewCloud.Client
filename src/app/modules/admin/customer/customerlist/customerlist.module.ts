@@ -38,6 +38,8 @@ import { ColectionTransactionsDialogComponent } from '../customerdetails/collect
 import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.component';
 import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/appointment-history/dialogs/edit-appointment.component';
+// import { DxReportViewerComponent } from 'devexpress-reporting-angular';
+// import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
 const root: Route[] = [
     {
@@ -121,7 +123,8 @@ const root: Route[] = [
         ColectionTransactionsDialogComponent,
         PayChartComponent,
         VaccinationCard,
-        EditAppointmentComponent
+        EditAppointmentComponent,
+        //  DxReportViewerComponent
     ]
 
     
