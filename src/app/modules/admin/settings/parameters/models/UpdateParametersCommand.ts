@@ -15,6 +15,8 @@ export class UpdateParametersCommand {
     autoSms: boolean;
     isAnimalsBreeds: boolean;
     isFirstInspection : boolean;
+    appointmentBeginDate: string;
+    appointmentEndDate: string;
 
     constructor(
         id: string,
@@ -32,7 +34,9 @@ export class UpdateParametersCommand {
         displayVetNo: boolean,
         autoSms: boolean,
         isAnimalsBreeds: boolean,
-        isFirstInspection: boolean
+        isFirstInspection: boolean,
+        appointmentBeginDate: string,
+        appointmentEndDate: string
         ) {
         this.id = id;
         this.appointmentReminderDuration = appointmentReminderDuration;
@@ -50,5 +54,7 @@ export class UpdateParametersCommand {
         this.autoSms = autoSms;
         this.isAnimalsBreeds = isAnimalsBreeds;
         this.isFirstInspection = isFirstInspection;
+        this.appointmentBeginDate = appointmentBeginDate;
+        this.appointmentEndDate = appointmentEndDate;
     }
 }
