@@ -132,6 +132,7 @@ export class ParametersComponent implements OnInit {
     }
     fillFormData(getparam: parametersListDto[]) {
         const daysfill = getparam[0].days.split(',').slice(0, -1);
+        debugger;
         if (this.getParameters !== null) {
             this.parameters.setValue({
                 id: getparam[0].id,

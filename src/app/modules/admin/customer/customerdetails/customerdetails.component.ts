@@ -20,6 +20,7 @@ import { GetColectionEditDialogComponent } from './collection/get-collection-edi
 import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { PayChartComponent } from './pay-chart/pay-chart.component';
 import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
+import { PatientDetails } from '../models/PatientDetailsCommand';
 
 @Component({
     selector: 'customerdetails',
@@ -38,6 +39,8 @@ export class CustomerDetailsComponent implements OnInit {
     patientDetails: PatientDetailsDto[] = [];
     firstname: string
     lastname: string
+
+    patientList: PatientDetails[] = [];
 
     totalSaleBuyCount: number;
     totalVisitCount: number;
@@ -223,10 +226,20 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
-            visibleCustomer : false
+            visibleCustomer : false,
+            patientId : null
         }
-
-        const dialog = this._dialog
+debugger
+        const patientModel ={
+            id:this.selectedCustomerId
+        }
+        this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
+            debugger
+            this.patientList = response.data;
+            if (this.patientList.length === 1) {
+                model.patientId=this.patientList[0].recId;
+            }
+            const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
@@ -237,6 +250,9 @@ export class CustomerDetailsComponent implements OnInit {
                 if (response.status) {
                 }
             });
+        });
+
+        
     }
 
     openAppointmentHistory() : void {
