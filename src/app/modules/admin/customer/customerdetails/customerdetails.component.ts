@@ -292,7 +292,7 @@ debugger
         .afterClosed()
         .subscribe((response) => {
             if (response.status) {
-                // this.getCustomerList();
+                this.getCustomerDetailList();
             }
         });
     }
@@ -355,7 +355,7 @@ debugger
         .afterClosed()
         .subscribe((response) => {
             if (response.status) {
-                // this.getCustomerList();
+                 this.getCustomerDetailList();
             }
         });
     }

@@ -185,20 +185,23 @@ export class AppointmentHistoryComponent implements OnInit {
     }
 
     shouldMarkExpired(element: AppointmentDto): boolean {
-        // Eğer complated true ise satırı kırmızı yapmamalı
         if (element.isComplated) {
             return false;
         }
-        // Diğer durumlarda tarihin geçmiş olup olmadığını kontrol eder
         const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() - 1);
+
         const rowDate = new Date(element.beginDate);
-        return rowDate < today;
+        return rowDate < tomorrow;
     }
 
     IsDateControl(element: AppointmentDto): boolean {
         const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() - 1);
         const rowDate = new Date(element.beginDate);
-        return rowDate < today;
+        return rowDate < tomorrow;
     }
 
 

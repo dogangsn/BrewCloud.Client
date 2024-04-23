@@ -185,5 +185,8 @@ export const endPoints = {
         createTaxis : 'vet/Definition/CreateTaxis',
         deleteTaxis : 'vet/Definition/DeleteTaxis',
         updateTaxis : 'vet/Definition/UpdateTaxis'
+    },
+    reports:{
+        createFilter: 'vet/Reports/CreateReportFilter',
     }
 }

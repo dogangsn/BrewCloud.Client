@@ -44,13 +44,10 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
     
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
-        
             this.customerlist = response.data;
-
             this.dataSource = new MatTableDataSource<customersListDto>(
                 this.customerlist
             );
-
             this.dataSource.paginator = this.paginator;
 
             this.loader=false;
@@ -132,6 +129,10 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+      }
 
 
 
