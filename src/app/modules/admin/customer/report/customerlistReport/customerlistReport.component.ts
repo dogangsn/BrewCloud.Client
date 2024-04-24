@@ -54,11 +54,10 @@ export class customerlistReportComponent implements OnInit {
     }
   
     ngOnInit() {
-      this.getPmsReports();
+      this.getReports();
     }
   
-    getPmsReports(): void {
-        debugger;
+    getReports(): void {
       this.reportName =this.model.reportId.toString();
       const jsonText = JSON.stringify(this.model);
       const model = {
@@ -78,6 +77,7 @@ export class customerlistReportComponent implements OnInit {
         console.log(err);
       });
     }
+
     closeDialog(): void {
       this._dialogRef.close({ status: null });
     }

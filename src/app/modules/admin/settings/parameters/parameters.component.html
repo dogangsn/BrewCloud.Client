@@ -87,6 +87,27 @@
                 </div>
 
                 <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Online Randevu Başlangıç</div>
+                    <mat-form-field>
+                        <mat-select [formControlName]="'appointmentBeginDate'" placeholder="Select Time">
+                            <mat-option *ngFor="let time of times" [value]="time" [disabled]="isEndDateDisabled(time)">
+                              {{time}}
+                            </mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="flex-auto items-center justify-between cursor-pointer">
+                    <div class="leading-6 font-medium">Online Randevu Bitiş</div>
+                    <mat-form-field>
+                        <mat-select [formControlName]="'appointmentEndDate'" placeholder="Select Time">
+                            <mat-option *ngFor="let time of times" [value]="time" [disabled]="isBeginDateDisabled(time)">
+                              {{time}}
+                            </mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                </div>
+                
+                <div class="flex-auto items-center justify-between cursor-pointer">
                     <div class="leading-6 font-medium">Randevu Hatırlatma Süresi(Gün)</div>
                     <mat-form-field>
                         <input class="ml-2" type="number" matInput [formControlName]="'appointmentReminderDuration'">
