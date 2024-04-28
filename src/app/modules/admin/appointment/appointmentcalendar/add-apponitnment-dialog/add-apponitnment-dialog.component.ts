@@ -1,5 +1,5 @@
 
-import { CustomerService } from './../../../../../core/services/customers/customers.service';
+import { CustomerService } from '../../../../../core/services/customers/customers.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
     MAT_DIALOG_DATA,
@@ -17,18 +17,18 @@ import {
 } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { customersListDto } from 'app/modules/admin/customer/models/customersListDto';
-import { AppointmentDto } from '../../models/appointmentDto';
+import { AppointmentDto } from '../models/appointmentDto';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { AppointmentTypeDto } from '../../models/appointmentTypeDto';
-import { VetUsersDto } from '../../models/vetusersDto';
-import { CreateAppointmentCommand } from '../../models/createAppointmentCommand';
+import { AppointmentTypeDto } from '../models/appointmentTypeDto';
+import { VetUsersDto } from '../models/vetusersDto';
+import { CreateAppointmentCommand } from '../models/createAppointmentCommand';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
 import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdescription/models/ProductDescriptionsDto';
-import { addVaccineDto } from '../../models/addVaccineDto';
+import { addVaccineDto } from '../models/addVaccineDto';
 import { v4 as uuidv4 } from 'uuid';
 import { PatientDetails } from 'app/modules/admin/customer/models/PatientDetailsCommand';
 

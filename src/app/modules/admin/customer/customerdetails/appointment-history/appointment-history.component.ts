@@ -5,11 +5,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 import { GeneralService } from 'app/core/services/general/general.service';
-import { AppointmentDto } from 'app/modules/admin/appointment/models/appointmentDto';
+import { AppointmentDto } from 'app/modules/admin/appointment/appointmentcalendar/models/appointmentDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatTableDataSource } from '@angular/material/table';
-import { AddApponitnmentDialogComponent } from 'app/modules/admin/appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AddApponitnmentDialogComponent } from 'app/modules/admin/appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { EditAppointmentComponent } from './dialogs/edit-appointment.component';
 
 @Component({

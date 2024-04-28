@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReportappointmentComponent } from './reportappointment.component'; 
 import { Route, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppointmentComponent } from './appointment.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,11 +11,7 @@ import { FuseCardModule } from '@fuse/components/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { CommonModule } from '@angular/common';
-import { DemoUtilsModule } from './demo-utils/module';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { AddApponitnmentDialogComponent } from './dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar'; 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -41,46 +38,46 @@ import { DxDateBoxModule } from 'devextreme-angular';
 import {MatCardModule} from '@angular/material/card';
 
 const root: Route[] = [
-    {
-        path: '',
-        component: AppointmentComponent,
-    },
+  {
+      path: '',
+      component: ReportappointmentComponent,
+  },
 ];
 
 @NgModule({
-    imports: [
-        CommonModule ,
-        FormsModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        RouterModule.forChild(root),
-        ReactiveFormsModule,
-        FuseCardModule,
-        MatMenuModule,
-        MatTableModule,
-        FullCalendarModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatRadioModule,
-        SharedModule,
-        MatTooltipModule,
-        MatSlideToggleModule,
-        MatSortModule,
-        MatRippleModule,
-        MatNativeDateModule,
-        MatProgressBarModule,
-        MatPaginatorModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        DxDateBoxModule,
-        DxSchedulerModule,
-        MatCardModule,
-        DxDateBoxModule,
-        DxCheckBoxModule
-    ],
-    declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
+  imports: [ 
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    RouterModule.forChild(root),
+    ReactiveFormsModule,
+    FuseCardModule,
+    MatMenuModule,
+    MatTableModule,
+    FullCalendarModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatRadioModule,
+    SharedModule,
+    MatTooltipModule,
+    MatSlideToggleModule,
+    MatSortModule,
+    MatRippleModule,
+    MatNativeDateModule,
+    MatProgressBarModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    DxDateBoxModule,
+    DxSchedulerModule,
+    MatCardModule,
+    DxDateBoxModule,
+    DxCheckBoxModule
+  ],
+  declarations: [ReportappointmentComponent]
 })
-export class AppointmentModule {}
+export class ReportappointmentModule { }

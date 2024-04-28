@@ -159,10 +159,38 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
-                path: 'appointment',
+                path: 'examinationadd',
                 loadChildren: () =>
-                    import('app/modules/admin/appointment/appointment.module').then(
+                    import('app/modules/admin/customer/examinationadd/examinationadd.module').then(
+                        (m) => m.ExaminationaddModule
+                    ),
+            },
+            {
+                path: 'appointmentcalendar',
+                loadChildren: () =>
+                    import('app/modules/admin/appointment/appointmentcalendar/appointment.module').then(
                         (m) => m.AppointmentModule
+                    ),
+            },
+            {
+                path: 'vaccineappointment',
+                loadChildren: () =>
+                    import('app/modules/admin/appointment/vaccineappointment/vaccineappointment.module').then(
+                        (m) => m.VaccineappointmentModule
+                    ),
+            },
+            {
+                path: 'dailyappointment',
+                loadChildren: () =>
+                    import('app/modules/admin/appointment/dailyappointment/dailyappointment.module').then(
+                        (m) => m.DailyappointmentModule
+                    ),
+            },
+            {
+                path: 'reportappointment',
+                loadChildren: () =>
+                    import('app/modules/admin/appointment/reportappointment/reportappointment.module').then(
+                        (m) => m.ReportappointmentModule
                     ),
             },
             {
@@ -198,6 +226,13 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/cashing/checkportfolio/checkportfolio.module').then(
                         (m) => m.CheckportfolioModule
+                    ),
+            },
+            {
+                path: 'vaccinelist',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/vaccinelist/vaccinelist.module').then(
+                        (m) => m.VaccinelistModule
                     ),
             },
             {
@@ -353,6 +388,20 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/myactivities/myactivities.module').then(
                         (m) => m.MyActivitiesModule
+                    ),
+            },
+            {
+                path: 'accommodations',
+                loadChildren: () =>
+                    import('app/modules/admin/pethotels/accommodations/accommodations.module').then(
+                        (m) => m.AccommodationsModule
+                    ),
+            },
+            {
+                path: 'accommodationrooms',
+                loadChildren: () =>
+                    import('app/modules/admin/pethotels/accommodationrooms/accommodationrooms.module').then(
+                        (m) => m.AccommodationroomsModule
                     ),
             },
 

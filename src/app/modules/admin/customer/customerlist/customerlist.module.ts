@@ -39,6 +39,7 @@ import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.compon
 import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/appointment-history/dialogs/edit-appointment.component';
 import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
+import { MatTabsModule } from '@angular/material/tabs';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
@@ -111,6 +112,7 @@ const root: Route[] = [
         MatStepperModule,
         DxDateBoxModule,
         DxCheckBoxModule,
+        MatTabsModule,
         RouterModule.forChild(root),
     ],
     declarations: [

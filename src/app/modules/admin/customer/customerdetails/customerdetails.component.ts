@@ -14,7 +14,7 @@ import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog
 import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
-import { AddApponitnmentDialogComponent } from '../../appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AddApponitnmentDialogComponent } from '../../appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 import { GetColectionEditDialogComponent } from './collection/get-collection-editdialog/get-collection-editdialog.component';
 import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';

@@ -5,8 +5,7 @@ import {
     CalendarEvent,
     CalendarEventTimesChangedEvent,
     CalendarView,
-} from 'angular-calendar';
-import { colors } from '../appointment/colors';
+} from 'angular-calendar'; 
 import {
     addDays,
     addHours,
@@ -16,7 +15,7 @@ import {
     subDays,
     subSeconds,
 } from 'date-fns';
-import { AddApponitnmentDialogComponent } from './dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AddApponitnmentDialogComponent } from './add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';

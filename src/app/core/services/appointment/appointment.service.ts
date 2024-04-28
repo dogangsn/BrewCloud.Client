@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
-import { AppointmentDto } from "app/modules/admin/appointment/models/appointmentDto";
-import { CreateAppointmentCommand } from "app/modules/admin/appointment/models/createAppointmentCommand";
+import { AppointmentDto } from "app/modules/admin/appointment/appointmentcalendar/models/appointmentDto";
+import { CreateAppointmentCommand } from "app/modules/admin/appointment/appointmentcalendar/models/createAppointmentCommand";
 import { UpdateAppointmentCommand } from "app/modules/admin/customer/customerdetails/appointment-history/models/UpdateAppointmentCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
