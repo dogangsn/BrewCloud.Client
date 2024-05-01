@@ -1,4 +1,5 @@
 export class VaccineMedicine {
+    id : string;
     vaccineId: string;
     productId: string;
     quantity: number;

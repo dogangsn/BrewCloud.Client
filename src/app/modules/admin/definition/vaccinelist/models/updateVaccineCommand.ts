@@ -1,6 +1,7 @@
 import { VaccineMedicine } from "./VaccineMedicine";
 
-export class CreateVaccineCommand{
+export class UpdateVaccineCommand{
+    id:string;
     animalType: number;
     vaccineName: string;
     timeDone: number;
@@ -9,6 +10,7 @@ export class CreateVaccineCommand{
     vaccineMedicine : VaccineMedicine[];
 
     constructor(
+        id:string,
         animalType: number,
         vaccineName: string,
         timeDone: number,
@@ -16,6 +18,7 @@ export class CreateVaccineCommand{
         obligation: number, 
         vaccineMedicine: VaccineMedicine[]
     ) {
+        this.id = id;
         this.animalType = animalType;
         this.vaccineName = vaccineName;
         this.timeDone = timeDone;
