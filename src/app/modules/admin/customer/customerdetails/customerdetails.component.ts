@@ -21,6 +21,7 @@ import { ColectionTransactionsDialogComponent } from './collection/collection-tr
 import { PayChartComponent } from './pay-chart/pay-chart.component';
 import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
 import { PatientDetails } from '../models/PatientDetailsCommand';
+import { CustomerDataService } from './services/customer-data.service';
 
 @Component({
     selector: 'customerdetails',
@@ -55,6 +56,7 @@ export class CustomerDetailsComponent implements OnInit {
         private _customerService: CustomerService,
         private _translocoService: TranslocoService,
         private _dialog: MatDialog,
+        private _customerDataService : CustomerDataService
     ) { }
 
     ngOnInit() {
@@ -66,6 +68,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         this.getCustomerDetailList();
 
+        this._customerDataService.setCustomerId(this.selectedCustomerId);
+        
         this.customerDetailForm = this._formBuilder.group({
             email: [{ value: '', disabled: true }],
             phonenumber: [{ value: '', disabled: true }],
@@ -229,12 +233,10 @@ export class CustomerDetailsComponent implements OnInit {
             visibleCustomer : false,
             patientId : null
         }
-debugger
         const patientModel ={
             id:this.selectedCustomerId
         }
         this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
-            debugger
             this.patientList = response.data;
             if (this.patientList.length === 1) {
                 model.patientId=this.patientList[0].recId;
@@ -415,5 +417,10 @@ debugger
             }
         );
     }
+
+    openPatientTab() {
+        debugger
+        this._customerDataService.setCustomerId(this.selectedCustomerId);
+      }
 
 }
