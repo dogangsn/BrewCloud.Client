@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog'; 
 import { AccommodationroomsComponent } from './accommodationrooms.component'; 
+import { CreateEditAccommodationRoomsDialogComponent } from './dialog/create-edit-accommodationroom';
 
 
 const root: Route[] = [
@@ -75,6 +76,6 @@ const root: Route[] = [
     MatDialogModule,
     RouterModule.forChild(root)
   ],
-  declarations: [AccommodationroomsComponent]
+  declarations: [AccommodationroomsComponent, CreateEditAccommodationRoomsDialogComponent]
 })
 export class AccommodationroomsModule { }
