@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
     providedIn: 'root'
 })
 
-export class AccommodationsService {
+export class AccommodationsRoonService {
     constructor(private _httpService: HttpService) { }
 
     getRoomList() : Observable<any>{

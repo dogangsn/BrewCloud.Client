@@ -8,7 +8,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { RoomListDto } from '../models/roomListDto';
 import { CreateRoomCommand } from '../models/createRoomCommand';
-import { AccommodationsService } from 'app/core/services/pethotels/accommodations/accommodations.service';
+import { AccommodationsRoonService } from 'app/core/services/pethotels/accommodationrooms/accommodationsroom.service';
 import { UpdateRoomCommand } from '../models/updateRoomCommand';
 
 @Component({
@@ -25,7 +25,7 @@ export class CreateEditAccommodationRoomsDialogComponent implements OnInit {
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
-        private _accommodationrooms: AccommodationsService,
+        private _accommodationrooms: AccommodationsRoonService,
         @Inject(MAT_DIALOG_DATA) public data: RoomListDto
     ) {
         this.selectedaccommodationrooms = data;

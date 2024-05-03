@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CreateEditAccommodationRoomsDialogComponent } from './dialog/create-edit-accommodationroom';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
-import { AccommodationsService } from 'app/core/services/pethotels/accommodations/accommodations.service';
+import { AccommodationsRoonService } from 'app/core/services/pethotels/accommodationrooms/accommodationsroom.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
@@ -26,7 +26,7 @@ export class AccommodationroomsComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
-    private _accommodationrooms: AccommodationsService,
+    private _accommodationrooms: AccommodationsRoonService,
     private _translocoService: TranslocoService,) { }
 
   ngOnInit() {
