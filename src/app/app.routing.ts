@@ -404,7 +404,34 @@ export const appRoutes: Route[] = [
                         (m) => m.AccommodationroomsModule
                     ),
             },
-
+            {
+                path: 'patientslist',
+                loadChildren: () =>
+                    import('app/modules/admin/patient/patientlist/patientlist.module').then(
+                        (m) => m.PatientlistModule
+                    ),
+            },
+            {
+                path: 'examination',
+                loadChildren: () =>
+                    import('app/modules/admin/patient/inspections/inspections.module').then(
+                        (m) => m.InspectionsModule
+                    ),
+            },
+            {
+                path: 'services',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/serviceslist/services.module').then(
+                        (m) => m.ServicesModule
+                    ),
+            },
+            {
+                path: 'outputtemplate',
+                loadChildren: () =>
+                    import('app/modules/admin/definition/printtemplate/printtemplate.module').then(
+                        (m) => m.PrinttemplateModule
+                    ),
+            },
 
         ],
     },
