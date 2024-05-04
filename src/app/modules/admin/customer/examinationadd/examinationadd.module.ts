@@ -11,7 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { CommonModule } from '@angular/common'; 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
