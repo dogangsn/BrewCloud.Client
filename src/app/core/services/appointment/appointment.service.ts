@@ -13,8 +13,8 @@ import { Observable } from "rxjs";
 export class AppointmentService {
     constructor(private _httpService: HttpService) { }
 
-    getAppointmentslist() : Observable<any>{    
-        return this._httpService.getRequest(endPoints.appointments.appointmensList);
+    getAppointmentslist(model : any) : Observable<any>{    
+        return this._httpService.post(endPoints.appointments.appointmensList, model);
     }
 
     createAppointment(model: CreateAppointmentCommand): Observable<any> {

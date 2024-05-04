@@ -46,7 +46,10 @@ export class AppointmentComponent implements OnInit  {
     }
 
     getApponitmentList() {
-        this._appointmentService.getAppointmentslist().subscribe((response) => {
+        const model = {
+            appointmentType : 0
+        }
+        this._appointmentService.getAppointmentslist(model).subscribe((response) => {
             this.appointmentsData = response.data;
             console.log(response.data);
         });

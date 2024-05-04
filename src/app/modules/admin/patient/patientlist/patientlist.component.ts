@@ -10,136 +10,140 @@ import { PatientOwnerListDto } from "./models/PatientOwnerListDto";
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 
 @Component({
-  selector: 'app-patientlist',
-  templateUrl: './patientlist.component.html',
-  styleUrls: ['./patientlist.component.css']
+    selector: 'app-patientlist',
+    templateUrl: './patientlist.component.html',
+    styleUrls: ['./patientlist.component.css']
 })
 export class PatientlistComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'animalTypeName', 'customerFirsLastName',  'actions'];
+    displayedColumns: string[] = ['name', 'animalTypeName', 'customerFirsLastName', 'actions'];
 
-  isUpdateButtonActive: boolean;
-  @ViewChild('paginator') paginator: MatPaginator;
-  patientList: PatientOwnerListDto[] = [];
-  dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
+    isUpdateButtonActive: boolean;
+    @ViewChild('paginator') paginator: MatPaginator;
+    patientList: PatientOwnerListDto[] = [];
+    dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
 
-  constructor(
-      private _dialog: MatDialog, 
-      private _translocoService: TranslocoService,
-      private _patientService : PatientListService,
-  ) {}
+    constructor(
+        private _dialog: MatDialog,
+        private _translocoService: TranslocoService,
+        private _patientService: PatientListService,
+    ) { }
 
-  ngOnInit() {
-    this.patientOwnerList();
-  }
+    ngOnInit() {
+        this.patientOwnerList();
+    }
 
-  ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-  }
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
 
 
-  patientOwnerList() {
-      this._patientService.gtPatientList().subscribe((response) => {
-          this.patientList = response.data; 
+    patientOwnerList() {
+        this._patientService.gtPatientList().subscribe((response) => {
+            this.patientList = response.data;
 
-          this.dataSource = new MatTableDataSource<PatientOwnerListDto>(
-              this.patientList
-          );
+            this.dataSource = new MatTableDataSource<PatientOwnerListDto>(
+                this.patientList
+            );
 
-          this.dataSource.paginator = this.paginator;
-      });
-  }
+            this.dataSource.paginator = this.paginator;
+        });
+    }
 
-  addPanelOpen(): void {
-      // this.isUpdateButtonActive = false;
-      // const dialog = this._dialog
-      //     .open(CreateEditUnitDefinitionDialogComponent, {
-      //         maxWidth: '100vw !important',
-      //         disableClose: true,
-      //         data: null,
-      //     })
-      //     .afterClosed()
-      //     .subscribe((response) => {
-      //         if (response.status) {
-      //             this.UnitsList();
-      //         }
-      //     });
-  }
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
-  public redirectToUpdate = (id: string) => {
-      // this.isUpdateButtonActive = true;
-      // const selectedStore = this.units.find((units) => units.id === id);
-      // if (selectedStore) {
-      //     const dialogRef = this._dialog.open(
-      //         CreateEditUnitDefinitionDialogComponent,
-      //         {
-      //             maxWidth: '100vw !important',
-      //             disableClose: true,
-      //             data: selectedStore
-      //         }
-      //     );
-      //     dialogRef.afterClosed().subscribe((response) => {
-      //         if (response.status) {
-      //             this.UnitsList();
-      //         }
-      //     });
-      // }
-  };
+    addPanelOpen(): void {
+        // this.isUpdateButtonActive = false;
+        // const dialog = this._dialog
+        //     .open(CreateEditUnitDefinitionDialogComponent, {
+        //         maxWidth: '100vw !important',
+        //         disableClose: true,
+        //         data: null,
+        //     })
+        //     .afterClosed()
+        //     .subscribe((response) => {
+        //         if (response.status) {
+        //             this.UnitsList();
+        //         }
+        //     });
+    }
 
-  public redirectToDelete = (id: string) => {
-      // const sweetAlertDto = new SweetAlertDto(
-      //     this.translate('sweetalert.areYouSure'),
-      //     this.translate('sweetalert.areYouSureDelete'),
-      //     SweetalertType.warning
-      // );
-      // GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-      //     (swalResponse) => {
-      //         if (swalResponse.isConfirmed) {
-      //             const model = {
-      //                 id: id,
-      //             };
-      //             this._unitsservice
-      //                 .deleteUnits(model)
-      //                 .subscribe((response) => {
-      //                     if (response.isSuccessful) {
-      //                         this.UnitsList();
-      //                         const sweetAlertDto2 = new SweetAlertDto(
-      //                             this.translate('sweetalert.success'),
-      //                             this.translate('sweetalert.transactionSuccessful'),
-      //                             SweetalertType.success
-      //                         );
-      //                         GeneralService.sweetAlert(sweetAlertDto2);
-      //                     } else {
-      //                         this.showSweetAlert('error', response.errors[0]);
-      //                         console.log(response.errors[0]);
-      //                     }
-      //                 });
-      //         }
-      //     }
-      // );
-  };
+    public redirectToUpdate = (id: string) => {
+        // this.isUpdateButtonActive = true;
+        // const selectedStore = this.units.find((units) => units.id === id);
+        // if (selectedStore) {
+        //     const dialogRef = this._dialog.open(
+        //         CreateEditUnitDefinitionDialogComponent,
+        //         {
+        //             maxWidth: '100vw !important',
+        //             disableClose: true,
+        //             data: selectedStore
+        //         }
+        //     );
+        //     dialogRef.afterClosed().subscribe((response) => {
+        //         if (response.status) {
+        //             this.UnitsList();
+        //         }
+        //     });
+        // }
+    };
 
-  
-  showSweetAlert(type: string, message: string): void {
-      if (type === 'success') {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.success'),
-              this.translate('sweetalert.transactionSuccessful'),
-              SweetalertType.success
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      } else {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.error'),
-              this.translate(message),
-              SweetalertType.error
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      }
-  }
+    public redirectToDelete = (id: string) => {
+        // const sweetAlertDto = new SweetAlertDto(
+        //     this.translate('sweetalert.areYouSure'),
+        //     this.translate('sweetalert.areYouSureDelete'),
+        //     SweetalertType.warning
+        // );
+        // GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+        //     (swalResponse) => {
+        //         if (swalResponse.isConfirmed) {
+        //             const model = {
+        //                 id: id,
+        //             };
+        //             this._unitsservice
+        //                 .deleteUnits(model)
+        //                 .subscribe((response) => {
+        //                     if (response.isSuccessful) {
+        //                         this.UnitsList();
+        //                         const sweetAlertDto2 = new SweetAlertDto(
+        //                             this.translate('sweetalert.success'),
+        //                             this.translate('sweetalert.transactionSuccessful'),
+        //                             SweetalertType.success
+        //                         );
+        //                         GeneralService.sweetAlert(sweetAlertDto2);
+        //                     } else {
+        //                         this.showSweetAlert('error', response.errors[0]);
+        //                         console.log(response.errors[0]);
+        //                     }
+        //                 });
+        //         }
+        //     }
+        // );
+    };
 
-  translate(key: string): any {
-      return this._translocoService.translate(key);
-  }
+
+    showSweetAlert(type: string, message: string): void {
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate(message),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
 
 }
