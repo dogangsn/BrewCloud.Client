@@ -43,7 +43,7 @@ export const endPoints = {
 
     },
     examinations:{
-        examinationlist: 'vet/Patient/ExaminationList',
+        examinationlist: 'vet/Patient/GetExaminations',
         createExamination: 'vet/Patient/CreateExamination',
     },
     

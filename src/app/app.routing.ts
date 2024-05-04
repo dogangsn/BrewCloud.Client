@@ -1,3 +1,4 @@
+import { ExaminationaddModule } from './modules/admin/customer/examination/examinationadd.module';
 import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
@@ -161,7 +162,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'examinationadd',
                 loadChildren: () =>
-                    import('app/modules/admin/customer/examinationadd/examinationadd.module').then(
+                    import('app/modules/admin/customer/examination/examinationadd.module').then(
                         (m) => m.ExaminationaddModule
                     ),
             },
@@ -414,8 +415,8 @@ export const appRoutes: Route[] = [
             {
                 path: 'examination',
                 loadChildren: () =>
-                    import('app/modules/admin/patient/inspections/inspections.module').then(
-                        (m) => m.InspectionsModule
+                    import('app/modules/admin/customer/examination/examinationadd.module').then(
+                        (m) => m.ExaminationaddModule
                     ),
             },
             {

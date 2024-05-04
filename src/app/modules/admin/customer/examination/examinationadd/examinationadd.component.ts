@@ -12,8 +12,8 @@ import {
     UntypedFormBuilder,
     Validators,
 } from '@angular/forms';
-import { PatientDetails } from '../models/PatientDetailsCommand';
-import { customersListDto } from '../models/customersListDto';
+import { PatientDetails } from '../../models/PatientDetailsCommand';
+import { customersListDto } from '../../models/customersListDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { Observable } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -24,7 +24,7 @@ import { map, startWith } from 'rxjs/operators';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
-import { ExaminationDto } from '../models/ExaminationDto';
+import { ExaminationDto } from '../../models/ExaminationDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ExaminationService } from 'app/core/services/examination/exammination.service';
@@ -85,8 +85,8 @@ export class ExaminationaddComponent implements OnInit {
         this.getCustomerList();
         
         this.examinationForm = this._formBuilder.group({
-            customerId: [''],
-            patientId: [''],
+            customerId: ['',Validators.required],
+            patientId: ['',Validators.required],
             bodyTemperature: [''],
             pulse: [''],
             respiratoryRate: [''],
