@@ -48,10 +48,10 @@
                 <button mat-menu-item (click)="openGetCollection()">Tahsilat Al</button>
                 <!-- <button mat-menu-item (click)="openCollectionTransaction()">Tahsilat İşlemleri</button> -->
             </mat-menu>
-            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="openPayChart()">
+            <!-- <button class="ml-3" mat-flat-button [color]="'primary'" (click)="openPayChart()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Ödeme Tablosu
-            </button>
+            </button> -->
             <button class="ml-3" mat-stroked-button [matMenuTriggerFor]="menus"><mat-icon
                     svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
             <mat-menu #menus="matMenu">
@@ -373,6 +373,10 @@
 
             <mat-tab label="Konaklama">
 
+            </mat-tab>
+
+            <mat-tab label="Ödeme Tablosu">
+                <app-pay-chart-tab></app-pay-chart-tab>
             </mat-tab>
 
             <mat-tab label="İşlem Geçmişi">
