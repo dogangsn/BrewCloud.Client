@@ -21,13 +21,20 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog'; 
+import { PatientdetailsComponent } from '../patientdetails/patientdetails.component';
 
 const root: Route[] = [
   {
       path     : '',
       component: PatientlistComponent
+  },
+  {
+    path: 'patientdetails/:id',
+    component: PatientdetailsComponent
   }
 ];
+
+
 
 @NgModule({
   imports: [
@@ -73,6 +80,6 @@ const root: Route[] = [
     MatDialogModule,
     RouterModule.forChild(root)
   ],
-  declarations: [PatientlistComponent]
+  declarations: [PatientlistComponent, PatientdetailsComponent]
 })
 export class PatientlistModule { }
