@@ -428,7 +428,7 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
-                path: 'inspection',
+                path: 'examination',
                 loadChildren: () =>
                     import('app/modules/admin/customer/examination/examinationlist/examinationlist.module').then(
                         (m) => m.ExaminationlistModule

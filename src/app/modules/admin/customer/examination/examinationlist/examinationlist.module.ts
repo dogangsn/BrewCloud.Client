@@ -57,7 +57,7 @@ const root: Route[] = [
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        RouterModule.forChild(root),
+     
         ReactiveFormsModule,
         FuseCardModule,
         MatMenuModule,
@@ -85,7 +85,7 @@ const root: Route[] = [
         MatChipsModule,
         MatAutocompleteModule,
         MatExpansionModule,
-     
+        RouterModule.forChild(root),
     ],
     declarations: [
         ExaminationlistComponent
