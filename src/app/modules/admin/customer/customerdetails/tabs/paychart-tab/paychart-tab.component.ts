@@ -46,7 +46,6 @@ export class PayChartTabComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-
         this.getPaymentTransactiopnList();
     }
 

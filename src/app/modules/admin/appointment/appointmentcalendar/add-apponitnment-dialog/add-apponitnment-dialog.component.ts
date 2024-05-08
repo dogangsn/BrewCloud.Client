@@ -61,7 +61,11 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     morning8 = new Date();
     evening8 = new Date();
- 
+
+    statusTypeList = Object.keys(StatusTypeValues).map(key => ({ value: +key, label: StatusTypeValues[key] }));
+    selectedStatus: number | null = null;
+
+
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
@@ -99,7 +103,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
             customerId: [''],
             patientId: [''],
             note: [''],
+            status : [1]
         });
+
+        if(!this.selectedAppointment) {
+            this.selectedStatus = 1;
+        }
 
         const newId = uuidv4();
         const model: addVaccineDto = {
@@ -110,14 +119,14 @@ export class AddApponitnmentDialogComponent implements OnInit {
         };
         this.addVaccineList.push(model);
 
-        if(this.selectedPatientId!=null){
+        if (this.selectedPatientId != null) {
             debugger
             this.handleCustomerChange(this.selectedCustomerId)
             // this.appointmentAdd.get('patientId').patchValue(this.selectedPatientId);
         }
 
         this.fillFormData(this.selectedAppointment);
-        
+
     }
 
     getProductList() {
@@ -131,27 +140,29 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 console.log(this.productdescription);
             });
     }
-    
+
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
             this.customers = response.data;
         });
     }
+
     getPatientList() {
         debugger
         this._customerService.getPatientsByCustomerId(this.customers[0].id).subscribe((response) => {
             this.patientList = response.data;
         });
     }
+
     handleCustomerChange(event: any) {
-        const model ={
-            id:event.value
+        const model = {
+            id: event.value
         }
-        if (model.id==undefined) {
-            model.id=event;
+        if (model.id == undefined) {
+            model.id = event;
         }
-        
-        debugger;   
+
+        debugger;
         this._customerService.getPatientsByCustomerId(model).subscribe((response) => {
             this.patientList = response.data;
             if (this.patientList.length === 1) {
@@ -176,8 +187,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     }
 
     addOrUpdateAppointment(): void {
-        debugger;
-
+ 
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
             this.translate('sweetalert.apponitnmentAreSure'),
@@ -188,10 +198,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 if (swalResponse.isConfirmed) {
                     const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
-                        ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('doctorId')) ,
+                        ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
                         (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
                         this.getFormValueByName('note'),
                         this.getFormValueByName('appointmentType'),
+                        this.selectedStatus,
+                        this.getFormValueByName('patientId'),
                         this.addVaccineList
                     );
 
@@ -292,16 +304,29 @@ export class AddApponitnmentDialogComponent implements OnInit {
     }
 
     fillFormData(selectedAppointments: AppointmentDto) {
-        
+
         if (this.selectedAppointment !== null) {
             this.appointmentAdd.setValue({
-               
+
             });
         }
     }
 
+    onStatusChange(event: any) {
+        this.selectedStatus = event.value;
+        console.log("Seçilen değer:", this.selectedStatus);
+    }
+
 
 }
+
+
+const StatusTypeValues = {
+    1: "Bekliyor",
+    2: "IptalEdildi",
+    3: "Gorusuldu",
+    4: "Gelmedi"
+};
 
 const appointments: AppointmentTypeDto[] = [
     {

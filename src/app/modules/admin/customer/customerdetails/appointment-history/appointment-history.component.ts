@@ -176,6 +176,7 @@ export class AppointmentHistoryComponent implements OnInit {
             if (response.isSuccessful) {
                 item.isComplated = !item.isComplated;
                 this.getAppointmentsByIdList();
+                this.showSweetAlert('success', '');
             } else {
                 this.showSweetAlert('error', response.errors[0]);
             }

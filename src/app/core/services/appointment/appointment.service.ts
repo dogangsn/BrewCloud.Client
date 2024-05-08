@@ -45,4 +45,8 @@ export class AppointmentService {
         return this._httpService.post(endPoints.appointments.updateCompletedAppointment, model);
     }
 
+    getAppointmentDailyList() : Observable<any>{    
+        return this._httpService.getRequest(endPoints.appointments.getAppointmentDailyList);
+    }
+
 }
