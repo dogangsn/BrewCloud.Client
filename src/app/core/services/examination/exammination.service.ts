@@ -18,4 +18,8 @@ export class ExaminationService {
         return this._httpService.post(endPoints.examinations.createExamination, model);
     }
 
+    getSymptomlist() : Observable<any>{    
+        return this._httpService.getRequest(endPoints.examinations.symptomlist);
+    }
+
 }

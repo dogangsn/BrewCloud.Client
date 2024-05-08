@@ -103,7 +103,7 @@
       <mat-form-field class="example-chip-list flex-wrap mt-1" appearance="fill">
         <div class="flex-wrap my-2 w-full">
           <mat-chip-grid class="ml-2" #chipGrid aria-label="Fruit selection">
-            <mat-chip-row *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+            <mat-chip-row *ngFor="let fruit of symptoms" (removed)="remove(fruit)">
               {{ fruit }}
               <button matChipRemove [attr.aria-label]="'remove ' + fruit">
                 <mat-icon>cancel</mat-icon>
@@ -111,10 +111,10 @@
             </mat-chip-row>
           </mat-chip-grid>
           <input class="mt-1 w-full border rounded-md border-dashed" placeholder="   New Fruit..." #fruitInput
-            [formControl]="fruitCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+            [formControl]="symptomCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+            <mat-option *ngFor="let fruit of filteredSymptoms | async" [value]="fruit">
               {{ fruit }}
             </mat-option>
           </mat-autocomplete>

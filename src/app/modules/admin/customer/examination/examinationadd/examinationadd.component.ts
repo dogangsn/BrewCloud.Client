@@ -40,15 +40,15 @@ export class ExaminationaddComponent implements OnInit {
     patientList: PatientDetails[] = [];
     customers: customersListDto[] = [];
 
-    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('symptomInput') symptomInput: ElementRef<HTMLInputElement>;
     selectedCustomerId: any;
     panelOpenState = false;
     selectedOption: string;
     separatorKeysCodes: number[] = [ENTER, COMMA];
-    fruitCtrl = new FormControl('');
-    filteredFruits: Observable<string[]>;
-    fruits: string[] = ['Lemon'];
-    allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+    symptomCtrl = new FormControl('');
+    filteredSymptoms: Observable<string[]>;
+    symptoms: string[] = ['Symptom'];
+    allSymptoms: string[] = [];
     lastSelectedValue: Date = new Date();
     now: Date = new Date();
     addOnBlur = true;
@@ -72,10 +72,10 @@ export class ExaminationaddComponent implements OnInit {
     ) {
       debugger
       this.selectedState=this.states[0];
-        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+        this.filteredSymptoms = this.symptomCtrl.valueChanges.pipe(
             startWith(null),
-            map((fruit: string | null) =>
-                fruit ? this._filter(fruit) : this.allFruits.slice()
+            map((symptom: string | null) =>
+                symptom ? this._filter(symptom) : this.allSymptoms.slice()
             )
         );
     }
@@ -83,6 +83,8 @@ export class ExaminationaddComponent implements OnInit {
     ngOnInit() {
        
         this.getCustomerList();
+
+        this.getSymptomsList(); 
         
         this.examinationForm = this._formBuilder.group({
             customerId: ['',Validators.required],
@@ -100,6 +102,12 @@ export class ExaminationaddComponent implements OnInit {
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
             this.customers = response.data;
+        });
+    }
+
+    getSymptomsList() {
+        this._examinationService.getSymptomlist().subscribe((response) => {
+            this.allSymptoms = response.data;
         });
     }
     getPatientList() {
@@ -124,7 +132,7 @@ export class ExaminationaddComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                  this.symptomsString = this.fruits.join(', '); 
+                  this.symptomsString = this.symptoms.join(', '); 
 debugger;
                   const item = new ExaminationDto(
                     this.lastSelectedValue,
@@ -191,42 +199,42 @@ debugger;
 
     add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
-        var varMi = this.allFruits.some((fruit) =>
-            fruit.toLowerCase().startsWith(value.toLowerCase())
+        var varMi = this.allSymptoms.some((symptom) =>
+            symptom.toLowerCase().startsWith(value.toLowerCase())
         );
         if (varMi) {
             return;
         }
         if (value) {
-            this.fruits.push(value);
+            this.symptoms.push(value);
         }
 
         event.chipInput!.clear();
 
-        this.fruitCtrl.setValue(null);
+        this.symptomCtrl.setValue(null);
     }
 
-    remove(fruit: string): void {
-        const index = this.fruits.indexOf(fruit);
+    remove(symptom: string): void {
+        const index = this.symptoms.indexOf(symptom);
 
         if (index >= 0) {
-            this.fruits.splice(index, 1);
+            this.symptoms.splice(index, 1);
         }
     }
 
     selected(event: MatAutocompleteSelectedEvent): void {
-        if (!this.fruits.includes(event.option.viewValue)) {
-            this.fruits.push(event.option.viewValue);
+        if (!this.symptoms.includes(event.option.viewValue)) {
+            this.symptoms.push(event.option.viewValue);
         }
-        this.fruitInput.nativeElement.value = '';
-        this.fruitCtrl.setValue(null);
+        this.symptomInput.nativeElement.value = '';
+        this.symptomCtrl.setValue(null);
     }
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
 
-        return this.allFruits.filter((fruit) =>
-            fruit.toLowerCase().includes(filterValue)
+        return this.allSymptoms.filter((symptom) =>
+            symptom.toLowerCase().includes(filterValue)
         );
     }
 
