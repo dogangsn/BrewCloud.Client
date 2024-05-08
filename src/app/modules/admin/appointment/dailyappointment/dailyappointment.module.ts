@@ -25,6 +25,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list'; 
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -79,6 +80,7 @@ const root: Route[] = [
     MatCardModule,
     MatListModule,
     MatGridListModule ,
+    MatTableModule,
     RouterModule.forChild(root),
   ],
   declarations: [DailyappointmentComponent]
