@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-manager',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileManagerComponent implements OnInit {
 
-  constructor() { }
+  drawerMode: 'side' | 'over';
+  
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _router: Router,
+  ) { }
 
   ngOnInit() {
+  }
+
+  onBackdropClicked(): void
+  {
+      this._router.navigate(['./'], {relativeTo: this._activatedRoute});
+      this._changeDetectorRef.markForCheck();
   }
 
 }

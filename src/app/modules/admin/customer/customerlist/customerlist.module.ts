@@ -39,6 +39,10 @@ import { PayChartComponent } from '../customerdetails/pay-chart/pay-chart.compon
 import { VaccinationCard } from '../customerdetails/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/appointment-history/dialogs/edit-appointment.component';
 import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PatientTabComponent } from '../customerdetails/tabs/patient-tab/patient-tab.component';
+import { PayChartTabComponent } from '../customerdetails/tabs/paychart-tab/paychart-tab.component';
+import { AccommodationsTabComponent } from '../customerdetails/tabs/accommodations-tab/accommodations-tab.component';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
@@ -111,6 +115,7 @@ const root: Route[] = [
         MatStepperModule,
         DxDateBoxModule,
         DxCheckBoxModule,
+        MatTabsModule,
         RouterModule.forChild(root),
     ],
     declarations: [
@@ -127,6 +132,9 @@ const root: Route[] = [
         PayChartComponent,
         VaccinationCard,
         EditAppointmentComponent,
+        PatientTabComponent,
+        PayChartTabComponent,
+        AccommodationsTabComponent
         //  DxReportViewerComponent
     ]
 

@@ -14,13 +14,14 @@ import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog
 import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
-import { AddApponitnmentDialogComponent } from '../../appointment/dialogs/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { AddApponitnmentDialogComponent } from '../../appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 import { GetColectionEditDialogComponent } from './collection/get-collection-editdialog/get-collection-editdialog.component';
 import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { PayChartComponent } from './pay-chart/pay-chart.component';
 import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
 import { PatientDetails } from '../models/PatientDetailsCommand';
+import { CustomerDataService } from './services/customer-data.service';
 
 @Component({
     selector: 'customerdetails',
@@ -37,8 +38,10 @@ export class CustomerDetailsComponent implements OnInit {
     id: string;
     customerDetail: CustomerDetailDto
     patientDetails: PatientDetailsDto[] = [];
-    firstname: string
-    lastname: string
+    firstname: string;
+    lastname: string;
+    phonenumber : string;
+    email : string;
 
     patientList: PatientDetails[] = [];
 
@@ -55,6 +58,7 @@ export class CustomerDetailsComponent implements OnInit {
         private _customerService: CustomerService,
         private _translocoService: TranslocoService,
         private _dialog: MatDialog,
+        private _customerDataService: CustomerDataService
     ) { }
 
     ngOnInit() {
@@ -65,6 +69,8 @@ export class CustomerDetailsComponent implements OnInit {
         });
 
         this.getCustomerDetailList();
+
+        this._customerDataService.setCustomerId(this.selectedCustomerId);
 
         this.customerDetailForm = this._formBuilder.group({
             email: [{ value: '', disabled: true }],
@@ -86,10 +92,10 @@ export class CustomerDetailsComponent implements OnInit {
 
     // getUserAvatarUrl(): string {
     //     const initials = this.userFirstName.charAt(0) + this.userLastName.charAt(0);
-        // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
+    // Eğer bir API'den veya başka bir kaynaktan fotoğraf URL'sini almanız gerekiyorsa, burada yapabilirsiniz.
     //     // Örneğin: return 'https://example.com/api/getUserAvatar?initials=' + initials;
-    
-        // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
+
+    // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
     //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
     //   }
 
@@ -97,8 +103,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
-            firstname : this.customerDetail.firstname,
-            lastname : this.customerDetail.lastname,
+            firstname: this.customerDetail.firstname,
+            lastname: this.customerDetail.lastname,
             customerDetailForm: this.customerDetailForm.value
         }
 
@@ -111,7 +117,7 @@ export class CustomerDetailsComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                     this.getCustomerDetailList();
+                    this.getCustomerDetailList();
                 }
             });
     }
@@ -154,6 +160,8 @@ export class CustomerDetailsComponent implements OnInit {
                 this.patientDetails = this.customerDetail.patientDetails
                 this.firstname = this.customerDetail.firstname;
                 this.lastname = this.customerDetail.lastname;
+                this.phonenumber = this.customerDetail.phonenumber;
+                this.email = this.customerDetail.email;
                 this.totalSaleBuyCount = response.data.totalData.totalSaleBuyCount;
                 this.totalVisitCount = response.data.totalData.totalVisitCount;
                 this.totalEarnings = response.data.totalData.totalEarnings;
@@ -181,27 +189,27 @@ export class CustomerDetailsComponent implements OnInit {
         });
     }
 
-    openSaleCustomers() : void {
+    openSaleCustomers(): void {
 
         const model = {
             customerId: this.selectedCustomerId,
         }
         console.log(model);
         const dialog = this._dialog
-        .open(CreateEditCustomersalesComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                this.getCustomerDetailList();
-            }
-        });
+            .open(CreateEditCustomersalesComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerDetailList();
+                }
+            });
     }
 
-    openNewPatients() : void {
+    openNewPatients(): void {
 
         const model = {
             customerId: this.selectedCustomerId,
@@ -210,167 +218,6 @@ export class CustomerDetailsComponent implements OnInit {
         }
         console.log(model);
         const dialog = this._dialog
-        .open(CreateEditDetailspatientsComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                 this.getCustomerDetailList();
-            }
-        });
-    }
-
-    addAppointment(): void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-            visibleCustomer : false,
-            patientId : null
-        }
-debugger
-        const patientModel ={
-            id:this.selectedCustomerId
-        }
-        this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
-            debugger
-            this.patientList = response.data;
-            if (this.patientList.length === 1) {
-                model.patientId=this.patientList[0].recId;
-            }
-            const dialog = this._dialog
-            .open(AddApponitnmentDialogComponent, {
-                maxWidth: '100vw !important',
-                disableClose: true,
-                data: model
-            })
-            .afterClosed()
-            .subscribe((response) => {
-                if (response.status) {
-                }
-            });
-        });
-
-        
-    }
-
-    openAppointmentHistory() : void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-            visibleCustomer: false,
-        }
-        console.log(model);
-        const dialog = this._dialog
-        .open(AppointmentHistoryComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                this.getCustomerDetailList();
-            }
-        });
-    }
-
-    //openGetCollection
-    openGetCollection() : void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-        }
-        console.log(model);
-        const dialog = this._dialog
-        .open(GetColectionEditDialogComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                this.getCustomerDetailList();
-            }
-        });
-    }
-
-    //openCollectionTransaction
-    openCollectionTransaction() : void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-        }
-        console.log(model);
-        const dialog = this._dialog
-        .open(ColectionTransactionsDialogComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                // this.getCustomerList();
-            }
-        });
-    }
-
-    //openPayChart
-    openPayChart() : void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-        }
-        console.log(model);
-        const dialog = this._dialog
-        .open(PayChartComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                // this.getCustomerList();
-            }
-        });
-    }
-
-    //openvaccinationcard
-    openvaccinationcard() : void {
-
-        const model = {
-            customerId: this.selectedCustomerId,
-        }
-        console.log(model);
-        const dialog = this._dialog
-        .open(VaccinationCard, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: model
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) {
-                 this.getCustomerDetailList();
-            }
-        });
-    }
-
-    public redirectToUpdatePatient = (id: string) => {
-
-        const selectedPatients = this.patientDetails.find((item) => item.recId == id);
-        if(selectedPatients){
-            const model = {
-                customerId: this.selectedCustomerId,
-                selectedpatients: selectedPatients
-            }
-            console.log(model);
-            const dialog = this._dialog
             .open(CreateEditDetailspatientsComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
@@ -379,9 +226,168 @@ debugger
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                     this.getCustomerDetailList();
+                    this.getCustomerDetailList();
                 }
             });
+    }
+
+    addAppointment(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+            visibleCustomer: false,
+            patientId: null
+        }
+        const patientModel = {
+            id: this.selectedCustomerId
+        }
+        this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
+            this.patientList = response.data;
+            if (this.patientList.length === 1) {
+                model.patientId = this.patientList[0].recId;
+            }
+            const dialog = this._dialog
+                .open(AddApponitnmentDialogComponent, {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                    }
+                });
+        });
+
+
+    }
+
+    openAppointmentHistory(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+            visibleCustomer: false,
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(AppointmentHistoryComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerDetailList();
+                }
+            });
+    }
+
+    //openGetCollection
+    openGetCollection(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(GetColectionEditDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerDetailList();
+                }
+            });
+    }
+
+    //openCollectionTransaction
+    openCollectionTransaction(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(ColectionTransactionsDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    // this.getCustomerList();
+                }
+            });
+    }
+
+    //openPayChart
+    openPayChart(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(PayChartComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    // this.getCustomerList();
+                }
+            });
+    }
+
+    //openvaccinationcard
+    openvaccinationcard(): void {
+
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(VaccinationCard, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerDetailList();
+                }
+            });
+    }
+
+    public redirectToUpdatePatient = (id: string) => {
+
+        const selectedPatients = this.patientDetails.find((item) => item.recId == id);
+        if (selectedPatients) {
+            const model = {
+                customerId: this.selectedCustomerId,
+                selectedpatients: selectedPatients
+            }
+            console.log(model);
+            const dialog = this._dialog
+                .open(CreateEditDetailspatientsComponent, {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                        this.getCustomerDetailList();
+                    }
+                });
         }
     }
 
@@ -415,6 +421,17 @@ debugger
                 }
             }
         );
+    }
+
+    openPatientTab() {
+        debugger
+        this._customerDataService.setCustomerId(this.selectedCustomerId);
+    }
+
+    onTabChange(event: any) {
+        if(event === 5){
+            
+        }
     }
 
 }

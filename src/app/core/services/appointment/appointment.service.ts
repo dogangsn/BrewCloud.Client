@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
-import { AppointmentDto } from "app/modules/admin/appointment/models/appointmentDto";
-import { CreateAppointmentCommand } from "app/modules/admin/appointment/models/createAppointmentCommand";
+import { AppointmentDto } from "app/modules/admin/appointment/appointmentcalendar/models/appointmentDto";
+import { CreateAppointmentCommand } from "app/modules/admin/appointment/appointmentcalendar/models/createAppointmentCommand";
 import { UpdateAppointmentCommand } from "app/modules/admin/customer/customerdetails/appointment-history/models/UpdateAppointmentCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
@@ -13,8 +13,8 @@ import { Observable } from "rxjs";
 export class AppointmentService {
     constructor(private _httpService: HttpService) { }
 
-    getAppointmentslist() : Observable<any>{    
-        return this._httpService.getRequest(endPoints.appointments.appointmensList);
+    getAppointmentslist(model : any) : Observable<any>{    
+        return this._httpService.post(endPoints.appointments.appointmensList, model);
     }
 
     createAppointment(model: CreateAppointmentCommand): Observable<any> {
@@ -43,6 +43,10 @@ export class AppointmentService {
 
     updateCompletedAppointment(model: any) : Observable<any> {
         return this._httpService.post(endPoints.appointments.updateCompletedAppointment, model);
+    }
+
+    getAppointmentDailyList() : Observable<any>{    
+        return this._httpService.getRequest(endPoints.appointments.getAppointmentDailyList);
     }
 
 }

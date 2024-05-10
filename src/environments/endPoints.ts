@@ -42,6 +42,12 @@ export const endPoints = {
         getPatients: 'vet/Customers/GetPatientsByCustomerId'
 
     },
+    examinations:{
+        examinationlist: 'vet/Patient/GetExaminations',
+        createExamination: 'vet/Patient/CreateExamination',
+        symptomlist: 'vet/Patient/GetSymptoms',
+    },
+    
     productdescription:{
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
         createProductDescriptions : 'vet/Definition/CreateProductDescription',
@@ -150,7 +156,8 @@ export const endPoints = {
         getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
         appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
         updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',
-        updateCompletedAppointment : 'vet/Appointment/UpdateCompletedAppointment'
+        updateCompletedAppointment : 'vet/Appointment/UpdateCompletedAppointment',
+        getAppointmentDailyList : 'vet/Appointment/GetAppointmentDailyList'
     },
     title: {
         titleDefinationList : 'account/settings/GetTitleDefination',
@@ -188,5 +195,20 @@ export const endPoints = {
     },
     reports:{
         createFilter: 'vet/Reports/CreateReportFilter',
+    },
+    vaccine : {
+        vaccineList : 'vet/Vaccine/VaccineList',
+        createVaccine: 'vet/Vaccine/CreateVaccine',
+        deleteVaccine : 'vet/Vaccine/DeteleVaccine',
+        updateVaccine: 'vet/Vaccine/UpdateVaccine'
+    },
+    pethotels : {
+        getRoomList : 'vet/PetHotels/getRoomList',
+        createRoom : 'vet/PetHotels/CreateRoom',
+        updateRoom : 'vet/PetHotels/UpdateRoom',
+        deleteRoom : 'vet/PetHotels/DeleteRoom'
+    },
+    patient: {
+        getPatientList : 'vet/Patient/GetPatientList'
     }
 }

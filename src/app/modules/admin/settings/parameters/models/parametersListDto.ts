@@ -15,4 +15,6 @@ export class parametersListDto {
     autoSms: boolean ;
     isAnimalsBreeds: boolean;
     isFirstInspection: boolean;
+    appointmentBeginDate: string;
+    appointmentEndDate: string;
 }

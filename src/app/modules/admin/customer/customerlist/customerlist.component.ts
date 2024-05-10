@@ -63,7 +63,7 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
         //this.erpfinancemonitorForm.reset();
         const dialog = this._dialog
             .open(CreateEditCustomerAddDialogComponent, {
-                maxWidth: '100vw !important',
+                maxWidth: '100%',
                 disableClose: true,
                 data: null,
             })

@@ -22,6 +22,7 @@ import { CasingDefinitionService } from 'app/core/services/definition/CasingDefi
     templateUrl: './parameters.component.html',
     styleUrls: ['./parameters.component.css'],
 })
+
 export class ParametersComponent implements OnInit {
     parameters: UntypedFormGroup;
     days: string[] = [
@@ -33,6 +34,25 @@ export class ParametersComponent implements OnInit {
         'Cumartesi',
         'Pazar',
     ];
+    times = [
+        '8:00',
+        '9:00',
+        '10:00',
+        '11:00',
+        '12:00',
+        '13:00',
+        '14:00',
+        '15:00',
+        '16:00',
+        '17:00',
+        '18:00',
+        '19:00',
+        '20:00',
+        '21:00',
+        '22:00',
+        '23:00',
+        '24:00',
+        ]
     selectedDays = new FormControl([]);
     allselectcheck: string = 'Tümünü Seç';
     checkAllSelect: boolean = false;
@@ -75,7 +95,10 @@ export class ParametersComponent implements OnInit {
             automaticAppointmentReminderMessageTemplate: [''], // Otomatik Randevu Hatırlatma Mesajı Şablonu // GuidId
             isAnimalsBreeds: [false],
             isFirstInspection: [false],
+            appointmentBeginDate: [''],
+            appointmentEndDate: ['']
         });
+
     }
     ngAfterViewInit() {
         debugger;
@@ -106,6 +129,19 @@ export class ParametersComponent implements OnInit {
 
         // });
     }
+
+    isEndDateDisabled(startTime: string): boolean {
+        const startHour = parseInt(startTime.split(':')[0]);
+        const endHour = parseInt(this.parameters.value.appointmentEndDate.split(':')[0]);
+        return endHour <= startHour;
+    }
+
+    isBeginDateDisabled(startTime: string): boolean {
+        const startHour = parseInt(startTime.split(':')[0]);
+        const endHour = parseInt(this.parameters.value.appointmentBeginDate.split(':')[0]);
+        return endHour >= startHour;
+    }
+
     getCasingDefinition() {
         this._casingdefinitionService
             .getCasingDefinitionList()
@@ -131,8 +167,11 @@ export class ParametersComponent implements OnInit {
             });
     }
     fillFormData(getparam: parametersListDto[]) {
-        const daysfill = getparam[0].days.split(',').slice(0, -1);
-        debugger;
+        const daysfill = getparam[0].days.split(',').slice(0, -1); 
+        if (getparam[0].appointmentBeginDate=="") {
+            getparam[0].appointmentBeginDate="10:00";
+            getparam[0].appointmentEndDate="19:00";
+        }       
         if (this.getParameters !== null) {
             this.parameters.setValue({
                 id: getparam[0].id,
@@ -154,6 +193,8 @@ export class ParametersComponent implements OnInit {
                     getparam[0].automaticAppointmentReminderMessageTemplate,
                 isAnimalsBreeds: getparam[0].isAnimalsBreeds,
                 isFirstInspection: getparam[0].isFirstInspection,
+                appointmentBeginDate: getparam[0].appointmentBeginDate,
+                appointmentEndDate: getparam[0].appointmentEndDate
             });
             this.selectedDays.setValue(daysfill);
         }
@@ -237,14 +278,15 @@ export class ParametersComponent implements OnInit {
             this.getFormValueByName('displayVetNo'),
             this.getFormValueByName('autoSms'),
             this.getFormValueByName('isAnimalsBreeds'),
-            this.getFormValueByName('isFirstInspection')
+            this.getFormValueByName('isFirstInspection'),
+            this.getFormValueByName('appointmentBeginDate'),
+            this.getFormValueByName('appointmentEndDate')
         );
 
         this.selectedDays.value.forEach((x) => {
             this.weeks += x + ',';
         });
         parameterItem.days = this.weeks;
-
         this._parametersService.updateParameters(parameterItem).subscribe(
             (response) => {
                 if (response.isSuccessful) {
