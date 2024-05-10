@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VetAnimalBreedsDefDto } from '../../models/VetAnimalBreedsDefDto';
 import { AnimalColorsDefListDto } from '../../models/AnimalColorsDefListDto';
 import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
@@ -14,6 +14,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CreatePatientCommand } from '../../models/CreatePatientCommand';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { PatientDetailsDto } from '../../models/PatientDetailsDto';
+import { v4 as uuidv4 } from 'uuid';
+import { CreateEditAnimalsColorDialogComponent } from '../../customeradd/dialog/create-edit-animalscolor';
 
 @Component({
     selector: 'app-create-edit-detailspatients',
@@ -35,7 +37,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
     selectedImage: string | ArrayBuffer | null = null;
     buttonDisabled = false;
     patients: PatientDetails;
-
+    saveType: Number = 1;
     selectedCustomerId: any;
 
     constructor(
@@ -44,13 +46,17 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _animalColorDefService: AnimalColorsDefService,
         private _customerService: CustomerService,
+        private _dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        debugger;
         this.selectedCustomerId = data.customerId;
-        this.selectedpatients = data.selectedpatients
+        this.selectedpatients = data.selectedpatients;
+        this.saveType = data.saveType;
     }
 
     ngOnInit() {
+        debugger;
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
@@ -114,7 +120,8 @@ export class CreateEditDetailspatientsComponent implements OnInit {
 
     addOrUpdatePatients(): void {
         this.buttonDisabled = true;
-        this.selectedpatients ? this.updatePatients() : this.addPatients();
+         this.selectedpatients ? this.addPatients() : this.addPatients();
+        // this.selectedpatients ? this.updatePatients() : this.addPatients();
     }
 
     updatePatients(): void {}
@@ -124,9 +131,11 @@ export class CreateEditDetailspatientsComponent implements OnInit {
 
         this.patients = null;
 
+        
+         
         const item: PatientDetails = {
             id: '',
-            recId: '',
+            recId: this.saveType == 0 ? uuidv4() : this.selectedPatientDetailsForm.value?.recId ,
             name: this.selectedPatientDetailsForm.value?.name,
             birthDate: this.selectedPatientDetailsForm.value?.birthDate,
             chipNumber: this.selectedPatientDetailsForm.value?.chipNumber,
@@ -146,23 +155,29 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             this.selectedCustomerId.customerId,
             item
         );
-
-        this._customerService.createPatients(patientModel).subscribe(
-            (response) => {
-                if (response.isSuccessful) {
-                    this.showSweetAlert('success');
-                    this._dialogRef.close({
-                        status: true,
-                    });
-                } else {
-                    this.showSweetAlert('error');
-                    this.buttonDisabled = true;
+        if(this.saveType == 1)
+        {
+            this._customerService.createPatients(patientModel).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success');
+                        this._dialogRef.close({
+                            status: true,
+                        });
+                    } else {
+                        this.showSweetAlert('error');
+                        this.buttonDisabled = true;
+                    }
+                },
+                (err) => {
+                    console.log(err);
                 }
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
+            );
+        }
+        else{
+            this._dialogRef.close({ data: item });
+        }
+        
     }
 
     showSweetAlert(type: string): void {
@@ -269,7 +284,23 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             this.patients.animalBreed = null;
         }
     }
+    addPanelOpen(): void {
+        const dialog = this._dialog
+            .open(CreateEditAnimalsColorDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getAnimalColorsDefList();
+                }
+            });
+            
+    }
 }
+
 
 export const sextype = [
     {
