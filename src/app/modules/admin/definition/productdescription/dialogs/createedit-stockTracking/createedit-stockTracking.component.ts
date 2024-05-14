@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
-import { ProcessTypes } from '../../models/processTypes.enum';
+import { ProcessTypes, ProcessTypesExit } from '../../models/processTypes.enum';
 import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 
@@ -56,6 +56,8 @@ export class CreateeditStockTrackingComponent implements OnInit {
   productid: string;
   entryexittype : StockTrackingType;
 
+  isExit: boolean = false;
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
@@ -66,6 +68,9 @@ export class CreateeditStockTrackingComponent implements OnInit {
   ) {
     this.productid = data.productid;
     this.entryexittype = data.entryexittype;
+    if(this.entryexittype === StockTrackingType.Exit){
+      this.isExit = true;
+    }
   }
 
   ngOnInit() {
@@ -76,6 +81,15 @@ export class CreateeditStockTrackingComponent implements OnInit {
       }
     }
 
+    if(this.entryexittype === StockTrackingType.Exit){
+      this.mapprocesstypes = [];
+      for (var n in ProcessTypesExit) {
+        if (typeof ProcessTypesExit[n] === 'number') {
+          this.mapprocesstypes.push({ id: <any>ProcessTypesExit[n], name: n });
+        }
+      }
+    }
+      
     this.stocktracking = this._formBuilder.group({
       piece: [0, [Validators.required]],
       processtypes: [1],
@@ -121,7 +135,7 @@ export class CreateeditStockTrackingComponent implements OnInit {
   addStockTracking(): void {
     let item = new CreateStockTrackingCommand(
       this.productid,
-      StockTrackingType.Entry,
+      this.entryexittype,
       this.getFormValueByName('piece'),
       this.getFormValueByName('purchaseprice'),
       this.getFormValueByName('supplierId'),

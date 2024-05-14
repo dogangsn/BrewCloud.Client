@@ -22,11 +22,12 @@ export class StockTrackingService {
         return this._httpService.post(endPoints.stocktracking.createStockTracking, model);
     }
 
-    // deleteTaxis(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.taxis.deleteTaxis, model);
-    // }
+    updateStockTracking(model: CreateStockTrackingCommand): Observable<any> {
+        return this._httpService.post(endPoints.stocktracking.updateStockTracking, model);
+    }
 
-    // updateTaxis(model: UpdateTaxisCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.taxis.updateTaxis, model);
-    // }
+    deleteStockTracking(model: any): Observable<any> {
+        return this._httpService.post(endPoints.stocktracking.deleteStockTracking, model);
+    }
+ 
 }

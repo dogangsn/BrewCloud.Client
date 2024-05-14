@@ -4,6 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { StockTrackingDto } from '../../models/stockTrackingDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { StockTrackingService } from 'app/core/services/definition/stockTracking/stocktracking.service';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-stockTracking-list',
@@ -25,12 +29,13 @@ export class StockTrackingListComponent implements OnInit {
   productdescription: StockTrackingDto[] = [];
   dataSource = new MatTableDataSource<StockTrackingDto>(
     this.productdescription
-  );
+  );  
   productid: string;
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _stocktracking: StockTrackingService,
+    private _translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.productid = data.productid;
@@ -59,5 +64,66 @@ export class StockTrackingListComponent implements OnInit {
   closeDialog(): void {
     this._dialogRef.close({ status: null });
   }
+
+  showSweetAlert(type: string, message: string): void {
+    if (type === 'success') {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.success'),
+        this.translate('sweetalert.transactionSuccessful'),
+        SweetalertType.success
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.error'),
+        this.translate(message),
+        SweetalertType.error
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    }
+  }
+
+  translate(key: string): any {
+    return this._translocoService.translate(key);
+  }
+
+  public redirectToDelete = (id: string) => {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const model = {
+            id: id,
+          };
+          this._stocktracking
+            .deleteStockTracking(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getStockTrackingList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate(
+                    'sweetalert.transactionSuccessful'
+                  ),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                this.showSweetAlert(
+                  'error',
+                  response.errors[0]
+                );
+                console.log(response.errors[0]);
+              }
+            });
+        }
+      }
+    );
+  };
+
 
 }

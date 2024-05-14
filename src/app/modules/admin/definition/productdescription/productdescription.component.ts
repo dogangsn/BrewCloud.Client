@@ -262,7 +262,7 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
 
         const data = {
             productid: id,
-            entryexittype: StockTrackingType.Entry
+            entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit)
         }
 
         const dialog = this._dialog

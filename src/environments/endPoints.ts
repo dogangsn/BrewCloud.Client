@@ -214,6 +214,9 @@ export const endPoints = {
     },
     stocktracking : {
         getstockTrackingProductFilter : 'vet/Definition/StockTrackingProductFilter',
-        createStockTracking : 'vet/Definition/CreateStockTracking'
+        createStockTracking : 'vet/Definition/CreateStockTracking',
+        updateStockTracking : 'vet/Definition/UpdateStockTracking',
+        deleteStockTracking :'vet/Definition/DeleteStockTracking'
+
     }
 }
