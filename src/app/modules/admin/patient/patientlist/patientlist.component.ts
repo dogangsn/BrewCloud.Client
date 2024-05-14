@@ -75,7 +75,7 @@ export class PatientlistComponent implements OnInit {
 
     public redirectToUpdate = (id: string) => {
         console.log(id);
-        this.router.navigate(['patientlist/patientdetails', id]);
+        this.router.navigate(['/patientslist/patientdetails/', id]);
     };
 
     public redirectToDelete = (id: string) => {

@@ -1,72 +1,82 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { ApexOptions } from 'ng-apexcharts';
-import { Subject, takeUntil } from 'rxjs';
-import { CustomerDetailDto } from '../../../models/CustomerDetailDto';
+import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
+import { CustomerDataService } from '../../services/customer-data.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { MatDialog } from '@angular/material/dialog';
-import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
-import { PatientDetails } from '../../../models/PatientDetailsCommand';
-import { CustomerDataService } from '../../services/customer-data.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-patient-tab',
   templateUrl: './patient-tab.component.html',
   styleUrls: ['./patient-tab.component.css'],
 })
-
-export class PatientTabComponent implements OnInit {
-
+export class PatientTabComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType', 'animalColor'];
-
-    
-
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   receivedCustomerId: string;
   patientList: PatientDetailsDto[] = [];
   dataSource = new MatTableDataSource<PatientDetailsDto>(this.patientList);
-  loader=true;
+  loader = true;
 
   constructor(
     private _customerDataService: CustomerDataService,
-    private _customerService: CustomerService
+    private _customerService: CustomerService,
+    private _translocoService: TranslocoService
   ) { }
 
   ngOnInit() {
-    debugger
     this.receivedCustomerId = this._customerDataService.getCustomerId(); 
-   }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
     this.getPatients();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
   getPatients(): void {
-    const model = {
-      customerId: this.receivedCustomerId,
-      visibleCustomer: false,
-      patientId: null,
-    };
     const patientModel = {
       id: this.receivedCustomerId,
     };
-    this._customerService
-      .getPatientsByCustomerId(patientModel)
-      .subscribe((response) => {
+
+    this._customerService.getPatientsByCustomerId(patientModel).subscribe({
+      next: (response) => {
         this.patientList = response.data;
-        this.dataSource = new MatTableDataSource<PatientDetailsDto>(
-          this.patientList
+        this.dataSource.data = this.patientList;
+        this.loader = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.showSweetAlert('error', 'Failed to load patient data.');
+        this.loader = false;
+      }
+    });
+  }
+
+  showSweetAlert(type: string, message: string): void {
+    let sweetAlertDto: SweetAlertDto;
+
+    if (type === 'success') {
+      sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.success'),
+        message || this.translate('sweetalert.transactionSuccessful'),
+        SweetalertType.success
       );
-      this.dataSource.paginator = this.paginator;
-        this.loader=false;
-      });
+    } else {
+      sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.error'),
+        message || this.translate('sweetalert.transactionFailed'),
+        SweetalertType.error
+      );
+    }
+
+    GeneralService.sweetAlert(sweetAlertDto);
+  }
+
+  translate(key: string): any {
+    return this._translocoService.translate(key);
   }
 }

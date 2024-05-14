@@ -70,15 +70,15 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             images: [[]],
             active: [false],
         });
-        
+
         this.fillFormData(this.selectedpatients);
     }
 
     fillFormData(selected: PatientDetails) {
         if (this.selectedpatients !== null) {
             this.selectedPatientDetailsForm.setValue({
-                name : selected.name,
-                birthDate : selected.birthDate,
+                name: selected.name,
+                birthDate: selected.birthDate,
                 chipNumber: selected.chipNumber,
                 sex: selected.sex,
                 animalType: selected.animalType,
@@ -117,71 +117,81 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         this.selectedpatients ? this.updatePatients() : this.addPatients();
     }
 
-    updatePatients(): void {}
+    updatePatients(): void { }
+
 
     addPatients(): void {
-        debugger;
+        if (!this.selectedPatientDetailsForm.valid) {
+            this.showSweetAlert('error', 'Please fill in all required fields.');
+            return;
+        }
 
-        this.patients = null;
+        const patientDetails = this.mapFormToPatientDetails(this.selectedPatientDetailsForm.value);
 
-        const item: PatientDetails = {
+        const patientModel = new CreatePatientCommand(this.selectedCustomerId, patientDetails);
+
+        this._customerService.createPatients(patientModel).subscribe({
+            next: (response) => this.handleCreatePatientSuccess(response),
+            error: (err) => this.handleCreatePatientError(err),
+        });
+    }
+
+    private mapFormToPatientDetails(formValue: any): PatientDetails {
+        return {
             id: '',
             recId: '',
-            name: this.selectedPatientDetailsForm.value?.name,
-            birthDate: this.selectedPatientDetailsForm.value?.birthDate,
-            chipNumber: this.selectedPatientDetailsForm.value?.chipNumber,
-            sex: this.selectedPatientDetailsForm.value?.sex,
-            animalType: this.selectedPatientDetailsForm.value?.animalType,
-            animalBreed: this.selectedPatientDetailsForm.value?.animalBreed,
-            animalColor: this.selectedPatientDetailsForm.value?.animalColor,
-            reportNumber: this.selectedPatientDetailsForm.value?.reportNumber,
-            specialNote: this.selectedPatientDetailsForm.value?.specialNote,
-            sterilization: this.selectedPatientDetailsForm.value?.sterilization,
+            name: formValue.name,
+            birthDate: formValue.birthDate,
+            chipNumber: formValue.chipNumber,
+            sex: formValue.sex,
+            animalType: formValue.animalType,
+            animalBreed: formValue.animalBreed,
+            animalColor: formValue.animalColor,
+            reportNumber: formValue.reportNumber,
+            specialNote: formValue.specialNote,
+            sterilization: formValue.sterilization,
             active: true,
-            thumbnail: this.selectedPatientDetailsForm.value?.thumbnail,
+            thumbnail: formValue.thumbnail,
             images: [],
         };
-
-        const patientModel = new CreatePatientCommand(
-            this.selectedCustomerId.customerId,
-            item
-        );
-
-        this._customerService.createPatients(patientModel).subscribe(
-            (response) => {
-                if (response.isSuccessful) {
-                    this.showSweetAlert('success');
-                    this._dialogRef.close({
-                        status: true,
-                    });
-                } else {
-                    this.showSweetAlert('error');
-                    this.buttonDisabled = true;
-                }
-            },
-            (err) => {
-                console.log(err);
-            }
-        );
     }
 
-    showSweetAlert(type: string): void {
-        if (type === 'success') {
-            const sweetAlertDto = new SweetAlertDto(
-                this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
-                SweetalertType.success
-            );
-            GeneralService.sweetAlert(sweetAlertDto);
+    private handleCreatePatientSuccess(response: any): void {
+        if (response.isSuccessful) {
+            this.showSweetAlert('success', 'Patient created successfully.');
+            this._dialogRef.close({ status: true });
         } else {
-            const sweetAlertDto = new SweetAlertDto(
-                this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
-                SweetalertType.error
-            );
-            GeneralService.sweetAlert(sweetAlertDto);
+            this.showSweetAlert('error', 'An error occurred while creating the patient.');
+            this.buttonDisabled = true;
         }
     }
+
+    private handleCreatePatientError(err: any): void {
+        console.error(err);
+        this.showSweetAlert('error', 'An unexpected error occurred. Please try again later.');
+    }
+
+
+    showSweetAlert(type: string, message: string): void {
+        let sweetAlertDto: SweetAlertDto;
+
+        if (type === 'success') {
+            sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                message || this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+        } else {
+            sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                message || this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+        }
+
+        GeneralService.sweetAlert(sweetAlertDto);
+    }
+
 
     translate(key: string): any {
         return this._translocoService.translate(key);
