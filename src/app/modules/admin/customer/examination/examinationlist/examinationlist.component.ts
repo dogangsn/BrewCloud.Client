@@ -7,6 +7,8 @@ import { ExaminationaddComponent } from '../examinationadd/examinationadd.compon
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ExaminationAddDialogComponent } from '../examination-add-dialog/examination-add-dialog.component';
+import { ExaminationDto } from '../../models/ExaminationDto';
 
 @Component({
   selector: 'app-examinationlist',
@@ -18,6 +20,7 @@ export class ExaminationlistComponent implements OnInit {
   examinationList : ExaminationListDto[] = [];
   dataSource = new MatTableDataSource<ExaminationListDto>(this.examinationList);
   loader = true;
+  examination : ExaminationDto;
 
   displayedColumns: string[] = [
     'date',
@@ -35,6 +38,8 @@ export class ExaminationlistComponent implements OnInit {
   ];
   
   @ViewChild('paginator') paginator: MatPaginator;
+  isUpdateButtonActive: boolean = false;
+  
   constructor(
     private _examinationService : ExaminationService,
     private _dialog: MatDialog,
@@ -66,9 +71,8 @@ export class ExaminationlistComponent implements OnInit {
 addPanelOpen(): void {
 
   const dialog = this._dialog
-      .open(ExaminationaddComponent, {
+      .open(ExaminationAddDialogComponent, {
           maxWidth: '100vw !important',
-          disableClose: true,
           data: null,
       })
       .afterClosed()
@@ -79,5 +83,33 @@ addPanelOpen(): void {
       });
       
 }
+
+public redirectToUpdate = (id: string) => {
+  this.isUpdateButtonActive = true;
+  debugger
+  const selectedExamination = this.examinationList.find((x) => x.id === id);
+  var model = {
+    id: selectedExamination.id
+}
+  // this._examinationService.getExaminationlistById(model).subscribe((response) => {
+  //   debugger
+  //     this.examination = response.data;
+  // });
+  if (selectedExamination) {
+    const dialogRef = this._dialog.open(
+      ExaminationAddDialogComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: selectedExamination.id
+      }
+    );
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response.status) {
+        this.getExaminationList();
+      }
+    });
+  }
+};
 
 }

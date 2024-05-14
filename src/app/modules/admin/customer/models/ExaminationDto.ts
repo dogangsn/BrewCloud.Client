@@ -1,42 +1,42 @@
 export class ExaminationDto {
-    muayeneTarihi: Date;
-    muayneDurumu: string;
+    date: Date;
+    status: string;
     customerId: string;
     patientId: string;
     bodyTemperature: number;
     pulse: number;
     respiratoryRate: number;
     weight: number;
-    complaintAndHistory: string;
+    complaintStory: string;
     treatmentDescription: string;
-    semptomlar: string;
+    symptoms: string;
     // yapilanIslemler: string;
 
     constructor(
-        muayeneTarihi: Date,
-        muayneDurumu: string,
+        date: Date,
+        status: string,
         customerId: string,
         patientId: string,
         bodyTemperature: number,
         pulse: number,
         respiratoryRate: number,
         weight: number,
-        complaintAndHistory: string,
+        complaintStory: string,
         treatmentDescription: string,
-        semptomlar: string,
+        symptoms: string,
         // yapilanIslemler: string
     ) {
-        this.muayeneTarihi = muayeneTarihi;
-        this.muayneDurumu = muayneDurumu;
+        this.date = date;
+        this.status = status;
         this.customerId = customerId;
         this.patientId = patientId;
         this.bodyTemperature = bodyTemperature;
         this.pulse = pulse;
         this.respiratoryRate = respiratoryRate;
         this.weight = weight;
-        this.complaintAndHistory = complaintAndHistory;
+        this.complaintStory = complaintStory;
         this.treatmentDescription = treatmentDescription;
-        this.semptomlar = semptomlar;
+        this.symptoms = symptoms;
         // this.yapilanIslemler = yapilanIslemler;
     }
 }

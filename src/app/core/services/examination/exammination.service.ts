@@ -14,6 +14,10 @@ export class ExaminationService {
         return this._httpService.getRequest(endPoints.examinations.examinationlist);
     }
 
+    getExaminationlistById(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.getExamination, model);
+    }
+
     createExamination(model: any): Observable<any> {
         return this._httpService.post(endPoints.examinations.createExamination, model);
     }
