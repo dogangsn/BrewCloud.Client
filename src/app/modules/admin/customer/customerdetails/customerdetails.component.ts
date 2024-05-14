@@ -213,7 +213,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
-            selectedpatients: null
+            selectedpatients: null,
+            saveType: 1
         }
         console.log(model);
         const dialog = this._dialog

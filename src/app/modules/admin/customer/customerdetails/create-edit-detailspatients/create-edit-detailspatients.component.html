@@ -171,7 +171,25 @@
                                         ></mat-datepicker>
                                     </mat-form-field>
 
-                                    <mat-form-field class="w-1/3 pl-2">
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Rengi</mat-label>
+                                        <mat-select [formControlName]="'animalColor'">
+                                            <ng-container *ngFor="let color of animalcolorDefList">
+                                                <mat-option [value]="color.recId">
+                                                    {{color.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <div class="flex align-items-center">
+                                        <button class="ml-4" mat-flat-button [color]="'primary'"
+                                            (click)="addPanelOpen()">
+                                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                                            <span class="ml-2 mr-1">Renk</span>
+                                        </button>
+                                    </div>
+                                    <!-- <mat-form-field class="w-1/3 pl-2">
                                         <mat-label>Rengi</mat-label>
                                         <mat-select
                                             [formControlName]="'animalColor'"
@@ -186,7 +204,7 @@
                                                 </mat-option>
                                             </ng-container>
                                         </mat-select>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
                                 </div>
 
                                 <!-- Stock and Reserved -->

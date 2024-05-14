@@ -19,10 +19,19 @@ import { SharedModule } from 'app/shared/shared.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import { FarmclientaddComponent } from './farmclientadd.component';
+import { CreateEditDetailspatientsComponent } from '../customerdetails/create-edit-detailspatients/create-edit-detailspatients.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list'; 
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectFilterModule } from 'mat-select-filter';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
 
 
 const root: Route[] = [
@@ -77,6 +86,15 @@ const root: Route[] = [
         MatCardModule,
         MatListModule,
         MatGridListModule ,
+        MatTableModule,
+        CommonModule,
+        MatDialogModule,
+        MatSelectFilterModule ,
+        MatButtonToggleModule,
+        MatDividerModule,
+        NgApexchartsModule,
+        DxDateBoxModule,
+        DxCheckBoxModule,
         RouterModule.forChild(root),
      
     ],
