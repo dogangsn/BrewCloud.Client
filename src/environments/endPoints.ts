@@ -54,7 +54,8 @@ export const endPoints = {
         updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
         deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
         productDescriptionFilters: 'vet/Definition/ProductDescriptionFilters',
-        productMovementList : 'vet/Definition/ProductMovementList'
+        productMovementList : 'vet/Definition/ProductMovementList',
+        updateProductActive : 'vet/Definition/UpdateProductActive'
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
@@ -210,5 +211,9 @@ export const endPoints = {
     },
     patient: {
         getPatientList : 'vet/Patient/GetPatientList'
+    },
+    stocktracking : {
+        getstockTrackingProductFilter : 'vet/Definition/StockTrackingProductFilter',
+        createStockTracking : 'vet/Definition/CreateStockTracking'
     }
 }

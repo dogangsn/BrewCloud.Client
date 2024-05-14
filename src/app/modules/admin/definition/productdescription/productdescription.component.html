@@ -44,6 +44,14 @@
 
       <table mat-table [dataSource]="dataSource">
 
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef> Durum </th>
+          <td mat-cell *matCellDef="let element">
+            <!-- Önceki İşlemler Butonları -->
+            <mat-slide-toggle [(ngModel)]="element.active" (change)="toggleActive(element.id, element.active)"></mat-slide-toggle>
+          </td>
+        </ng-container>
+
         <!-- Position Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Ürün Adı </th>
@@ -76,7 +84,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> İşlemler </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button  (click)="redirectToMovement(element.id)">
+            <button mat-icon-button (click)="redirectToMovement(element.id)">
               <mat-icon aria-label="view_list">view_list</mat-icon>
             </button>
             <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
@@ -85,6 +93,24 @@
             <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openStockTrackingEntry(element.id, 1)">
+                <mat-icon>trending_up</mat-icon>
+                <span>Stok Ekle</span>
+              </button>
+              <button mat-menu-item (click)="openStockTrackingEntry(element.id, 2)">
+                <mat-icon>trending_down</mat-icon>
+                <span>Stok Düş</span>
+              </button>
+              <button mat-menu-item (click)="openStockTrackingList(element.id)">
+                <mat-icon>view_list</mat-icon>
+                <span>Stoklar</span>
+              </button>
+            </mat-menu>
+
           </td>
         </ng-container>
 
@@ -92,7 +118,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons #paginator
         aria-label="Select page of periodic elements">
       </mat-paginator>
     </div>

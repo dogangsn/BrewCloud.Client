@@ -23,6 +23,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { ProductmovementListComponent } from './dialogs/productmovement-list/productmovement-list.component';
+import { StockTrackingListComponent } from './dialogs/stockTracking-list/stockTracking-list.component';
+import { CreateeditStockTrackingComponent } from './dialogs/createedit-stockTracking/createedit-stockTracking.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 const root: Route[] = [
     {
@@ -75,12 +78,15 @@ const root: Route[] = [
         SharedModule,
         MatDialogModule,
         MatSelectFilterModule,
+        MatDatepickerModule,
         RouterModule.forChild(root)
     ],
     declarations: [
         ProductdescriptionComponent,
         CreateEditProductDescriptionDialogComponent,
-        ProductmovementListComponent
+        ProductmovementListComponent,
+        StockTrackingListComponent,
+        CreateeditStockTrackingComponent
     ]
     
 })

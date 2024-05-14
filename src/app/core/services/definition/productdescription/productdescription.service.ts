@@ -34,5 +34,8 @@ export class ProductDescriptionService {
         return this._httpService.post(endPoints.productdescription.productMovementList,model);
     }
 
+    updateProductActive(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.productdescription.updateProductActive,model);
+    }
 
 }

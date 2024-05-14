@@ -23,8 +23,7 @@ export class PayChartTabComponent implements OnInit {
         'operation',
         'debit',
         'paid',
-        'totalPaid',
-        'total',
+        'total', 
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;

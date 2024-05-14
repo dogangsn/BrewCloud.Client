@@ -88,15 +88,15 @@
                     <div class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Alış Fiyatı</mat-label>
-                            <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)">
+                            <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)" type="number">
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Satış Fiyatı</mat-label>
-                            <input [formControlName]="'sellingPrice'" matInput>
+                            <input [formControlName]="'sellingPrice'" matInput type="number">
                         </mat-form-field>
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Kritik Stok Miktarı</mat-label>
-                            <input [formControlName]="'criticalAmount'" matInput>
+                            <input [formControlName]="'criticalAmount'" matInput type="number">
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">

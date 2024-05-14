@@ -1,7 +1,7 @@
 import { PrinttemplateComponent } from './printtemplate.component';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,12 +19,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
-import { MatDialogModule } from '@angular/material/dialog'; 
+import { MatDialogModule } from '@angular/material/dialog';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { CreateeditPrinttemplateComponent } from './dialog/createedit-printtemplate.component';
 
 const root: Route[] = [
   {
-      path     : '',
-      component: PrinttemplateComponent
+    path: '',
+    component: PrinttemplateComponent
   }
 ];
 
@@ -70,9 +72,13 @@ const root: Route[] = [
     MatSlideToggleModule,
     MatTooltipModule,
     SharedModule,
+    EditorModule,
     MatDialogModule,
     RouterModule.forChild(root)
   ],
-  declarations: [PrinttemplateComponent]
+  declarations: [PrinttemplateComponent, CreateeditPrinttemplateComponent],
+  providers: [
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
+  ],
 })
 export class PrinttemplateModule { }

@@ -17,6 +17,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 })
 export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
+        'status',
         'name',
         'productCode',
         'productBarcode',
