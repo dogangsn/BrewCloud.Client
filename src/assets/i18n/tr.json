@@ -19,6 +19,7 @@
         "cancel": "İptal Et",
         "undoCancel": "İptali Geri Al",
         "approve": "Seçili talebi onaylamak istediğinize emin misiniz?",
-        "apponitnmentAreSure" : "Randevu kayıt edilecektir. Onaylıyor musunuz?"
+        "apponitnmentAreSure" : "Randevu kayıt edilecektir. Onaylıyor musunuz?",
+        "examinationAreSure" : "Muayne kayıt edilecektir. Onaylıyor musunuz?"
     }
 }

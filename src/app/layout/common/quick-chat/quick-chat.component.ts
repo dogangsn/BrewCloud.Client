@@ -225,7 +225,6 @@ export class QuickChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getUsersList(): void {
-        debugger;
         this._chatService.getChatUsers().subscribe((response) => {
             this.chats = response.data;
             console.log(this.chats);

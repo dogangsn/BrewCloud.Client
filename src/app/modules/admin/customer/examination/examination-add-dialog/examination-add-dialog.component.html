@@ -1,37 +1,24 @@
-<div class="flex flex-col flex-auto min-w-0">
-  <div
-    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
-    <div class="flex-1 min-w-0">
-      <div>
-        <div class="flex sm:hidden">
-          <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
-            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
-            <span class="ml-1">Back</span>
-          </a>
-        </div>
-      </div>
-      <div class="mt-2">
-        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-          Yeni Muayene Ekle
-        </h2>
-      </div>
-    </div>
-
-    <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="examinationadd()">
-        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
-        Kaydet
-      </button>
-    </div>
+<h1 mat-dialog-title class="mat-dialog-title">
+  <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
+    <span class="material-icons"> highlight_off </span>
+  </button>
+</h1>
+<div >
+  <mat-dialog-content class="">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <!-- <span *ngIf="selectedcustomeradd">Muayne Güncelle</span> -->
+      <span>Muayne Ekle</span>
+    </h5>
   </div>
 
-  <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+  <div class="flex-auto mt-8 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
     <div [formGroup]="examinationForm">
       <div class="float : left flex gt-xs:flex-row mb-2">
         <div class="dx-field">
           <mat-label class="font-semibold text-gray-700">Muayne Tarihi</mat-label>
           <div class="dx-field mt-1">
-            <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+            <dx-date-box [value]="examinationDate" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
               (onValueChanged)="handleValueChange($event)">
             </dx-date-box>
           </div>
@@ -68,7 +55,7 @@
           <mat-label>Hasta</mat-label>
           <mat-select name="patientId" [formControlName]="'patientId'" [placeholder]="'Hasta'">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let item of patientList" [value]="item.recId">{{ item.name }}</mat-option>
+            <mat-option *ngFor="let item of patientList" [value]="item.id">{{ item.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -110,7 +97,7 @@
               </button>
             </mat-chip-row>
           </mat-chip-grid>
-          <input class="mt-1 w-full border rounded-md border-dashed" placeholder="   Semptom giriniz.." #fruitInput
+          <input class="mt-1 w-full border rounded-md border-dashed" placeholder="   New Fruit..." #fruitInput
             [formControl]="symptomCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
@@ -145,4 +132,14 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+</mat-dialog-content>
+<div class="flex items-center mt-4 sm:mt-0 justify-end ">
+  <button class="ml-auto sm:ml-0 mx-2" mat-stroked-button (click)="closeDialog()">
+      Vazgeç
+  </button>
+  <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
+      (click)="addOrUpdateExamination()">
+      Kaydet
+  </button>
+</div>
 </div>

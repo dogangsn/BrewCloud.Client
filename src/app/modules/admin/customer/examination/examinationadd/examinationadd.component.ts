@@ -47,7 +47,7 @@ export class ExaminationaddComponent implements OnInit {
     separatorKeysCodes: number[] = [ENTER, COMMA];
     symptomCtrl = new FormControl('');
     filteredSymptoms: Observable<string[]>;
-    symptoms: string[] = ['Symptom'];
+    symptoms: string[] = [];
     allSymptoms: string[] = [];
     lastSelectedValue: Date = new Date();
     now: Date = new Date();
@@ -58,15 +58,14 @@ export class ExaminationaddComponent implements OnInit {
     states: string[] = ['Aktif', 'Tamamlandı', 'Bekliyor'];
 
     addEnabled: boolean = true;
-  visibleCustomer: boolean;
-  addVaccineList: any;
-  _dialogRef: any;
+    visibleCustomer: boolean;
+    addVaccineList: any;
+    private _dialogRef: any;
 
     constructor(
         private _customerService: CustomerService,
         private _formBuilder: UntypedFormBuilder,
         private _translocoService: TranslocoService,
-        
         private _examinationService : ExaminationService,
         
     ) {
@@ -95,7 +94,7 @@ export class ExaminationaddComponent implements OnInit {
             weight: [''],
             complaintAndHistory: [''],
             treatmentDescription: [''],
-            selectedState: [''],
+            selectedState: [this.states[0]],
         });
     }
 
@@ -126,14 +125,13 @@ export class ExaminationaddComponent implements OnInit {
     examinationadd(): void {
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
-            this.translate('sweetalert.apponitnmentAreSure'),
+            this.translate('sweetalert.examinationAreSure'),
             SweetalertType.warning
         );
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
                   this.symptomsString = this.symptoms.join(', '); 
-debugger;
                   const item = new ExaminationDto(
                     this.lastSelectedValue,
                     this.selectedState,
@@ -148,10 +146,10 @@ debugger;
                     this.symptomsString,
                 );
                 
-
+debugger
                     this._examinationService.createExamination(item).subscribe(
                         (response) => {
-                            debugger;
+                            debugger
 
                             if (response.isSuccessful) {
                                 this.showSweetAlert('success');
@@ -184,7 +182,6 @@ debugger;
             model.id = event;
         }
 
-        debugger;
         this._customerService
             .getPatientsByCustomerId(model)
             .subscribe((response) => {

@@ -40,6 +40,7 @@ import { ExaminationaddComponent } from './examinationadd.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { ExaminationlistComponent } from '../examinationlist/examinationlist.component';
+import { ExaminationAddDialogComponent } from '../examination-add-dialog/examination-add-dialog.component';
 
 const root: Route[] = [
     {
@@ -88,7 +89,8 @@ const root: Route[] = [
      
     ],
     declarations: [
-        ExaminationaddComponent
+        ExaminationaddComponent,
+        ExaminationAddDialogComponent
     ]
     
 })
