@@ -29,7 +29,7 @@ export class StockTrackingListComponent implements OnInit {
   productdescription: StockTrackingDto[] = [];
   dataSource = new MatTableDataSource<StockTrackingDto>(
     this.productdescription
-  );  
+  );
   productid: string;
 
   constructor(
@@ -125,5 +125,30 @@ export class StockTrackingListComponent implements OnInit {
     );
   };
 
+  public redirectToUpdate = (id: string) => {
+
+
+    // const model = {
+    //     selectedProductdescription: selectedProduct,
+    //     producttype: 1,
+    //     visibleProductType: false,
+    // };
+    // if (selectedProduct) {
+    //     const dialogRef = this._dialog.open(
+    //         CreateEditProductDescriptionDialogComponent,
+    //         {
+    //             maxWidth: '100vw !important',
+    //             disableClose: true,
+    //             data: model,
+    //         }
+    //     );
+
+    //     dialogRef.afterClosed().subscribe((response) => {
+    //         if (response.status) {
+    //             this.getProductList();
+    //         }
+    //     });
+    // }
+  };
 
 }
