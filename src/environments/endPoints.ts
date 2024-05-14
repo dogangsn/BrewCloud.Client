@@ -44,6 +44,7 @@ export const endPoints = {
     },
     examinations:{
         examinationlist: 'vet/Patient/GetExaminations',
+        getExamination: 'vet/Patient/GetExaminationByRecId',
         createExamination: 'vet/Patient/CreateExamination',
         symptomlist: 'vet/Patient/GetSymptoms',
     },
