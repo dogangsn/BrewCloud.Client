@@ -30,7 +30,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepperModule } from '@angular/material/stepper';
 import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 const root: Route[] = [
   {
     path: '',
@@ -102,6 +103,8 @@ const root: Route[] = [
     DxDateBoxModule,
     DxCheckBoxModule,
     MatTabsModule,
+    DropdownModule,
+    FileUploadModule,
     RouterModule.forChild(root),
   ],
   declarations: [PatientlistComponent, PatientDetailsComponent]
