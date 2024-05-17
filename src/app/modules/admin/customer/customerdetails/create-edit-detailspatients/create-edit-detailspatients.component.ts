@@ -152,7 +152,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         };
 
         const patientModel = new CreatePatientCommand(
-            this.selectedCustomerId.customerId,
+            this.selectedCustomerId,
             item
         );
         if(this.saveType == 1)
