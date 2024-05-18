@@ -35,7 +35,7 @@ export class CreateEditAccommodationRoomsDialogComponent implements OnInit {
         this.accommodationrooms = this._formBuilder.group({
             roomName: [''],
             price: [0],
-            pricingType: ["1"]
+            pricingType: ["1"],
         });
         this.fillFormData(this.selectedaccommodationrooms);
     }

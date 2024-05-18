@@ -21,6 +21,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog'; 
+import { CreateEditAccommodationsComponent } from './dialog/create-edit-accommodations.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
+import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
 
 
 const root: Route[] = [
@@ -74,8 +78,12 @@ const root: Route[] = [
     MatTooltipModule,
     SharedModule,
     MatDialogModule,
+    MatTabsModule,
+    MatRadioModule,
+    DxDateBoxModule,
+    DxCheckBoxModule,
     RouterModule.forChild(root)
   ],
-  declarations: [AccommodationsComponent]
+  declarations: [AccommodationsComponent, CreateEditAccommodationsComponent]
 })
 export class AccommodationsModule { }

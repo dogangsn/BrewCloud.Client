@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { CreateEditAccommodationsComponent } from './dialog/create-edit-accommodations.component';
 
 @Component({
   selector: 'app-accommodations',
@@ -33,29 +34,29 @@ export class AccommodationsComponent implements OnInit {
   }
 
   getAccommodationsList() {
-    // this._accommodationrooms.getRoomList().subscribe((response) => {
-    //   this.rooms = response.data;
-    //   this.dataSource = new MatTableDataSource<RoomListDto>(
-    //     this.rooms
-    //   );
-    //   this.dataSource.paginator = this.paginator;
-    // });
+    this._accommodationrooms.getAccomodationList().subscribe((response) => {
+      this.accommodations = response.data;
+      this.dataSource = new MatTableDataSource<AccomodationListDto>(
+        this.accommodations
+      );
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   addPanelOpen(): void {
-    // this.isUpdateButtonActive = false;
-    // const dialog = this._dialog
-    //   .open(CreateEditAccommodationRoomsDialogComponent, {
-    //     maxWidth: '100vw !important',
-    //     disableClose: true,
-    //     data: null,
-    //   })
-    //   .afterClosed()
-    //   .subscribe((response) => {
-    //     if (response.status) {
-    //         this.getRoomList();
-    //     }
-    //   });
+    this.isUpdateButtonActive = false;
+    const dialog = this._dialog
+      .open(CreateEditAccommodationsComponent, {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: null,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response.status) {
+            this.getAccommodationsList();
+        }
+      });
   }
 
   showSweetAlert(type: string, message: string): void {
@@ -81,55 +82,55 @@ export class AccommodationsComponent implements OnInit {
   }
 
   public redirectToDelete = (id: string) => {
-    // const sweetAlertDto = new SweetAlertDto(
-    //   this.translate('sweetalert.areYouSure'),
-    //   this.translate('sweetalert.areYouSureDelete'),
-    //   SweetalertType.warning
-    // );
-    // GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-    //   (swalResponse) => {
-    //     if (swalResponse.isConfirmed) {
-    //       const model = {
-    //         id: id,
-    //       };
-    //       this._accommodationrooms
-    //         .deleteRoom(model)
-    //         .subscribe((response) => {
-    //           if (response.isSuccessful) {
-    //             this.getRoomList();
-    //             const sweetAlertDto2 = new SweetAlertDto(
-    //               this.translate('sweetalert.success'),
-    //               this.translate('sweetalert.transactionSuccessful'),
-    //               SweetalertType.success
-    //             );
-    //             GeneralService.sweetAlert(sweetAlertDto2);
-    //           } else {
-    //             this.showSweetAlert('error', response.errors[0]);
-    //             console.log(response.errors[0]);
-    //           }
-    //         });
-    //     }
-    //   }
-    // );
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const model = {
+            id: id,
+          };
+          this._accommodationrooms
+            .deleteAccomodation(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getAccommodationsList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate('sweetalert.transactionSuccessful'),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                this.showSweetAlert('error', response.errors[0]);
+                console.log(response.errors[0]);
+              }
+            });
+        }
+      }
+    );
   };
 
   public redirectToUpdate = (id: string) => {
-    // this.isUpdateButtonActive = true;
-    // const selectedroom = this.rooms.find((x) => x.id === id);
-    // if (selectedroom) {
-    //   const dialogRef = this._dialog.open(
-    //     CreateEditAccommodationRoomsDialogComponent,
-    //     {
-    //       maxWidth: '100vw !important',
-    //       disableClose: true,
-    //       data: selectedroom
-    //     }
-    //   );
-    //   dialogRef.afterClosed().subscribe((response) => {
-    //     if (response.status) {
-    //       this.getRoomList();
-    //     }
-    //   });
-    // }
+    this.isUpdateButtonActive = true;
+    const selectedroom = this.accommodations.find((x) => x.id === id);
+    if (selectedroom) {
+      const dialogRef = this._dialog.open(
+        CreateEditAccommodationsComponent,
+        {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedroom
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAccommodationsList();
+        }
+      });
+    }
   };
 }

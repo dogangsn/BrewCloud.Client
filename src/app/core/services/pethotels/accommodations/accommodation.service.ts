@@ -3,6 +3,7 @@ import { HttpService } from "app/core/auth/Http.service";
 import { CreateUnitsCommand } from "app/modules/admin/definition/unitdefinition/models/CreateUnitsCommand";
 import { CreateVaccineCommand } from "app/modules/admin/definition/vaccinelist/models/createVaccineCommand";
 import { CreateRoomCommand } from "app/modules/admin/pethotels/accommodationrooms/models/createRoomCommand";
+import { CreateAccomodationCommand } from "app/modules/admin/pethotels/accommodations/models/createAccomodationCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -13,21 +14,21 @@ import { Observable } from "rxjs";
 export class AccommodationsService {
     constructor(private _httpService: HttpService) { }
 
-    // getRoomList() : Observable<any>{
-    //     return this._httpService.getRequest(endPoints.pethotels.getRoomList);
-    // }
+    getAccomodationList() : Observable<any>{
+        return this._httpService.getRequest(endPoints.pethotels.getAccomodationList);
+    }
 
-    // createRoom(model: CreateRoomCommand): Observable<any> {
-    //     return this._httpService.post(endPoints.pethotels.createRoom, model);
-    // }
+    createAccommodation(model: CreateAccomodationCommand): Observable<any> {
+        return this._httpService.post(endPoints.pethotels.createAccommodation, model);
+    }
 
     // updateRoom(model: any): Observable<any> {
     //     return this._httpService.post(endPoints.pethotels.updateRoom, model);
     // }
 
-    // deleteRoom(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.pethotels.deleteRoom, model);
-    // }
+    deleteAccomodation(model: any): Observable<any> {
+        return this._httpService.post(endPoints.pethotels.deleteAccomodation, model);
+    }
 
 
 }

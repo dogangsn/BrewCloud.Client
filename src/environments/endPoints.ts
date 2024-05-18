@@ -208,7 +208,10 @@ export const endPoints = {
         getRoomList : 'vet/PetHotels/getRoomList',
         createRoom : 'vet/PetHotels/CreateRoom',
         updateRoom : 'vet/PetHotels/UpdateRoom',
-        deleteRoom : 'vet/PetHotels/DeleteRoom'
+        deleteRoom : 'vet/PetHotels/DeleteRoom',
+        getAccomodationList : 'vet/PetHotels/GetAccomodationList',
+        createAccommodation : 'vet/PetHotels/CreateAccomodation',
+        deleteAccomodation : 'vet/PetHotels/DeleteAccomodation'
     },
     patient: {
         getPatientList : 'vet/Patient/GetPatientList'
