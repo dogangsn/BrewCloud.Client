@@ -9,6 +9,9 @@ import { CreateEditProductDescriptionDialogComponent } from '../productdescripti
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { StockTrackingListComponent } from '../productdescription/dialogs/stockTracking-list/stockTracking-list.component';
+import { StockTrackingType } from '../productdescription/models/CreateStockTrackingCommand';
+import { CreateeditStockTrackingComponent } from '../productdescription/dialogs/createedit-stockTracking/createedit-stockTracking.component';
 
 @Component({
     selector: 'app-vaccinedefinition',
@@ -17,7 +20,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 })
 export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        'status',
+        'warning',
+        'active', 
         'name',
         'productCode',
         'productBarcode',
@@ -38,7 +42,7 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     constructor(
         private _dialog: MatDialog,
         private _productdescriptionService: ProductDescriptionService,
-        private _translocoService: TranslocoService
+        private _translocoService: TranslocoService, 
     ) {}
 
     ngAfterViewInit() {
@@ -179,5 +183,77 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    toggleActive(id: number, active: boolean) {
+
+        console.log("Toggle event captured for element with id:", id);
+
+        const item = {
+            Id : id,
+            Active : active
+        };
+
+        this._productdescriptionService.updateProductActive(item).subscribe(
+            (response) => {
+    
+                if (response.isSuccessful) {
+                  
+                } else {
+                    this.showSweetAlert(
+                        'error'
+                    );
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+
+
+    }
+
+    public openStockTrackingList = (id: string) => {
+
+        const data = {
+            productid: id,
+        }
+
+        const dialog = this._dialog
+            .open(StockTrackingListComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: data,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getProductList();
+                }
+            });
+
+    }
+
+    public openStockTrackingEntry = (id: string, entryexittype: number) => {
+
+        const data = {
+            productid: id,
+            entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit),
+            data : null
+        }
+
+        const dialog = this._dialog
+            .open(CreateeditStockTrackingComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: data,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getProductList();
+                }
+            });
+
     }
 }

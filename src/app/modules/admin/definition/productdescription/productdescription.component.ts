@@ -21,12 +21,14 @@ import { StockTrackingType } from './models/CreateStockTrackingCommand';
 })
 export class ProductdescriptionComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
+        'warning',
         'active',
         'name',
         'productCode',
         'productBarcode',
         'buyingPrice',
         'sellingPrice',
+        'stockCount',
         'actions',
     ];
 
@@ -262,7 +264,8 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
 
         const data = {
             productid: id,
-            entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit)
+            entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit),
+            data : null
         }
 
         const dialog = this._dialog

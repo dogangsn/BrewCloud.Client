@@ -15,6 +15,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { StockTrackingService } from 'app/core/services/definition/stockTracking/stocktracking.service';
+import { UpdateStockTrackingCommand } from '../../models/updateStockTrackingCommand';
 
 export const MY_FORMATS = {
   parse: {
@@ -66,6 +67,7 @@ export class CreateeditStockTrackingComponent implements OnInit {
     private _stocktracking: StockTrackingService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.selectedStockTracking = data.data;
     this.productid = data.productid;
     this.entryexittype = data.entryexittype;
     if(this.entryexittype === StockTrackingType.Exit){
@@ -99,8 +101,23 @@ export class CreateeditStockTrackingComponent implements OnInit {
     })
 
     this.getSuppliers();
-
+    this.fillFormData(this.selectedStockTracking);
   }
+
+
+  fillFormData(selectedStockTracking: any) {
+    if (this.selectedStockTracking !== null) {
+        this.stocktracking.setValue({
+            piece: selectedStockTracking.piece,
+            processtypes: selectedStockTracking.processType,
+            purchaseprice : selectedStockTracking.purchasePrice,
+            supplierId : selectedStockTracking.supplierId,
+            expirationdate : selectedStockTracking.expirationDate
+        });
+    }
+}
+
+
 
   closeDialog(): void {
     this._dialogRef.close({ status: null });
@@ -167,6 +184,37 @@ export class CreateeditStockTrackingComponent implements OnInit {
   }
 
   updateStockTracking(): void {
+    let item = new UpdateStockTrackingCommand(
+      this.selectedStockTracking.id,
+      this.productid,
+      this.entryexittype,
+      this.getFormValueByName('piece'),
+      this.getFormValueByName('purchaseprice'),
+      this.getFormValueByName('supplierId'),
+      this.getFormValueByName('expirationdate'),
+    );
+ 
+    this._stocktracking.updateStockTracking(item).subscribe(
+      (response) => {
+        if (response.isSuccessful) {
+          this.showSweetAlert(
+            'success',
+            'sweetalert.transactionSuccessful'
+          );
+          this._dialogRef.close({
+            status: true,
+          });
+        } else {
+          this.showSweetAlert(
+            'error',
+            'sweetalert.transactionFailed'
+          );
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
 
   }
 

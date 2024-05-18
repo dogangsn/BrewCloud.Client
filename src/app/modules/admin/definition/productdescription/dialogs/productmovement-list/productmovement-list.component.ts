@@ -14,7 +14,10 @@ export class ProductmovementListComponent implements OnInit {
 
   displayedColumns: string[] = [
     'createDate',
-
+    "remark",
+    'piecequentity',
+    'amount',
+    'customersupplier'
   ];
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -57,5 +60,14 @@ export class ProductmovementListComponent implements OnInit {
   closeDialog(): void {
     this._dialogRef.close({ status: null });
   }
+
+  formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    };
+    return new Date(date).toLocaleString('tr-TR', options);
+}
 
 }

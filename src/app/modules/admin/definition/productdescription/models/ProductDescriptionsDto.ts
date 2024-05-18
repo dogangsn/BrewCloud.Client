@@ -21,4 +21,5 @@ export class ProductDescriptionsDto{
     numberRepetitions: number;
     storeId: string;
     taxisId: string;
+    stockCount: number;
 }

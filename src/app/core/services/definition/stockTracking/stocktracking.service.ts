@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "app/core/auth/Http.service";
 import { CreateStockTrackingCommand } from "app/modules/admin/definition/productdescription/models/CreateStockTrackingCommand";
+import { UpdateStockTrackingCommand } from "app/modules/admin/definition/productdescription/models/updateStockTrackingCommand";
 import { CreateTaxisCommand } from "app/modules/admin/definition/taxes/models/CreateTaxisCommand";
 import { UpdateTaxisCommand } from "app/modules/admin/definition/taxes/models/UpdateTaxisCommand";
 import { endPoints } from "environments/endPoints";
@@ -22,7 +23,7 @@ export class StockTrackingService {
         return this._httpService.post(endPoints.stocktracking.createStockTracking, model);
     }
 
-    updateStockTracking(model: CreateStockTrackingCommand): Observable<any> {
+    updateStockTracking(model: UpdateStockTrackingCommand): Observable<any> {
         return this._httpService.post(endPoints.stocktracking.updateStockTracking, model);
     }
 

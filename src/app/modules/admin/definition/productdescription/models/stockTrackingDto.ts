@@ -6,5 +6,6 @@ export class StockTrackingDto {
     expirationDateString: string;
     purchasePrice : number;
     remainingPiece : number;
+    piece: number;
 
 }

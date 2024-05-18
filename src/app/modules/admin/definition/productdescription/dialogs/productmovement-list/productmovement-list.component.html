@@ -23,10 +23,33 @@
                 <table mat-table [dataSource]="dataSource">
  
                   <ng-container matColumnDef="createDate">
-                    <th mat-header-cell *matHeaderCellDef> Kayıt Tarihi </th>
-                    <td mat-cell *matCellDef="let element"> {{element.createDate}} </td>
+                    <th mat-header-cell *matHeaderCellDef> İşlem Tarihi </th>
+                    <td mat-cell *matCellDef="let element"> {{ formatDate(element.createDate) }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="remark">
+                    <th mat-header-cell *matHeaderCellDef> Açıklama </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.remark }} </td>
                   </ng-container>
           
+                  <ng-container matColumnDef="piecequentity">
+                    <th mat-header-cell *matHeaderCellDef> Adet / Miktar </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.pieceQuentity }} </td>
+                  </ng-container>
+
+                  
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef> Tutar </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+                  </ng-container>
+
+                             
+                  <ng-container matColumnDef="customersupplier">
+                    <th mat-header-cell *matHeaderCellDef> Müşteri / Tedarikçi </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.customerSupplier }} </td>
+                  </ng-container>
+
+
          
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

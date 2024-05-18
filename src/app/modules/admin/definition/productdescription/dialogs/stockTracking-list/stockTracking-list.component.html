@@ -23,47 +23,57 @@
             <ng-container matColumnDef="processTypeName">
               <th mat-header-cell *matHeaderCellDef> Stok Bilgileri </th>
               <td mat-cell *matCellDef="let element"> {{element.processTypeName}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
 
             <ng-container matColumnDef="supplierName">
               <th mat-header-cell *matHeaderCellDef> Tedarikçi </th>
               <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
 
             <ng-container matColumnDef="expirationDateString">
               <th mat-header-cell *matHeaderCellDef> Son Kullanma Tarihi </th>
               <td mat-cell *matCellDef="let element"> {{element.expirationDateString}} </td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
             <ng-container matColumnDef="purchasePrice">
               <th mat-header-cell *matHeaderCellDef> Alış fiyatı </th>
               <td mat-cell *matCellDef="let element"> {{element.purchasePrice}} </td>
+              <td mat-footer-cell *matFooterCellDef class="footer-bold"> {{getTotalPurchasePrice()}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="piece">
+              <th mat-header-cell *matHeaderCellDef> Alınan Stok </th>
+              <td mat-cell *matCellDef="let element"> {{element.piece}} </td>
+              <td mat-footer-cell *matFooterCellDef class="footer-bold">{{ getTotalPiece() }}</td>
             </ng-container>
 
             <ng-container matColumnDef="remainingPiece">
               <th mat-header-cell *matHeaderCellDef> Kalan Stok </th>
               <td mat-cell *matCellDef="let element"> {{element.remainingPiece}} </td>
+              <td mat-footer-cell *matFooterCellDef class="footer-bold"> {{getTotalRemainingPiece()}} </td>
             </ng-container>
 
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef> İşlemler </th>
               <td mat-cell *matCellDef="let element">
-
                 <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                   <mat-icon aria-label="Edit">edit</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                   <mat-icon class="mat-18">delete</mat-icon>
                 </button>
-
-
               </td>
+              <td mat-footer-cell *matFooterCellDef></td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns" class="footer-background"></tr>
           </table>
 
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator

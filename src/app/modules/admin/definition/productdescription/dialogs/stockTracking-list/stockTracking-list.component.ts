@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { StockTrackingDto } from '../../models/stockTrackingDto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { StockTrackingType } from '../../models/CreateStockTrackingCommand';
+import { CreateeditStockTrackingComponent } from '../createedit-stockTracking/createedit-stockTracking.component';
 
 @Component({
   selector: 'app-stockTracking-list',
@@ -21,6 +23,7 @@ export class StockTrackingListComponent implements OnInit {
     'supplierName',
     'expirationDateString',
     'purchasePrice',
+    'piece',
     'remainingPiece',
     'actions',
   ];
@@ -33,6 +36,7 @@ export class StockTrackingListComponent implements OnInit {
   productid: string;
 
   constructor(
+    private _dialog: MatDialog,
     private _dialogRef: MatDialogRef<any>,
     private _stocktracking: StockTrackingService,
     private _translocoService: TranslocoService,
@@ -127,28 +131,42 @@ export class StockTrackingListComponent implements OnInit {
 
   public redirectToUpdate = (id: string) => {
 
+    const selectedItem = this.productdescription.find((items) => items.id === id);
+    if (selectedItem) {
 
-    // const model = {
-    //     selectedProductdescription: selectedProduct,
-    //     producttype: 1,
-    //     visibleProductType: false,
-    // };
-    // if (selectedProduct) {
-    //     const dialogRef = this._dialog.open(
-    //         CreateEditProductDescriptionDialogComponent,
-    //         {
-    //             maxWidth: '100vw !important',
-    //             disableClose: true,
-    //             data: model,
-    //         }
-    //     );
+      const data = {
+        productid: id,
+        entryexittype: StockTrackingType.Entry,
+        data: selectedItem
+      }
+      const dialog = this._dialog
+        .open(CreateeditStockTrackingComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: data,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            this.getStockTrackingList();
+          }
+        });
 
-    //     dialogRef.afterClosed().subscribe((response) => {
-    //         if (response.status) {
-    //             this.getProductList();
-    //         }
-    //     });
-    // }
+    }
+
+
   };
+
+  getTotalPurchasePrice(): number {
+    return this.dataSource.data.map(t => t.purchasePrice).reduce((acc, value) => acc + value, 0);
+  }
+
+  getTotalRemainingPiece(): number {
+    return this.dataSource.data.map(t => t.remainingPiece).reduce((acc, value) => acc + value, 0);
+  }
+
+  getTotalPiece(): number {
+    return this.dataSource.data.map(t => t.piece).reduce((acc, value) => acc + value, 0);
+  }
 
 }
