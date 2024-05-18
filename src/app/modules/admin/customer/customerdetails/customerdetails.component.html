@@ -18,7 +18,7 @@
                     {{this.lastname}}
                 </h2>
             </div>
-            <div class="font-medium tracking-tight text-secondary">{{ this.phonenumber + " / "  + this.email }}</div>
+            <div class="font-medium tracking-tight text-secondary">{{ this.phonenumber + " / " + this.email }}</div>
         </div>
     </div>
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
@@ -64,7 +64,8 @@
         <div class="my-10 border-t"></div>
 
 
-        <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'" (selectedIndexChange)="onTabChange($event)">
+        <mat-tab-group class="sm:px-2" mat-stretch-tabs="false" [animationDuration]="'0'"
+            (selectedIndexChange)="onTabChange($event)">
 
             <mat-tab label="Genel Bakış">
 
@@ -351,25 +352,19 @@
                             </fuse-card>
                         </div>
                     </div>
-
-
-
-
                 </div>
-
             </mat-tab>
 
-            <mat-tab label="Hastalar" >
+            <mat-tab label="Hastalar">
                 <app-patient-tab></app-patient-tab>
             </mat-tab>
 
             <mat-tab label="Muayeneler">
-
+                <app-examination-tab></app-examination-tab>
             </mat-tab>
 
-            
             <mat-tab label="Aşı Takvimi">
-
+                <app-vaccine-tab></app-vaccine-tab>
             </mat-tab>
 
             <mat-tab label="Konaklama">
@@ -380,9 +375,10 @@
                 <app-pay-chart-tab></app-pay-chart-tab>
             </mat-tab>
 
+            <!-- 
             <mat-tab label="İşlem Geçmişi">
 
-            </mat-tab>
+            </mat-tab> -->
 
 
         </mat-tab-group>

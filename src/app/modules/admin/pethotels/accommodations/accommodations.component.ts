@@ -34,7 +34,12 @@ export class AccommodationsComponent implements OnInit {
   }
 
   getAccommodationsList() {
-    this._accommodationrooms.getAccomodationList().subscribe((response) => {
+
+    const model = {
+      CustomerId: '00000000-0000-0000-0000-000000000000'
+    }
+
+    this._accommodationrooms.getAccomodationList(model).subscribe((response) => {
       this.accommodations = response.data;
       this.dataSource = new MatTableDataSource<AccomodationListDto>(
         this.accommodations
@@ -54,7 +59,7 @@ export class AccommodationsComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-            this.getAccommodationsList();
+          this.getAccommodationsList();
         }
       });
   }
@@ -133,4 +138,16 @@ export class AccommodationsComponent implements OnInit {
       });
     }
   };
+
+
+  formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+    };
+    return new Date(date).toLocaleString('tr-TR', options);
+}
 }

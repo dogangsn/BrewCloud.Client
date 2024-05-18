@@ -43,6 +43,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PatientTabComponent } from '../customerdetails/tabs/patient-tab/patient-tab.component';
 import { PayChartTabComponent } from '../customerdetails/tabs/paychart-tab/paychart-tab.component';
 import { AccommodationsTabComponent } from '../customerdetails/tabs/accommodations-tab/accommodations-tab.component';
+import { PatientlistDialogComponent } from '../customerdetails/patientlist-dialog/patientlist-dialog.component';
+import { ExaminationTabComponent } from '../customerdetails/tabs/examination-tab/examination-tab.component';
+import { VaccineTabComponent } from '../customerdetails/tabs/vaccine-tab/vaccine-tab.component';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
@@ -134,7 +137,10 @@ const root: Route[] = [
         EditAppointmentComponent,
         PatientTabComponent,
         PayChartTabComponent,
-        AccommodationsTabComponent
+        AccommodationsTabComponent,
+        PatientlistDialogComponent,
+        ExaminationTabComponent,
+        VaccineTabComponent
         //  DxReportViewerComponent
     ]
 

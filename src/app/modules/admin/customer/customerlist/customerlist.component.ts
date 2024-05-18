@@ -16,36 +16,37 @@ import { customerlistReportComponent } from '../report/customerlistReport/custom
 // import { DtoPmsRptParameter } from '../../models/DtoPmsRptParameter';
 import { customerlistRptParameter } from '../report/models/customerlistRptParameter';
 import { formatDate } from '@angular/common';
+import { PatientlistDialogComponent } from '../customerdetails/patientlist-dialog/patientlist-dialog.component';
 
 @Component({
     selector: 'customerslist',
     templateUrl: './customerlist.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class CustomersListComponent implements OnInit, AfterViewInit  {
-    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail','note', 'actions'];
-    
+export class CustomersListComponent implements OnInit, AfterViewInit {
+    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'actions'];
+
     @ViewChild('paginator') paginator: MatPaginator;
 
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
-    loader=true;
+    loader = true;
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
-    
+
     constructor(private _customerListService: CustomerService,
-                private _dialog: MatDialog,
-                private _translocoService: TranslocoService,
-                private router: Router, private route: ActivatedRoute,
-                private customerDetailsService : CustomerDetailsService
-                ) {}
-    
+        private _dialog: MatDialog,
+        private _translocoService: TranslocoService,
+        private router: Router, private route: ActivatedRoute,
+        private customerDetailsService: CustomerDetailsService
+    ) { }
+
     ngOnInit() {
         this.getCustomerList();
     }
-    
+
     getCustomerList() {
         this._customerListService.getcustomerlist().subscribe((response) => {
             this.customerlist = response.data;
@@ -54,8 +55,8 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
             );
             this.dataSource.paginator = this.paginator;
 
-            this.loader=false;
-        
+            this.loader = false;
+
         });
     }
 
@@ -74,12 +75,12 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
                 }
             });
     }
-    
+
     public redirectToUpdate = (id: string) => {
         console.log(id);
         this.router.navigate(['customerlist/customerdetails', id]);
     };
-    
+
     public redirectToDelete = (id: string) => {
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
@@ -117,23 +118,23 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
         // pmsrpt1090.cinto = formatDate(this.getFormValueByName('cindateto'), 'yyyy-MM-dd', 'en-US'),
         // pmsrpt1090.coutfrom = formatDate(this.getFormValueByName('coutdatefrom'), 'yyyy-MM-dd', 'en-US'),
         // pmsrpt1090.coutto = formatDate(this.getFormValueByName('coutdateto'), 'yyyy-MM-dd', 'en-US'),
-        
+
         pmsrpt1090.resuuid = "00000000-0000-0000-0000-000000000000",
-    
-        // pmsrpt1090.hotelidlist = this.hotelRecIdList.substring(0, this.hotelRecIdList.length - 1);
-        pmsrpt1090.hotelidlist = 'deneme1';
-        
+
+            // pmsrpt1090.hotelidlist = this.hotelRecIdList.substring(0, this.hotelRecIdList.length - 1);
+            pmsrpt1090.hotelidlist = 'deneme1';
+
         // rapora parametreleri backend den döndürmek icin secilen parametrelerin nameleri backend e gönderildi.
         // pmsrpt1090.hotellist = this.pmsHotelListValue != null ? this.pmsHotelListValue.map(x => x.propertyName).toString() : "";
-        pmsrpt1090.hotellist =  'deneme2';
-        
+        pmsrpt1090.hotellist = 'deneme2';
+
         pmsrpt1090.reportId = 1090;
         debugger;
         const dialog = this._dialog.open(customerlistReportComponent, {
             width: '80%',
             disableClose: true,
             data: pmsrpt1090//data
-          })
+        })
     }
     showSweetAlert(type: string): void {
         if (type === 'success') {
@@ -159,7 +160,36 @@ export class CustomersListComponent implements OnInit, AfterViewInit  {
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
-      }
+    }
+
+
+    redirectToPatientList = (id: string) => {
+
+        const _customer = this.customerlist.find(x => x.id === id);
+        if (_customer) {
+
+            const data = {
+                firstlastname : _customer.firstName + " " + _customer.lastName
+            }
+
+            const dialog = this._dialog
+                .open(PatientlistDialogComponent, {
+                    maxWidth: '100%',
+                    disableClose: true,
+                    data: data,
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                        //this.getCustomerList();
+                    }
+                });
+
+        }
+
+    }
+
+
 
 
 

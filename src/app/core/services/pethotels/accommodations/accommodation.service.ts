@@ -14,8 +14,8 @@ import { Observable } from "rxjs";
 export class AccommodationsService {
     constructor(private _httpService: HttpService) { }
 
-    getAccomodationList() : Observable<any>{
-        return this._httpService.getRequest(endPoints.pethotels.getAccomodationList);
+    getAccomodationList(model: any) : Observable<any>{
+        return this._httpService.post(endPoints.pethotels.getAccomodationList, model);
     }
 
     createAccommodation(model: CreateAccomodationCommand): Observable<any> {
