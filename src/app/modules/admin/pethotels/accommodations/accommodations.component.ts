@@ -9,6 +9,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateEditAccommodationsComponent } from './dialog/create-edit-accommodations.component';
+import { AccommodationexitComponent } from './dialog/accommodationexit/accommodationexit.component';
 
 @Component({
   selector: 'app-accommodations',
@@ -139,15 +140,33 @@ export class AccommodationsComponent implements OnInit {
     }
   };
 
+  public reservationlogout = (id: string) => {
+
+    this.isUpdateButtonActive = false;
+    const dialog = this._dialog
+      .open(AccommodationexitComponent, {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: null,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response.status) {
+          this.getAccommodationsList();
+        }
+      });
+
+  }
+
 
   formatDate(date: string): string {
     const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
     };
     return new Date(date).toLocaleString('tr-TR', options);
-}
+  }
 }

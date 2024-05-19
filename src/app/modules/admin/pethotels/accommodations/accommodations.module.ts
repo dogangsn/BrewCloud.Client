@@ -25,6 +25,7 @@ import { CreateEditAccommodationsComponent } from './dialog/create-edit-accommod
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
+import { AccommodationexitComponent } from './dialog/accommodationexit/accommodationexit.component';
 
 
 const root: Route[] = [
@@ -84,6 +85,6 @@ const root: Route[] = [
     DxCheckBoxModule,
     RouterModule.forChild(root)
   ],
-  declarations: [AccommodationsComponent, CreateEditAccommodationsComponent]
+  declarations: [AccommodationsComponent, CreateEditAccommodationsComponent, AccommodationexitComponent]
 })
 export class AccommodationsModule { }
