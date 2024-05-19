@@ -53,7 +53,7 @@ export class ExaminationaddComponent implements OnInit {
     now: Date = new Date();
     addOnBlur = true;
     announcer = inject(LiveAnnouncer);
-    symptomsString:string;
+    symptomsString: string;
     selectedState: string;
     states: string[] = ['Aktif', 'Tamamlandı', 'Bekliyor'];
 
@@ -65,11 +65,9 @@ export class ExaminationaddComponent implements OnInit {
         private _customerService: CustomerService,
         private _formBuilder: UntypedFormBuilder,
         private _translocoService: TranslocoService,
-        private _examinationService : ExaminationService,
-        
+        private _examinationService: ExaminationService
     ) {
-      
-      this.selectedState=this.states[0];
+        this.selectedState = this.states[0];
         this.filteredSymptoms = this.symptomCtrl.valueChanges.pipe(
             startWith(null),
             map((symptom: string | null) =>
@@ -79,14 +77,13 @@ export class ExaminationaddComponent implements OnInit {
     }
 
     ngOnInit() {
-       
         this.getCustomerList();
 
-        this.getSymptomsList(); 
-        
+        this.getSymptomsList();
+
         this.examinationForm = this._formBuilder.group({
-            customerId: ['',Validators.required],
-            patientId: ['',Validators.required],
+            customerId: ['', Validators.required],
+            patientId: ['', Validators.required],
             bodyTemperature: [''],
             pulse: [''],
             respiratoryRate: [''],
@@ -109,7 +106,6 @@ export class ExaminationaddComponent implements OnInit {
         });
     }
     getPatientList() {
-        ;
         this._customerService
             .getPatientsByCustomerId(this.customers[0].id)
             .subscribe((response) => {
@@ -130,25 +126,45 @@ export class ExaminationaddComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                  this.symptomsString = this.symptoms.join(', '); 
-                  const item = new ExaminationDto(
-                    this.lastSelectedValue,
-                    this.getFormValueByName('selectedState') === null ? "" : this.getFormValueByName('selectedState'),
-                    ((this.getFormValueByName('customerId') === undefined || this.getFormValueByName('customerId') === null || this.getFormValueByName('customerId') === "") ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('customerId')) ,
-                    ((this.getFormValueByName('patientId') === undefined || this.getFormValueByName('patientId') === null || this.getFormValueByName('patientId') === "") ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('patientId')) ,
-                    this.getFormValueByName('bodyTemperature') === null ? "" : this.getFormValueByName('bodyTemperature'),
-                    this.getFormValueByName('pulse') === null ? "" : this.getFormValueByName('pulse'),
-                    this.getFormValueByName('respiratoryRate') === null ? "" : this.getFormValueByName('respiratoryRate'),
-                    this.getFormValueByName('weight') === null ? "" : this.getFormValueByName('weight'),
-                    this.getFormValueByName('complaintAndHistory') === null ? "" : this.getFormValueByName('complaintAndHistory'),
-                    this.getFormValueByName('treatmentDescription') === null ? "" : this.getFormValueByName('treatmentDescription'),
-                    this.symptomsString,
-                );
+                    this.symptomsString = this.symptoms.join(', ');
+                    const item = new ExaminationDto(
+                        this.lastSelectedValue,
+                        this.getFormValueByName('selectedState') === null
+                            ? ''
+                            : this.getFormValueByName('selectedState'),
+                        this.getFormValueByName('customerId') === undefined ||
+                        this.getFormValueByName('customerId') === null ||
+                        this.getFormValueByName('customerId') === ''
+                            ? '00000000-0000-0000-0000-000000000000'
+                            : this.getFormValueByName('customerId'),
+                        this.getFormValueByName('patientId') === undefined ||
+                        this.getFormValueByName('patientId') === null ||
+                        this.getFormValueByName('patientId') === ''
+                            ? '00000000-0000-0000-0000-000000000000'
+                            : this.getFormValueByName('patientId'),
+                        this.getFormValueByName('bodyTemperature') === null
+                            ? ''
+                            : this.getFormValueByName('bodyTemperature'),
+                        this.getFormValueByName('pulse') === null
+                            ? ''
+                            : this.getFormValueByName('pulse'),
+                        this.getFormValueByName('respiratoryRate') === null
+                            ? ''
+                            : this.getFormValueByName('respiratoryRate'),
+                        this.getFormValueByName('weight') === null
+                            ? ''
+                            : this.getFormValueByName('weight'),
+                        this.getFormValueByName('complaintAndHistory') === null
+                            ? ''
+                            : this.getFormValueByName('complaintAndHistory'),
+                        this.getFormValueByName('treatmentDescription') === null
+                            ? ''
+                            : this.getFormValueByName('treatmentDescription'),
+                        this.symptomsString
+                    );
 
                     this._examinationService.createExamination(item).subscribe(
                         (response) => {
-                            
-
                             if (response.isSuccessful) {
                                 this.showSweetAlert('success');
                                 this.symptoms = [];
@@ -156,8 +172,8 @@ export class ExaminationaddComponent implements OnInit {
                                 this.examinationForm.reset();
                                 this.clearInputField();
                                 this.examinationForm
-                                .get('selectedState')
-                                .patchValue(this.selectedState);
+                                    .get('selectedState')
+                                    .patchValue(this.selectedState);
                                 this._dialogRef.close({
                                     status: true,
                                 });
@@ -180,12 +196,13 @@ export class ExaminationaddComponent implements OnInit {
 
     clearInputField() {
         // Input alanını temizleme
-        const inputField = document.getElementById('fruitInput') as HTMLInputElement;
+        const inputField = document.getElementById(
+            'fruitInput'
+        ) as HTMLInputElement;
         if (inputField) {
             inputField.value = '';
         }
     }
-
 
     handleCustomerChange(event: any) {
         const model = {
@@ -254,24 +271,23 @@ export class ExaminationaddComponent implements OnInit {
         // Yeni değeri kullanmak için burada işlemler yapabilirsiniz
     }
     translate(key: string): any {
-      return this._translocoService.translate(key);
+        return this._translocoService.translate(key);
     }
     showSweetAlert(type: string): void {
-      if (type === 'success') {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.success'),
-              this.translate('sweetalert.transactionSuccessful'),
-              SweetalertType.success
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      } else {
-          const sweetAlertDto = new SweetAlertDto(
-              this.translate('sweetalert.error'),
-              this.translate('sweetalert.transactionFailed'),
-              SweetalertType.error
-          );
-          GeneralService.sweetAlert(sweetAlertDto);
-      }
-  }
-
+        if (type === 'success') {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        } else {
+            const sweetAlertDto = new SweetAlertDto(
+                this.translate('sweetalert.error'),
+                this.translate('sweetalert.transactionFailed'),
+                SweetalertType.error
+            );
+            GeneralService.sweetAlert(sweetAlertDto);
+        }
+    }
 }

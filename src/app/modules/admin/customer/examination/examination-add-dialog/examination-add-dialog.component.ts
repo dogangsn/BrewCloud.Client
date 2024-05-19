@@ -140,7 +140,6 @@ export class ExaminationAddDialogComponent implements OnInit {
     }
 
     setExamination(response: any): void {
-        debugger;
         if (response.data) {
             this.examination = response.data;
         }
@@ -167,7 +166,6 @@ export class ExaminationAddDialogComponent implements OnInit {
 
     setCustomerList(response: any): void {
         if (response.data) {
-            debugger;
             this.customers = response.data;
         }
     }
@@ -272,7 +270,6 @@ export class ExaminationAddDialogComponent implements OnInit {
         this._customerService
             .getPatientsByCustomerId(model)
             .subscribe((response) => {
-                debugger;
                 this.patientList = response.data;
                 if (this.patientList.length === 1) {
                     this.examinationForm
@@ -350,8 +347,8 @@ export class ExaminationAddDialogComponent implements OnInit {
     }
 
     updateExamination(): void {
-        this.symptomsString = this.symptoms.join(', '); 
-        
+        this.symptomsString = this.symptoms.join(', ');
+
         const item = new ExaminationUpdateCommand(
             this.selectedExaminationId,
             this.lastSelectedValue,
@@ -384,7 +381,7 @@ export class ExaminationAddDialogComponent implements OnInit {
             this.getFormValueByName('treatmentDescription') === null
                 ? ''
                 : this.getFormValueByName('treatmentDescription'),
-                this.symptomsString
+            this.symptomsString
         );
         this._examinationService.updateExamination(item).subscribe(
             (response) => {
@@ -411,7 +408,6 @@ export class ExaminationAddDialogComponent implements OnInit {
     }
 
     fillFormData(selectedExaminationInf: ExaminationDto) {
-        debugger;
         if (this.examination !== null && this.examination !== undefined) {
             this.examinationDate = this.examination.date;
             this.symptoms = this.examination.symptoms
