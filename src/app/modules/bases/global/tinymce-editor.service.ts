@@ -22,7 +22,7 @@ export class TinymceEditorService {
       toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
         'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
         'forecolor backcolor emoticons | help',
-      readonly: false
+
       //Custom menü için örnek.(F.Z)
       // menu: {
       //   favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
