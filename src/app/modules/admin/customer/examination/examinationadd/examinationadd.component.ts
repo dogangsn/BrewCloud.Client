@@ -59,7 +59,6 @@ export class ExaminationaddComponent implements OnInit {
 
     addEnabled: boolean = true;
     visibleCustomer: boolean;
-    addVaccineList: any;
     private _dialogRef: any;
 
     constructor(
@@ -69,7 +68,7 @@ export class ExaminationaddComponent implements OnInit {
         private _examinationService : ExaminationService,
         
     ) {
-      debugger
+      
       this.selectedState=this.states[0];
         this.filteredSymptoms = this.symptomCtrl.valueChanges.pipe(
             startWith(null),
@@ -110,7 +109,7 @@ export class ExaminationaddComponent implements OnInit {
         });
     }
     getPatientList() {
-        debugger;
+        ;
         this._customerService
             .getPatientsByCustomerId(this.customers[0].id)
             .subscribe((response) => {
@@ -134,7 +133,7 @@ export class ExaminationaddComponent implements OnInit {
                   this.symptomsString = this.symptoms.join(', '); 
                   const item = new ExaminationDto(
                     this.lastSelectedValue,
-                    this.selectedState,
+                    this.getFormValueByName('selectedState') === null ? "" : this.getFormValueByName('selectedState'),
                     ((this.getFormValueByName('customerId') === undefined || this.getFormValueByName('customerId') === null || this.getFormValueByName('customerId') === "") ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('customerId')) ,
                     ((this.getFormValueByName('patientId') === undefined || this.getFormValueByName('patientId') === null || this.getFormValueByName('patientId') === "") ? '00000000-0000-0000-0000-000000000000' :  this.getFormValueByName('patientId')) ,
                     this.getFormValueByName('bodyTemperature') === null ? "" : this.getFormValueByName('bodyTemperature'),
@@ -145,14 +144,20 @@ export class ExaminationaddComponent implements OnInit {
                     this.getFormValueByName('treatmentDescription') === null ? "" : this.getFormValueByName('treatmentDescription'),
                     this.symptomsString,
                 );
-                
-debugger
+
                     this._examinationService.createExamination(item).subscribe(
                         (response) => {
-                            debugger
+                            
 
                             if (response.isSuccessful) {
                                 this.showSweetAlert('success');
+                                this.symptoms = [];
+                                this.selectedState = this.states[0];
+                                this.examinationForm.reset();
+                                this.clearInputField();
+                                this.examinationForm
+                                .get('selectedState')
+                                .patchValue(this.selectedState);
                                 this._dialogRef.close({
                                     status: true,
                                 });
@@ -171,6 +176,14 @@ debugger
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
+    }
+
+    clearInputField() {
+        // Input alanını temizleme
+        const inputField = document.getElementById('fruitInput') as HTMLInputElement;
+        if (inputField) {
+            inputField.value = '';
+        }
     }
 
 

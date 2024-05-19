@@ -17,12 +17,10 @@ export class CustomerService {
     }
 
     createCustomers(model: any): Observable<any> {
-        debugger
         return this._httpService.post(endPoints.customers.createCustomers, model);
     }
 
     getPatientsByCustomerId(model:any):Observable<any>{
-        debugger
         return this._httpService.post(endPoints.customers.getPatients, model);
     }
 

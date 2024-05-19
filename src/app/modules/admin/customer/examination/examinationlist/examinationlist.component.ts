@@ -9,6 +9,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExaminationAddDialogComponent } from '../examination-add-dialog/examination-add-dialog.component';
 import { ExaminationDto } from '../../models/ExaminationDto';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TranslocoService } from '@ngneat/transloco';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
 
 @Component({
   selector: 'app-examinationlist',
@@ -43,6 +47,7 @@ export class ExaminationlistComponent implements OnInit {
   constructor(
     private _examinationService : ExaminationService,
     private _dialog: MatDialog,
+    private _translocoService: TranslocoService,
   ) { }
 
   ngOnInit() {
@@ -54,9 +59,9 @@ export class ExaminationlistComponent implements OnInit {
 }
 
   getExaminationList() {
-    debugger
+    
     this._examinationService.getExaminationlist().subscribe((response) => {
-      debugger
+      
         this.examinationList = response.data;
         this.dataSource = new MatTableDataSource<ExaminationListDto>(
             this.examinationList
@@ -84,17 +89,17 @@ addPanelOpen(): void {
       
 }
 
+translate(key: string): any {
+  return this._translocoService.translate(key);
+}
+
 public redirectToUpdate = (id: string) => {
   this.isUpdateButtonActive = true;
-  debugger
+  
   const selectedExamination = this.examinationList.find((x) => x.id === id);
-  var model = {
-    id: selectedExamination.id
-}
-  // this._examinationService.getExaminationlistById(model).subscribe((response) => {
-  //   debugger
-  //     this.examination = response.data;
-  // });
+    var model = {
+      id: selectedExamination.id
+  }
   if (selectedExamination) {
     const dialogRef = this._dialog.open(
       ExaminationAddDialogComponent,
@@ -111,5 +116,58 @@ public redirectToUpdate = (id: string) => {
     });
   }
 };
+
+public redirectToDelete = (id: string) => {
+  const sweetAlertDto = new SweetAlertDto(
+    this.translate('sweetalert.areYouSure'),
+    this.translate('sweetalert.areYouSureDelete'),
+    SweetalertType.warning
+  );
+  GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+    (swalResponse) => {
+      if (swalResponse.isConfirmed) {
+        const selectedExamination = this.examinationList.find((x) => x.id === id);
+        debugger;
+        var model = {
+          id: selectedExamination.id
+      }
+        this._examinationService
+          .deleteExamination(model)
+          .subscribe((response) => {
+            if (response.isSuccessful) {
+              this.getExaminationList();
+              const sweetAlertDto2 = new SweetAlertDto(
+                this.translate('sweetalert.success'),
+                this.translate('sweetalert.transactionSuccessful'),
+                SweetalertType.success
+              );
+              GeneralService.sweetAlert(sweetAlertDto2);
+            } else {
+              this.showSweetAlert('error', response.errors[0]);
+              console.log(response.errors[0]);
+            }
+          });
+      }
+    }
+  );
+};
+
+showSweetAlert(type: string, message: string): void {
+  if (type === 'success') {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.success'),
+      this.translate('sweetalert.transactionSuccessful'),
+      SweetalertType.success
+    );
+    GeneralService.sweetAlert(sweetAlertDto);
+  } else {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.error'),
+      this.translate(message),
+      SweetalertType.error
+    );
+    GeneralService.sweetAlert(sweetAlertDto);
+  }
+}
 
 }

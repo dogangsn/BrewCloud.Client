@@ -196,7 +196,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const item = new CreateAppointmentCommand(
+                    const item = new CreateAppointmentCommand(                        
                         this.lastSelectedValue,
                         ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
                         (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
@@ -206,6 +206,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                         this.getFormValueByName('patientId'),
                         this.addVaccineList
                     );
+                    debugger;
 
                     this._appointmentService.createAppointment(item).subscribe(
                         (response) => {

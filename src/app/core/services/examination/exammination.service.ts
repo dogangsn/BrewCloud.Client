@@ -26,4 +26,12 @@ export class ExaminationService {
         return this._httpService.getRequest(endPoints.examinations.symptomlist);
     }
 
+    updateExamination(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.updateExamination, model);
+    }
+
+    deleteExamination(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.deleteExamination, model);
+    }
+
 }
