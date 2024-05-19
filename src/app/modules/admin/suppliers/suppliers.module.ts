@@ -22,6 +22,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
 const root: Route[] = [
     {
         path     : '',
@@ -72,6 +73,7 @@ const root: Route[] = [
         MatTooltipModule,
         SharedModule,
         MatDialogModule,
+        MatRadioModule,
         RouterModule.forChild(root)
     ],
     declarations: [
