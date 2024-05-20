@@ -30,6 +30,10 @@ export class ExaminationService {
         return this._httpService.post(endPoints.examinations.updateExamination, model);
     }
 
+    updateExaminationStatus(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.updateExaminationStatus, model);
+    }
+
     deleteExamination(model: any): Observable<any> {
         return this._httpService.post(endPoints.examinations.deleteExamination, model);
     }
