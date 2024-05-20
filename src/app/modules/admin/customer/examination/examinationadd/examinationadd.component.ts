@@ -127,6 +127,7 @@ export class ExaminationaddComponent implements OnInit {
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
                     this.symptomsString = this.symptoms.join(', ');
+                    debugger;
                     const item = new ExaminationDto(
                         this.lastSelectedValue,
                         this.getFormValueByName('selectedState') === null
@@ -219,7 +220,7 @@ export class ExaminationaddComponent implements OnInit {
                 if (this.patientList.length === 1) {
                     this.examinationForm
                         .get('patientId')
-                        .patchValue(this.patientList[0].recId);
+                        .patchValue(this.patientList[0].id);
                 }
             });
     }

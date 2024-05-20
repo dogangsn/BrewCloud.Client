@@ -49,6 +49,7 @@ export const endPoints = {
         symptomlist: 'vet/Patient/GetSymptoms',
         deleteExamination: 'vet/Patient/DeleteExamination',
         updateExamination: 'vet/Patient/UpdateExamination',
+        updateExaminationStatus: 'vet/Patient/UpdateExaminationStatus',
     },
     
     productdescription:{

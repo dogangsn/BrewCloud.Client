@@ -14,6 +14,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 
+
 @Component({
     selector: 'app-examinationlist',
     templateUrl: './examinationlist.component.html',
@@ -28,13 +29,10 @@ export class ExaminationlistComponent implements OnInit {
     examination: ExaminationDto;
 
     displayedColumns: string[] = [
+        'status',
         'date',
-        // 'muayneDurumu',
         'customerName',
         'patientName',
-        // 'bodyTemperature',
-        // 'pulse',
-        // 'respiratoryRate',
         'weight',
         'complaintStory',
         'treatmentDescription',
@@ -62,6 +60,7 @@ export class ExaminationlistComponent implements OnInit {
     getExaminationList() {
         this._examinationService.getExaminationlist().subscribe((response) => {
             this.examinationList = response.data;
+            debugger
             this.dataSource = new MatTableDataSource<ExaminationListDto>(
                 this.examinationList
             );
@@ -110,6 +109,47 @@ export class ExaminationlistComponent implements OnInit {
                 }
             });
         }
+    };
+    public redirectToUpdateStatus = (id: string, status: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const selectedExamination = this.examinationList.find(
+                        (x) => x.id === id
+                    );
+                    var model = {
+                        id: selectedExamination.id,
+                        status: status
+                    };
+                    this._examinationService
+                        .updateExaminationStatus(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getExaminationList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate(
+                                        'sweetalert.transactionSuccessful'
+                                    ),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                this.showSweetAlert(
+                                    'error',
+                                    response.errors[0]
+                                );
+                                console.log(response.errors[0]);
+                            }
+                        });
+                }
+            }
+        );
     };
 
     public redirectToDelete = (id: string) => {
@@ -170,4 +210,15 @@ export class ExaminationlistComponent implements OnInit {
             GeneralService.sweetAlert(sweetAlertDto);
         }
     }
+
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+      }
 }

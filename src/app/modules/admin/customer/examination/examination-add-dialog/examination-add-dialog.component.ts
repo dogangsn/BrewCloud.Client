@@ -200,6 +200,7 @@ export class ExaminationAddDialogComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
+                    debugger
                     this.symptomsString = this.symptoms.join(', ');
                     const item = new ExaminationDto(
                         this.lastSelectedValue,
@@ -348,11 +349,10 @@ export class ExaminationAddDialogComponent implements OnInit {
 
     updateExamination(): void {
         this.symptomsString = this.symptoms.join(', ');
-
         const item = new ExaminationUpdateCommand(
             this.selectedExaminationId,
             this.lastSelectedValue,
-            this.selectedState,
+            this.getFormValueByName('selectedState'),
             this.getFormValueByName('customerId') === undefined ||
             this.getFormValueByName('customerId') === null ||
             this.getFormValueByName('customerId') === ''
@@ -414,7 +414,7 @@ export class ExaminationAddDialogComponent implements OnInit {
                 .split(',')
                 .map((symptom) => symptom.trim());
             const statusText = this.states[this.examination.status];
-
+debugger
             this.examinationForm.setValue({
                 customerId: this.examination.customerId,
                 patientId: this.examination.patientId,

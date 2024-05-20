@@ -26,7 +26,7 @@
   </div>
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-    <div [formGroup]="examinationForm">
+    <div [formGroup]="examinationForm" >
       <div class="float : left flex gt-xs:flex-row mb-2">
         <div class="dx-field">
           <mat-label class="font-semibold text-gray-700">Muayne Tarihi</mat-label>
@@ -68,7 +68,7 @@
           <mat-label>Hasta</mat-label>
           <mat-select name="patientId" [formControlName]="'patientId'" [placeholder]="'Hasta'">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let item of patientList" [value]="item.recId">{{ item.name }}</mat-option>
+            <mat-option *ngFor="let item of patientList" [value]="item.id">{{ item.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -133,6 +133,8 @@
         </mat-form-field>
       </div>
     </div>
+
+    
 
     <mat-accordion>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
