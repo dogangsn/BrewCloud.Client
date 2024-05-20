@@ -33,6 +33,7 @@ export class CustomersListComponent implements OnInit, AfterViewInit {
     loader = true;
 
     ngAfterViewInit() {
+        this.getCustomerList();
         this.dataSource.paginator = this.paginator;
     }
 

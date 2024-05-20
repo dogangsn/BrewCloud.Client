@@ -20,6 +20,7 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
     suppliers: FormGroup;
     isUpdateButtonActive: Boolean;
     buttonDisabled = false;
+    states: string[] = ['Kurumsal', 'Bireysel'];
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
