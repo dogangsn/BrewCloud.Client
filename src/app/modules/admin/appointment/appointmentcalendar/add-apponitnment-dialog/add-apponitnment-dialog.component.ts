@@ -31,6 +31,11 @@ import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdesc
 import { addVaccineDto } from '../models/addVaccineDto';
 import { v4 as uuidv4 } from 'uuid';
 import { PatientDetails } from 'app/modules/admin/customer/models/PatientDetailsCommand';
+import { AppointmentTypeservice } from 'app/core/services/definition/appointmenttypes/appointmenttypes.service';
+import { AppointmentTypesDto } from 'app/modules/admin/definition/appointmenttypes/models/appointmentTypesDto';
+import { VaccineService } from 'app/core/services/definition/vaccinelist/vaccinelist.service';
+import { VaccineListDto } from 'app/modules/admin/definition/vaccinelist/models/vaccineListDto';
+import { Subject, takeUntil, zip } from 'rxjs';
 
 @Component({
     selector: 'app-add-apponitnment-dialog',
@@ -44,14 +49,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
     customers: customersListDto[] = [];
     appointment: AppointmentDto;
     selectedAppointmentType: number;
-    selectedAppointmentForm: FormGroup;
-    productdescription: ProductDescriptionsDto[] = [];
+    selectedAppointmentForm: FormGroup; 
     addVaccineList: addVaccineDto[] = [];
-    appointmentsList: AppointmentTypeDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
     patientList: PatientDetails[] = [];
     selectedAppointment: AppointmentDto;
-
+    appointmentTypes: AppointmentTypesDto[] = [];
     visibleCustomer: boolean;
     now: Date = new Date();
     lastSelectedValue: Date = new Date();
@@ -64,17 +67,25 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     statusTypeList = Object.keys(StatusTypeValues).map(key => ({ value: +key, label: StatusTypeValues[key] }));
     selectedStatus: number | null = null;
+    vaccine: VaccineListDto[] = [];
+    destroy$: Subject<boolean> = new Subject<boolean>();
 
 
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
         private _customerService: CustomerService,
-        private _appointmentService: AppointmentService,
-        private _productdescriptionService: ProductDescriptionService,
+        private _appointmentService: AppointmentService, 
         private _translocoService: TranslocoService,
+        private _appointmenttypesService: AppointmentTypeservice,
+        private _vaccineService: VaccineService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        if (!this.visibleCustomer) {
+            if (data.patinetlist !== undefined && data.patinetlist !== null) {
+                this.patientList = data.patinetlist;
+            }
+        }
         this.selectedAppointment = data.selectedAppointment;
         this.selectedCustomerId = data.customerId;
         this.selectedPatientId = data.patientId;
@@ -91,11 +102,30 @@ export class AddApponitnmentDialogComponent implements OnInit {
     };
 
     ngOnInit() {
-        this.appointmentsList = appointments;
 
+        zip(
+
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+
+            }
+        });
+
+
+
+        this.getVaccineList();
+        this.getAppointmentTypeList();
         this.getCustomerList();
         this.getApponitmentDoctorList();
-        this.getProductList();
+
 
         this.appointmentAdd = this._formBuilder.group({
             doctorId: ['00000000-0000-0000-0000-000000000000'],
@@ -103,10 +133,10 @@ export class AddApponitnmentDialogComponent implements OnInit {
             customerId: [''],
             patientId: [''],
             note: [''],
-            status : [1]
+            status: [1]
         });
 
-        if(!this.selectedAppointment) {
+        if (!this.selectedAppointment) {
             this.selectedStatus = 1;
         }
 
@@ -128,18 +158,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.fillFormData(this.selectedAppointment);
 
     }
-
-    getProductList() {
-        const model = {
-            ProductType: 2,
-        };
-        this._productdescriptionService
-            .getProductDescriptionFilters(model)
-            .subscribe((response) => {
-                this.productdescription = response.data;
-                console.log(this.productdescription);
-            });
-    }
+ 
 
     getCustomerList() {
         this._customerService.getcustomerlist().subscribe((response) => {
@@ -152,6 +171,15 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this._customerService.getPatientsByCustomerId(this.customers[0].id).subscribe((response) => {
             this.patientList = response.data;
         });
+    }
+
+    getVaccineList() {
+
+        this._vaccineService
+            .getVaccineList()
+            .subscribe((response) => {
+                this.vaccine = response.data;
+            });
     }
 
     handleCustomerChange(event: any) {
@@ -187,7 +215,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     }
 
     addOrUpdateAppointment(): void {
- 
+
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
             this.translate('sweetalert.apponitnmentAreSure'),
@@ -196,7 +224,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const item = new CreateAppointmentCommand(                        
+                    const item = new CreateAppointmentCommand(
                         this.lastSelectedValue,
                         ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
                         (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
@@ -318,6 +346,11 @@ export class AddApponitnmentDialogComponent implements OnInit {
         console.log("Seçilen değer:", this.selectedStatus);
     }
 
+    getAppointmentTypeList(): void {
+        this._appointmenttypesService.getAppointmentTypes().subscribe((response) => {
+            this.appointmentTypes = response.data;
+        });
+    }
 
 }
 
@@ -329,29 +362,3 @@ const StatusTypeValues = {
     4: "Gelmedi"
 };
 
-const appointments: AppointmentTypeDto[] = [
-    {
-        id: 1,
-        remark: 'Aşı Randevusu',
-    },
-    {
-        id: 2,
-        remark: 'Genel Muayene',
-    },
-    {
-        id: 3,
-        remark: 'Kontrol Muayene',
-    },
-    {
-        id: 4,
-        remark: 'Operasyon',
-    },
-    {
-        id: 5,
-        remark: 'Tıraş',
-    },
-    {
-        id: 6,
-        remark: 'Tedavi',
-    },
-];

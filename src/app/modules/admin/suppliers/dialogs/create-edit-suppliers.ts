@@ -6,7 +6,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { suppliersListDto } from '../models/suppliersListDto';
-import { CreateSuppliersCommand } from '../models/CreateSuppliersCommand';
+import { CreateSuppliersCommand, InvoiceType } from '../models/CreateSuppliersCommand';
 import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
 import { UpdateSuppliersCommand } from '../models/UpdateSuppliersCommand';
 
@@ -37,7 +37,14 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
             suppliername: ['', Validators.required],
             email: ['', Validators.required],
             phone: ['', Validators.required],
-            active: [true]
+            active: [true],
+            address : [''],
+            selectedState : [this.states[0]],
+            companyName : [''], 
+            webSite: [''],
+            taxOffice : [''],
+            taxNumber : ['']
+
         });
         this.fillFormData(this.selectedsuppliers);
     }
@@ -49,6 +56,12 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
                 email: selectedSuppliers.email,
                 phone: selectedSuppliers.phone,
                 active: selectedSuppliers.active,
+                address: selectedSuppliers.adress,
+                selectedState: selectedSuppliers.invoiceType,
+                companyName : selectedSuppliers.companyName,
+                webSite : selectedSuppliers.webSite,
+                taxOffice : selectedSuppliers.taxOffice,
+                taxNumber : selectedSuppliers.taxNumber
             });
         }
     }
@@ -67,7 +80,6 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
             this.getFormValueByName('suppliername'),
             this.getFormValueByName('email'),
             this.getFormValueByName('phone'),
-
             this.getFormValueByName('active')
         );
 
@@ -96,15 +108,18 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
             this.getFormValueByName('suppliername'),
             this.getFormValueByName('email'),
             this.getFormValueByName('phone'),
-            this.getFormValueByName('active')
-
+            this.getFormValueByName('active'),
+            this.getFormValueByName('address'),
+            (this.getFormValueByName('selectedState') === "Kurumsal" ? InvoiceType.Institutional : InvoiceType.Individual),
+            this.getFormValueByName('companyName'),
+            this.getFormValueByName('webSite'),
+            this.getFormValueByName('taxOffice'),
+            this.getFormValueByName('taxNumber'),
             );
-            debugger;
+
             this._Suppliers.createSuppliers(suppliersItem).subscribe(
                 (response) => {
                     
-                    debugger;
-
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
                     this._dialogRef.close({
@@ -112,10 +127,12 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
                     });
                 } else {
                      this.showSweetAlert('error');
+                     this.buttonDisabled = false;
                 }
             },
             (err) => {
                 console.log(err);
+                this.buttonDisabled = false;
             }
         );
 
