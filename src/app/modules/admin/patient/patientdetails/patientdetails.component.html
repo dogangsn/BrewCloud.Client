@@ -1,23 +1,67 @@
 <div class="container my-5">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="form-group">
-        <div class="image-container" *ngIf="!imageUrl">
-          <p-fileUpload name="photo_id" accept="image/*" mode="basic" [customUpload]="true"
-            (uploadHandler)="onUpload($event)" chooseLabel="Fotoğraf Seç" (onSelect)="onSelect($event)"
-            class="file-upload">
-          </p-fileUpload>
+  <p-card header="Hasta Bilgilerini Düzenle">
+    <form [formGroup]="patientForm" (ngSubmit)="saveChanges()">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="custom-file-upload">
+            <div *ngIf="!imageUrl">
+              <p-fileUpload mode="basic" name="demo[]" url="./upload" chooseLabel="Fotoğraf Seç" auto="true"
+                (onSelect)="onSelect($event)" (uploadHandler)="onUpload($event)" formControlName="patientImg"></p-fileUpload>
+            </div>
+            <div class="image-preview" *ngIf="imageUrl">
+              <img [src]="imageUrl" alt="Seçilen Fotoğraf" />
+              <button type="button" class="remove-button" (click)="removeImage()">Kaldır</button>
+            </div>
+          </div>
         </div>
-        <div class="image-preview" *ngIf="imageUrl">
-          <img [src]="imageUrl" alt="Seçilen Fotoğraf" />
-          <button type="button" class="remove-button" (click)="removeImage()">Kaldır</button>
+        <div class="col-md-9 col-xl-6">
+          <div class="container">
+            <div class="form-group col-md-12">
+              <label for="customer">Müşteri / Sahibi</label>
+              <p-dropdown class="flex flex-column" [options]="customers" formControlName="patientCustomer"
+                placeholder="Müşteri Seç"></p-dropdown>
+            </div>
+
+            <div class="flex flex-row my-5">
+              <div class="flex flex-column col-md-6">
+                <label for="type">Türü (Zorunlu)</label>
+                <p-dropdown class="flex flex-column" [options]="types" formControlName="patientType"
+                  placeholder="Tür Seç"></p-dropdown>
+              </div>
+              <div class="flex flex-column col-md-6">
+                <label for="breed">Irkı (Zorunlu)</label>
+                <p-dropdown class="flex flex-column" [options]="breeds" formControlName="patientBreed"
+                  placeholder="Irk Seç"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="patientName">Hasta adı (Zorunlu)</label>
+              <input pInputText formControlName="patientName" placeholder="Hasta Adı Girin" />
+            </div>
+
+            <div class="flex flex-row my-5">
+              <div class="flex flex-column col-md-6">
+                <label for="birthDate">Doğum Tarihi (Zorunlu)</label>
+                <p-calendar class="flex flex-column" formControlName="patientBirthDate" dateFormat="dd-mm-yy"
+                  placeholder="Doğum Tarihi Seç"></p-calendar>
+              </div>
+              <div class="flex flex-column col-md-6">
+                <label class="flex justify-center" for="gender">Cinsiyet (Zorunlu)</label>
+                <div class="flex justify-center">
+                  <p-radioButton class="mx-2" name="gender" value="male" formControlName="patientGender" label="Erkek"></p-radioButton>
+                  <p-radioButton name="gender" value="female" formControlName="patientGender" label="Dişi"></p-radioButton>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button pButton type="submit" label="Değişiklikleri Hızlı Kaydet"></button>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="col-md-9" style="border: 1px solid blue;">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque reprehenderit dolore alias repudiandae incidunt
-      nulla ex dicta iure obcaecati officia? Distinctio rerum asperiores dolorum quos?
-    </div>
-  </div>
+    </form>
+  </p-card>
 </div>

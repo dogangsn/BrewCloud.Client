@@ -32,6 +32,12 @@ import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+
 const root: Route[] = [
   {
     path: '',
@@ -105,6 +111,11 @@ const root: Route[] = [
     MatTabsModule,
     DropdownModule,
     FileUploadModule,
+    InputTextModule,
+    CalendarModule,
+    RadioButtonModule,
+    ButtonModule,
+    CardModule,
     RouterModule.forChild(root),
   ],
   declarations: [PatientlistComponent, PatientDetailsComponent]
