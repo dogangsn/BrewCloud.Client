@@ -12,7 +12,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ProductmovementListComponent } from './dialogs/productmovement-list/productmovement-list.component';
 import { StockTrackingListComponent } from './dialogs/stockTracking-list/stockTracking-list.component';
 import { CreateeditStockTrackingComponent } from './dialogs/createedit-stockTracking/createedit-stockTracking.component';
-import { StockTrackingType } from './models/CreateStockTrackingCommand';
+import { StockTrackingType } from './models/createStockTrackingCommand';
 
 @Component({
     selector: 'app-productdescription',

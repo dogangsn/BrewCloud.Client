@@ -1,4 +1,4 @@
-import { ProcessTypes, StockTrackingType } from "./CreateStockTrackingCommand";
+ 
 
 export class UpdateStockTrackingCommand {
     id :string;
@@ -21,4 +21,16 @@ export class UpdateStockTrackingCommand {
         this.ExpirationDate = expirationDate;
     }
 
+}
+
+export enum StockTrackingType {
+    Entry = 1,
+    Exit = 2
+}
+
+export enum ProcessTypes {
+    NewStock = 1,
+    Transfer = 2,
+    Tuning = 3,
+    Other = 4
 }

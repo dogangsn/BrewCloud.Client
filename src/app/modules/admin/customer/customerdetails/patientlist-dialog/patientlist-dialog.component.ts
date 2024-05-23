@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table'; 
-import { PatientOwnerListDto } from 'app/modules/admin/patient/patientlist/models/PatientOwnerListDto';
+import { PatientOwnerListDto } from 'app/modules/admin/patient/patientlist/models/patientOwnerListDto';
 
 @Component({
   selector: 'app-patientlist-dialog',

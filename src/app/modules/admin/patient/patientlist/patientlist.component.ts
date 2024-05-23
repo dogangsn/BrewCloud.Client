@@ -6,7 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { PatientOwnerListDto } from "./models/PatientOwnerListDto";
+import { PatientOwnerListDto } from "./models/patientOwnerListDto";
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 
 @Component({
