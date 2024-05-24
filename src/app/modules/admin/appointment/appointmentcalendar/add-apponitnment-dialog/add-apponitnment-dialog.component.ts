@@ -35,7 +35,9 @@ import { AppointmentTypeservice } from 'app/core/services/definition/appointment
 import { AppointmentTypesDto } from 'app/modules/admin/definition/appointmenttypes/models/appointmentTypesDto';
 import { VaccineService } from 'app/core/services/definition/vaccinelist/vaccinelist.service';
 import { VaccineListDto } from 'app/modules/admin/definition/vaccinelist/models/vaccineListDto';
-import { Subject, takeUntil, zip } from 'rxjs';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
+import { ParametersService } from 'app/core/services/settings/parameters.service';
+import { parametersListDto } from 'app/modules/admin/settings/parameters/models/parametersListDto';
 
 @Component({
     selector: 'app-add-apponitnment-dialog',
@@ -64,12 +66,15 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     morning8 = new Date();
     evening8 = new Date();
+    today = new Date();
 
     statusTypeList = Object.keys(StatusTypeValues).map(key => ({ value: +key, label: StatusTypeValues[key] }));
     selectedStatus: number | null = null;
     vaccine: VaccineListDto[] = [];
     destroy$: Subject<boolean> = new Subject<boolean>();
-
+    parameters: parametersListDto[] = [];
+    buttonDisabled: boolean = false;
+    controlDate= new Date();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -79,6 +84,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _appointmenttypesService: AppointmentTypeservice,
         private _vaccineService: VaccineService,
+        private _parameterService: ParametersService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         if (!this.visibleCustomer) {
@@ -92,6 +98,17 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.visibleCustomer = data.visibleCustomer;
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
+        this._parameterService.getparameterList().subscribe((response) => {
+            debugger
+            this.parameters = response.data;
+            const [beginHours, beginMinutes] = this.parameters[0].appointmentBeginDate.split(':').map(Number);
+            this.morning8.setHours(beginHours);
+            this.morning8.setMinutes(beginMinutes);
+
+            const [endHours, endMinutes] = this.parameters[0].appointmentEndDate.split(':').map(Number);
+            this.evening8.setHours(endHours);
+            this.evening8.setMinutes(endMinutes);
+        });
     }
 
     timeIntervals: any = {
@@ -104,12 +121,18 @@ export class AddApponitnmentDialogComponent implements OnInit {
     ngOnInit() {
 
         zip(
-
+        this.getVaccineList(),
+        this.getAppointmentTypeList(),
+        this.getCustomerList(),
+        this.getApponitmentDoctorList(),
         ).pipe(
             takeUntil(this.destroy$)
         ).subscribe({
             next: (value) => {
-
+                this.setVaccineList(value[0]),
+                this.setAppointmentTypeList(value[1]),
+                this.setCustomerList(value[2]),
+                this.setApponitmentDoctorList(value[3])
             },
             error: (e) => {
                 console.log(e);
@@ -118,17 +141,9 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
             }
         });
-
-
-
-        this.getVaccineList();
-        this.getAppointmentTypeList();
-        this.getCustomerList();
-        this.getApponitmentDoctorList();
-
-
+debugger
         this.appointmentAdd = this._formBuilder.group({
-            doctorId: ['00000000-0000-0000-0000-000000000000'],
+            doctorId: [''],
             appointmentType: [2, Validators.required],
             customerId: [''],
             patientId: [''],
@@ -155,15 +170,50 @@ export class AddApponitnmentDialogComponent implements OnInit {
             // this.appointmentAdd.get('patientId').patchValue(this.selectedPatientId);
         }
 
-        this.fillFormData(this.selectedAppointment);
+        // this.fillFormData(this.selectedAppointment);
 
     }
- 
 
-    getCustomerList() {
-        this._customerService.getcustomerlist().subscribe((response) => {
+    getCustomerList(): Observable<any> {
+        return this._customerService.getcustomerlist();
+    }
+
+    setCustomerList(response: any): void {
+        if (response.data) {
             this.customers = response.data;
-        });
+        }
+    }
+
+    getVaccineList(): Observable<any> {
+        return this._vaccineService
+        .getVaccineList();
+    }
+
+    setVaccineList(response: any): void {
+        if (response.data) {
+            this.vaccine = response.data;
+        }
+    }
+
+    getAppointmentTypeList(): Observable<any> {
+        return this._appointmenttypesService.getAppointmentTypes();
+    }
+
+    setAppointmentTypeList(response: any): void {
+        if (response.data) {
+            this.appointmentTypes = response.data;
+        }
+    }
+
+    getApponitmentDoctorList(): Observable<any> {
+        return this._appointmentService.getUserTitleList();
+    }
+
+    setApponitmentDoctorList(response: any): void {
+        if (response.data) {
+            debugger
+            this.vetDoctorList = response.data;
+        }
     }
 
     getPatientList() {
@@ -173,14 +223,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         });
     }
 
-    getVaccineList() {
-
-        this._vaccineService
-            .getVaccineList()
-            .subscribe((response) => {
-                this.vaccine = response.data;
-            });
-    }
+    
 
     handleCustomerChange(event: any) {
         const model = {
@@ -194,17 +237,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this._customerService.getPatientsByCustomerId(model).subscribe((response) => {
             this.patientList = response.data;
             if (this.patientList.length === 1) {
-                this.appointmentAdd.get('patientId').patchValue(this.patientList[0].recId);
+                this.appointmentAdd.get('patientId').patchValue(this.patientList[0].id);
             }
         });
     }
 
-    getApponitmentDoctorList() {
-        this._appointmentService.getUserTitleList().subscribe((response) => {
-            this.vetDoctorList = response.data;
-            console.log(response.data);
-        });
-    }
+    
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
@@ -236,17 +274,21 @@ export class AddApponitnmentDialogComponent implements OnInit {
                     );
                     debugger;
 
+                    if (this.validateControl()) {
+                        this.buttonDisabled = false;
+                        return;
+                    }
                     this._appointmentService.createAppointment(item).subscribe(
                         (response) => {
                             debugger;
 
                             if (response.isSuccessful) {
-                                this.showSweetAlert('success');
+                                this.showSweetAlert('success','sweetalert.transactionSuccessful');
                                 this._dialogRef.close({
                                     status: true,
                                 });
                             } else {
-                                this.showSweetAlert('error');
+                                this.showSweetAlert('error','sweetalert.transactionFailed');
                             }
                         },
                         (err) => {
@@ -256,6 +298,19 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 }
             }
         );
+    }
+
+    validateControl(): boolean {
+
+        debugger;
+        if (this.lastSelectedValue <= this.morning8 || this.lastSelectedValue.getHours()>this.evening8.getHours()) {
+            this.showSweetAlert(
+                'error',
+                'Randevu saatleri uygun değil!'
+            );
+            return true;
+        }
+        return false;
     }
 
     addVaccine() {
@@ -269,18 +324,18 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.addVaccineList.push(model);
     }
 
-    showSweetAlert(type: string): void {
+    showSweetAlert(type: string, text: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                this.translate(text),
                 SweetalertType.success
             );
             GeneralService.sweetAlert(sweetAlertDto);
         } else {
             const sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                this.translate(text),
                 SweetalertType.error
             );
             GeneralService.sweetAlert(sweetAlertDto);
@@ -320,7 +375,19 @@ export class AddApponitnmentDialogComponent implements OnInit {
     }
 
     handleValueChange(e) {
+        debugger
+        this.controlDate = e.value
+        if (this.controlDate < this.morning8 || this.controlDate.getHours() >= this.evening8.getHours()) {
+            this.showSweetAlert(
+                'error',
+                'Randevu saatleri uygun değil!'
+            );
+            this.buttonDisabled=true;
+        }else{
+            this.buttonDisabled=false;
+        }
         this.lastSelectedValue = e.value; // Son seçilen değeri saklıyoruz
+        
         console.log('Yeni tarih ve saat: ', this.lastSelectedValue);
         // Yeni değeri kullanmak için burada işlemler yapabilirsiniz
     }
@@ -346,11 +413,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         console.log("Seçilen değer:", this.selectedStatus);
     }
 
-    getAppointmentTypeList(): void {
-        this._appointmenttypesService.getAppointmentTypes().subscribe((response) => {
-            this.appointmentTypes = response.data;
-        });
-    }
+    
 
 }
 

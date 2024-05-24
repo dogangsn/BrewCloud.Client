@@ -33,10 +33,10 @@
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Hekim</mat-label>
-              <mat-select  [formControlName]="'doctorId'"name="doctor">
+              <mat-select  [formControlName]="'doctorId'" name="doctorId">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let item of vetDoctorList"
-                               [value]="item.id">{{item.name}}</mat-option>
+                               [value]="item.id">{{item.firstname}}</mat-option>
               </mat-select>
               <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>
@@ -53,8 +53,16 @@
                         {{item.lastName}}</mat-option>
                 </mat-select>
             </mat-form-field>
+              <mat-form-field class="flex-auto gt-xs:pl-3 ml-3">
+                <mat-label>Hasta</mat-label>
+                <mat-select  [formControlName]="'patientId' "name="patientId" [placeholder]="'Hasta'" >
+                  <mat-option [value]="00000000-0000-0000-0000-000000000000">Tümü</mat-option>
+                  <mat-option *ngFor="let item of patientList"
+                                 [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
         </div>
-        <div class="flex float : left gt-xs:flex-row">
+        <div *ngIf="!visibleCustomer" class="flex float: left gt-xs:flex-row">
           <mat-form-field class="flex-auto gt-xs:pl-3">
             <mat-label>Hasta</mat-label>
             <mat-select  [formControlName]="'patientId' "name="patientId" [placeholder]="'Hasta'" >
@@ -64,6 +72,7 @@
             </mat-select>
           </mat-form-field>
         </div>
+      
           <div class="flex float: left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Randevu Tipi</mat-label>
@@ -71,6 +80,14 @@
                 <mat-option *ngFor="let item of appointmentTypes" [value]="item.type">{{item.remark}}</mat-option>
               </mat-select>
             </mat-form-field>
+              <mat-form-field class="flex-auto gt-xs:pl-3 ml-3">
+                <mat-label>Randevu Durumu</mat-label> 
+                <mat-select [(value)]="selectedStatus" (selectionChange)="onStatusChange($event)" [formControlName]="'status'">
+                  <mat-option *ngFor="let status of statusTypeList" [value]="status.value">
+                    {{ status.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
           </div>
           <div *ngIf="selectedAppointmentType === 1" class="flex items-center my-4 sm:my-0 justify-end mr-7">
           <button  class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'" (click)="addVaccine()">
@@ -113,11 +130,12 @@
 
           <div *ngIf="selectedAppointmentType !== 1" class="flex float: left gt-xs:flex-row mb-3">
             <div class="card-list flex-auto">
+              <mat-label class="font-medium text-gray-700 mb-1">Randevu Tarihi</mat-label>
               <div class="card">
                 <mat-card>
                   <mat-card-content>
-                    <div class="dx-field">
-                        <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)" [pickerOptions]="dateTimeIntervals">
+                    <div class="dx-field w-full">
+                        <dx-date-box class="w-full" [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)" [pickerOptions]="TimeIntervals">
                         </dx-date-box>
                     </div>
                   </mat-card-content>
@@ -126,16 +144,7 @@
             </div>
           </div>
           
-          <div class="flex float: left gt-xs:flex-row">
-            <mat-form-field class="flex-auto gt-xs:pl-3">
-              <mat-label>Randevu Durumu</mat-label> 
-              <mat-select [(value)]="selectedStatus" (selectionChange)="onStatusChange($event)" [formControlName]="'status'">
-                <mat-option *ngFor="let status of statusTypeList" [value]="status.value">
-                  {{ status.label }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+          
 
           
           <div class="flex float : left gt-xs:flex-row gap-t-3">
@@ -154,7 +163,7 @@
   <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
     Vazgeç
   </button>
-  <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'" (click)="addOrUpdateAppointment()">
+  <button [disabled]="buttonDisabled" class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'" (click)="addOrUpdateAppointment()">
     Kaydet
   </button>
 </div>
