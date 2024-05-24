@@ -212,7 +212,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'lab',
                 loadChildren: () =>
-                    import('app/modules/admin/lab/lab.module').then(
+                    import('app/modules/admin/patient/lab/lab.module').then(
                         (m) => m.LabModule
                     ),
             },

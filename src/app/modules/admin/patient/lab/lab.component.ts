@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { customersListDto } from '../customer/models/customersListDto';
+import { customersListDto } from '../../customer/models/customersListDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
 import { LabService } from 'app/core/services/lab/lab.service';
