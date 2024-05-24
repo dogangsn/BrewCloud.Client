@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="float : left flex  gt-xs:flex-row">
+                    <div *ngIf="producttype!=3" class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Birim</mat-label>
                             <mat-select [formControlName]="'unitId'" [placeholder]="'Birim'" name="units">
@@ -55,7 +55,7 @@
                                     [value]="item.id">{{item.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                        <mat-form-field *ngIf="producttype!=3" class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tedarikçi</mat-label>
                             <mat-select [formControlName]="'supplierId'" [placeholder]="'Tedarikçi'"
                                 name="supplierscard">
@@ -66,7 +66,7 @@
                         </mat-form-field>
 
                     </div>
-                    <div class="float : left flex  gt-xs:flex-row">
+                    <div *ngIf="producttype!=3" class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Ürün Barkod</mat-label>
                             <input [formControlName]="'productBarcode'" matInput>
@@ -86,20 +86,20 @@
                         </mat-form-field>
                     </div>
                     <div class="float : left flex  gt-xs:flex-row">
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                        <mat-form-field *ngIf="producttype!=3" class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Alış Fiyatı</mat-label>
                             <input [formControlName]="'buyingPrice'" matInput (input)="formatPrice($event)" type="number">
                         </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                        <mat-form-field  class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Satış Fiyatı</mat-label>
                             <input [formControlName]="'sellingPrice'" matInput type="number">
                         </mat-form-field>
-                        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                        <mat-form-field *ngIf="producttype!=3" class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Kritik Stok Miktarı</mat-label>
                             <input [formControlName]="'criticalAmount'" matInput type="number">
                         </mat-form-field>
                     </div>
-                    <div class="float : left flex  gt-xs:flex-row">
+                    <div *ngIf="producttype!=3" class="float : left flex  gt-xs:flex-row">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Depo</mat-label>
                             <mat-select [formControlName]="'storeid'" [placeholder]="'Depo'" name="storename">
@@ -113,7 +113,7 @@
 
 
 
-                    <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleProductType">
+                    <div  class="float : left flex  gt-xs:flex-row" *ngIf="visibleProductType && producttype!=3">
                         <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                             <mat-label>Tür</mat-label>
                             <mat-select [formControlName]="'animalType'" name="animalType">

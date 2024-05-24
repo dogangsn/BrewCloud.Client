@@ -75,6 +75,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        
         for (var n in ProductType) {
             if (typeof ProductType[n] === 'number') {
                 this.mapproducttype.push({ id: <any>ProductType[n], name: n });
@@ -110,13 +111,13 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
 
         this.productdescription = this._formBuilder.group({
             name: ['', [Validators.required]],
-            unitId: ['', [Validators.required]],
+            unitId: ['00000000-0000-0000-0000-000000000000', [this.producttype===1||this.producttype===2?Validators.required:Validators.nullValidator]],
             categoryId: ['00000000-0000-0000-0000-000000000000'],
             productTypeId: { value: this.producttype, disabled: true },
             supplierId: ['00000000-0000-0000-0000-000000000000'],
             productBarcode: [''],
             productCode: [''],
-            buyingPrice: [0, [Validators.required, CustomNumericValidator()]],
+            buyingPrice: [0, [this.producttype===1||this.producttype===2?Validators.required:Validators.nullValidator, CustomNumericValidator()]],
             sellingPrice: [0, [Validators.required]],
             criticalAmount: [0],
             active: [true],
@@ -126,7 +127,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             isExpirationDate: [false],
             animalType: [],
             numberRepetitions: [],
-            storeid: ['00000000-0000-0000-0000-000000000000', Validators.required],
+            storeid: ['00000000-0000-0000-0000-000000000000', this.producttype===1||this.producttype===2?Validators.required:Validators.nullValidator],
             taxisId: ['00000000-0000-0000-0000-000000000000']
         });
 
@@ -199,6 +200,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     }
 
     addProductDef(): void {
+        debugger
         const ProductDefItem = new CreateProductDescriptionsCommand(
             this.getFormValueByName('name'),
             this.getFormValueByName('unitId'),
@@ -276,7 +278,7 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             this.getFormValueByName('storeid'),
             this.getFormValueByName('taxisId'),
         );
-
+debugger
         this._productDefService.updateProductDescription(storeItem).subscribe(
             (response) => {
                 debugger;
@@ -331,14 +333,27 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
     validateControl(model: any): boolean {
 
         debugger;
-
-        if (model.buyingPrice <= 0) {
-            this.showSweetAlert(
-                'error',
-                'Alış Fiyatı 0(Sıfırdan) Büyük olmalıdır.'
-            );
-            return true;
+        if (this.producttype!==3) {
+            if (model.buyingPrice <= 0) {
+                this.showSweetAlert(
+                    'error',
+                    'Alış Fiyatı 0(Sıfırdan) Büyük olmalıdır.'
+                );
+                return true;
+            }
+            if (model.ratio <= 0) {
+                this.showSweetAlert(
+                    'error',
+                    'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.'
+                );
+                return true;
+            }
+            if (model.storeId == null || model.storeId == undefined || model.storeId == '00000000-0000-0000-0000-000000000000') {
+                this.showSweetAlert("error", 'Depo Seçimi Zorunludur.');
+                return true;
+            }
         }
+       
         if (model.sellingPrice <= 0) {
             this.showSweetAlert(
                 'error',
@@ -346,18 +361,6 @@ export class CreateEditProductDescriptionDialogComponent implements OnInit {
             );
             return true;
         }
-        if (model.ratio <= 0) {
-            this.showSweetAlert(
-                'error',
-                'KDV Oranı 0(Sıfırdan) Büyük olmalıdır.'
-            );
-            return true;
-        }
-        if (model.storeId == null || model.storeId == undefined || model.storeId == '00000000-0000-0000-0000-000000000000') {
-            this.showSweetAlert("error", 'Depo Seçimi Zorunludur.');
-            return true;
-        }
-
         return false;
     }
 
