@@ -24,7 +24,7 @@ import { MatPaginator } from '@angular/material/paginator';
 
 export class PatientTabComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType' ];
+  displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType', 'actions'];
 
     
 

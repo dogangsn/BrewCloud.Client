@@ -10,8 +10,8 @@ import { Observable } from "rxjs";
 export class ExaminationService {
     constructor(private _httpService: HttpService) { }
 
-    getExaminationlist() : Observable<any>{    
-        return this._httpService.getRequest(endPoints.examinations.examinationlist);
+    getExaminationlist(model: any) : Observable<any>{    
+        return this._httpService.post(endPoints.examinations.examinationlist, model);
     }
 
     getExaminationlistById(model: any): Observable<any> {

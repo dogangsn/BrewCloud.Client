@@ -2,6 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
 import { MatTableDataSource } from '@angular/material/table';
+import { ExaminationService } from 'app/core/services/examination/exammination.service';
+import { ExaminationListDto } from '../../../models/ExaminationListDto';
+import { CustomerDataService } from '../../services/customer-data.service';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-examination-tab',
@@ -11,9 +18,9 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ExaminationTabComponent implements OnInit {
 
   displayedColumns: string[] = [
-    'date', 
-    'customerName',
-    'patientName',  
+    'status',
+    'date',
+    'patientName',
     'weight',
     'complaintStory',
     'treatmentDescription',
@@ -23,13 +30,122 @@ export class ExaminationTabComponent implements OnInit {
 
   @ViewChild('paginator') paginator: MatPaginator;
   receivedCustomerId: string;
-  patientList: PatientDetailsDto[] = [];
-  dataSource = new MatTableDataSource<PatientDetailsDto>(this.patientList);
-  loader=true;
+  loader = true;
 
-  constructor() { }
+  examinationList: ExaminationListDto[] = [];
+  dataSource = new MatTableDataSource<ExaminationListDto>(
+    this.examinationList
+  );
+
+  constructor(
+    private _examinationService: ExaminationService,
+    private _customerDataService: CustomerDataService,
+    private _translocoService: TranslocoService
+  ) { }
 
   ngOnInit() {
+    this.receivedCustomerId = this._customerDataService.getCustomerId();
+
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.getExaminationList();
+  }
+
+
+  getExaminationList() {
+    const model = {
+      customerId: this.receivedCustomerId
+    }
+    this._examinationService.getExaminationlist(model).subscribe((response) => {
+      this.examinationList = response.data;
+      debugger
+      this.dataSource = new MatTableDataSource<ExaminationListDto>(
+        this.examinationList
+      );
+      this.dataSource.paginator = this.paginator;
+
+      this.loader = false;
+    });
+  }
+
+
+  formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return new Date(date).toLocaleString('tr-TR', options);
+  }
+
+  public redirectToUpdateStatus = (id: string, status: string) => {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureChange'),
+      SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const selectedExamination = this.examinationList.find(
+            (x) => x.id === id
+          );
+          var model = {
+            id: selectedExamination.id,
+            status: status
+          };
+          this._examinationService
+            .updateExaminationStatus(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getExaminationList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate(
+                    'sweetalert.transactionSuccessful'
+                  ),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                this.showSweetAlert(
+                  'error',
+                  response.errors[0]
+                );
+                console.log(response.errors[0]);
+              }
+            });
+        }
+      }
+    );
+  };
+
+
+  showSweetAlert(type: string, message: string): void {
+    if (type === 'success') {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.success'),
+        this.translate('sweetalert.transactionSuccessful'),
+        SweetalertType.success
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.error'),
+        this.translate(message),
+        SweetalertType.error
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    }
+  }
+
+  translate(key: string): any {
+    return this._translocoService.translate(key);
+  }
+
 
 }

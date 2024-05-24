@@ -58,7 +58,10 @@ export class ExaminationlistComponent implements OnInit {
     }
 
     getExaminationList() {
-        this._examinationService.getExaminationlist().subscribe((response) => {
+        const model = {
+            customerId : '00000000-0000-0000-0000-000000000000'
+        }
+        this._examinationService.getExaminationlist(model).subscribe((response) => {
             this.examinationList = response.data;
             debugger
             this.dataSource = new MatTableDataSource<ExaminationListDto>(
@@ -113,7 +116,7 @@ export class ExaminationlistComponent implements OnInit {
     public redirectToUpdateStatus = (id: string, status: string) => {
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
-            this.translate('sweetalert.areYouSureDelete'),
+            this.translate('sweetalert.areYouSureChange'),
             SweetalertType.warning
         );
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
