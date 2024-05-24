@@ -49,7 +49,7 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
         this.fillFormData(this.selectedsuppliers);
     }
     fillFormData(selectedSuppliers: suppliersListDto) {
-        debugger;
+ 
         if (this.selectedsuppliers !== null) {
             this.suppliers.setValue({
                 suppliername: selectedSuppliers.suppliername,
@@ -57,7 +57,7 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
                 phone: selectedSuppliers.phone,
                 active: selectedSuppliers.active,
                 address: selectedSuppliers.adress,
-                selectedState: selectedSuppliers.invoiceType,
+                selectedState: (selectedSuppliers.invoiceType === 1 ? "Kurumsal" : "Bireysel") ,
                 companyName : selectedSuppliers.companyName,
                 webSite : selectedSuppliers.webSite,
                 taxOffice : selectedSuppliers.taxOffice,
@@ -80,7 +80,13 @@ export class CreateEditSuppliersDialogComponent implements OnInit {
             this.getFormValueByName('suppliername'),
             this.getFormValueByName('email'),
             this.getFormValueByName('phone'),
-            this.getFormValueByName('active')
+            this.getFormValueByName('active'),
+            this.getFormValueByName('address'),
+            (this.getFormValueByName('selectedState') === "Kurumsal" ? InvoiceType.Institutional : InvoiceType.Individual),
+            this.getFormValueByName('companyName'),
+            this.getFormValueByName('webSite'),
+            this.getFormValueByName('taxOffice'),
+            this.getFormValueByName('taxNumber'),
         );
 
         this._Suppliers.updateSuppliers(supItem).subscribe(
