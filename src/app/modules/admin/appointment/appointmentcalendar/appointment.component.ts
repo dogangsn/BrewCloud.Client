@@ -5,7 +5,7 @@ import {
     CalendarEvent,
     CalendarEventTimesChangedEvent,
     CalendarView,
-} from 'angular-calendar'; 
+} from 'angular-calendar';
 import {
     addDays,
     addHours,
@@ -26,7 +26,7 @@ import { AppointmentService } from 'app/core/services/appointment/appointment.se
     templateUrl: './appointment.component.html',
     styleUrls: ['./appointment.component.css'],
 })
-export class AppointmentComponent implements OnInit  {
+export class AppointmentComponent implements OnInit {
     appointmentsData: Appointment[];
 
     currentDate: Date = new Date();
@@ -40,19 +40,37 @@ export class AppointmentComponent implements OnInit  {
     ) {
         //this.appointmentsData = appointments;
     }
-    
+
     ngOnInit(): void {
         this.getApponitmentList();
     }
 
     getApponitmentList() {
         const model = {
-            appointmentType : 0
+            appointmentType: 0
         }
+        // this._appointmentService.getAppointmentslist(model).subscribe((response) => {
+        //     this.appointmentsData = response.data;
+        //     console.log(response.data);
+        // });
         this._appointmentService.getAppointmentslist(model).subscribe((response) => {
-            this.appointmentsData = response.data;
-            console.log(response.data);
+            this.appointmentsData = response.data.map(appointment => {
+                return {
+                    ...appointment,
+                    color: this.getRandomColor()
+                };
+            });
+            console.log(this.appointmentsData);
         });
+    }
+
+    getRandomColor(): string {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
 
     addPanelOpen(): void {
@@ -82,7 +100,7 @@ export class AppointmentComponent implements OnInit  {
     onAppointmentDeleted(e) {
         //this.showToast('Deleted', e.appointmentData.text, 'warning');
         console.log(e.appointmentsData.text)
-      }
+    }
 
 
 }
@@ -92,89 +110,5 @@ export class Appointment {
     startDate: Date;
     endDate: Date;
     allDay?: boolean;
+    color: string;
 }
-
-const appointments: Appointment[] = [
-    {
-        text: 'Website Re-Design Plan',
-        startDate: new Date('2023-11-26T16:30:00.000Z'),
-        endDate: new Date('2023-11-26T18:30:00.000Z'),
-    },
-    {
-        text: 'Book Flights to San Fran for Sales Trip',
-        startDate: new Date('2023-11-26T19:00:00.000Z'),
-        endDate: new Date('2023-11-26T20:00:00.000Z'),
-        allDay: true,
-    },
-    {
-        text: 'Install New Router in Dev Room',
-        startDate: new Date('2023-11-26T21:30:00.000Z'),
-        endDate: new Date('2023-11-26T22:30:00.000Z'),
-    },
-    {
-        text: 'Approve Personal Computer Upgrade Plan',
-        startDate: new Date('2023-11-27T17:00:00.000Z'),
-        endDate: new Date('2023-11-27T18:00:00.000Z'),
-    },
-    {
-        text: 'Final Budget Review',
-        startDate: new Date('2023-11-27T19:00:00.000Z'),
-        endDate: new Date('2023-11-27T20:35:00.000Z'),
-    },
-    {
-        text: 'New Brochures',
-        startDate: new Date('2023-11-27T21:30:00.000Z'),
-        endDate: new Date('2023-11-27T22:45:00.000Z'),
-    },
-    {
-        text: 'Install New Database',
-        startDate: new Date('2023-11-28T16:45:00.000Z'),
-        endDate: new Date('2023-11-28T18:15:00.000Z'),
-    },
-    {
-        text: 'Approve New Online Marketing Strategy',
-        startDate: new Date('2023-11-28T19:00:00.000Z'),
-        endDate: new Date('2023-11-28T21:00:00.000Z'),
-    },
-    {
-        text: 'Upgrade Personal Computers',
-        startDate: new Date('2023-11-28T22:15:00.000Z'),
-        endDate: new Date('2023-11-28T23:30:00.000Z'),
-    },
-    {
-        text: 'Customer Workshop',
-        startDate: new Date('2023-11-29T18:00:00.000Z'),
-        endDate: new Date('2023-11-29T19:00:00.000Z'),
-        allDay: true,
-    },
-    {
-        text: 'Prepare 2023 Marketing Plan',
-        startDate: new Date('2023-11-29T18:00:00.000Z'),
-        endDate: new Date('2023-11-29T20:30:00.000Z'),
-    },
-    {
-        text: 'Brochure Design Review',
-        startDate: new Date('2023-11-29T21:00:00.000Z'),
-        endDate: new Date('2023-11-29T22:30:00.000Z'),
-    },
-    {
-        text: 'Create Icons for Website',
-        startDate: new Date('2023-11-30T17:00:00.000Z'),
-        endDate: new Date('2023-11-30T18:30:00.000Z'),
-    },
-    {
-        text: 'Upgrade Server Hardware',
-        startDate: new Date('2023-11-30T21:30:00.000Z'),
-        endDate: new Date('2023-11-30T23:00:00.000Z'),
-    },
-    {
-        text: 'Submit New Website Design',
-        startDate: new Date('2023-11-30T23:30:00.000Z'),
-        endDate: new Date('2023-05-01T01:00:00.000Z'),
-    },
-    {
-        text: 'Launch New Website',
-        startDate: new Date('2023-11-30T19:20:00.000Z'),
-        endDate: new Date('2023-11-30T21:00:00.000Z'),
-    },
-];

@@ -8,7 +8,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
-import { StockTrackingType } from '../../models/CreateStockTrackingCommand';
+import { StockTrackingType } from '../../models/createStockTrackingCommand';
 import { CreateeditStockTrackingComponent } from '../createedit-stockTracking/createedit-stockTracking.component';
 
 @Component({

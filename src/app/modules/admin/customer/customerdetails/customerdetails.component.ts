@@ -236,7 +236,8 @@ export class CustomerDetailsComponent implements OnInit {
         const model = {
             customerId: this.selectedCustomerId,
             visibleCustomer: false,
-            patientId: null
+            patientId: null,
+            patinetlist : null
         }
         const patientModel = {
             id: this.selectedCustomerId
@@ -244,7 +245,10 @@ export class CustomerDetailsComponent implements OnInit {
         this._customerService.getPatientsByCustomerId(patientModel).subscribe((response) => {
             this.patientList = response.data;
             if (this.patientList.length === 1) {
-                model.patientId = this.patientList[0].recId;
+                model.patientId = this.patientList[0].id;
+            }
+            if(this.patientList.length > 0) {
+                model.patinetlist = this.patientList;
             }
             const dialog = this._dialog
                 .open(AddApponitnmentDialogComponent, {

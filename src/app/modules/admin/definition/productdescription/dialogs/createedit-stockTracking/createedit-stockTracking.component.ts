@@ -10,7 +10,7 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { CreateStockTrackingCommand, StockTrackingType } from '../../models/CreateStockTrackingCommand';
+import { CreateStockTrackingCommand, StockTrackingType } from '../../models/createStockTrackingCommand';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';

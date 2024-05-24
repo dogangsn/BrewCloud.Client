@@ -19,41 +19,53 @@
 
                 <div class="container-fluid" [formGroup]="suppliers">
                     <div class="row">
-                        <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
+                        <div class="flex flex-col gt-sm:flex-row">
+                            <div class="flex flex-col">
+                                <mat-checkbox class="mb-2" [checked]="false" [formControlName]="'active'"
+                                    [color]="'primary'">
+                                    Durum
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                        <div class="float : left flex  gt-xs:flex-row">
+                            <mat-form-field class="flex-auto gt-xs:pl-3">
                                 <mat-label>Tedarikçi Adı</mat-label>
                                 <input matInput [formControlName]="'suppliername'">
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
+                            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+                                <mat-label>Website</mat-label>
+                                <input matInput [formControlName]="'webSite'">
+                                <mat-icon class="icon-size-5" matSuffix
+                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            </mat-form-field>
                         </div>
-                        <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
+                        <div class="float : left flex  gt-xs:flex-row">
+                            <mat-form-field class="flex-auto gt-xs:pl-3">
                                 <mat-label>E-Mail</mat-label>
                                 <input matInput [formControlName]="'email'">
                                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
                             </mat-form-field>
-                        </div>
-                        <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
+                            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                                 <mat-label>Telefon</mat-label>
                                 <input placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value)"
                                     matInput [formControlName]="'phone'">
                                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
                             </mat-form-field>
                         </div>
-
+               
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field class="flex-auto">
                                 <mat-label>Adres</mat-label>
                                 <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3"
-                                    [formControlName]="'longAdress'"></textarea>
+                                    [formControlName]="'address'"></textarea>
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex-auto gt-xs:pl-3">
+                        <div class="float : left flex  gt-xs:flex-row">
                             <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
                               [formControlName]="'selectedState'">
                               <mat-radio-button class="example-radio-button" *ngFor="let state of states" [value]="state">
@@ -61,50 +73,33 @@
                               </mat-radio-button>
                             </mat-radio-group>
                           </div>
-                          <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
-                                <mat-label>Website</mat-label>
-                                <input matInput [formControlName]="'suppliername'">
-                                <mat-icon class="icon-size-5" matSuffix
-                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            </mat-form-field>
-                        </div>
-
-                          <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
+                     
+                          <div class="float : left flex  gt-xs:flex-row">
+                            <mat-form-field class="flex-auto gt-xs:pl-3">
                                 <mat-label>Vergi numarası / TC Kimlik No</mat-label>
-                                <input matInput [formControlName]="'suppliername'">
+                                <input matInput [formControlName]="'taxNumber'">
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
-                        </div>
-                          <div class="col-sm-12 mt-2 common-width">
-                            <mat-form-field style="width:100%">
+                            <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                                 <mat-label>Firma Adı / Adı Soyadı</mat-label>
-                                <input matInput [formControlName]="'suppliername'">
+                                <input matInput [formControlName]="'companyName'">
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
                         </div>
+            
 
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
                                 <mat-label>Vergi Dairesi</mat-label>
-                                <input matInput [formControlName]="'suppliername'">
+                                <input matInput [formControlName]="'taxOffice'">
                                 <mat-icon class="icon-size-5" matSuffix
                                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col gt-sm:flex-row">
-                            <div class="flex flex-col">
-                                <mat-checkbox class="mb-2" [checked]="false" [formControlName]="'active'"
-                                    [color]="'primary'">
-                                    Durum
-                                </mat-checkbox>
-
-                            </div>
-                        </div>
+                    
                     </div>
 
                 </div>
