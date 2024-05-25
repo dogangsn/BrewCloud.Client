@@ -1,14 +1,14 @@
 {
     "name": "vetsystems.client",
     "version": "17.2.0",
-    "description": "Fuse - Angular Admin Template and Starter Project",
+    "description": "vetsystem",
     "author": "https://themeforest.net/user/srcn",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "export NODE_OPTIONS=--max_old_space_size=16192 && ng build",
+        "build": "export NODE_OPTIONS=--max_old_space_size=16192 && ng build --configuration production",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "vetsystem": "set NODE_OPTIONS=--max_old_space_size=16192 && ng s -o"
@@ -46,7 +46,9 @@
         "devexpress-richedit": "^22.2.11",
         "devextreme": "^23.1.6",
         "devextreme-angular": "23.1.6",
+        "file-saver": "^2.0.5",
         "highlight.js": "11.7.0",
+        "jspdf": "^2.5.1",
         "jwt-decode": "^3.1.2",
         "lodash-es": "4.17.21",
         "luxon": "3.2.1",

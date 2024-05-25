@@ -8,6 +8,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { PatientOwnerListDto } from "./models/patientOwnerListDto";
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
+import { CreateEditPatientComponent } from './create-edit-patient/create-edit-patient.component';
 
 @Component({
     selector: 'app-patientlist',
@@ -55,19 +56,19 @@ export class PatientlistComponent implements OnInit {
     }
 
     addPanelOpen(): void {
-        // this.isUpdateButtonActive = false;
-        // const dialog = this._dialog
-        //     .open(CreateEditUnitDefinitionDialogComponent, {
-        //         maxWidth: '100vw !important',
-        //         disableClose: true,
-        //         data: null,
-        //     })
-        //     .afterClosed()
-        //     .subscribe((response) => {
-        //         if (response.status) {
-        //             this.UnitsList();
-        //         }
-        //     });
+        this.isUpdateButtonActive = false;
+        const dialog = this._dialog
+            .open(CreateEditPatientComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.patientOwnerList();
+                }
+            });
     }
 
     public redirectToUpdate = (id: string) => {
