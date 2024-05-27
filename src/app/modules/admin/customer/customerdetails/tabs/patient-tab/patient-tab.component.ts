@@ -19,12 +19,7 @@ export class PatientTabComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType', 'actions'];
 
-    
-
   @ViewChild('paginator') paginator: MatPaginator;
-export class PatientTabComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType', 'animalColor'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   receivedCustomerId: string;
   patientList: PatientDetailsDto[] = [];
   dataSource = new MatTableDataSource<PatientDetailsDto>(this.patientList);
@@ -37,7 +32,7 @@ export class PatientTabComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.receivedCustomerId = this._customerDataService.getCustomerId(); 
+    this.receivedCustomerId = this._customerDataService.getCustomerId();
     this.getPatients();
   }
 
@@ -90,11 +85,11 @@ export class PatientTabComponent implements OnInit, AfterViewInit {
 
   formatDate(date: string): string {
     const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     };
     return new Date(date).toLocaleString('tr-TR', options);
-}
+  }
 
 }

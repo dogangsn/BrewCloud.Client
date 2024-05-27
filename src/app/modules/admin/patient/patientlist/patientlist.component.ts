@@ -10,6 +10,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 import { PatientOwnerListDto } from './models/patientOwnerListDto';
 import { Router } from '@angular/router';
+import { CreateEditPatientComponent } from './create-edit-patient/create-edit-patient.component';
 
 @Component({
     selector: 'app-patientlist',

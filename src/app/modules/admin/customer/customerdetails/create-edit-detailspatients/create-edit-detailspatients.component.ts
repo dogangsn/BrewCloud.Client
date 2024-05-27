@@ -148,7 +148,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             specialNote: this.selectedPatientDetailsForm.value?.specialNote,
             sterilization: this.selectedPatientDetailsForm.value?.sterilization,
             active: true,
-            thumbnail: formValue.thumbnail,
+            thumbnail: this.selectedPatientDetailsForm.value?.thumbnail,
             images: [],
         };
 
@@ -161,12 +161,12 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             this._customerService.createPatients(patientModel).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
-                        this.showSweetAlert('success');
+                        this.showSweetAlert('success', '');
                         this._dialogRef.close({
                             status: true,
                         });
                     } else {
-                        this.showSweetAlert('error');
+                        this.showSweetAlert('error' ,'');
                         this.buttonDisabled = true;
                     }
                 },
