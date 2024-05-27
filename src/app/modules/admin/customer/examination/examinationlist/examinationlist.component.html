@@ -110,11 +110,11 @@
         <!-- Symptoms Column -->
         <ng-container matColumnDef="symptoms">
           <th mat-header-cell *matHeaderCellDef> Semptomlar </th>
-          <td mat-cell *matCellDef="let element"> {{element.symptoms}} </td>
+          <td class="whitespace-nowrap" mat-cell *matCellDef="let element"> {{element.symptoms.length > 15 ? element.symptoms.slice(0, 15) + '...' : element.symptoms}} </td>
         </ng-container>
 
         <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
+        <ng-container  matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> İşlemler </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
