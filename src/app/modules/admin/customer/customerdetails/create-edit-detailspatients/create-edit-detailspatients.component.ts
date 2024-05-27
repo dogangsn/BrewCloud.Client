@@ -76,15 +76,15 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             images: [[]],
             active: [false],
         });
-        
+
         this.fillFormData(this.selectedpatients);
     }
 
     fillFormData(selected: PatientDetails) {
         if (this.selectedpatients !== null) {
             this.selectedPatientDetailsForm.setValue({
-                name : selected.name,
-                birthDate : selected.birthDate,
+                name: selected.name,
+                birthDate: selected.birthDate,
                 chipNumber: selected.chipNumber,
                 sex: selected.sex,
                 animalType: selected.animalType,
@@ -124,7 +124,8 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         // this.selectedpatients ? this.updatePatients() : this.addPatients();
     }
 
-    updatePatients(): void {}
+    updatePatients(): void { }
+
 
     addPatients(): void {
         debugger;
@@ -147,7 +148,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             specialNote: this.selectedPatientDetailsForm.value?.specialNote,
             sterilization: this.selectedPatientDetailsForm.value?.sterilization,
             active: true,
-            thumbnail: this.selectedPatientDetailsForm.value?.thumbnail,
+            thumbnail: formValue.thumbnail,
             images: [],
         };
 
@@ -180,23 +181,27 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         
     }
 
-    showSweetAlert(type: string): void {
+
+    showSweetAlert(type: string, message: string): void {
+        let sweetAlertDto: SweetAlertDto;
+
         if (type === 'success') {
-            const sweetAlertDto = new SweetAlertDto(
+            sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.success'),
-                this.translate('sweetalert.transactionSuccessful'),
+                message || this.translate('sweetalert.transactionSuccessful'),
                 SweetalertType.success
             );
-            GeneralService.sweetAlert(sweetAlertDto);
         } else {
-            const sweetAlertDto = new SweetAlertDto(
+            sweetAlertDto = new SweetAlertDto(
                 this.translate('sweetalert.error'),
-                this.translate('sweetalert.transactionFailed'),
+                message || this.translate('sweetalert.transactionFailed'),
                 SweetalertType.error
             );
-            GeneralService.sweetAlert(sweetAlertDto);
         }
+
+        GeneralService.sweetAlert(sweetAlertDto);
     }
+
 
     translate(key: string): any {
         return this._translocoService.translate(key);

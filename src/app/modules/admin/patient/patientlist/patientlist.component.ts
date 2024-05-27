@@ -6,9 +6,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { PatientOwnerListDto } from "./models/patientOwnerListDto";
+
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
-import { CreateEditPatientComponent } from './create-edit-patient/create-edit-patient.component';
+import { PatientOwnerListDto } from './models/patientOwnerListDto';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-patientlist',
@@ -28,6 +29,7 @@ export class PatientlistComponent implements OnInit {
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _patientService: PatientListService,
+        private router: Router,
     ) { }
 
     ngOnInit() {
@@ -72,23 +74,8 @@ export class PatientlistComponent implements OnInit {
     }
 
     public redirectToUpdate = (id: string) => {
-        // this.isUpdateButtonActive = true;
-        // const selectedStore = this.units.find((units) => units.id === id);
-        // if (selectedStore) {
-        //     const dialogRef = this._dialog.open(
-        //         CreateEditUnitDefinitionDialogComponent,
-        //         {
-        //             maxWidth: '100vw !important',
-        //             disableClose: true,
-        //             data: selectedStore
-        //         }
-        //     );
-        //     dialogRef.afterClosed().subscribe((response) => {
-        //         if (response.status) {
-        //             this.UnitsList();
-        //         }
-        //     });
-        // }
+        console.log(id);
+        this.router.navigate(['/patientslist/patientdetails/', id]);
     };
 
     public redirectToDelete = (id: string) => {
