@@ -171,12 +171,13 @@ export class CustomersListComponent implements OnInit, AfterViewInit {
         if (_customer) {
 
             const data = {
-                firstlastname : _customer.firstName + " " + _customer.lastName
+                customerId : id
             }
-
+debugger
             const dialog = this._dialog
                 .open(PatientlistDialogComponent, {
                     maxWidth: '100%',
+                    minWidth: '55%',
                     disableClose: true,
                     data: data,
                 })

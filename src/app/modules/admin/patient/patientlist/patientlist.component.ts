@@ -25,6 +25,7 @@ export class PatientlistComponent implements OnInit {
     @ViewChild('paginator') paginator: MatPaginator;
     patientList: PatientOwnerListDto[] = [];
     dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
+    loader: boolean = true;
 
     constructor(
         private _dialog: MatDialog,
@@ -49,7 +50,7 @@ export class PatientlistComponent implements OnInit {
             this.dataSource = new MatTableDataSource<PatientOwnerListDto>(
                 this.patientList
             );
-
+            this.loader=false
             this.dataSource.paginator = this.paginator;
         });
     }
