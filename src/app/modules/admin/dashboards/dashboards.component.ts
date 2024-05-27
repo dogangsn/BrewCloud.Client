@@ -14,17 +14,20 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
 
+    loader = true;
 
     displayedColumns: string[] = [
-        'depotName',
-        'depotCode',
+        'customerPatientName',
+        'services',
         'active',
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;
 
     _list: any[] = [];
-    dataSource = new MatTableDataSource<any>(this._list);
+    _listpast: any[] = [];
+    upcomingdataSource = new MatTableDataSource<any>(this._list);
+    pastdataSource = new MatTableDataSource<any>(this._listpast)
 
     chartGithubIssues: ApexOptions = {};
     chartTaskDistribution: ApexOptions = {};
@@ -40,9 +43,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
     constructor(
         private _projectService: ProjectService,
-        private _dashboardService : DashboardService
-    ) 
-    { }
+        private _dashboardService: DashboardService
+    ) { }
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next(null);
@@ -50,13 +52,27 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-       this.getDashboards(); 
+        this.getDashboards();
     }
 
-    getDashboards(){
+    getDashboards() {
+        debugger;
         this._dashboardService.getdashboardsList().subscribe((response) => {
             this.dashboards = response.data;
-            console.log(this.dashboards);
+
+            this._list = this.dashboards.upcomingAppointment;
+            this.upcomingdataSource = new MatTableDataSource<any>(
+                this._list
+            );
+            this.upcomingdataSource.paginator = this.paginator;
+
+            this._listpast = this.dashboards.pastAppointment;
+            this.pastdataSource = new MatTableDataSource<any>(
+                this._listpast
+            )
+            this.pastdataSource.paginator = this.paginator;
+
+            this.loader = false;
         });
     }
 

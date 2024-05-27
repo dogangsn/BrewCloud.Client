@@ -1,5 +1,7 @@
 export class DashboardsDto {
     totalCount: DashboardCountTotal;
+    upcomingAppointment : any;
+    pastAppointment : any;
 }
 
 export class DashboardCountTotal {
