@@ -377,7 +377,7 @@ debugger
     handleValueChange(e) {
         debugger
         this.controlDate = e.value
-        if (this.controlDate.getHours() < this.morning8.getHours() ||this.controlDate < this.morning8 || this.controlDate.getHours() >= this.evening8.getHours()) {
+        if (this.controlDate.getHours() <= this.morning8.getHours() ||this.controlDate <= this.morning8 || this.controlDate.getHours() >= this.evening8.getHours()) {
             this.showSweetAlert(
                 'error',
                 'Randevu saatleri uygun değil!'

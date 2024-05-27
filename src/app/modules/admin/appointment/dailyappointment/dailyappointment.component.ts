@@ -11,13 +11,13 @@ import { AppointmentService } from 'app/core/services/appointment/appointment.se
 })
 export class DailyappointmentComponent implements OnInit {
 
-  displayedColumns: string[] = ['date', 'customerPatientName', 'services', 'status', 'actions'];
+  displayedColumns: string[] = ['date', 'customerPatientName', 'services', 'statusName', 'actions'];
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
   dailyappointment: DailyAppointmentListDto[] = [];
   dataSource = new MatTableDataSource<DailyAppointmentListDto>(this.dailyappointment);
-
+  loader = true;
 
   constructor( 
     private _appointmentService: AppointmentService,
@@ -38,7 +38,19 @@ export class DailyappointmentComponent implements OnInit {
           this.dailyappointment
         );
         this.dataSource.paginator = this.paginator;
+
+        this.loader = false;
       });
   }
 
+  formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return new Date(date).toLocaleString('tr-TR', options);
+  }
 }

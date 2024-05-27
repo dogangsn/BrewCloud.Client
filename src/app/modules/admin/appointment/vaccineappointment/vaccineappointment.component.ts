@@ -15,7 +15,7 @@ export class VaccineappointmentComponent implements OnInit {
   appointmentsData: Appointment[];
 
   currentDate: Date = new Date();
-
+  loader = true;
   constructor(
     private _dialog: MatDialog,
     private _translocoService: TranslocoService,
@@ -34,6 +34,8 @@ export class VaccineappointmentComponent implements OnInit {
     this._appointmentService.getAppointmentslist(model).subscribe((response) => {
       this.appointmentsData = response.data;
       console.log(response.data);
+
+      this.loader = false;
     });
   }
 

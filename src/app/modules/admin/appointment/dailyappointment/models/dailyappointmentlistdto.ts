@@ -5,4 +5,5 @@ export class DailyAppointmentListDto {
     customerPatientName: string;
     services: string;
     status : string;
+    statusName : string;
 }

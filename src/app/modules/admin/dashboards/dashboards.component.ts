@@ -10,7 +10,8 @@ import { MatTableDataSource } from '@angular/material/table';
 @Component({
     selector: 'dashboards',
     templateUrl: './dashboards.component.html',
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./dashboards.component.scss'],
+    //encapsulation: ViewEncapsulation.None,
 })
 export class DashboardsComponent implements OnInit, OnDestroy {
 
@@ -19,10 +20,11 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = [
         'customerPatientName',
         'services',
-        'active',
-        'actions',
+        'statusName',
+        
     ];
     @ViewChild('paginator') paginator: MatPaginator;
+
 
     _list: any[] = [];
     _listpast: any[] = [];
@@ -80,6 +82,20 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     trackByFn(index: number, item: any): any {
         return item.id || index;
     }
+
+    getStatusClass(status: number): string {
+        switch (status) {
+          case 1:
+            return 'status-1';
+          case 2:
+          case 4:
+            return 'status-2';
+          case 3:
+            return 'status-3';
+          default:
+            return '';
+        }
+      }
 
     private _prepareChartData(): void {
         // Github issues

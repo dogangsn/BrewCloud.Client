@@ -31,6 +31,8 @@ export class AppointmentComponent implements OnInit {
 
     currentDate: Date = new Date();
 
+    loader = true;
+
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
@@ -57,6 +59,8 @@ export class AppointmentComponent implements OnInit {
                 };
             });
             console.log(this.appointmentsData);
+
+            this.loader = false;
         });
     }
 
