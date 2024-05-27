@@ -6,4 +6,5 @@ export class customersListDto {
     phonenumber2: Number;
     eMail:string;
     note:string;
+    petCount:Number|null;
 }

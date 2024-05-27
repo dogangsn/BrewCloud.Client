@@ -46,6 +46,7 @@ import { AccommodationsTabComponent } from '../customerdetails/tabs/accommodatio
 import { PatientlistDialogComponent } from '../customerdetails/patientlist-dialog/patientlist-dialog.component';
 import { ExaminationTabComponent } from '../customerdetails/tabs/examination-tab/examination-tab.component';
 import { VaccineTabComponent } from '../customerdetails/tabs/vaccine-tab/vaccine-tab.component';
+import { MatBadgeModule } from '@angular/material/badge';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 // import { DxReportViewerComponent } from 'devexpress-reporting-angular';
 
@@ -119,6 +120,7 @@ const root: Route[] = [
         DxDateBoxModule,
         DxCheckBoxModule,
         MatTabsModule,
+        MatBadgeModule,
         RouterModule.forChild(root),
     ],
     declarations: [

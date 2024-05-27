@@ -31,6 +31,7 @@ export class CustomersListComponent implements OnInit, AfterViewInit {
     customerlist: customersListDto[] = [];
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
     loader = true;
+    petCount = 3;
 
     ngAfterViewInit() {
         this.getCustomerList();
