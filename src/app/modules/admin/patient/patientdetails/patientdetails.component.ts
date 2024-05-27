@@ -24,25 +24,22 @@ export class PatientDetailsComponent implements OnInit {
   customers: SelectItem[];
   types: SelectItem[];
   breeds: SelectItem[];
-  
+
   constructor(private route: ActivatedRoute,
     private messageService: MessageService,
     private _formBuilder: FormBuilder) {
 
     this.customers = [
       { label: 'Doğan Güneş', value: 'DG' },
-      // Diğer müşteriler
     ];
 
     this.types = [
       { label: 'Köpek', value: 'dog' },
       { label: 'Kedi', value: 'cat' },
-      // Diğer türler
     ];
 
     this.breeds = [
       { label: 'Afgan Tazısı', value: 'afghan' },
-      // Diğer ırklar
     ];
   }
 
