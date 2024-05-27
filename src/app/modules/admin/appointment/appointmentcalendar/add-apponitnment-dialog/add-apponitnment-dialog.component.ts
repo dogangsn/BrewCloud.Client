@@ -143,7 +143,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         });
 debugger
         this.appointmentAdd = this._formBuilder.group({
-            doctorId: [''],
+            doctorId: ['00000000-0000-0000-0000-000000000000'],
             appointmentType: [2, Validators.required],
             customerId: [''],
             patientId: [''],
