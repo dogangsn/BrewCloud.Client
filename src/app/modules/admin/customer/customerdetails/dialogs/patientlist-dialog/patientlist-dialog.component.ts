@@ -1,15 +1,16 @@
-import { CustomerService } from './../../../../../core/services/customers/customers.service';
+ 
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table'; 
 import { PatientOwnerListDto } from 'app/modules/admin/patient/patientlist/models/patientOwnerListDto';
-import { PatientDetails } from '../../models/PatientDetailsCommand';
-import { id } from 'date-fns/locale';
-import { CustomerDetailDto } from '../../models/CustomerDetailDto';
+ 
 import { Subject, zip } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { PatientDetails } from '../../../models/PatientDetailsCommand';
+import { CustomerDetailDto } from '../../../models/CustomerDetailDto';
+import { CustomerService } from 'app/core/services/customers/customers.service';
 
 @Component({
   selector: 'app-patientlist-dialog',

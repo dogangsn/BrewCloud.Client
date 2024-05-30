@@ -9,19 +9,19 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { MatDialog } from '@angular/material/dialog';
-import { CustomerDetailEditDialogComponent } from './customer-detail-edit-dialog/customer-detail-edit-dialog.component';
-import { PatientDetailsDto } from '../models/PatientDetailsDto';
-import { CreateEditCustomersalesComponent } from './create-edit-customersales/create-edit-customersales.component';
-import { CreateEditDetailspatientsComponent } from './create-edit-detailspatients/create-edit-detailspatients.component';
+import { MatDialog } from '@angular/material/dialog'; 
+import { PatientDetailsDto } from '../models/PatientDetailsDto'; 
 import { AddApponitnmentDialogComponent } from '../../appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
-import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
-import { GetColectionEditDialogComponent } from './collection/get-collection-editdialog/get-collection-editdialog.component';
-import { ColectionTransactionsDialogComponent } from './collection/collection-transactions-dialog/collection-transactions-dialog.component';
-import { PayChartComponent } from './pay-chart/pay-chart.component';
-import { VaccinationCard } from './vaccinationcard/vaccinationcard.component';
+import { AppointmentHistoryComponent } from './dialogs/appointment-history/appointment-history.component';
+import { GetColectionEditDialogComponent } from './dialogs/collection/get-collection-editdialog/get-collection-editdialog.component';
+import { ColectionTransactionsDialogComponent } from './dialogs/collection/collection-transactions-dialog/collection-transactions-dialog.component'; 
+import { VaccinationCard } from './dialogs/vaccinationcard/vaccinationcard.component';
 import { PatientDetails } from '../models/PatientDetailsCommand';
 import { CustomerDataService } from './services/customer-data.service';
+import { CustomerDetailEditDialogComponent } from './dialogs/customer-detail-edit-dialog/customer-detail-edit-dialog.component';
+import { CreateEditCustomersalesComponent } from './dialogs/create-edit-customersales/create-edit-customersales.component';
+import { CreateEditDetailspatientsComponent } from './dialogs/create-edit-detailspatients/create-edit-detailspatients.component';
+import { PayChartComponent } from './dialogs/pay-chart/pay-chart.component';
 
 @Component({
     selector: 'customerdetails',

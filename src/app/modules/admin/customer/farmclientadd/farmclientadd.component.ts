@@ -4,9 +4,7 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateEditPatientsDialogComponent } from '../customerlist/patientsdialogs/create-edit-patients';
-import { CreateEditDetailspatientsComponent } from '../customerdetails/create-edit-detailspatients/create-edit-detailspatients.component';
+import { MatDialog } from '@angular/material/dialog'; 
 import { PatientDetails } from '../models/PatientDetailsCommand';
 import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
@@ -16,6 +14,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { FarmsDto } from '../models/FarmsDto';
+import { CreateEditDetailspatientsComponent } from '../customerdetails/dialogs/create-edit-detailspatients/create-edit-detailspatients.component';
 
 @Component({
     selector: 'app-farmclientadd',

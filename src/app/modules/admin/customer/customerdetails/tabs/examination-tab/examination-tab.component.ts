@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { ExaminationService } from 'app/core/services/examination/exammination.service';
-import { ExaminationListDto } from '../../../models/ExaminationListDto';
+import { ExaminationListDto } from '../../../../patient/examination/model/ExaminationListDto';
 import { CustomerDataService } from '../../services/customer-data.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';

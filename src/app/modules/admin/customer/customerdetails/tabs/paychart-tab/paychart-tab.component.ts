@@ -8,7 +8,7 @@ import { CustomerService } from 'app/core/services/customers/customers.service';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto'; 
-import { PayChartListDto } from '../../pay-chart/model/PayChartListDto';
+import { PayChartListDto } from '../../dialogs/pay-chart/model/PayChartListDto';
 import { CustomerDataService } from '../../services/customer-data.service';
 
 @Component({

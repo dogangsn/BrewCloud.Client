@@ -15,8 +15,8 @@ import { CustomerDetailsService } from './service/customerdetailservice';
 import { customerlistReportComponent } from '../report/customerlistReport/customerlistReport.component';
 // import { DtoPmsRptParameter } from '../../models/DtoPmsRptParameter';
 import { customerlistRptParameter } from '../report/models/customerlistRptParameter';
-import { formatDate } from '@angular/common';
-import { PatientlistDialogComponent } from '../customerdetails/patientlist-dialog/patientlist-dialog.component';
+import { formatDate } from '@angular/common'; 
+import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientlist-dialog/patientlist-dialog.component';
 
 @Component({
     selector: 'customerslist',

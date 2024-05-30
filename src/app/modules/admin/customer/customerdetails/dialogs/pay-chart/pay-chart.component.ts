@@ -7,7 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto'; 
 import { PayChartListDto } from './model/PayChartListDto';
 
 @Component({

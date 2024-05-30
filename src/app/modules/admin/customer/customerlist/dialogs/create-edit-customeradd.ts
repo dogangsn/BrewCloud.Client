@@ -1,24 +1,10 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogRef,
-} from '@angular/material/dialog';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
-import { UnitsService } from 'app/core/services/definition/unitdefinition/units.service';
-import { ProductCategoryService } from 'app/core/services/definition/ProductCategories/productcategory.service';
-import { SuppliersService } from 'app/core/services/suppliers/suppliers.service';
-import { suppliersListDto } from 'app/modules/admin/suppliers/models/suppliersListDto';
-import { ProductType } from 'app/modules/bases/enums/producttype.enum';
 import { customersListDto } from '../../models/customersListDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { CreateCustomerCommand } from '../../models/CreateCustomerCommand';
@@ -27,8 +13,7 @@ import { CustomerGroupListDto } from 'app/modules/admin/definition/customergroup
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CreateEditPatientsDialogComponent } from '../patientsdialogs/create-edit-patients';
 import { VeriServisi } from '../service/veri-servisi';
-import { MatTableDataSource } from '@angular/material/table';
-import { forEach } from 'lodash';
+import { MatTableDataSource } from '@angular/material/table'; 
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -38,14 +23,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateEditCustomerAddDialogComponent implements OnInit {
     displayedColumns: string[] = [
-        'name', 'chipNumber', 'birthDate','delete'
+        'name', 'chipNumber', 'birthDate', 'delete'
     ];
 
     selectedcustomeradd: customersListDto;
     customeradd: FormGroup;
     selectedValue: string;
     patientsAdd: FormGroup;
-    patientCount:String="";
+    patientCount: String = "";
     customers: CreateCustomerCommand = new CreateCustomerCommand();
     customergroupList: CustomerGroupListDto[] = [];
 
@@ -103,10 +88,10 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
             this.customergroupList = response.data;
         });
     }
-    redirectToDelete(id : string){
+    redirectToDelete(id: string) {
         debugger;
-        this.dataSource.data = this.dataSource.data.filter(x=>x.id !== id);
-        this.patients = this.patients.filter(x=>x.id !== id);
+        this.dataSource.data = this.dataSource.data.filter(x => x.id !== id);
+        this.patients = this.patients.filter(x => x.id !== id);
         // this.dataSource.data.
     }
     addOrUpdateCustomer(): void {
@@ -127,22 +112,19 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         this.customers.isEmail = isEmail;
         this.customers.isPhone = isPhone;
         // this.customers.Id = "00000000-0000-0000-0000-000000000000";
-        
+
         if (this.fillSelectedInvoice()) {
-            this.customers.PatientDetails.forEach((item)=>{
-                if(item.animalBreed.toString() == "")
-                {
+            this.customers.PatientDetails.forEach((item) => {
+                if (item.animalBreed.toString() == "") {
                     item.animalBreed = 0;
                 }
-                if(item.animalColor.toString()=="")
-                {
+                if (item.animalColor.toString() == "") {
                     item.animalColor = 0;
                 }
-                if(item.animalType.toString() =="")
-                {
+                if (item.animalType.toString() == "") {
                     item.animalType = 0;
                 }
-                item.id="00000000-0000-0000-0000-000000000000";
+                item.id = "00000000-0000-0000-0000-000000000000";
                 item.images = null;
             })
             const model = {
@@ -161,7 +143,7 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
                         this._dialogRef.close({
                             status: true,
                         });
-                         
+
                         const sweetAlertDto = new SweetAlertDto(
                             'Kayıt İşlemi Gerçekleşti',
                             'Müşteri Detay Ekranına Yönlendirilmek İster Misiniz?',
@@ -227,13 +209,13 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
         return true;
     }
 
-    updateCustomer() {}
+    updateCustomer() { }
 
     getFormValueByName(formName: string): any {
-        if(formName=="patientsAdd"){
+        if (formName == "patientsAdd") {
             return this.patientsAdd.get(formName).value;
         }
-        return this.customeradd.get(formName).value;        
+        return this.customeradd.get(formName).value;
     }
 
     showSweetAlert(type: string, text: string): void {
@@ -260,15 +242,15 @@ export class CreateEditCustomerAddDialogComponent implements OnInit {
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
-        this.patientCount=this.patientsAdd.value.count;
+        this.patientCount = this.patientsAdd.value.count;
         console.log(this.patientCount);
-        
+
         const dialog = this._dialog
             .open(CreateEditPatientsDialogComponent, {
                 // maxWidth: '400vw !important',
                 // minHeight: '2000px !important',
                 disableClose: true,
-                data: {count:this.patientCount},
+                data: { count: this.patientCount },
             })
             .afterClosed()
             .subscribe((response) => {

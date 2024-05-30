@@ -1,7 +1,6 @@
 import { Component, ElementRef, Inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CustomerDetailDto } from '../../models/CustomerDetailDto';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'; 
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
@@ -9,6 +8,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupListDto } from 'app/modules/admin/definition/customergroup/models/customerGroupListDto';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
+import { CustomerDetailDto } from '../../../models/CustomerDetailDto';
 
 @Component({
   selector: 'app-customer-detail-edit-dialog',
