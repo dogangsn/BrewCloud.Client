@@ -9,12 +9,12 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { MatDialog } from '@angular/material/dialog'; 
-import { PatientDetailsDto } from '../models/PatientDetailsDto'; 
+import { MatDialog } from '@angular/material/dialog';
+import { PatientDetailsDto } from '../models/PatientDetailsDto';
 import { AddApponitnmentDialogComponent } from '../../appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { AppointmentHistoryComponent } from './dialogs/appointment-history/appointment-history.component';
 import { GetColectionEditDialogComponent } from './dialogs/collection/get-collection-editdialog/get-collection-editdialog.component';
-import { ColectionTransactionsDialogComponent } from './dialogs/collection/collection-transactions-dialog/collection-transactions-dialog.component'; 
+import { ColectionTransactionsDialogComponent } from './dialogs/collection/collection-transactions-dialog/collection-transactions-dialog.component';
 import { VaccinationCard } from './dialogs/vaccinationcard/vaccinationcard.component';
 import { PatientDetails } from '../models/PatientDetailsCommand';
 import { CustomerDataService } from './services/customer-data.service';
@@ -22,6 +22,7 @@ import { CustomerDetailEditDialogComponent } from './dialogs/customer-detail-edi
 import { CreateEditCustomersalesComponent } from './dialogs/create-edit-customersales/create-edit-customersales.component';
 import { CreateEditDetailspatientsComponent } from './dialogs/create-edit-detailspatients/create-edit-detailspatients.component';
 import { PayChartComponent } from './dialogs/pay-chart/pay-chart.component';
+import { SmstransactionsDialogComponent } from './dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
 
 @Component({
     selector: 'customerdetails',
@@ -40,8 +41,8 @@ export class CustomerDetailsComponent implements OnInit {
     patientDetails: PatientDetailsDto[] = [];
     firstname: string;
     lastname: string;
-    phonenumber : string;
-    email : string;
+    phonenumber: string;
+    email: string;
 
     patientList: PatientDetails[] = [];
 
@@ -237,7 +238,7 @@ export class CustomerDetailsComponent implements OnInit {
             customerId: this.selectedCustomerId,
             visibleCustomer: false,
             patientId: null,
-            patinetlist : null
+            patinetlist: null
         }
         const patientModel = {
             id: this.selectedCustomerId
@@ -247,7 +248,7 @@ export class CustomerDetailsComponent implements OnInit {
             if (this.patientList.length === 1) {
                 model.patientId = this.patientList[0].id;
             }
-            if(this.patientList.length > 0) {
+            if (this.patientList.length > 0) {
                 model.patinetlist = this.patientList;
             }
             const dialog = this._dialog
@@ -371,6 +372,22 @@ export class CustomerDetailsComponent implements OnInit {
             });
     }
 
+    //smstransactions-dialog
+    smstransactions(): void {
+        const dialog = this._dialog
+            .open(SmstransactionsDialogComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: null
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    this.getCustomerDetailList();
+                }
+            });
+    }
+
     public redirectToUpdatePatient = (id: string) => {
 
         const selectedPatients = this.patientDetails.find((item) => item.recId == id);
@@ -433,8 +450,8 @@ export class CustomerDetailsComponent implements OnInit {
     }
 
     onTabChange(event: any) {
-        if(event === 5){
-            
+        if (event === 5) {
+
         }
     }
 

@@ -15,8 +15,19 @@
     <div class="modal-body mbody-store">
       <div class="qm-pr-content">
         <div class="container-fluid" [formGroup]="smstransactionsgroup">
-          
-   
+          <div class="flex float : left gt-xs:flex-row">
+            <mat-form-field class="flex-auto gt-xs:pl-3">
+              <mat-label>Başlık</mat-label>
+              <input matInput [formControlName]="'title'"> 
+          </mat-form-field>
+          </div>
+          <div class="flex float : left gt-xs:flex-row">
+            <mat-form-field class="flex-auto gt-xs:pr-3">
+              <mat-label>İçerik</mat-label>
+              <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3"
+              [formControlName]="'content'"></textarea>
+            </mat-form-field>
+          </div>
         </div>
       </div>
 
@@ -25,9 +36,9 @@
 
         <div class="flex items-center mt-4 sm:mt-0">
 
-           <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+          <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
             Vazgeç
-          </button> 
+          </button>
 
           <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" [disabled]="buttonDisabled"
             (click)="sendSms()">

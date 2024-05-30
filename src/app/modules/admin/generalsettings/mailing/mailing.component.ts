@@ -138,7 +138,8 @@ export class MailingComponent implements OnInit, AfterViewInit {
             control.emailId,
             'TEST',
             'TEST',
-            'TEST'
+            'TEST',
+            ''
         );
         this._mailingService.sendMail(items).subscribe(
             (response) => {

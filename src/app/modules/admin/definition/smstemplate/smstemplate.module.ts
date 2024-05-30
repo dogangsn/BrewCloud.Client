@@ -21,6 +21,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { CreateeditSmstemplateComponent } from './dialog/createedit-smstemplate.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
@@ -72,8 +77,10 @@ const routes: Routes = [
     MatTooltipModule,
     SharedModule,
     MatDialogModule,
+    MatRadioModule, 
+    MatChipsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SmstemplateComponent]
+  declarations: [SmstemplateComponent, CreateeditSmstemplateComponent]
 })
 export class SmstemplateModule { }

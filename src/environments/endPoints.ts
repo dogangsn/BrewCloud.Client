@@ -39,7 +39,8 @@ export const endPoints = {
         createCollection : 'vet/Customers/CreateCollection',
         getpaychartList : 'vet/Customers/GetPayChartList',
         deletePayChart : 'vet/Customers/DeletePayChart',
-        getPatients: 'vet/Customers/GetPatientsByCustomerId'
+        getPatients: 'vet/Customers/GetPatientsByCustomerId',
+        sendMessage : 'vet/Customers/SendMessage'
 
     },
     examinations:{
