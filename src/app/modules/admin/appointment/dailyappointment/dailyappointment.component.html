@@ -81,17 +81,26 @@
               <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
+        
               <mat-menu #menu="matMenu">
+                <button mat-menu-item >
+                  <mat-icon>send</mat-icon>
+                  <span>Hatırlatma Gönder</span>
+                </button>
                 <button mat-menu-item [matMenuTriggerFor]="vertebrates">
                   <mat-icon>refresh</mat-icon>
                   <span>Randevu Durumu Değiştir</span>
                 </button>
+                <button mat-menu-item >
+                  <mat-icon>history</mat-icon>
+                  <span>İşlem Geçmişi</span>
+                </button>
               </mat-menu>
               <mat-menu #vertebrates="matMenu">
-                <button mat-menu-item>Bekliyor</button>
-                <button mat-menu-item>İptal Edildi</button>
-                <button mat-menu-item>Görüşüldü</button>
-                <button mat-menu-item>Gelmedi</button>
+                <button mat-menu-item (click)="redirectStatusUpdate(element.id, 1)">Bekliyor</button>
+                <button mat-menu-item (click)="redirectStatusUpdate(element.id, 2)">İptal Edildi</button>
+                <button mat-menu-item (click)="redirectStatusUpdate(element.id, 3)">Görüşüldü</button>
+                <button mat-menu-item (click)="redirectStatusUpdate(element.id, 4)">Gelmedi</button>
               </mat-menu>
             </td>
           </ng-container>

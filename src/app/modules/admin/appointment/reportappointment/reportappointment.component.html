@@ -1,0 +1,80 @@
+<div class="flex flex-col flex-auto w-full">
+
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+
+        <div role="status" class="animate-pulse grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+            *ngIf="loader">
+            <div class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700">
+            </div>
+            <div class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700">
+            </div>
+            <div class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700">
+            </div>
+            <div class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded-2xl dark:bg-gray-700">
+            </div>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="!loader">
+          
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Bu Hafta Randevu</div>
+                    <div class="ml-2 -mt-2 -mr-3">
+
+
+                    </div>
+                </div>
+                <div class="flex flex-col items-center mt-2">
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500"> 0</div>
+                    <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Randevu</div>
+                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                        <div class="text-md font-medium truncate">Bir Önceki Hafta:</div>
+                        <div class="ml-1.5 text-lg font-semibold">0</div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Bu Ay Randevu</div>
+                    <div class="ml-2 -mt-2 -mr-3">
+
+
+                    </div>
+                </div>
+                <div class="flex flex-col items-center mt-2">
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">0</div>
+                    <div class="text-lg font-medium text-red-600 dark:text-red-500">Randevu</div>
+                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                        <div class="text-md font-medium truncate">Bir Önceki Ay:</div>
+                        <div class="ml-1.5 text-lg font-semibold">0</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Bu Yıl Randevu</div>
+                    <div class="ml-2 -mt-2 -mr-3">
+                    </div>
+                </div>
+                <div class="flex flex-col items-center mt-2">
+                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">0</div>
+                    <div class="text-lg font-medium text-red-600 dark:text-red-500">Randevu</div>
+                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                        <div class="text-md font-medium truncate">Bir Önceki Yıl:</div>
+                        <div class="ml-1.5 text-lg font-semibold">0</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+ 
