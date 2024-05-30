@@ -1,9 +1,25 @@
 <div class="w-full max-w-3xl">
 
     <!-- Form -->
-    <form [formGroup]="companyForm">
 
-        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+    <div role="status" class="animate-pulse" *ngIf="loader">
+        <div class="gap-6 w-full mt-14">
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700 mb-11"></div>
+            <div class="flex gap-2 mb-11">
+                <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+                <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            </div>
+            
+            <div class="flex items-center mb-4 mt-3">
+                <div class="h-40 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <form [formGroup]="companyForm" >
+
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8" *ngIf="!loader">
             <!-- companyName -->
             <div class="sm:col-span-4">
                 <mat-form-field
