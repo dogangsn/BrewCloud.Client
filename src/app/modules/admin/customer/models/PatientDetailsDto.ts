@@ -1,4 +1,5 @@
 export class PatientDetailsDto {
+    id: string;
     recId: string;
     name: string;
     sex: number;
@@ -10,6 +11,7 @@ export class PatientDetailsDto {
     customerId: string;
 
     constructor(
+        id: string,
         recId: string,
         name: string,
         sex: number,
@@ -20,6 +22,7 @@ export class PatientDetailsDto {
         chipNumber: string,
         customerId: string
     ) {
+        this.id = id;
         this.recId = recId;
         this.name = name;
         this.sex = sex;

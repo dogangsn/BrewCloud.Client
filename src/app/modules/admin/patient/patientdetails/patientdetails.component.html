@@ -13,7 +13,7 @@
       <!-- Title -->
       <div class="mt-2">
         <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-          Çitos
+          {{patient.name}}
         </h2>
       </div>
       <div class="font-medium tracking-tight text-secondary">
@@ -22,78 +22,104 @@
     </div>
   </div>
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card ">
-    <div class="bg-primary-50 rounded-2xl w-full ">
-      <div class="flex flex-auto gap-3 w-full h-full p-3">
-        <div class="flex-auto p-3 rounded-2xl shadow bg-card ">
-          <div class="bg-red-400 w-20 h-20 rounded-full items-center justify-center my-auto mx-3 text-center min-w-20"></div>
-          <h2 class="px-6 text-xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
-            Çitos
+    <div role="status" class="animate-pulse mb-4" *ngIf="loader">
+      <div class="h-64 bg-gray-200 rounded-2xl dark:bg-gray-700 w-full mb-4"></div>
+    </div>
+    <div *ngIf="!loader" class="bg-default rounded-2xl w-full ">
+      <div class="sm:flex flex-auto gap-3 w-full h-full p-3">
+        <div class="flex-auto p-3 rounded-2xl shadow bg-slate-50 flex-col mx-auto my-auto min-h-40">
+          <div class="w-full item s-center justify-center">
+            <div class="bg-slate-500 w-20 h-20 rounded-full my-auto mx-auto min-w-20"></div>
+          </div>
+          <h2 class="px-6 text-xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-center">
+            {{patient.name}}
           </h2>
         </div>
         
-          <div class="flex flex-auto justify-around w-full">
+          <div class="sm:flex flex-auto justify-around w-full sm:mt-0 mt-3">
             <div>
-              <h2 class="px-6 text-xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+              <h2 class="px-6 text-l md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
                 Detay
               </h2>
               <table class="min-w-full divide-y">
                 <thead>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Hasta No</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 1</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Hasta No</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{patient.id}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Tür/Irk</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 2</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Tür/Irk</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{patient.animalType}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Doğum Tarihi</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 3</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Doğum Tarihi</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{formatDate(patient.birthDate)}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Cinsiyet</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 4</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Cinsiyet</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{this.sexText}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Renk</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 5</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Renk</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{patient.animalColor}}</td>
                   </tr>
                 </thead>
               </table>
             </div>
-            <div>
-              <h2 class="px-6 text-xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+            <div class=" sm:mt-0 mt-3">
+              <h2 class="px-6 text-l md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
                 İletişim
               </h2>
               <table class="min-w-full divide-y">
                 <thead class="">
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Sahibi</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 1</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Sahibi</th>
+                    <td class="px-6 py-3 text-right text-md font-medium text-gray-500 tracking-wider">{{customer.firstname}}{{customer.lastname}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Güncel Bakiye</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 2</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Güncel Bakiye</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">630.20</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">Telefon</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 3</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">Telefon</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{customer.phonenumber}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">İkincil Telefon</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 4</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">İkincil Telefon</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{customer.phonenumber2}}</td>
                   </tr>
                   <tr>
-                    <th scope="col" class="font-bold   px-6 py-2 text-left text-sm text-gray-500 tracking-wider">TC Kimlik No</th>
-                    <td class="px-6 py-3 text-right text-xs font-medium text-gray-500 tracking-wider">Veri 5</td>
+                    <th scope="col" class="font-bold   px-6 py-2 text-left text-md text-gray-500 tracking-wider">TC Kimlik No</th>
+                    <td class="text-start px-6 py-3 text-md font-medium text-gray-500 tracking-wider">{{customer.vkntcno}}</td>
                   </tr>
                 </thead>
               </table>
             </div>
           </div>
       </div>
-      
     </div>
+    <mat-tab-group *ngIf="!loader" class="sm:px-2 mt-3"  [animationDuration]="'0'"
+            (selectedIndexChange)="onTabChange($event)">
+            <mat-tab label="Müşteri Hastaları">
+              <app-customer-patients-tab></app-customer-patients-tab>
+            </mat-tab>
+      
+            <mat-tab label="Konaklama">
+                <app-patient-accommodation-tab></app-patient-accommodation-tab>
+            </mat-tab>
+      
+            <mat-tab label="Randevular">
+                <app-patient-appointments-tab></app-patient-appointments-tab>
+            </mat-tab>
+      
+            <mat-tab label="Muayeneler">
+                <app-patient-examinations-tab></app-patient-examinations-tab>
+            </mat-tab>
+      
+            <mat-tab label="Reçeteler">
+                <app-patient-inseminations-tab></app-patient-inseminations-tab>
+            </mat-tab>
+          </mat-tab-group>
   </div>
 </div>
 

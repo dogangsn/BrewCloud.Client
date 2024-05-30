@@ -15,5 +15,8 @@ export class PatientListService {
     gtPatientList() : Observable<any>{    
         return this._httpService.getRequest(endPoints.patient.getPatientList);
     }
+    getPatientFindById(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.patient.getPatientFindById, model);
+    }
 
 }

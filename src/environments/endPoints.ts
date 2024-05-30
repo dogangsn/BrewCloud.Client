@@ -218,7 +218,8 @@ export const endPoints = {
         deleteAccomodation : 'vet/PetHotels/DeleteAccomodation'
     },
     patient: {
-        getPatientList : 'vet/Patient/GetPatientList'
+        getPatientList : 'vet/Patient/GetPatientList',
+        getPatientFindById: 'vet/Patient/GetPatientById'
     },
     stocktracking : {
         getstockTrackingProductFilter : 'vet/Definition/StockTrackingProductFilter',
