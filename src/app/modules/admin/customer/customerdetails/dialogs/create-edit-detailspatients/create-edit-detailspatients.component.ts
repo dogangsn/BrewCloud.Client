@@ -1,21 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { VetAnimalBreedsDefDto } from '../../models/VetAnimalBreedsDefDto';
-import { AnimalColorsDefListDto } from '../../models/AnimalColorsDefListDto';
-import { VetVetAnimalsTypeListDto } from '../../models/VetVetAnimalsTypeListDto';
-import { PatientDetails, SexTYpe } from '../../models/PatientDetailsCommand';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'; 
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { AnimalColorsDefService } from 'app/core/services/definition/animalColorsDef/animalColorsDef.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
-import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { CreatePatientCommand } from '../../models/CreatePatientCommand';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { PatientDetailsDto } from '../../models/PatientDetailsDto';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateEditAnimalsColorDialogComponent } from '../../customeradd/dialog/create-edit-animalscolor';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto'; 
+import { MatCheckboxChange } from '@angular/material/checkbox'; 
+import { v4 as uuidv4 } from 'uuid'; 
+import { PatientDetails, SexTYpe } from '../../../models/PatientDetailsCommand';
+import { VetAnimalBreedsDefDto } from '../../../models/VetAnimalBreedsDefDto';
+import { AnimalColorsDefListDto } from '../../../models/AnimalColorsDefListDto';
+import { VetVetAnimalsTypeListDto } from '../../../models/VetVetAnimalsTypeListDto';
+import { CreatePatientCommand } from '../../../models/CreatePatientCommand';
+import { CreateEditAnimalsColorDialogComponent } from '../../../customeradd/dialog/create-edit-animalscolor';
 
 @Component({
     selector: 'app-create-edit-detailspatients',

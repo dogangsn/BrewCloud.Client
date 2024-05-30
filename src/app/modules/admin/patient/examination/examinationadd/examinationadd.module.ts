@@ -36,10 +36,11 @@ import { DxCheckBoxModule, DxSchedulerModule, DxSelectBoxModule } from 'devextre
 import { DxDateBoxModule } from 'devextreme-angular';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import { ExaminationaddComponent } from './examinationadd.component'; 
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { ExaminationlistComponent } from '../examinationlist/examinationlist.component';
+import { ExaminationlistComponent } from '../examinationlist/examinationlist.component'; 
+import { ExaminationaddComponent } from './examinationadd.component';
 import { ExaminationAddDialogComponent } from '../examination-add-dialog/examination-add-dialog.component';
 
 const root: Route[] = [

@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { CustomerSalesDto } from '../../models/customersalesDto';
+import { Component, Inject, OnInit } from '@angular/core'; 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -14,6 +13,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { CreateSaleBuyCommand } from 'app/modules/admin/retail/model/CreateSaleBuyCommand';
+import { CustomerSalesDto } from '../../../models/customersalesDto';
 
 @Component({
     selector: 'app-create-edit-customersales',

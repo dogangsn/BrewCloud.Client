@@ -1,4 +1,4 @@
-import { ExaminationListDto } from './../../models/ExaminationListDto';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,11 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExaminationAddDialogComponent } from '../examination-add-dialog/examination-add-dialog.component';
-import { ExaminationDto } from '../../models/ExaminationDto';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { ExaminationListDto } from '../model/ExaminationListDto';
+import { ExaminationDto } from '../model/ExaminationDto';
 
 
 @Component({
