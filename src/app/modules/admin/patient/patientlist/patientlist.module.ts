@@ -39,6 +39,12 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MatDialogModule } from '@angular/material/dialog'; 
 import { CreateEditPatientComponent } from './create-edit-patient/create-edit-patient.component';
+import { CustomerPatientsTabComponent } from '../patientdetails/tabs/customer-patients-tab/customer-patients-tab.component';
+import { PatientAccommodationTabComponent } from '../patientdetails/tabs/patient-accommodation-tab/patient-accommodation-tab.component';
+import { PatientAppointmentsTabComponent } from '../patientdetails/tabs/patient-appointments-tab/patient-appointments-tab.component';
+import { PatientExaminationsTabComponent } from '../patientdetails/tabs/patient-examinations-tab/patient-examinations-tab.component';
+import { PatientInseminationsTabComponent } from '../patientdetails/tabs/patient-inseminations-tab/patient-inseminations-tab.component';
+import { PatientVaccineAppointmentTabComponent } from '../patientdetails/tabs/patient-vaccine-appointment-tab/patient-vaccine-appointment-tab.component';
 
 
 const root: Route[] = [
@@ -123,7 +129,17 @@ const root: Route[] = [
     CardModule,
     RouterModule.forChild(root),
   ],
-  declarations: [PatientlistComponent, PatientDetailsComponent, CreateEditPatientComponent]
+  declarations: [
+    PatientlistComponent,
+    PatientDetailsComponent,
+    CreateEditPatientComponent,
+    CustomerPatientsTabComponent,
+    PatientAccommodationTabComponent,
+    PatientAppointmentsTabComponent,
+    PatientExaminationsTabComponent,
+    PatientInseminationsTabComponent,
+    PatientVaccineAppointmentTabComponent
+    ]
 
 })
 export class PatientlistModule { }

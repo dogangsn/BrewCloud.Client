@@ -27,6 +27,7 @@ import { TranslocoService } from '@ngneat/transloco';
 export class SettingsCompanyComponent implements OnInit {
     selectedCompany: companyDto;
     companyForm: FormGroup;
+    loader = true;
 
     constructor(private _formBuilder: UntypedFormBuilder,
                 private _companyService: CompanyService,
@@ -71,6 +72,7 @@ export class SettingsCompanyComponent implements OnInit {
                 invoiceNoAutoCreate: selectedCompany.invoiceNoAutoCreate,
                 invoiceSendEMail: selectedCompany.invoiceSendEMail
             });
+            this.loader=false
         }
     }
 
