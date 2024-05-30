@@ -162,7 +162,8 @@ export const endPoints = {
         appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
         updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',
         updateCompletedAppointment : 'vet/Appointment/UpdateCompletedAppointment',
-        getAppointmentDailyList : 'vet/Appointment/GetAppointmentDailyList'
+        getAppointmentDailyList : 'vet/Appointment/GetAppointmentDailyList',
+        updateAppointmentStatus : 'vet/Appointment/UpdateAppointmentStatus'
     },
     title: {
         titleDefinationList : 'account/settings/GetTitleDefination',

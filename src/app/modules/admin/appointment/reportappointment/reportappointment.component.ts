@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportappointmentComponent implements OnInit {
 
+  loader = true;
+
   constructor() { }
 
   ngOnInit() {
+    this.loader = false
   }
 
 }
