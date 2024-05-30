@@ -47,6 +47,7 @@ import { PayChartComponent } from '../customerdetails/dialogs/pay-chart/pay-char
 import { VaccinationCard } from '../customerdetails/dialogs/vaccinationcard/vaccinationcard.component';
 import { EditAppointmentComponent } from '../customerdetails/dialogs/appointment-history/dialogs/edit-appointment.component';
 import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientlist-dialog/patientlist-dialog.component';
+import { SmstransactionsDialogComponent } from '../customerdetails/dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
 
 const root: Route[] = [
     {
@@ -140,7 +141,8 @@ const root: Route[] = [
         AccommodationsTabComponent,
         PatientlistDialogComponent,
         ExaminationTabComponent,
-        VaccineTabComponent
+        VaccineTabComponent,
+        SmstransactionsDialogComponent
         //  DxReportViewerComponent
     ]
 
