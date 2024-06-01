@@ -23,6 +23,7 @@ import { CreateEditCustomersalesComponent } from './dialogs/create-edit-customer
 import { CreateEditDetailspatientsComponent } from './dialogs/create-edit-detailspatients/create-edit-detailspatients.component';
 import { PayChartComponent } from './dialogs/pay-chart/pay-chart.component';
 import { SmstransactionsDialogComponent } from './dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
+import { SalesDialogComponent } from './dialogs/sales-dialog/sales-dialog.component';
 
 @Component({
     selector: 'customerdetails',
@@ -197,7 +198,7 @@ export class CustomerDetailsComponent implements OnInit {
         }
         console.log(model);
         const dialog = this._dialog
-            .open(CreateEditCustomersalesComponent, {
+            .open(SalesDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
                 data: model
@@ -212,24 +213,25 @@ export class CustomerDetailsComponent implements OnInit {
 
     openNewPatients(): void {
 
-        const model = {
-            customerId: this.selectedCustomerId,
-            selectedpatients: null,
-            saveType: 1
-        }
-        console.log(model);
-        const dialog = this._dialog
-            .open(CreateEditDetailspatientsComponent, {
-                maxWidth: '100vw !important',
-                disableClose: true,
-                data: model
-            })
-            .afterClosed()
-            .subscribe((response) => {
-                if (response.status) {
-                    this.getCustomerDetailList();
-                }
-            });
+        // const model = {
+        //     customerId: this.selectedCustomerId,
+        //     selectedpatients: null,
+        //     saveType: 1
+        // }
+        // console.log(model);
+        // const dialog = this._dialog
+        //     .open(CreateEditDetailspatientsComponent, {
+        //         maxWidth: '100vw !important',
+        //         disableClose: true,
+        //         data: model
+        //     })
+        //     .afterClosed()
+        //     .subscribe((response) => {
+        //         if (response.status) {
+        //             this.getCustomerDetailList();
+        //         }
+        //     });
+
     }
 
     addAppointment(): void {

@@ -76,5 +76,9 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.sendMessage, model);
     }
 
+    saleCommand(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.createSaleCommand, model);
+    }
+
 
 }
