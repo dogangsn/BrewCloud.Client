@@ -23,7 +23,7 @@ import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientli
     templateUrl: './customerlist.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class CustomersListComponent implements OnInit, AfterViewInit {
+export class CustomersListComponent implements OnInit {
     displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'actions'];
 
     @ViewChild('paginator') paginator: MatPaginator;
@@ -32,11 +32,7 @@ export class CustomersListComponent implements OnInit, AfterViewInit {
     dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
     loader = true;
     petCount = 3;
-
-    ngAfterViewInit() {
-        this.getCustomerList();
-        this.dataSource.paginator = this.paginator;
-    }
+    items = Array(13);
 
     constructor(private _customerListService: CustomerService,
         private _dialog: MatDialog,
@@ -55,12 +51,16 @@ export class CustomersListComponent implements OnInit, AfterViewInit {
             this.dataSource = new MatTableDataSource<customersListDto>(
                 this.customerlist
             );
-            this.dataSource.paginator = this.paginator;
-
+            // this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                  this.dataSource.paginator = this.paginator;
+                }
+              }, 0);
             this.loader = false;
-
         });
     }
+
 
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();

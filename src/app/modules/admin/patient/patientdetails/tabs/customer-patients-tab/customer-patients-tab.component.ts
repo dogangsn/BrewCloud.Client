@@ -36,10 +36,6 @@ export class CustomerPatientsTabComponent implements OnInit {
     this.getPatients();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
   getPatients(): void {
     const patientModel = {
       id: this.receivedCustomerId,
@@ -49,6 +45,11 @@ export class CustomerPatientsTabComponent implements OnInit {
       next: (response) => {
         this.patientList = response.data;
         this.dataSource.data = this.patientList;
+        setTimeout(() => {
+          if (this.dataSource) {
+            this.dataSource.paginator = this.paginator;
+          }
+        }, 0);
         this.loader = false;
       },
       error: (err) => {

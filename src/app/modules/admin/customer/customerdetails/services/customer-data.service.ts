@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class CustomerDataService {
   customerId: string;
+  patientId: string;
 
   constructor() { }
 
@@ -15,5 +16,13 @@ export class CustomerDataService {
 
   getCustomerId() {
     return this.customerId;
+  }
+
+  setPatientId(id: string) {
+    this.patientId = id;
+  }
+
+  getPatientId() {
+    return this.patientId;
   }
 }

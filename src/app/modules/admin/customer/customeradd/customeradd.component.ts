@@ -261,7 +261,6 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                 );
                 return;
             }
-
             this._customerService.createCustomers(model).subscribe(
                 (response) => {
                     if (response.isSuccessful) {

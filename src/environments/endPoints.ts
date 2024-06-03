@@ -50,6 +50,7 @@ export const endPoints = {
         deleteExamination: 'vet/Patient/DeleteExamination',
         updateExamination: 'vet/Patient/UpdateExamination',
         updateExaminationStatus: 'vet/Patient/UpdateExaminationStatus',
+        getExaminationlistByPatient: 'vet/Patient/getExaminationlistByPatientId',
     },
     
     productdescription:{

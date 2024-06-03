@@ -39,9 +39,7 @@ export class PatientDetailsComponent implements OnInit {
       this.selectedPatientId = params['id'];
       console.log('Müşteri ID:', this.selectedPatientId);
     });
-
-    
-
+    this._customerDataService.setPatientId(this.selectedPatientId);
     this.getPatientDetail();
   }
 
