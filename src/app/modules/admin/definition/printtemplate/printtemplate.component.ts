@@ -12,12 +12,12 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PrinttemplateComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'active', 'templatename', 'actions'];
+  displayedColumns: string[] = ['active', 'templatename', 'actions'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   productcategories: PrintTemplateListDto[] = [];
   dataSource = new MatTableDataSource<PrintTemplateListDto>(
-      this.productcategories
+    this.productcategories
   );
 
   constructor(
@@ -28,19 +28,19 @@ export class PrinttemplateComponent implements OnInit {
   }
 
 
-  
-  addPanelOpen(): void { 
+
+  addPanelOpen(): void {
     const dialog = this._dialog
-        .open(CreateeditPrinttemplateComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: null,
-        })
-        .afterClosed()
-        .subscribe((response) => {
-            if (response.status) { 
-            }
-        });
-}
+      .open(CreateeditPrinttemplateComponent, {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: null,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response.status) {
+        }
+      });
+  }
 
 }

@@ -1,0 +1,17 @@
+.full-width-table {
+    width: 100%;
+  }
+  
+  .paid {
+    color: green;
+  }
+  
+  .unpaid {
+    color: red;
+  }
+
+  .menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

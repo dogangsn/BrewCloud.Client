@@ -39,7 +39,10 @@ export const endPoints = {
         createCollection : 'vet/Customers/CreateCollection',
         getpaychartList : 'vet/Customers/GetPayChartList',
         deletePayChart : 'vet/Customers/DeletePayChart',
-        getPatients: 'vet/Customers/GetPatientsByCustomerId'
+        getPatients: 'vet/Customers/GetPatientsByCustomerId',
+        sendMessage : 'vet/Customers/SendMessage',
+        createSaleCommand : 'vet/Accounting/CreateSale',
+        getSalesCustomerList : 'vet/Customers/GetSalesCustomerList'
 
     },
     examinations:{
@@ -227,6 +230,11 @@ export const endPoints = {
         createStockTracking : 'vet/Definition/CreateStockTracking',
         updateStockTracking : 'vet/Definition/UpdateStockTracking',
         deleteStockTracking :'vet/Definition/DeleteStockTracking'
-
+    },
+    smstemplate : {
+        getSmsTemplate :'vet/Definition/GetSmsTemplateList',
+        createSmsTemplate : 'vet/Definition/CreateSmsTemplate',
+        updateSmsTemplate : 'vet/Definition/UpdateSmsTemplate',
+        deleteSmsTemplate :'vet/Definition/DeleteSmsTemplate',
     }
 }

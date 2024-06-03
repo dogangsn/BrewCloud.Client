@@ -61,7 +61,7 @@
             <button class="ml-3" mat-stroked-button [matMenuTriggerFor]="menus"><mat-icon
                     svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
             <mat-menu #menus="matMenu">
-                <button mat-menu-item>SMS Gönder</button>
+                <button mat-menu-item (click)="smstransactions()">SMS Gönder</button>
                 <button mat-menu-item>Whatsapp Mesaj Gönder</button>
             </mat-menu>
 
@@ -374,6 +374,10 @@
 
             <mat-tab label="Konaklama">
                 <app-accommodations-tab></app-accommodations-tab>
+            </mat-tab>
+
+            <mat-tab label="Satışlar">
+                <app-sales-tab></app-sales-tab>
             </mat-tab>
 
             <mat-tab label="Ödeme Tablosu">

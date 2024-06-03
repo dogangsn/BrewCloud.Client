@@ -48,6 +48,10 @@ import { VaccinationCard } from '../customerdetails/dialogs/vaccinationcard/vacc
 import { EditAppointmentComponent } from '../customerdetails/dialogs/appointment-history/dialogs/edit-appointment.component';
 import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientlist-dialog/patientlist-dialog.component';
 import { SmstransactionsDialogComponent } from '../customerdetails/dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
+import { SalesDialogComponent } from '../customerdetails/dialogs/sales-dialog/sales-dialog.component';
+import { SalesTabComponent } from '../customerdetails/tabs/sales-tab/sales-tab.component';
+
+
 
 const root: Route[] = [
     {
@@ -142,7 +146,9 @@ const root: Route[] = [
         PatientlistDialogComponent,
         ExaminationTabComponent,
         VaccineTabComponent,
-        SmstransactionsDialogComponent
+        SmstransactionsDialogComponent,
+        SalesDialogComponent,
+        SalesTabComponent
         //  DxReportViewerComponent
     ]
 
