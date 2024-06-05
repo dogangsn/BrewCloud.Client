@@ -10,4 +10,5 @@ export class PayChartListDto {
     appointmentId: string;
     paymentName: string;
     saleBuyId : string;
+    remark : string;
 }

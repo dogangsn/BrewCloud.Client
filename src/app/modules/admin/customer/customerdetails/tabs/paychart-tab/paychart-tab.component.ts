@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
@@ -10,6 +10,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { PayChartListDto } from '../../dialogs/pay-chart/model/PayChartListDto';
 import { CustomerDataService } from '../../services/customer-data.service';
+import { CreateEditSalesComponent } from '../../dialogs/collection/create-edit-sales/create-edit-sales.component';
 
 @Component({
     selector: 'app-pay-chart-tab',
@@ -21,7 +22,7 @@ export class PayChartTabComponent implements OnInit {
     displayedColumns: string[] = [
         'date',
         'credit',
-        'paid', 
+        'paid',
         'paymentName',
         'actions',
     ];
@@ -35,6 +36,7 @@ export class PayChartTabComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _customerService: CustomerService,
         private _customerDataService: CustomerDataService,
+        private _dialog: MatDialog,
     ) {
     }
 
@@ -77,6 +79,32 @@ export class PayChartTabComponent implements OnInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
+    public redirectToUpdate = (id: string) => {
+
+        const item = this.payChartList.find((item) => item.id === id);
+        if (item) {
+            const model = {
+                customerId: this.customerId,
+                saleOwnerId: item.saleBuyId,
+                amount: 0,
+                data : item
+              }
+              console.log(model);
+              const dialog = this._dialog
+                .open(CreateEditSalesComponent, {
+                  maxWidth: '100vw !important',
+                  disableClose: true,
+                  data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                  if (response.status) {
+                    this.getPaymentTransactiopnList();
+                  }
+                });
+        
+        }
+    };
 
     public redirectToDelete = (id: string) => {
         const sweetAlertDto = new SweetAlertDto(
@@ -114,6 +142,6 @@ export class PayChartTabComponent implements OnInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
-      }
+    }
 
 }

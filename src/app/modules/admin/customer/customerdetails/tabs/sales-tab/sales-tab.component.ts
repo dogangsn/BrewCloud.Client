@@ -84,11 +84,11 @@ export class SalesTabComponent implements OnInit {
 
     this._customerService.getSalesCustomerList(model).subscribe({
       next: (response) => {
-        this.salesCustomerLis = response.data; 
+        this.salesCustomerLis = response.data;
         this.dataSource = new MatTableDataSource<SalesCustomerListDto>(
           this.salesCustomerLis
-      );
-        
+        );
+
         this.dataSource.paginator = this.paginator;
 
       },
@@ -139,7 +139,8 @@ export class SalesTabComponent implements OnInit {
       const model = {
         customerId: this.receivedCustomerId,
         saleOwnerId: item.saleOwnerId,
-        amount: item.rameiningBalance
+        amount: item.rameiningBalance,
+        data : null
       }
       console.log(model);
       const dialog = this._dialog
@@ -199,20 +200,20 @@ export class SalesTabComponent implements OnInit {
   public openPayChart = (id: string) => {
     const model = {
       customerId: this.receivedCustomerId,
-      saleBuyId : id
-  }
-  console.log(model);
-  const dialog = this._dialog
+      saleBuyId: id
+    }
+    console.log(model);
+    const dialog = this._dialog
       .open(PayChartComponent, {
-          maxWidth: '100vw !important',
-          disableClose: true,
-          data: model
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: model
       })
       .afterClosed()
       .subscribe((response) => {
-          if (response.status) {
-              // this.getCustomerList();
-          }
+        if (response.status) {
+          // this.getCustomerList();
+        }
       });
   }
 

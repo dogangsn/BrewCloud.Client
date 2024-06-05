@@ -58,6 +58,7 @@ export class CreateEditSalesComponent implements OnInit {
         private _taxisService: TaxisService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        this.selectedgetsales = data.data;
         this.selectedCustomerId = data.customerId;
         this.selectedItemSellingPrice = data.amount;
         this.selectedSaleOwnerId = data.saleOwnerId;
@@ -65,13 +66,24 @@ export class CreateEditSalesComponent implements OnInit {
 
     ngOnInit() {
         this.paymentsList();
-
         this.sales = this._formBuilder.group({
             date: new FormControl(new Date()),
             paymenttype: [1, Validators.required],
             amount: [this.selectedItemSellingPrice],
             remark: ['']
         });
+        this.fillFormData(this.selectedgetsales);
+    }
+
+    fillFormData(selectedgetsales: any) {
+        if (this.selectedgetsales !== null) {
+            this.sales.setValue({
+                date: selectedgetsales.date,
+                paymenttype: selectedgetsales.paymetntId,
+                amount : selectedgetsales.credit,
+                remark : selectedgetsales.remark
+            });
+        }
     }
 
     addOrUpdateSales(): void {
@@ -149,7 +161,6 @@ export class CreateEditSalesComponent implements OnInit {
         }
     }
 
-
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
@@ -161,6 +172,5 @@ export class CreateEditSalesComponent implements OnInit {
     getFormValueByName(formName: string): any {
         return this.sales.get(formName).value;
     }
-
 
 }
