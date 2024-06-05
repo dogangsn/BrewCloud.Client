@@ -6,9 +6,9 @@
       <td mat-cell *matCellDef="let element"> {{ formatDate(element.date) }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="debit">
+    <ng-container matColumnDef="credit">
       <th mat-header-cell *matHeaderCellDef> Borç Tutarı</th>
-      <td mat-cell *matCellDef="let element"> {{element.debit}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.credit}} </td>
     </ng-container>
 
     <ng-container matColumnDef="paid">
@@ -33,13 +33,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> İşlemler </th>
       <td mat-cell *matCellDef="let element">
-      
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
         <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="redirectToPrint(element.id)">
-          <mat-icon aria-label="Print">print</mat-icon>
-        </button>
+
         <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
           <mat-icon class="mat-icons">more_vert</mat-icon>
         </button>

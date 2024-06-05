@@ -20,7 +20,7 @@ export class PayChartTabComponent implements OnInit {
 
     displayedColumns: string[] = [
         'date',
-        'debit',
+        'credit',
         'paid', 
         'paymentName',
         'actions',

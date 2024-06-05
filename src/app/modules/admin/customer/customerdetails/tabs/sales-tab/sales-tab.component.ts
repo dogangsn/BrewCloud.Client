@@ -12,6 +12,8 @@ import { EventService } from '../../services/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditSalesComponent } from '../../dialogs/collection/create-edit-sales/create-edit-sales.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { PayChartComponent } from '../../dialogs/pay-chart/pay-chart.component';
 
 @Component({
   selector: 'app-sales-tab',
@@ -44,12 +46,17 @@ export class SalesTabComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.receivedCustomerId = this._customerDataService.getCustomerId();
+  ngAfterViewInit() {
     this.getSalesCustomerList();
+
     this.customerDetailsComponent.salesAdded.subscribe(() => {
       this.refreshSalesTab();
     });
+  }
+
+  ngOnInit() {
+    this.receivedCustomerId = this._customerDataService.getCustomerId();
+
   }
 
   refreshSalesTab(): void {
@@ -61,7 +68,7 @@ export class SalesTabComponent implements OnInit {
       next: (response) => {
         this.salesCustomerLis = response.data;
         this.dataSource = this.salesCustomerLis;
- 
+
       },
       error: (err) => {
         console.error(err);
@@ -69,7 +76,6 @@ export class SalesTabComponent implements OnInit {
       }
     });
   }
-  
 
   getSalesCustomerList(): void {
     const model = {
@@ -78,8 +84,12 @@ export class SalesTabComponent implements OnInit {
 
     this._customerService.getSalesCustomerList(model).subscribe({
       next: (response) => {
-        this.salesCustomerLis = response.data;
-        this.dataSource = this.salesCustomerLis;
+        this.salesCustomerLis = response.data; 
+        this.dataSource = new MatTableDataSource<SalesCustomerListDto>(
+          this.salesCustomerLis
+      );
+        
+        this.dataSource.paginator = this.paginator;
 
       },
       error: (err) => {
@@ -186,6 +196,25 @@ export class SalesTabComponent implements OnInit {
     );
   };
 
+  public openPayChart = (id: string) => {
+    const model = {
+      customerId: this.receivedCustomerId,
+      saleBuyId : id
+  }
+  console.log(model);
+  const dialog = this._dialog
+      .open(PayChartComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: model
+      })
+      .afterClosed()
+      .subscribe((response) => {
+          if (response.status) {
+              // this.getCustomerList();
+          }
+      });
+  }
 
 
 }
