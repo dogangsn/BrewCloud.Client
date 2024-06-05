@@ -24,6 +24,7 @@ import { CreateEditDetailspatientsComponent } from './dialogs/create-edit-detail
 import { PayChartComponent } from './dialogs/pay-chart/pay-chart.component';
 import { SmstransactionsDialogComponent } from './dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
 import { SalesDialogComponent } from './dialogs/sales-dialog/sales-dialog.component';
+import { EventService } from './services/event.service';
 
 @Component({
     selector: 'customerdetails',
@@ -31,9 +32,8 @@ import { SalesDialogComponent } from './dialogs/sales-dialog/sales-dialog.compon
     styleUrls: ['./customerdetails.component.css']
 })
 export class CustomerDetailsComponent implements OnInit {
+    @Output() salesAdded = new EventEmitter<void>();
     @Output() formDataChanged = new EventEmitter<any>();
-    userFirstName: string = "John"; // Kullanıcı adınızı buraya yerine koyun
-    userLastName: string = "Doe"; // Kullanıcı soyadınızı buraya yerine koyun
     customerDetailForm: FormGroup;
     selectedCustomerId: any;
     boards: any[];
@@ -60,7 +60,8 @@ export class CustomerDetailsComponent implements OnInit {
         private _customerService: CustomerService,
         private _translocoService: TranslocoService,
         private _dialog: MatDialog,
-        private _customerDataService: CustomerDataService
+        private _customerDataService: CustomerDataService,
+        private _eventService: EventService
     ) { }
 
     ngOnInit() {
@@ -100,7 +101,11 @@ export class CustomerDetailsComponent implements OnInit {
     // Eğer fotoğrafları lokal olarak saklıyorsanız, assets klasörü içinde uygun bir yere koyabilir ve buradan kullanabilirsiniz.
     //     return `assets/avatars/${initials}.png`; // Örnek: assets/avatars/JD.png
     //   }
-
+    addSale(): void {
+        // Satış eklendiğini belirten bir event emit ediyoruz
+        this.salesAdded.emit();
+      }
+      
     addPanelOpen(): void {
 
         const model = {
@@ -199,13 +204,15 @@ export class CustomerDetailsComponent implements OnInit {
         console.log(model);
         const dialog = this._dialog
             .open(SalesDialogComponent, {
-                maxWidth: '100vw !important',
+                // maxWidth: '100vw !important',
+                minWidth: '800px',
                 disableClose: true,
                 data: model
             })
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
+                    this._eventService.dialogClosed.emit(true);
                     this.getCustomerDetailList();
                 }
             });

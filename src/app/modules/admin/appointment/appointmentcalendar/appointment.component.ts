@@ -78,10 +78,12 @@ export class AppointmentComponent implements OnInit {
         const model = {
             visibleCustomer: true,
         };
+        
 
         const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
-                maxWidth: '100vw !important',
+                // maxWidth: '800vw !important',
+                minWidth: '1000px',
                 disableClose: true,
                 data: model,
             })

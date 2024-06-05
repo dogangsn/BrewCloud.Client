@@ -39,6 +39,7 @@ import {
 import { DxCheckBoxModule, DxSchedulerModule, DxSelectBoxModule } from 'devextreme-angular';
 import { DxDateBoxModule } from 'devextreme-angular';
 import {MatCardModule} from '@angular/material/card';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const root: Route[] = [
     {
@@ -79,7 +80,8 @@ const root: Route[] = [
         DxSchedulerModule,
         MatCardModule,
         DxDateBoxModule,
-        DxCheckBoxModule
+        DxCheckBoxModule,
+        DragDropModule
     ],
     declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
 })

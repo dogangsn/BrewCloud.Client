@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { EventService } from './../../services/event.service';
+import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SalesDto } from './models/salesDto';
@@ -17,6 +18,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -48,6 +50,8 @@ export const MY_FORMATS = {
 })
 export class SalesDialogComponent implements OnInit {
 
+  @Output() salesAdded = new EventEmitter<any>();
+
   displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
   dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' }];
 
@@ -67,7 +71,8 @@ export class SalesDialogComponent implements OnInit {
     private _taxisService: TaxisService,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private eventService: EventService
   ) {
     this.selectedCustomerId = data.customerId;
    }
@@ -99,7 +104,6 @@ export class SalesDialogComponent implements OnInit {
     });
 
   }
-
 
   onProductSelectionChange(element: SalesDto): void {
     const selectedProduct = this.products.find(product => product.id === element.product);
@@ -228,7 +232,7 @@ export class SalesDialogComponent implements OnInit {
         }
       );
 
-
+      this.salesAdded.emit();
 
   }
 
