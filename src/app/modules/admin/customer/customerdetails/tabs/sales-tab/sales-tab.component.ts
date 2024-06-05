@@ -47,9 +47,6 @@ export class SalesTabComponent implements OnInit {
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();
     this.getSalesCustomerList();
-    this.customerDetailsComponent.salesAdded.subscribe(() => {
-      this.refreshSalesTab();
-    });
   }
 
   refreshSalesTab(): void {
@@ -61,6 +58,7 @@ export class SalesTabComponent implements OnInit {
       next: (response) => {
         this.salesCustomerLis = response.data;
         this.dataSource = this.salesCustomerLis;
+        
  
       },
       error: (err) => {

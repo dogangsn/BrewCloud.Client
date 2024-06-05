@@ -9,6 +9,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
+import { ExaminationAddDialogComponent } from 'app/modules/admin/patient/examination/examination-add-dialog/examination-add-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-examination-tab',
@@ -31,6 +33,7 @@ export class ExaminationTabComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   receivedCustomerId: string;
   loader = true;
+  isUpdateButtonActive: boolean = false;
 
   examinationList: ExaminationListDto[] = [];
   dataSource = new MatTableDataSource<ExaminationListDto>(
@@ -40,7 +43,8 @@ export class ExaminationTabComponent implements OnInit {
   constructor(
     private _examinationService: ExaminationService,
     private _customerDataService: CustomerDataService,
-    private _translocoService: TranslocoService
+    private _translocoService: TranslocoService,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -64,11 +68,37 @@ export class ExaminationTabComponent implements OnInit {
       this.dataSource = new MatTableDataSource<ExaminationListDto>(
         this.examinationList
       );
-      this.dataSource.paginator = this.paginator;
-
+      setTimeout(() => {
+        if (this.dataSource) {
+          this.dataSource.paginator = this.paginator;
+        }
+      }, 0);
       this.loader = false;
     });
   }
+
+  public redirectToUpdatePatientTab = (id: string) => {
+    this.isUpdateButtonActive = true;
+
+    const selectedExamination = this.examinationList.find(
+        (x) => x.id === id
+    );
+    var model = {
+        id: selectedExamination.id,
+    };
+    if (selectedExamination) {
+        const dialogRef = this._dialog.open(ExaminationAddDialogComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: selectedExamination.id,
+        });
+        dialogRef.afterClosed().subscribe((response) => {
+            if (response.status) {
+                this.getExaminationList();
+            }
+        });
+    }
+};
 
 
   formatDate(date: string): string {
