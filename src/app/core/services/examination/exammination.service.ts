@@ -18,6 +18,10 @@ export class ExaminationService {
         return this._httpService.post(endPoints.examinations.getExamination, model);
     }
 
+    getExaminationlistByPatientId(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.getExaminationlistByPatient, model);
+    }
+
     createExamination(model: any): Observable<any> {
         return this._httpService.post(endPoints.examinations.createExamination, model);
     }

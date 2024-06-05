@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
@@ -26,6 +26,7 @@ export class PatientlistComponent implements OnInit {
     patientList: PatientOwnerListDto[] = [];
     dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
     loader: boolean = true;
+    items = Array(13);
 
     constructor(
         private _dialog: MatDialog,
@@ -38,20 +39,19 @@ export class PatientlistComponent implements OnInit {
         this.patientOwnerList();
     }
 
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-    }
-
 
     patientOwnerList() {
         this._patientService.gtPatientList().subscribe((response) => {
             this.patientList = response.data;
-
             this.dataSource = new MatTableDataSource<PatientOwnerListDto>(
                 this.patientList
             );
-            this.loader=false
-            this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                  this.dataSource.paginator = this.paginator;
+                }
+              }, 0);
+              this.loader = false;
         });
     }
 
