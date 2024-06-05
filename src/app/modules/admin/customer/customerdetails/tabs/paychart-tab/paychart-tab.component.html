@@ -6,9 +6,9 @@
       <td mat-cell *matCellDef="let element"> {{ formatDate(element.date) }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="debit">
+    <ng-container matColumnDef="credit">
       <th mat-header-cell *matHeaderCellDef> Borç Tutarı</th>
-      <td mat-cell *matCellDef="let element"> {{element.debit}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.credit}} </td>
     </ng-container>
 
     <ng-container matColumnDef="paid">
@@ -21,9 +21,9 @@
         <td mat-cell *matCellDef="let element"> {{element.totalPaid}} </td>
       </ng-container> -->
 
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef> Kalan bakiye </th>
-      <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+    <ng-container matColumnDef="paymentName">
+      <th mat-header-cell *matHeaderCellDef> Ödeme Yöntemi </th>
+      <td mat-cell *matCellDef="let element"> {{element.paymentName}} </td>
     </ng-container>
 
 
@@ -33,8 +33,14 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> İşlemler </th>
       <td mat-cell *matCellDef="let element">
-      
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
           <mat-icon class="mat-icons">more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -50,7 +56,9 @@
             <mat-icon aria-label="Print">print</mat-icon>
             <span>Yazdır</span>
           </button>
-        </mat-menu>
+        </mat-menu> -->
+
+
       </td>
     </ng-container>
   </table>

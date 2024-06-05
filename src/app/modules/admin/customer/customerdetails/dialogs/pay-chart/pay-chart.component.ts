@@ -32,6 +32,8 @@ export class PayChartComponent implements OnInit {
     payChartList: PayChartListDto[] = [];
     dataSource = new MatTableDataSource<any>(this.payChartList);
 
+    selectedsaleId : any;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
@@ -39,7 +41,8 @@ export class PayChartComponent implements OnInit {
         private _customerService: CustomerService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.selectedCustomerId = data;
+        this.selectedCustomerId = data.customerId;
+        this.selectedsaleId = data.saleBuyId
     }
 
     ngOnInit() { 
@@ -47,21 +50,19 @@ export class PayChartComponent implements OnInit {
     }
 
     getPaymentTransactiopnList() {
-
         const model = {
-            CustomerId: this.selectedCustomerId.customerId
+            CustomerId: this.selectedCustomerId
         }
-
         this._customerService
             .getPayChartList(model)
             .subscribe((response) => {
                 this.payChartList = response.data;
+                this.payChartList = this.payChartList.filter(x=>x.saleBuyId == this.selectedsaleId);
+
                 this.dataSource = new MatTableDataSource<PayChartListDto>(
                     this.payChartList
                 );
-    
                 this.dataSource.paginator = this.paginator;
-
             });
     }
 

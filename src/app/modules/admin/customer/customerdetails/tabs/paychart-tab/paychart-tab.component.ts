@@ -20,9 +20,9 @@ export class PayChartTabComponent implements OnInit {
 
     displayedColumns: string[] = [
         'date',
-        'debit',
-        'paid',
-        'total',
+        'credit',
+        'paid', 
+        'paymentName',
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;
