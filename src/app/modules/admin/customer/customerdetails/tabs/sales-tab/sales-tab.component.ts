@@ -7,6 +7,8 @@ import { SalesCustomerListDto } from './models/salesCustomerListDto';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { CustomerDetailsComponent } from '../../customerdetails.component';
+import { EventService } from '../../services/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditSalesComponent } from '../../dialogs/collection/create-edit-sales/create-edit-sales.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
@@ -29,16 +31,45 @@ export class SalesTabComponent implements OnInit {
     private _customerDataService: CustomerDataService,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
+    private customerDetailsComponent: CustomerDetailsComponent,
+    private eventService: EventService,
     private _dialog: MatDialog,
     private _salebuyservice: SaleBuyService
   ) {
+    this.eventService.dialogClosed.subscribe((status: boolean) => {
+      if (status) {
+        this.refreshSalesTab();
+      }
+    });
 
   }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();
     this.getSalesCustomerList();
+    this.customerDetailsComponent.salesAdded.subscribe(() => {
+      this.refreshSalesTab();
+    });
   }
+
+  refreshSalesTab(): void {
+    const model = {
+      customerId: this.receivedCustomerId,
+    };
+
+    this._customerService.getSalesCustomerList(model).subscribe({
+      next: (response) => {
+        this.salesCustomerLis = response.data;
+        this.dataSource = this.salesCustomerLis;
+ 
+      },
+      error: (err) => {
+        console.error(err);
+        this.showSweetAlert('error', 'Failed to load patient data.');
+      }
+    });
+  }
+  
 
   getSalesCustomerList(): void {
     const model = {
