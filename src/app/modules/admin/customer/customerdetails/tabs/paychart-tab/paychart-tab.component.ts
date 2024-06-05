@@ -7,7 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto'; 
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { PayChartListDto } from '../../dialogs/pay-chart/model/PayChartListDto';
 import { CustomerDataService } from '../../services/customer-data.service';
 
@@ -17,13 +17,12 @@ import { CustomerDataService } from '../../services/customer-data.service';
     styleUrls: ['./paychart-tab.component.scss'],
 })
 export class PayChartTabComponent implements OnInit {
- 
+
     displayedColumns: string[] = [
         'date',
-        'operation',
         'debit',
         'paid',
-        'total', 
+        'total',
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;
@@ -32,16 +31,16 @@ export class PayChartTabComponent implements OnInit {
     dataSource = new MatTableDataSource<any>(this.payChartList);
 
     constructor(
-        private _formBuilder: FormBuilder, 
+        private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
         private _customerService: CustomerService,
         private _customerDataService: CustomerDataService,
-    ) { 
+    ) {
     }
 
-    ngOnInit() { 
-        this.customerId = this._customerDataService.getCustomerId(); 
-      
+    ngOnInit() {
+        this.customerId = this._customerDataService.getCustomerId();
+
     }
 
     ngAfterViewInit() {
@@ -61,7 +60,7 @@ export class PayChartTabComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<PayChartListDto>(
                     this.payChartList
                 );
-    
+
                 this.dataSource.paginator = this.paginator;
 
             });
@@ -77,5 +76,44 @@ export class PayChartTabComponent implements OnInit {
         };
         return new Date(date).toLocaleString('tr-TR', options);
     }
+
+
+    public redirectToDelete = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const model = {
+                        id: id,
+                    };
+                    this._customerService
+                        .deletePayChart(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getPaymentTransactiopnList();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate(
+                                        'sweetalert.transactionSuccessful'
+                                    ),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
+                }
+            }
+        );
+    };
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+      }
 
 }

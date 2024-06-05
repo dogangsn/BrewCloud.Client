@@ -5,5 +5,5 @@ export class SalesCustomerListDto {
   salesContent: string;
   amount: number;  
   collection: number; 
-  remainingBalance: number;
+  rameiningBalance: number;
 }

@@ -84,5 +84,12 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.getSalesCustomerList, model);
     }
 
+    CreateSaleCollection(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.createSaleCollection, model);
+    }
+
+    eleteCollection(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.deleteCollection, model);
+    }
 
 }

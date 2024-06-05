@@ -50,6 +50,7 @@ import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientli
 import { SmstransactionsDialogComponent } from '../customerdetails/dialogs/messege/smstransactions-dialog/smstransactions-dialog.component';
 import { SalesDialogComponent } from '../customerdetails/dialogs/sales-dialog/sales-dialog.component';
 import { SalesTabComponent } from '../customerdetails/tabs/sales-tab/sales-tab.component';
+import { CreateEditSalesComponent } from '../customerdetails/dialogs/collection/create-edit-sales/create-edit-sales.component';
 
 
 
@@ -148,7 +149,8 @@ const root: Route[] = [
         VaccineTabComponent,
         SmstransactionsDialogComponent,
         SalesDialogComponent,
-        SalesTabComponent
+        SalesTabComponent,
+        CreateEditSalesComponent
         //  DxReportViewerComponent
     ]
 

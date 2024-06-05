@@ -42,8 +42,9 @@ export const endPoints = {
         getPatients: 'vet/Customers/GetPatientsByCustomerId',
         sendMessage : 'vet/Customers/SendMessage',
         createSaleCommand : 'vet/Accounting/CreateSale',
-        getSalesCustomerList : 'vet/Customers/GetSalesCustomerList'
-
+        getSalesCustomerList : 'vet/Customers/GetSalesCustomerList',
+        createSaleCollection : 'vet/Accounting/CreateSaleCollection',
+        deleteCollection : 'vet/Accounting/DeleteCollectionCommand'
     },
     examinations:{
         examinationlist: 'vet/Patient/GetExaminations',

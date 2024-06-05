@@ -9,6 +9,9 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { CustomerDetailsComponent } from '../../customerdetails.component';
 import { EventService } from '../../services/event.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateEditSalesComponent } from '../../dialogs/collection/create-edit-sales/create-edit-sales.component';
+import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 
 @Component({
   selector: 'app-sales-tab',
@@ -22,20 +25,23 @@ export class SalesTabComponent implements OnInit {
   displayedColumns: string[] = ['salesContent', 'amount', 'collection', 'rameiningBalance', 'actions'];
   dataSource: any;
   receivedCustomerId: string;
-  salesCustomerLis : SalesCustomerListDto[] = [];
+  salesCustomerLis: SalesCustomerListDto[] = [];
 
   constructor(
     private _customerDataService: CustomerDataService,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
     private customerDetailsComponent: CustomerDetailsComponent,
-    private eventService: EventService
+    private eventService: EventService,
+    private _dialog: MatDialog,
+    private _salebuyservice: SaleBuyService
   ) {
     this.eventService.dialogClosed.subscribe((status: boolean) => {
       if (status) {
         this.refreshSalesTab();
       }
     });
+
   }
 
   ngOnInit() {
@@ -63,6 +69,7 @@ export class SalesTabComponent implements OnInit {
       }
     });
   }
+  
 
   getSalesCustomerList(): void {
     const model = {
@@ -73,7 +80,7 @@ export class SalesTabComponent implements OnInit {
       next: (response) => {
         this.salesCustomerLis = response.data;
         this.dataSource = this.salesCustomerLis;
- 
+
       },
       error: (err) => {
         console.error(err);
@@ -113,6 +120,72 @@ export class SalesTabComponent implements OnInit {
     };
     return new Date(date).toLocaleString('tr-TR', options);
   }
+
+  opencreateeditsales = (id: string) => {
+
+    const item = this.salesCustomerLis.find(x => x.saleOwnerId == id)
+    if (item != null) {
+
+      const model = {
+        customerId: this.receivedCustomerId,
+        saleOwnerId: item.saleOwnerId,
+        amount: item.rameiningBalance
+      }
+      console.log(model);
+      const dialog = this._dialog
+        .open(CreateEditSalesComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: model
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            this.getSalesCustomerList();
+          }
+        });
+
+
+    }
+
+
+  }
+
+
+  public redirectToDelete = (id: string) => {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const model = {
+            id: id,
+          };
+          this._salebuyservice
+            .deletedSaleBuy(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getSalesCustomerList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate(
+                    'sweetalert.transactionSuccessful'
+                  ),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                console.error('Silme işlemi başarısız.');
+              }
+            });
+        }
+      }
+    );
+  };
+
 
 
 }
