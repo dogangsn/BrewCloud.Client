@@ -78,6 +78,7 @@ export class ExaminationAddDialogComponent implements OnInit {
         private _examinationService: ExaminationService,
         private _patientListService: PatientListService,
         @Inject(MAT_DIALOG_DATA) public data: string
+        
     ) {
         this.selectedExaminationId = data;
 
@@ -91,6 +92,7 @@ export class ExaminationAddDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        debugger
         zip(
             this.getCustomerList(),
             this.getSymptomsList(),

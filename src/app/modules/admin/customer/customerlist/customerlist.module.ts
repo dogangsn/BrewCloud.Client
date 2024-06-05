@@ -51,6 +51,7 @@ import { SmstransactionsDialogComponent } from '../customerdetails/dialogs/messe
 import { SalesDialogComponent } from '../customerdetails/dialogs/sales-dialog/sales-dialog.component';
 import { SalesTabComponent } from '../customerdetails/tabs/sales-tab/sales-tab.component';
 import { CreateEditSalesComponent } from '../customerdetails/dialogs/collection/create-edit-sales/create-edit-sales.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 
@@ -124,6 +125,7 @@ const root: Route[] = [
         DxDateBoxModule,
         DxCheckBoxModule,
         MatTabsModule,
+        MatChipsModule,
         MatBadgeModule,
         RouterModule.forChild(root),
     ],

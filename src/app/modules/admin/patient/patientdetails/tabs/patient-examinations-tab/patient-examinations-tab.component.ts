@@ -64,7 +64,6 @@ export class PatientExaminationsTabComponent implements OnInit {
           this.dataSource = new MatTableDataSource<ExaminationListDto>(
               this.examinationList
           );
-          debugger
           setTimeout(() => {
             if (this.dataSource) {
               this.dataSource.paginator = this.paginator;
