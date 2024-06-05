@@ -15,3 +15,10 @@
     align-items: center;
     justify-content: center;
   }
+
+  .button-container {
+    flex: 1; /* Container'ı tam genişliğe genişlet */
+    display: flex; /* Flexbox layout'u etkinleştir */
+     /* Butonları yatay olarak ortala */
+    align-items: center; /* Butonları dikey olarak ortala (isteğe bağlı) */
+  }

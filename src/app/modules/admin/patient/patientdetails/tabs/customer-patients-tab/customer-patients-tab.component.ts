@@ -8,6 +8,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerDataService } from 'app/modules/admin/customer/customerdetails/services/customer-data.service';
 import { PatientDetailsDto } from 'app/modules/admin/customer/models/PatientDetailsDto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-patients-tab',
@@ -27,7 +28,8 @@ export class CustomerPatientsTabComponent implements OnInit {
   constructor(
     private _customerDataService: CustomerDataService,
     private _customerService: CustomerService,
-    private _translocoService: TranslocoService
+    private _translocoService: TranslocoService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -92,4 +94,8 @@ export class CustomerPatientsTabComponent implements OnInit {
     };
     return new Date(date).toLocaleString('tr-TR', options);
   }
+  public redirectToUpdate = (id: string) => {
+    console.log(id);
+    this.router.navigate(['/patientslist/patientdetails/', id]);
+};
 }
