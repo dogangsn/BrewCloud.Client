@@ -40,7 +40,7 @@
                   <mat-label>Hasta</mat-label>
                   <mat-select name="patientId" [formControlName]="'patientId'" [placeholder]="'Hasta'">
                     <mat-option>None</mat-option>
-                    <mat-option *ngFor="let item of patientList" [value]="item.recId">{{ item.name }}</mat-option>
+                    <mat-option *ngFor="let item of patientList" [value]="item.id">{{ item.name }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
