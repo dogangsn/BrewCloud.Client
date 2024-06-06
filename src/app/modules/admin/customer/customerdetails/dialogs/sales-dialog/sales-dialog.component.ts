@@ -1,7 +1,7 @@
 import { EventService } from './../../services/event.service';
 import { Component, Inject, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SalesDto } from './models/salesDto';
 import { fuseAnimations } from '@fuse/animations';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,6 +18,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { CreateEditSalesComponent } from '../collection/create-edit-sales/create-edit-sales.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -72,10 +73,11 @@ export class SalesDialogComponent implements OnInit {
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private eventService: EventService
+    private eventService: EventService,
+    private _dialog: MatDialog,
   ) {
     this.selectedCustomerId = data.customerId;
-   }
+  }
 
   ngOnInit() {
 
@@ -150,7 +152,7 @@ export class SalesDialogComponent implements OnInit {
   addOrUpdateSales(): void {
     this.selectedsales
       ? this.updateSales()
-      : this.addSales();
+      : this.addSales(false);
   }
 
   getTaxisList(): Observable<any> {
@@ -200,8 +202,7 @@ export class SalesDialogComponent implements OnInit {
     return this._translocoService.translate(key);
   }
 
-  addSales(): void {
-
+  addSales(isCollection: boolean): void {
     const model = new CreateSaleCommand();
     model.trans = this.dataSource;
     model.remark = this.getFormValueByName('remark');
@@ -211,7 +212,7 @@ export class SalesDialogComponent implements OnInit {
     this._customerService
       .saleCommand(model)
       .subscribe(
-        (response) => { 
+        (response) => {
           if (response.isSuccessful) {
             this.showSweetAlert(
               'success',
@@ -220,6 +221,27 @@ export class SalesDialogComponent implements OnInit {
             this._dialogRef.close({
               status: true,
             });
+
+
+            const modelSale = {
+              customerId: this.selectedCustomerId,
+              saleOwnerId: response.data.id,
+              amount: response.data.amount,
+              data: null
+            }
+            this._dialog
+              .open(CreateEditSalesComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: modelSale
+              })
+              .afterClosed()
+              .subscribe((response) => {
+                if (response.status) {
+                }
+              });
+
+
           } else {
             this.showSweetAlert(
               'error',
@@ -231,13 +253,18 @@ export class SalesDialogComponent implements OnInit {
           console.log(err);
         }
       );
-
-      this.salesAdded.emit();
+    this.salesAdded.emit();
 
   }
 
   updateSales(): void {
 
+  }
+
+  addOrUpdateSalesCollection(): void {
+    this.selectedsales
+      ? this.updateSales()
+      : this.addSales(true);
   }
 
 
