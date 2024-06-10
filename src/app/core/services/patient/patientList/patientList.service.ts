@@ -21,5 +21,8 @@ export class PatientListService {
     getWeightControls(model: any) : Observable<any> {
         return this._httpService.post(endPoints.patient.getWeightControls, model);
     }
+    updatePatientsWeight(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.patient.updatePatientsWeight, model);
+    }
 
 }

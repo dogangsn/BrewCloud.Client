@@ -226,7 +226,8 @@ export const endPoints = {
     patient: {
         getPatientList : 'vet/Patient/GetPatientList',
         getPatientFindById: 'vet/Patient/GetPatientById',
-        getWeightControls: 'vet/Patient/GetWeightControls'
+        getWeightControls: 'vet/Patient/GetWeightControls',
+        updatePatientsWeight: 'vet/Patient/UpdatePatientsWeight'
     },
     stocktracking : {
         getstockTrackingProductFilter : 'vet/Definition/StockTrackingProductFilter',

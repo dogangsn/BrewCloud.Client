@@ -47,6 +47,7 @@ import { PatientInseminationsTabComponent } from '../patientdetails/tabs/patient
 import { PatientVaccineAppointmentTabComponent } from '../patientdetails/tabs/patient-vaccine-appointment-tab/patient-vaccine-appointment-tab.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WightHistoryTabComponent } from '../patientdetails/tabs/wight-history-tab/wight-history-tab.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 const root: Route[] = [
@@ -129,6 +130,7 @@ const root: Route[] = [
     RadioButtonModule,
     ButtonModule,
     CardModule,
+    MatCardModule,
     MatExpansionModule,
     RouterModule.forChild(root),
   ],

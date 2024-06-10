@@ -4,6 +4,11 @@ import { CustomerDataService } from 'app/modules/admin/customer/customerdetails/
 import { WeightControlDto } from '../../models/weightControlDto';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TranslocoService } from '@ngneat/transloco';
+import { MatDialogRef } from '@angular/material/dialog';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
 
 @Component({
   selector: 'app-wight-history-tab',
@@ -14,15 +19,19 @@ export class WightHistoryTabComponent implements OnInit {
 
   recievedPatientId:string;
   weighControls:WeightControlDto[] = [];
+  weight:Number;
 
   dataSource = new MatTableDataSource<WeightControlDto>(this.weighControls);
   @ViewChild('paginator') paginator: MatPaginator;
 
   displayedColumns: string[] = ['weight', 'controlDate'];
+  private _dialogRef: any;
 
   constructor(
     private _customerDataService: CustomerDataService,
-    private _patientService: PatientListService
+    private _patientService: PatientListService,
+    private _translocoService: TranslocoService,
+    // private _dialogRef: MatDialogRef<any>,
   ) { }
 
   ngOnInit() {
@@ -46,11 +55,64 @@ export class WightHistoryTabComponent implements OnInit {
     });
   }
 
-  isWeightIncreased(element: any, index: number): boolean {
-    if (index === 0 || index >= this.weighControls.length) {
-      return element.weight > this.weighControls[index + 1].weight;;
+  updateWeight() {
+    const model = {
+      PatientId: this.recievedPatientId,
+      Weight:this.weight
     }
-    return element.weight > this.weighControls[index - 1].weight;
+    this._patientService.updatePatientsWeight(model).subscribe(
+      (response) => {
+          if (response.isSuccessful) {
+            this.getAccommodationsList();
+              this.showSweetAlert('success');
+              this._dialogRef.close({
+                  status: true,
+              });
+          } else {
+              this.showSweetAlert('error');
+          }
+      },
+      (err) => {
+          console.log(err);
+      }
+  );
+  }
+
+  translate(key: string): any {
+    return this._translocoService.translate(key);
+}
+
+  showSweetAlert(type: string): void {
+    if (type === 'success') {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.success'),
+            this.translate('sweetalert.transactionSuccessful'),
+            SweetalertType.success
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.error'),
+            this.translate('sweetalert.transactionFailed'),
+            SweetalertType.error
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    }
+}
+
+  isWeightIncreased(element: any, index: number): boolean {
+    if (index === this.weighControls.length - 1) {
+      return false
+    }
+    return element.weight > this.weighControls[index + 1].weight;
+  }
+
+  isWeightdecrease(element: any, index: number): boolean {
+    debugger
+    if (index === this.weighControls.length - 1) {
+      return false;
+    }
+    return element.weight < this.weighControls[index + 1].weight;
   }
   
   formatDate(date: string): string {
