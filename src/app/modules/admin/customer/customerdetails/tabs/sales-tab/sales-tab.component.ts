@@ -14,6 +14,9 @@ import { CreateEditSalesComponent } from '../../dialogs/collection/create-edit-s
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { PayChartComponent } from '../../dialogs/pay-chart/pay-chart.component';
+import { SalesDialogComponent } from '../../dialogs/sales-dialog/sales-dialog.component';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
+import { getSalesOwnerByIdList } from '../../dialogs/sales-dialog/models/getSalesOwnerByIdList.';
 
 @Component({
   selector: 'app-sales-tab',
@@ -28,6 +31,9 @@ export class SalesTabComponent implements OnInit {
   dataSource: any;
   receivedCustomerId: string;
   salesCustomerLis: SalesCustomerListDto[] = [];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  salesOwnerByIdList: getSalesOwnerByIdList;
 
   constructor(
     private _customerDataService: CustomerDataService,
@@ -140,7 +146,7 @@ export class SalesTabComponent implements OnInit {
         customerId: this.receivedCustomerId,
         saleOwnerId: item.saleOwnerId,
         amount: item.rameiningBalance,
-        data : null
+        data: null
       }
       console.log(model);
       const dialog = this._dialog
@@ -162,6 +168,56 @@ export class SalesTabComponent implements OnInit {
 
   }
 
+  public redirectToUpdate = (id: string) => {
+
+    const model = {
+      customerId: this.receivedCustomerId,
+      data: null
+    }
+
+    const item = this.salesCustomerLis.find((x) => x.saleOwnerId === id);
+    if (item) {
+
+      const saleModel = {
+        Id: item.saleOwnerId
+      }
+
+      zip(
+        this.getSalesByIdQuery(saleModel)
+      ).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (value) => {
+          this.setSaleByIdQuery(value[0])
+        },
+        error: (e) => {
+          console.log(e);
+        },
+        complete: () => {
+
+          if (this.salesOwnerByIdList) {
+            model.data = this.salesOwnerByIdList;
+            const dialogRef = this._dialog.open(
+              SalesDialogComponent,
+              {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+              }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+              if (response.status) {
+                this.getSalesCustomerList();
+              }
+            });
+          }
+
+        }
+      })
+    };
+
+
+  };
 
   public redirectToDelete = (id: string) => {
     const sweetAlertDto = new SweetAlertDto(
@@ -216,6 +272,20 @@ export class SalesTabComponent implements OnInit {
         }
       });
   }
+
+  getSalesByIdQuery(model: any): Observable<any> {
+    return this._customerService.getSalesByIdQuery(model);
+  }
+
+  setSaleByIdQuery(response: any) {
+    if (response.data) {
+      this.salesOwnerByIdList = response.data;
+    }
+  }
+
+
+
+
 
 
 }

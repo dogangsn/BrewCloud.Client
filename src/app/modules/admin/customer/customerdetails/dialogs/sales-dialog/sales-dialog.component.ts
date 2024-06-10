@@ -19,6 +19,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreateEditSalesComponent } from '../collection/create-edit-sales/create-edit-sales.component';
+import { UpdateSaleCommand } from './models/UpdateSaleCommand';
 
 export const MY_FORMATS = {
   parse: {
@@ -77,6 +78,7 @@ export class SalesDialogComponent implements OnInit {
     private _dialog: MatDialog,
   ) {
     this.selectedCustomerId = data.customerId;
+    this.selectedsales = data.data
   }
 
   ngOnInit() {
@@ -95,10 +97,9 @@ export class SalesDialogComponent implements OnInit {
         console.log(e);
       },
       complete: () => {
-        //this.fillFormData(this.selectedProductdescription);
+        this.fillFormData(this.selectedsales);
       }
     });
-
 
     this.formGroup = this._formBuilder.group({
       date: new FormControl(new Date()),
@@ -106,6 +107,20 @@ export class SalesDialogComponent implements OnInit {
     });
 
   }
+
+  fillFormData(selectSales: any) {
+
+    if (this.selectedsales !== null) {
+      this.formGroup.setValue({
+        date: selectSales.date,
+        remark: selectSales.remark
+      });
+      this.dataSource = [];
+      this.dataSource = selectSales.trans;
+      this.calculateTotalAmount();
+    }
+  }
+
 
   onProductSelectionChange(element: SalesDto): void {
     const selectedProduct = this.products.find(product => product.id === element.product);
@@ -222,24 +237,26 @@ export class SalesDialogComponent implements OnInit {
               status: true,
             });
 
+            if (isCollection) {
+              const modelSale = {
+                customerId: this.selectedCustomerId,
+                saleOwnerId: response.data.id,
+                amount: response.data.amount,
+                data: null
+              }
+              this._dialog
+                .open(CreateEditSalesComponent, {
+                  maxWidth: '100vw !important',
+                  disableClose: true,
+                  data: modelSale
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                  if (response.status) {
+                  }
+                });
 
-            const modelSale = {
-              customerId: this.selectedCustomerId,
-              saleOwnerId: response.data.id,
-              amount: response.data.amount,
-              data: null
             }
-            this._dialog
-              .open(CreateEditSalesComponent, {
-                maxWidth: '100vw !important',
-                disableClose: true,
-                data: modelSale
-              })
-              .afterClosed()
-              .subscribe((response) => {
-                if (response.status) {
-                }
-              });
 
 
           } else {
@@ -258,6 +275,37 @@ export class SalesDialogComponent implements OnInit {
   }
 
   updateSales(): void {
+    const model = new UpdateSaleCommand();
+    model.id = this.selectedsales.id;
+    model.trans = this.dataSource;
+    model.remark = this.getFormValueByName('remark');
+    model.date = this.getFormValueByName('date');
+
+    this._customerService
+      .updateSale(model)
+      .subscribe(
+        (response) => {
+          if (response.isSuccessful) {
+            this.showSweetAlert(
+              'success',
+              'sweetalert.transactionSuccessful'
+            );
+            this._dialogRef.close({
+              status: true,
+            });
+
+          } else {
+            this.showSweetAlert(
+              'error',
+              'sweetalert.transactionFailed'
+            );
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    this.salesAdded.emit();
 
   }
 

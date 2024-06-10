@@ -24,6 +24,7 @@ export class PayChartTabComponent implements OnInit {
         'credit',
         'paid',
         'paymentName',
+        'remark',
         'actions',
     ];
     @ViewChild('paginator') paginator: MatPaginator;

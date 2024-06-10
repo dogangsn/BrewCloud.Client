@@ -77,7 +77,7 @@ export class CustomerService {
     }
 
     saleCommand(model: any) : Observable<any> {
-        return this._httpService.post(endPoints.customers.createSaleCommand, model);
+        return this._httpService.post(endPoints.customers.createSale, model);
     }
 
     getSalesCustomerList(model: any) : Observable<any> {
@@ -90,6 +90,14 @@ export class CustomerService {
 
     eleteCollection(model: any) : Observable<any> {
         return this._httpService.post(endPoints.customers.deleteCollection, model);
+    }
+
+    getSalesByIdQuery(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.getSalesById, model);
+    }
+
+    updateSale(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.updateSale, model);
     }
 
 }

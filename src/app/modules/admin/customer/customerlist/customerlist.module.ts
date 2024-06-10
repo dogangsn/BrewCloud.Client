@@ -52,6 +52,7 @@ import { SalesDialogComponent } from '../customerdetails/dialogs/sales-dialog/sa
 import { SalesTabComponent } from '../customerdetails/tabs/sales-tab/sales-tab.component';
 import { CreateEditSalesComponent } from '../customerdetails/dialogs/collection/create-edit-sales/create-edit-sales.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { CreateEditCustomerpatientsComponent } from '../customerdetails/dialogs/create-edit-customerpatients/create-edit-customerpatients.component';
 
 
 
@@ -152,7 +153,8 @@ const root: Route[] = [
         SmstransactionsDialogComponent,
         SalesDialogComponent,
         SalesTabComponent,
-        CreateEditSalesComponent
+        CreateEditSalesComponent,
+        CreateEditCustomerpatientsComponent
         //  DxReportViewerComponent
     ]
 
