@@ -46,6 +46,7 @@ import { PatientExaminationsTabComponent } from '../patientdetails/tabs/patient-
 import { PatientInseminationsTabComponent } from '../patientdetails/tabs/patient-inseminations-tab/patient-inseminations-tab.component';
 import { PatientVaccineAppointmentTabComponent } from '../patientdetails/tabs/patient-vaccine-appointment-tab/patient-vaccine-appointment-tab.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { WightHistoryTabComponent } from '../patientdetails/tabs/wight-history-tab/wight-history-tab.component';
 
 
 const root: Route[] = [
@@ -140,7 +141,8 @@ const root: Route[] = [
     PatientAppointmentsTabComponent,
     PatientExaminationsTabComponent,
     PatientInseminationsTabComponent,
-    PatientVaccineAppointmentTabComponent
+    PatientVaccineAppointmentTabComponent,
+    WightHistoryTabComponent
     ]
 
 })

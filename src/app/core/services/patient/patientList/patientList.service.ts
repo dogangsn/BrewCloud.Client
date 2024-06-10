@@ -18,5 +18,8 @@ export class PatientListService {
     getPatientFindById(model: any) : Observable<any> {
         return this._httpService.post(endPoints.patient.getPatientFindById, model);
     }
+    getWeightControls(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.patient.getWeightControls, model);
+    }
 
 }
