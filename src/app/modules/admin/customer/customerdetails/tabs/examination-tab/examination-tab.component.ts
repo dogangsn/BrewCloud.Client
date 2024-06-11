@@ -81,24 +81,24 @@ export class ExaminationTabComponent implements OnInit {
     this.isUpdateButtonActive = true;
 
     const selectedExamination = this.examinationList.find(
-        (x) => x.id === id
+      (x) => x.id === id
     );
     var model = {
-        id: selectedExamination.id,
+      id: selectedExamination.id,
     };
     if (selectedExamination) {
-        const dialogRef = this._dialog.open(ExaminationAddDialogComponent, {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: selectedExamination.id,
-        });
-        dialogRef.afterClosed().subscribe((response) => {
-            if (response.status) {
-                this.getExaminationList();
-            }
-        });
+      const dialogRef = this._dialog.open(ExaminationAddDialogComponent, {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: selectedExamination.id,
+      });
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getExaminationList();
+        }
+      });
     }
-};
+  };
 
 
   formatDate(date: string): string {
@@ -154,6 +154,46 @@ export class ExaminationTabComponent implements OnInit {
     );
   };
 
+  public redirectToDelete = (id: string) => {
+    const sweetAlertDto = new SweetAlertDto(
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
+    );
+    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const selectedExamination = this.examinationList.find(
+            (x) => x.id === id
+          );
+          var model = {
+            id: selectedExamination.id,
+          };
+          this._examinationService
+            .deleteExamination(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getExaminationList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate(
+                    'sweetalert.transactionSuccessful'
+                  ),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                this.showSweetAlert(
+                  'error',
+                  response.errors[0]
+                );
+                console.log(response.errors[0]);
+              }
+            });
+        }
+      }
+    );
+  };
 
   showSweetAlert(type: string, message: string): void {
     if (type === 'success') {

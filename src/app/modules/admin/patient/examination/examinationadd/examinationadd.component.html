@@ -26,7 +26,7 @@
   </div>
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-    <div [formGroup]="examinationForm" >
+    <div [formGroup]="examinationForm">
       <div class="float : left flex gt-xs:flex-row mb-2">
         <div class="dx-field">
           <mat-label class="font-semibold text-gray-700">Muayne Tarihi</mat-label>
@@ -134,7 +134,20 @@
       </div>
     </div>
 
-    
+    <div class="flex flex-col gt-sm:flex-row">
+      <div class="flex flex-col">
+        <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'" (change)="togglePriceInput($event.checked)" [formControlName]="'isPrice'">
+          Muayene Ücreti İşlensin
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div *ngIf="isPrice"  class="flex float : left gt-md:flex-row">
+      <mat-form-field class="flex-auto gt-xs:pl-3">
+        <mat-label>Fiyat</mat-label>
+        <input matInput [formControlName]="'price'" placeholder="Fiyat girin" type="number" >
+      </mat-form-field>
+    </div>
 
     <mat-accordion>
       <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -142,8 +155,117 @@
           <mat-panel-title>Yapılan İşlemler & Kullanılan
             Malzemeler</mat-panel-title>
         </mat-expansion-panel-header>
+        <div>
+          <table mat-table [dataSource]="dataSource" class="shadow-none z-0 border">
+            <!-- Ürün/Hizmet Kolonu -->
+            <ng-container matColumnDef="product">
+              <th mat-header-cell *matHeaderCellDef> Ürün/Hizmet seçiniz </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+                  <mat-select class="text-center" [(value)]="element.product"
+                    (selectionChange)="onProductSelectionChange(element)">
+                    <mat-option *ngFor="let product of products" [value]="product.id">{{product.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
 
-        <p>I'm visible because I am open</p>
+            <!-- Miktar/Birim Kolonu -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Miktar/Birimi </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="quantity-container">
+                  <mat-form-field appearance="fill" class="quantity-field">
+                    <input matInput [(ngModel)]="element.quantity" type="number">
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Birim Fiyat Kolonu -->
+            <ng-container matColumnDef="unitPrice">
+              <th mat-header-cell *matHeaderCellDef> Birim Fiyat </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+                  <input matInput [(ngModel)]="element.unitPrice" type="number">
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- İskonto Kolonu -->
+            <ng-container matColumnDef="discount">
+              <th mat-header-cell *matHeaderCellDef> İskonto(TL) </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+                  <input matInput [(ngModel)]="element.discount" type="number">
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- KDV Kolonu -->
+            <ng-container matColumnDef="vat">
+              <th mat-header-cell *matHeaderCellDef> KDV </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-form-field appearance="fill">
+                  <mat-select [(value)]="element.vat" [placeholder]="'KDV (%)'">
+                    <mat-option *ngFor="let item of taxisList" [value]="item.id">{{item.taxRatio}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- Toplam Tutar Kolonu -->
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> Toplam Tutar </th>
+              <td mat-cell *matCellDef="let element" class="mt-0"> {{calculateTotal(element) | currency:'TRY' }} </td>
+            </ng-container>
+
+            <!-- Silme Kolonu -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button (click)="removeRow(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <div class="w-full flex justify-center items-center">
+          <button mat-flat-button class="my-3 bg-slate-300 w-2/3" (click)="addRow()">Satır Ekle</button>
+        </div>
+
+        <!-- <div class="w-full flex justify-end mt-2"> -->
+
+
+        <!-- </div> -->
+
+        <div class="bottom-section flex w-full justify-between">
+          <div class="sales-notes w-full">
+            <h3>Satış Notları</h3>
+            <mat-form-field appearance="fill" class="full-width">
+              <textarea matInput placeholder="Satış notları" [formControlName]="'remark'"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="w-full items-end mt-3 justify-end">
+            <div class=" justify-end">
+              <div>
+                <p class="text-end">Ara toplam: {{calculateSubtotal() | currency:'TRY'}}</p>
+                <p class="text-end">KDV: {{calculateVat() | currency:'TRY'}}</p>
+                <p class="text-end">Toplam: {{calculateTotalAmount() | currency:'TRY'}}</p>
+              </div>
+              <div class="w-full flex justify-end mt-2">
+                <button mat-button color="primary" class="">
+                  + Sokak hayvanı indirimi (%25)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

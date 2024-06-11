@@ -19,6 +19,12 @@
           <div class="row">
             <div class="col-sm-12 mt-2 common-width">
 
+              <div class="flex flex-col mt-8">
+                <span class="font-semibold mb-2">Kısırlaştırılmış</span>
+                <mat-slide-toggle [formControlName]="'sterilization'" [color]="'primary'"> {{selectedpatients?.get('sterilization')?.value === true ? 'Evet' : 'Hayır'}}
+                </mat-slide-toggle>
+              </div>
+
               <mat-form-field class="w-full">
                 <mat-label>Hasta Adı</mat-label>
                 <input matInput [formControlName]="'name'" required />
@@ -47,7 +53,7 @@
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                   <mat-label>Irkı</mat-label>
-                  <mat-select [formControlName]="'animalType'">
+                  <mat-select [formControlName]="'animalBreed'">
                     <ng-container *ngFor="let breed of filteredAnimalBreed">
                       <mat-option [value]="breed.recId">
                         {{breed.breedName}}
@@ -110,20 +116,20 @@
       </div>
 
       <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
-        <div class="-ml-2"> 
+        <div class="-ml-2">
         </div>
 
         <div class="flex items-center mt-4 sm:mt-0">
-            <!-- Discard -->
-            <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
-                Vazgeç
-            </button> 
-            <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
-                (click)="addOrUpdatePatients()" [disabled]="buttonDisabled">
-                Kaydet
-            </button>
+          <!-- Discard -->
+          <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+            Vazgeç
+          </button>
+          <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="addOrUpdatePatients()"
+            [disabled]="buttonDisabled">
+            Kaydet
+          </button>
         </div>
-    </div>
+      </div>
 
     </div>
   </mat-dialog-content>

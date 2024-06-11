@@ -47,7 +47,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.getAnimalColorsDefList();
     this.getAnimalTypesList();
     this.getAnimalBreedsDefList();
@@ -150,11 +150,11 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
 
   addOrUpdatePatients(): void {
     this.buttonDisabled = true;
-    this.selectedpatients ? this.addPatients() : this.updatePatients();
+    this.selectedpatients ? this.updatePatients()  : this.addPatients();
   }
 
   addPatients(): void {
-
+    
     const item: PatientDetails = {
       id: '',
       recId: uuidv4(),
@@ -169,7 +169,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
       specialNote: this.patientDetailsForm.value?.specialNote,
       sterilization: this.patientDetailsForm.value?.sterilization,
       active: true,
-      thumbnail: this.patientDetailsForm.value?.thumbnail,
+      thumbnail: '',
       images: [],
     };
     const patientModel = new CreatePatientCommand(
