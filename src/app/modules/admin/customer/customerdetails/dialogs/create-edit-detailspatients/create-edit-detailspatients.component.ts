@@ -135,7 +135,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
          
         const item: PatientDetails = {
             id: '',
-            recId: this.saveType == 0 ? uuidv4() : this.selectedPatientDetailsForm.value?.recId ,
+            recId: this.saveType == 0 ? uuidv4() : this.selectedpatients.recId ,
             name: this.selectedPatientDetailsForm.value?.name,
             birthDate: this.selectedPatientDetailsForm.value?.birthDate,
             chipNumber: this.selectedPatientDetailsForm.value?.chipNumber,
