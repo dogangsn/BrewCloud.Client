@@ -96,6 +96,7 @@ export class CustomerPatientsTabComponent implements OnInit {
   }
   public redirectToUpdate = (id: string) => {
     console.log(id);
-    this.router.navigate(['/patientslist/patientdetails/', id]);
+    window.location.href = `/patientslist/patientdetails/${id}`;
+    
 };
 }

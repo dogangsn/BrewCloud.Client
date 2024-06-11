@@ -12,6 +12,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { MatChipListboxChange } from '@angular/material/chips';
 
 @Component({
   selector: 'app-vaccinelist',
@@ -26,6 +27,12 @@ export class VaccinelistComponent implements OnInit {
   vaccine: VaccineListDto[] = [];
   dataSource = new MatTableDataSource<VaccineListDto>(this.vaccine);
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
+
+  options = [
+    { name: 'Köpek', selected: false, type:1 },
+    { name: 'Kedi', selected: false, type:2 },
+    { name: 'Tümü', selected: true, type:0 }
+  ];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -211,6 +218,24 @@ export class VaccinelistComponent implements OnInit {
       });
     }
   };
+
+  onChipsSelectionChange(event: MatChipListboxChange): void {
+    const selectedValue = event.value;
+    debugger
+    console.log('Selected value:', selectedValue);
+    this.filterVaccineList(selectedValue);
+  }
+
+  filterVaccineList(selectedValue: Number): void {
+    debugger
+    if (selectedValue === 0) {
+      this.dataSource.data = this.vaccine;
+    } else {
+      const animalTypeId = this.animalTypesList.find(animal => animal.type === selectedValue)?.type;
+      this.dataSource.data = this.vaccine.filter(vaccine => vaccine.animalType.toString() === animalTypeId.toString());
+    }
+    this.dataSource.paginator = this.paginator; // Reset paginator to the first page after filtering
+  }
 
 
 }
