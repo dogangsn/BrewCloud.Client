@@ -21,6 +21,7 @@ export class PatientDetailsComponent implements OnInit {
   customer: CustomerDetailDto;
   name:string;
   loader = true;
+  items = Array(6);
 
   sex: string[] = ['Dişi', 'Erkek'];
   sexText: string;

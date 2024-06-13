@@ -26,6 +26,11 @@
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
 
+    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)">
+      <mat-chip-option *ngFor="let option of options" [value]="option.type" [selected]="option.selected">{{option.name}}</mat-chip-option>
+    </mat-chip-listbox>
+    
+
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
 
