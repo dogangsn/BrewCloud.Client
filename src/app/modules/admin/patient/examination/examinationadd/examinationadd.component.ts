@@ -68,7 +68,7 @@ export class ExaminationaddComponent implements OnInit {
     private _dialogRef: any;
 
     displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
-    dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' }];
+    dataSource: SalesDto[] = [];
     products: ProductDescriptionsDto[] = [];
     taxisList: TaxesDto[] = [];
     destroy$: Subject<boolean> = new Subject<boolean>();
@@ -79,7 +79,7 @@ export class ExaminationaddComponent implements OnInit {
         private _formBuilder: UntypedFormBuilder,
         private _translocoService: TranslocoService,
         private _examinationService: ExaminationService,
-        private _taxisService: TaxisService, 
+        private _taxisService: TaxisService,
         private _productdescriptionService: ProductDescriptionService,
     ) {
         this.selectedState = this.states[0];
@@ -104,7 +104,7 @@ export class ExaminationaddComponent implements OnInit {
         ).subscribe({
             next: (value) => {
                 this.setTaxis(value[0]),
-                this.setProductList(value[1])
+                    this.setProductList(value[1])
             },
             error: (e) => {
                 console.log(e);
@@ -124,7 +124,8 @@ export class ExaminationaddComponent implements OnInit {
             complaintAndHistory: [''],
             treatmentDescription: [''],
             selectedState: [this.states[0]],
-            isPrice: [false]
+            isPrice: [false],
+            price : [0]
         });
     }
 
@@ -164,38 +165,19 @@ export class ExaminationaddComponent implements OnInit {
                     debugger;
                     const item = new ExaminationDto(
                         this.lastSelectedValue,
-                        this.getFormValueByName('selectedState') === null
-                            ? ''
-                            : this.getFormValueByName('selectedState'),
-                        this.getFormValueByName('customerId') === undefined ||
-                            this.getFormValueByName('customerId') === null ||
-                            this.getFormValueByName('customerId') === ''
-                            ? '00000000-0000-0000-0000-000000000000'
-                            : this.getFormValueByName('customerId'),
-                        this.getFormValueByName('patientId') === undefined ||
-                            this.getFormValueByName('patientId') === null ||
-                            this.getFormValueByName('patientId') === ''
-                            ? '00000000-0000-0000-0000-000000000000'
-                            : this.getFormValueByName('patientId'),
-                        this.getFormValueByName('bodyTemperature') === null
-                            ? ''
-                            : this.getFormValueByName('bodyTemperature'),
-                        this.getFormValueByName('pulse') === null
-                            ? ''
-                            : this.getFormValueByName('pulse'),
-                        this.getFormValueByName('respiratoryRate') === null
-                            ? ''
-                            : this.getFormValueByName('respiratoryRate'),
-                        this.getFormValueByName('weight') === null
-                            ? ''
-                            : this.getFormValueByName('weight'),
-                        this.getFormValueByName('complaintAndHistory') === null
-                            ? ''
-                            : this.getFormValueByName('complaintAndHistory'),
-                        this.getFormValueByName('treatmentDescription') === null
-                            ? ''
-                            : this.getFormValueByName('treatmentDescription'),
-                        this.symptomsString
+                        this.getFormValueByName('selectedState') === null ? '' : this.getFormValueByName('selectedState'),
+                        this.getFormValueByName('customerId') === undefined ||  this.getFormValueByName('customerId') === null || this.getFormValueByName('customerId') === '' ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('customerId'),
+                        this.getFormValueByName('patientId') === undefined || this.getFormValueByName('patientId') === null || this.getFormValueByName('patientId') === '' ? '00000000-0000-0000-0000-000000000000'  : this.getFormValueByName('patientId'),
+                        this.getFormValueByName('bodyTemperature') === null ? '' : this.getFormValueByName('bodyTemperature'),
+                        this.getFormValueByName('pulse') === null  ? ''  : this.getFormValueByName('pulse'),
+                        this.getFormValueByName('respiratoryRate') === null  ? '' : this.getFormValueByName('respiratoryRate'),
+                        this.getFormValueByName('weight') === null  ? ''  : this.getFormValueByName('weight'),
+                        this.getFormValueByName('complaintAndHistory') === null  ? '' : this.getFormValueByName('complaintAndHistory'),
+                        this.getFormValueByName('treatmentDescription') === null ? '' : this.getFormValueByName('treatmentDescription'),
+                        this.symptomsString,
+                        this.getFormValueByName('isPrice'),
+                        this.getFormValueByName('price'),
+                        this.dataSource
                     );
 
                     this._examinationService.createExamination(item).subscribe(
@@ -305,9 +287,11 @@ export class ExaminationaddComponent implements OnInit {
         console.log('Yeni tarih ve saat: ', this.lastSelectedValue);
         // Yeni değeri kullanmak için burada işlemler yapabilirsiniz
     }
+
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
     showSweetAlert(type: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
@@ -360,38 +344,38 @@ export class ExaminationaddComponent implements OnInit {
 
     getTaxisList(): Observable<any> {
         return this._taxisService.getTaxisList();
-      }
-    
-      setTaxis(response: any): void {
+    }
+
+    setTaxis(response: any): void {
         if (response.data) {
-          this.taxisList = response.data;
+            this.taxisList = response.data;
         }
-      }
-    
-      getProductList(): Observable<any> {
+    }
+
+    getProductList(): Observable<any> {
         const model = {
-          ProductType: 1,
+            ProductType: 1,
         };
         return this._productdescriptionService.getProductDescriptionFilters(model);
-      }
-    
-      setProductList(response: any): void {
-        this.products = response.data;
-      }
+    }
 
-      onProductSelectionChange(element: SalesDto): void {
+    setProductList(response: any): void {
+        this.products = response.data;
+    }
+
+    onProductSelectionChange(element: SalesDto): void {
         const selectedProduct = this.products.find(product => product.id === element.product);
         element.unitPrice = selectedProduct ? selectedProduct.sellingPrice : null;
         element.vat = selectedProduct ? selectedProduct.taxisId : null;
-      }
-    
-      togglePriceInput(checked: boolean) {
+    }
+
+    togglePriceInput(checked: boolean) {
         if (checked) {
-          this.isPrice = true;
+            this.isPrice = true;
         } else {
-          this.isPrice = false;
+            this.isPrice = false;
         }
-      }
+    }
 
 
 }

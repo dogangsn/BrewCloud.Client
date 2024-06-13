@@ -1,3 +1,5 @@
+import { SalesDto } from "app/modules/admin/customer/customerdetails/dialogs/sales-dialog/models/salesDto";
+
 export class ExaminationDto {
     date: Date;
     status: string;
@@ -10,6 +12,9 @@ export class ExaminationDto {
     complaintStory: string;
     treatmentDescription: string;
     symptoms: string;
+    isPrice: boolean;
+    price : number;
+    trans : SalesDto[];
     // yapilanIslemler: string;
 
     constructor(
@@ -24,6 +29,9 @@ export class ExaminationDto {
         complaintStory: string,
         treatmentDescription: string,
         symptoms: string,
+        isPrice: boolean,
+        price : number,
+        trans: SalesDto[]
         // yapilanIslemler: string
     ) {
         this.date = date;
@@ -37,6 +45,9 @@ export class ExaminationDto {
         this.complaintStory = complaintStory;
         this.treatmentDescription = treatmentDescription;
         this.symptoms = symptoms;
+        this.isPrice = isPrice;
+        this.price = price;
+        this.trans = trans;
         // this.yapilanIslemler = yapilanIslemler;
     }
 }
