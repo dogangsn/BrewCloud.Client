@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/services/auth/auth.service';
+import { de } from 'date-fns/locale';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { AuthService } from 'app/core/services/auth/auth.service';
 })
 export class AuthSignInComponent implements OnInit
 {
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
@@ -44,6 +46,24 @@ export class AuthSignInComponent implements OnInit
      */
     ngOnInit(): void
     {
+        
+            this._authService.signInUsingToken()
+            .subscribe(
+                () => {
+
+                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+
+                    // Navigate to the redirect url
+                    this._router.navigateByUrl(redirectURL);
+
+                },
+                (response) => {
+
+                    // Re-enable the form
+                    this.signInForm.enable();
+                }
+            );
+            
         // Create the form
         this.signInForm = this._formBuilder.group({
             email     : ['', [Validators.required, Validators.email]],
@@ -74,6 +94,7 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
+        debugger;
         this._authService.signIn(this.signInForm.value)
             .subscribe(
                 () => {

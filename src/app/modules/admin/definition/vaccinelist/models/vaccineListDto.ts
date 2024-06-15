@@ -9,5 +9,7 @@ export class VaccineListDto {
     obligation : number;
     totalSaleAmount : string;
     animalType: number;
+    isAdd: boolean | null;
+    vaccineDate: Date | null;
     vetVaccineMedicine : VaccineMedicine[];
 }

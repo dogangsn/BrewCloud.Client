@@ -12,8 +12,8 @@ import { Observable } from "rxjs";
 export class VaccineService {
     constructor(private _httpService: HttpService) { }
 
-    getVaccineList() : Observable<any>{
-        return this._httpService.getRequest(endPoints.vaccine.vaccineList);
+    getVaccineList(model: any): Observable<any> {
+        return this._httpService.post(endPoints.vaccine.vaccineList, model);
     }
 
     createVaccine(model: CreateVaccineCommand): Observable<any> {

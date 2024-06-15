@@ -53,6 +53,7 @@ import { SalesTabComponent } from '../customerdetails/tabs/sales-tab/sales-tab.c
 import { CreateEditSalesComponent } from '../customerdetails/dialogs/collection/create-edit-sales/create-edit-sales.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { CreateEditCustomerpatientsComponent } from '../customerdetails/dialogs/create-edit-customerpatients/create-edit-customerpatients.component';
+import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccine/createvaccine.component';
 
 
 
@@ -64,6 +65,10 @@ const root: Route[] = [
     {
         path: 'customerdetails/:id', 
         component: CustomerDetailsComponent,
+    },
+    {
+        path: 'createvaccine/:id', 
+        component: CreatevaccineComponent,
     },
 ];
 
@@ -154,7 +159,8 @@ const root: Route[] = [
         SalesDialogComponent,
         SalesTabComponent,
         CreateEditSalesComponent,
-        CreateEditCustomerpatientsComponent
+        CreateEditCustomerpatientsComponent,
+        CreatevaccineComponent
         //  DxReportViewerComponent
     ]
 

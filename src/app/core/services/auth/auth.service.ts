@@ -25,6 +25,7 @@ export class AuthService {
     {}
 
     set accessToken(token: string) {
+        debugger
         localStorage.setItem('accessToken', token);
     }
 
@@ -62,7 +63,7 @@ export class AuthService {
         // );
     }
 
-    signIn(credentials: { email: string; password: string }): Observable<any> {
+    signIn(credentials: { email: string; password: string; rememberMe: boolean }): Observable<any> {
         if (this._authenticated) {
             return throwError('User is already logged in.');
         }
@@ -111,6 +112,7 @@ export class AuthService {
 
     signInUsingToken(): Observable<any> {
         // Renew token
+        debugger
         return this._httpClient
             .post(endPoints.auth.signInUsingToken, {
                 accessToken: this.accessToken,
@@ -121,7 +123,8 @@ export class AuthService {
                     of(false)
                 ),
                 switchMap((response: any) => {
-                    console.log(response.accessToken);
+                    if (response) {
+                        console.log(response.accessToken);
                     // Store the access token in the local storage
                     this.accessToken = response.accessToken;
 
@@ -130,9 +133,11 @@ export class AuthService {
 
                     // Store the user on the user service
                     this._userService.user = response.user;
+                    }
+                    
 
                     // Return true
-                    return of(true);
+                    return of(response);
                 })
             );
     }
