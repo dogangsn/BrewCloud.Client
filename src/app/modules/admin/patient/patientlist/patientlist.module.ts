@@ -48,6 +48,7 @@ import { PatientVaccineAppointmentTabComponent } from '../patientdetails/tabs/pa
 import { MatExpansionModule } from '@angular/material/expansion';
 import { WightHistoryTabComponent } from '../patientdetails/tabs/wight-history-tab/wight-history-tab.component';
 import { MatCardModule } from '@angular/material/card';
+import { CreatevaccineComponent } from '../createvaccine/createvaccine/createvaccine.component';
 
 
 const root: Route[] = [
@@ -144,7 +145,7 @@ const root: Route[] = [
     PatientExaminationsTabComponent,
     PatientInseminationsTabComponent,
     PatientVaccineAppointmentTabComponent,
-    WightHistoryTabComponent
+    WightHistoryTabComponent,
     ]
 
 })

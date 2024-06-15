@@ -253,6 +253,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.fillSelectedInvoice()) {
             const model = {
                 createcustomers: this.customers,
+                IsCreateVaccine: false
             };
             if (!this.phoneNumberValidator(this.customers.phoneNumber)) {
                 this.showSweetAlert(
@@ -274,6 +275,54 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                                 if (swalResponse.isConfirmed) {
                                     this.router.navigate([
                                         'customerlist/customerdetails',
+                                        response.data,
+                                    ]);
+                                }
+                            }
+                        );
+                    } else {
+                        debugger;
+                        this.showSweetAlert('error', response.errors[0]);
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
+    }
+
+    addCustomersWithVaccine(): any {
+        debugger;
+        if (this.accountForm.invalid) {
+            this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
+            return;
+        }
+        if (this.fillSelectedInvoice()) {
+            const model = {
+                createcustomers: this.customers,
+                IsCreateVaccine: true
+            };
+            if (!this.phoneNumberValidator(this.customers.phoneNumber)) {
+                this.showSweetAlert(
+                    'error',
+                    'Telefon Numarası Alan Kodu Hatalı. Kontrol Ediniz.'
+                );
+                return;
+            }
+            this._customerService.createCustomers(model).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        const sweetAlertDto = new SweetAlertDto(
+                            'Kayıt İşlemi Gerçekleşti',
+                            'Aşı Kayıt Ekranına yönlendirileceksiniz!',
+                            SweetalertType.success
+                        );
+                        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+                            (swalResponse) => {
+                                if (swalResponse.isConfirmed) {
+                                    this.router.navigate([
+                                        'customerlist/createvaccine',
                                         response.data,
                                     ]);
                                 }

@@ -185,8 +185,12 @@ debugger
     }
 
     getVaccineList(): Observable<any> {
+        const model = {
+            AnimalType : 0
+        };
+    
         return this._vaccineService
-        .getVaccineList();
+        .getVaccineList(model);
     }
 
     setVaccineList(response: any): void {

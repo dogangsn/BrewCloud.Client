@@ -55,6 +55,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CreateEditCustomerpatientsComponent } from '../customerdetails/dialogs/create-edit-customerpatients/create-edit-customerpatients.component';
 import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
 import { MatCardModule } from '@angular/material/card';
+import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccine/createvaccine.component';
 
 
 
@@ -66,6 +67,10 @@ const root: Route[] = [
     {
         path: 'customerdetails/:id', 
         component: CustomerDetailsComponent,
+    },
+    {
+        path: 'createvaccine/:id', 
+        component: CreatevaccineComponent,
     },
 ];
 
@@ -158,7 +163,8 @@ const root: Route[] = [
         SalesTabComponent,
         CreateEditSalesComponent,
         CreateEditCustomerpatientsComponent,
-        BalacecollectionComponent
+        BalacecollectionComponent,
+        CreatevaccineComponent
         //  DxReportViewerComponent
     ]
 

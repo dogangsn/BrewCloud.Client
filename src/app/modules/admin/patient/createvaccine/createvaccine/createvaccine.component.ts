@@ -1,59 +1,70 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { VaccineListDto } from './models/vaccineListDto';
+import { ActivatedRoute } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
+import { VaccineListDto } from 'app/modules/admin/definition/vaccinelist/models/vaccineListDto';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateEditVaccineDialogComponent } from './dialogs/create-edit-vaccine';
 import { VaccineService } from 'app/core/services/definition/vaccinelist/vaccinelist.service';
-import { VetVetAnimalsTypeListDto } from '../../customer/models/VetVetAnimalsTypeListDto';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatChipListboxChange } from '@angular/material/chips';
+import { VetVetAnimalsTypeListDto } from 'app/modules/admin/customer/models/VetVetAnimalsTypeListDto';
+import { CreateEditVaccineDialogComponent } from 'app/modules/admin/definition/vaccinelist/dialogs/create-edit-vaccine';
+import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
+import { PatientOwnerListDto } from '../../patientlist/models/patientOwnerListDto';
+import { PatientDetailsDto } from 'app/modules/admin/customer/models/PatientDetailsDto';
 
 @Component({
-  selector: 'app-vaccinelist',
-  templateUrl: './vaccinelist.component.html',
-  styleUrls: ['./vaccinelist.component.css']
+  selector: 'app-createvaccine',
+  templateUrl: './createvaccine.component.html',
+  styleUrls: ['./createvaccine.component.css']
 })
-export class VaccinelistComponent implements OnInit {
+export class CreatevaccineComponent implements OnInit {
 
-  displayedColumns: string[] = ['animalType', 'vaccineName', 'timeDone', 'renewalOption', 'totalSaleAmount', 'actions'];
-  isUpdateButtonActive: boolean;
-  @ViewChild('paginator') paginator: MatPaginator;
+  selectedPatientId: string;
   vaccine: VaccineListDto[] = [];
   dataSource = new MatTableDataSource<VaccineListDto>(this.vaccine);
+  displayedColumns: string[] = ['vaccineName', 'timeDone', 'renewalOption', 'totalSaleAmount'];
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
-
-  options = [
-    { name: 'Köpek', selected: false, type:1 },
-    { name: 'Kedi', selected: false, type:2 },
-    { name: 'Tümü', selected: true, type:0 }
-  ];
+  isUpdateButtonActive: boolean;
+  animalType: number;
+  isAdd: boolean = false;
+  isDone: boolean = false;
+  patient: PatientDetailsDto;
+  birthDate: Date;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
+
   constructor(
+    private route: ActivatedRoute,
+    private _translocoService: TranslocoService,
     private _dialog: MatDialog,
     private _vaccineService: VaccineService,
     private _customerService: CustomerService,
-    private _translocoService: TranslocoService,
-  ) {
-
-  }
+    private _patientService: PatientListService
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.selectedPatientId = params['id'];
+      console.log('Müşteri ID:', this.selectedPatientId);
+  });
 
     zip(
+      this.getPatient(),
       this.getAnimalTypesList()
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: (value) => {
-        this.setAnimalType(value[0])
+        this.setPatient(value[0]),
+        this.setAnimalType(value[1])
       },
       error: (e) => {
         console.log(e);
@@ -63,14 +74,14 @@ export class VaccinelistComponent implements OnInit {
       }
     });
 
+  
   }
 
+
   getVaccineList() {
-
     const model = {
-      AnimalType : 0
+        AnimalType : this.animalType
     };
-
 
     this._vaccineService
       .getVaccineList(model)
@@ -81,9 +92,34 @@ export class VaccinelistComponent implements OnInit {
         this.dataSource = new MatTableDataSource<VaccineListDto>(
           this.vaccine
         );
-        this.dataSource.paginator = this.paginator;
+        this.vaccine.forEach(element => {
+          element.isAdd = element.timeDone > 0;
+          const vaccineDate = new Date(this.birthDate);
+          vaccineDate.setDate(vaccineDate.getDate() + element.timeDone);
+          element.vaccineDate = vaccineDate;
+        });
+        
       });
   }
+
+  getPatient(): Observable<any> {
+    const model = {
+      Id : this.selectedPatientId
+    };
+
+    return this._patientService.getPatientFindById(model);
+  }
+
+  setPatient(response: any): void {
+    debugger
+    if (response.data) {
+      this.patient = response.data;
+      this.animalType = this.patient.animalType == 'Köpek' ? 1 : this.patient.animalType == 'Kedi' ? 2 : 0;
+      this.birthDate = new Date(this.patient.birthDate);
+      
+    }
+  }
+
 
   getAnimalTypesList(): Observable<any> {
     return this._customerService.getVetVetAnimalsType();
@@ -203,44 +239,6 @@ export class VaccinelistComponent implements OnInit {
       }
     );
   };
-
-  public redirectToUpdate = (id: string) => {
-    this.isUpdateButtonActive = true;
-    const selectedvaccine = this.vaccine.find((x) => x.id === id);
-    if (selectedvaccine) {
-      const dialogRef = this._dialog.open(
-        CreateEditVaccineDialogComponent,
-        {
-          maxWidth: '100vw !important',
-          disableClose: true,
-          data: selectedvaccine
-        }
-      );
-      dialogRef.afterClosed().subscribe((response) => {
-        if (response.status) {
-          this.getVaccineList();
-        }
-      });
-    }
-  };
-
-  onChipsSelectionChange(event: MatChipListboxChange): void {
-    const selectedValue = event.value;
-    debugger
-    console.log('Selected value:', selectedValue);
-    this.filterVaccineList(selectedValue);
-  }
-
-  filterVaccineList(selectedValue: Number): void {
-    debugger
-    if (selectedValue === 0) {
-      this.dataSource.data = this.vaccine;
-    } else {
-      const animalTypeId = this.animalTypesList.find(animal => animal.type === selectedValue)?.type;
-      this.dataSource.data = this.vaccine.filter(vaccine => vaccine.animalType.toString() === animalTypeId.toString());
-    }
-    this.dataSource.paginator = this.paginator; // Reset paginator to the first page after filtering
-  }
 
 
 }
