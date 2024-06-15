@@ -11,7 +11,8 @@
         "build": "export NODE_OPTIONS=--max_old_space_size=16192 && ng build --configuration production",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
-        "vetsystem": "set NODE_OPTIONS=--max_old_space_size=16192 && ng s -o"
+        "vetsystem": "set NODE_OPTIONS=--max_old_space_size=16192 && ng s -o",
+        "production": "export NODE_OPTIONS=--max_old_space_size=16192 && ng build --configuration=production && npm run post-build"
     },
     "dependencies": {
         "@angular-material-components/datetime-picker": "^16.0.1",
