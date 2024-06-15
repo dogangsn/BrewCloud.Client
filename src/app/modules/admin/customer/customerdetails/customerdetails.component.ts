@@ -26,6 +26,7 @@ import { SmstransactionsDialogComponent } from './dialogs/messege/smstransaction
 import { SalesDialogComponent } from './dialogs/sales-dialog/sales-dialog.component';
 import { EventService } from './services/event.service';
 import { CreateEditCustomerpatientsComponent } from './dialogs/create-edit-customerpatients/create-edit-customerpatients.component';
+import { BalacecollectionComponent } from './dialogs/balacecollection/balacecollection.component';
 
 @Component({
     selector: 'customerdetails',
@@ -51,7 +52,7 @@ export class CustomerDetailsComponent implements OnInit {
     totalSaleBuyCount: number;
     totalVisitCount: number;
     totalEarnings: number;
-    totalCollection : number;
+    totalCollection: number;
 
     loader = true;
 
@@ -106,8 +107,8 @@ export class CustomerDetailsComponent implements OnInit {
     addSale(): void {
         // Satış eklendiğini belirten bir event emit ediyoruz
         this.salesAdded.emit();
-      }
-      
+    }
+
     addPanelOpen(): void {
 
         const model = {
@@ -338,6 +339,37 @@ export class CustomerDetailsComponent implements OnInit {
             });
     }
 
+    openBalanceCollection(): void {
+
+        let customerlist: any[] = [];
+
+        let customer: Customer = {
+            name: this.firstname + ' ' + this.lastname,
+            id: this.selectedCustomerId,
+            balance: this.totalEarnings - this.totalCollection
+        };
+        customerlist.push(customer);
+
+        const model = {
+            customerId: this.selectedCustomerId,
+            customerlist: customerlist,
+
+        }
+        console.log(model);
+        const dialog = this._dialog
+            .open(BalacecollectionComponent, {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: model
+            })
+            .afterClosed()
+            .subscribe((response) => {
+                if (response.status) {
+                    // this.getCustomerList();
+                }
+            });
+    }
+
     //openPayChart
     openPayChart(): void {
 
@@ -463,6 +495,12 @@ export class CustomerDetailsComponent implements OnInit {
 
         }
     }
-    
 
+
+}
+
+interface Customer {
+    name: string;
+    id: number;
+    balance: number;
 }

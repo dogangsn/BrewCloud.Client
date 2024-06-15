@@ -62,7 +62,7 @@ export class SalesTabComponent implements OnInit {
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();
-
+    this.getSalesCustomerList();
   }
 
   refreshSalesTab(): void {

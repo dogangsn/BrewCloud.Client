@@ -161,11 +161,11 @@
   <button class="ml-auto sm:ml-0 mr-2" mat-stroked-button (click)="closeDialog()">
     Vazgeç
   </button>
-  <button class="order-first sm:order-last mr-2" mat-flat-button [color]="'primary'" (click)="addOrUpdateSales()">
+  <button class="order-first sm:order-last mr-2" mat-flat-button [color]="'primary'" (click)="addOrUpdateSales()" [disabled]="buttonDisabled">
     Kaydet
   </button>
   <button class="order-first sm:order-last bg-green-400 text-white" mat-flat-button
-    (click)="addOrUpdateSalesCollection()">
+    (click)="addOrUpdateSalesCollection()" [disabled]="buttonDisabled">
     Kaydet & Ödeme Ekle
   </button>
 </div>

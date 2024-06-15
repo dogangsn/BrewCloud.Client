@@ -100,4 +100,7 @@ export class CustomerService {
         return this._httpService.post(endPoints.customers.updateSale, model);
     }
 
+    balanceCollection(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.customers.balanceCollection, model);
+    }
 }

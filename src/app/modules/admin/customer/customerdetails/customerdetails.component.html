@@ -51,7 +51,13 @@
             <button class="ml-3" mat-stroked-button [matMenuTriggerFor]="menu"><mat-icon
                     svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Tahsilat</button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openGetCollection()">Tahsilat Al</button>
+                <button mat-menu-item (click)="openGetCollection()">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'calendar_today'"></mat-icon>
+                    Randevu Tahsilatı Al</button>
+                <button mat-menu-item  (click)="openBalanceCollection()"  *ngIf="(totalEarnings - totalCollection) > 0">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'warning'"></mat-icon>
+                    {{ totalEarnings - totalCollection }} ₺ Bakiye
+                </button>
                 <!-- <button mat-menu-item (click)="openCollectionTransaction()">Tahsilat İşlemleri</button> -->
             </mat-menu>
             <!-- <button class="ml-3" mat-flat-button [color]="'primary'" (click)="openPayChart()">
@@ -61,8 +67,10 @@
             <button class="ml-3" mat-stroked-button [matMenuTriggerFor]="menus"><mat-icon
                     svgIcon="heroicons_outline:chevron-down"></mat-icon> &nbsp;Mesaj Gönder</button>
             <mat-menu #menus="matMenu">
-                <button mat-menu-item (click)="smstransactions()">SMS Gönder</button>
-                <button mat-menu-item>Whatsapp Mesaj Gönder</button>
+                <button mat-menu-item (click)="smstransactions()">
+                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'textsms'"></mat-icon>
+                    SMS Gönder</button>
+                <button mat-menu-item><i class="fab fa-whatsapp"></i>  Whatsapp Mesaj Gönder</button>
             </mat-menu>
 
         </div>

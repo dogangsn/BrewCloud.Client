@@ -54,6 +54,7 @@ export class SalesDialogComponent implements OnInit {
 
   @Output() salesAdded = new EventEmitter<any>();
 
+  buttonDisabled = false;
   displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
   dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' }];
 
@@ -165,6 +166,7 @@ export class SalesDialogComponent implements OnInit {
   }
 
   addOrUpdateSales(): void {
+    this.buttonDisabled = true;
     this.selectedsales
       ? this.updateSales()
       : this.addSales(false);
@@ -310,6 +312,7 @@ export class SalesDialogComponent implements OnInit {
   }
 
   addOrUpdateSalesCollection(): void {
+    this.buttonDisabled = true;
     this.selectedsales
       ? this.updateSales()
       : this.addSales(true);
