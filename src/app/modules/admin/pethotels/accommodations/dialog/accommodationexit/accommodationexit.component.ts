@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { AccommodationsRoonService } from 'app/core/services/pethotels/accommodationrooms/accommodationsroom.service';
@@ -9,6 +9,8 @@ import { PatientDetails } from 'app/modules/admin/customer/models/PatientDetails
 import { customersListDto } from 'app/modules/admin/customer/models/customersListDto';
 import { RoomListDto } from '../../../accommodationrooms/models/roomListDto';
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
+import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/models/PaymentMethodsDto';
+import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 
 @Component({
   selector: 'app-accommodationexit',
@@ -20,14 +22,15 @@ export class AccommodationexitComponent implements OnInit {
   selectedaccomodationexit: any;
   buttonDisabled = false;
   accommodationexit: FormGroup;
-
-
   patientList: PatientDetails[] = [];
   customers: customersListDto[] = [];
   rooms: RoomListDto[] = [];
-
-
   destroy$: Subject<boolean> = new Subject<boolean>();
+  now: Date = new Date();
+  selectedCheckinDate: Date = new Date();
+  selectedCheckOutDate: Date = new Date();
+
+  payments: PaymentMethodsDto[] = [];
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -36,36 +39,48 @@ export class AccommodationexitComponent implements OnInit {
     private _accommodationrooms: AccommodationsRoonService,
     private _customerService: CustomerService,
     private _accomodations: AccommodationsService,
+    private _paymentmethodsService: PaymentMethodservice,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
+    this.selectedaccomodationexit = data;
   }
 
   ngOnInit() {
 
     zip(
       this.getCustomerList(),
-      this.getRoomList()
+      this.getRoomList(),
+      this.paymentsList()
 
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: (value) => {
         this.setCustomerList(value[0]),
-        this.setRoomList(value[1])
+          this.setRoomList(value[1]),
+          this.setpaymentList(value[2])
       },
       error: (e) => {
         console.log(e);
       },
       complete: () => {
-            //this.fillFormData(this.selectedProductdescription);
 
       }
     });
 
 
 
+  }
 
+  fillFormData(selectedAccomodation: any) {
 
+    if (this.selectedaccomodationexit !== null) {
+      this.accommodationexit.setValue({
+        customerId: selectedAccomodation.customerId,
+        patientId: selectedAccomodation.patientId,
+        roomId: selectedAccomodation.roomId
+      });
+    }
   }
 
 
@@ -83,8 +98,8 @@ export class AccommodationexitComponent implements OnInit {
     return this._accommodationrooms.getRoomList();
   }
 
-  setRoomList(response : any) : void {
-    if(response.data) {
+  setRoomList(response: any): void {
+    if (response.data) {
       this.rooms = response.data;
     }
   }
@@ -113,6 +128,28 @@ export class AccommodationexitComponent implements OnInit {
         }
       });
   }
+
+
+  handleValueChange(e) {
+    this.selectedCheckinDate = e.value;
+  }
+
+  handleValueCheckOutChange(e) {
+    this.selectedCheckOutDate = e.value;
+  }
+
+  paymentsList(): Observable<any> {
+    return this._paymentmethodsService.getPaymentMethodsList();
+
+  }
+
+  setpaymentList(response: any): void {
+    if (response.data) {
+      this.payments = response.data;
+    }
+  }
+
+
 
 
 

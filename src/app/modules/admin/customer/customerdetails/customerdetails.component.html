@@ -266,10 +266,13 @@
                                 </div>
                                 <div class="flex float:left gt-xs:flex-row">
                                     <mat-form-field class="flex-auto gt-xs:pr-3">
-                                        <mat-label class="boldFont">Müşteri Grubu</mat-label>
-                                        <input matInput disabled="true" [formControlName]="'customerGroup'"
-                                            class="disableCustomCss">
-
+                                        <mat-label>Müşteri Grubu</mat-label>
+                                        <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup" disabled="true" >
+                                            <mat-option>None</mat-option>
+                                            <mat-option *ngFor="let customergroup of customergroupList"
+                                                [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                                        </mat-select>
+                                        <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
                                     </mat-form-field>
                                     <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                                         <mat-label class="boldFont">Kayıt Tarihi</mat-label>

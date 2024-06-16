@@ -27,6 +27,8 @@ import { SalesDialogComponent } from './dialogs/sales-dialog/sales-dialog.compon
 import { EventService } from './services/event.service';
 import { CreateEditCustomerpatientsComponent } from './dialogs/create-edit-customerpatients/create-edit-customerpatients.component';
 import { BalacecollectionComponent } from './dialogs/balacecollection/balacecollection.component';
+import { CustomerGroupListDto } from '../../definition/customergroup/models/customerGroupListDto';
+import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 
 @Component({
     selector: 'customerdetails',
@@ -46,7 +48,7 @@ export class CustomerDetailsComponent implements OnInit {
     lastname: string;
     phonenumber: string;
     email: string;
-
+    customergroupList: CustomerGroupListDto[] = [];
     patientList: PatientDetails[] = [];
 
     totalSaleBuyCount: number;
@@ -64,7 +66,8 @@ export class CustomerDetailsComponent implements OnInit {
         private _translocoService: TranslocoService,
         private _dialog: MatDialog,
         private _customerDataService: CustomerDataService,
-        private _eventService: EventService
+        private _eventService: EventService,
+        private _customergroup: CustomerGroupService,
     ) { }
 
     ngOnInit() {
@@ -75,7 +78,7 @@ export class CustomerDetailsComponent implements OnInit {
         });
 
         this.getCustomerDetailList();
-
+        this.getCustomerGroupList();
         this._customerDataService.setCustomerId(this.selectedCustomerId);
 
         this.customerDetailForm = this._formBuilder.group({
@@ -131,6 +134,13 @@ export class CustomerDetailsComponent implements OnInit {
                 }
             });
     }
+
+    getCustomerGroupList() {
+        this._customergroup.getcustomerGroupList().subscribe((response) => {
+            this.customergroupList = response.data;
+        });
+    }
+
 
     trackByFn(index: number, item: any): any {
         return item.id || index;

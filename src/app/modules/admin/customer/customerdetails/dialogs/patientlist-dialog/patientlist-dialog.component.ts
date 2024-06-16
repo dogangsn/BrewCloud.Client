@@ -24,7 +24,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 })
 export class PatientlistDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'animalType', 'actions'];
+  displayedColumns: string[] = ['name', 'animalTypeName', 'actions'];
 
   patientList: PatientDetails[] = [];
   customer: CustomerDetailDto;

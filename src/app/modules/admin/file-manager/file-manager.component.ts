@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class FileManagerComponent implements OnInit {
 
   drawerMode: 'side' | 'over';
+
+  selectedFile: File | null = null;
   
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -23,6 +25,25 @@ export class FileManagerComponent implements OnInit {
   {
       this._router.navigate(['./'], {relativeTo: this._activatedRoute});
       this._changeDetectorRef.markForCheck();
+  }
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      console.log('Selected file:', this.selectedFile); 
+    }
+  }
+
+  uploadFile(): void {
+    if (this.selectedFile) {
+      // Dosya yükleme işlemlerini burada yapabilirsiniz
+      console.log('Uploading file:', this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
   }
 
 }

@@ -142,22 +142,26 @@ export class AccommodationsComponent implements OnInit {
 
   public reservationlogout = (id: string) => {
 
-    this.isUpdateButtonActive = false;
-    const dialog = this._dialog
-      .open(AccommodationexitComponent, {
-        maxWidth: '100vw !important',
-        disableClose: true,
-        data: null,
-      })
-      .afterClosed()
-      .subscribe((response) => {
-        if (response.status) {
-          this.getAccommodationsList();
-        }
-      });
+    const selectedroom = this.accommodations.find((x) => x.id === id);
+    if (selectedroom) {
+
+      this.isUpdateButtonActive = false;
+      const dialog = this._dialog
+        .open(AccommodationexitComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedroom,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            this.getAccommodationsList();
+          }
+        });
+
+    }
 
   }
-
 
   formatDate(date: string): string {
     const options: Intl.DateTimeFormatOptions = {
