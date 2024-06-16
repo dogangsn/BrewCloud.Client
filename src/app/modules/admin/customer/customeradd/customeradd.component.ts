@@ -161,7 +161,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             name: ['', [Validators.required]],
             birthDate: [''],
             chipNumber: [''],
-            sex: ['1'],
+            sex: [1],
             animalType: [0],
             animalBreed: [''],
             animalColor: [''],
@@ -958,13 +958,13 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
 export const sextype = [
     {
-        id: '1',
+        id: 1,
         parentId: null,
         name: 'Erkek',
         slug: 'Erkek',
     },
     {
-        id: '2',
+        id: 2,
         parentId: null,
         name: 'Dişi',
         slug: 'Dişi',

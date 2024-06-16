@@ -9,6 +9,10 @@ export class PatientDetailsDto {
     breedType: string;
     chipNumber: string;
     customerId: string;
+    sterilization: boolean;
+    reportNumber : string;
+    specialNote: string;
+    animalBreed : number;
 
     constructor(
         id: string,

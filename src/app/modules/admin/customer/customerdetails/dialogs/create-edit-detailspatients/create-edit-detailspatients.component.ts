@@ -308,13 +308,13 @@ export class CreateEditDetailspatientsComponent implements OnInit {
 
 export const sextype = [
     {
-        id: '1',
+        id: 1,
         parentId: null,
         name: 'Erkek',
         slug: 'Erkek',
     },
     {
-        id: '2',
+        id: 2,
         parentId: null,
         name: 'Dişi',
         slug: 'Dişi',

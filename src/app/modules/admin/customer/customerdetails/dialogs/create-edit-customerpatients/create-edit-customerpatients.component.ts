@@ -14,15 +14,42 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatePatientCommand } from '../../../models/CreatePatientCommand';
+import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'DDD MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'DDD MMMM YYYY',
+  },
+};
+
 
 @Component({
   selector: 'app-create-edit-customerpatients',
   templateUrl: './create-edit-customerpatients.component.html',
-  styleUrls: ['./create-edit-customerpatients.component.css']
+  styleUrls: ['./create-edit-customerpatients.component.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: MY_FORMATS
+    },
+  ],
 })
 export class CreateEditCustomerpatientsComponent implements OnInit {
 
-  selectedpatients: any;
+  selectedpatients: PatientDetailsDto;
   patientDetailsForm: FormGroup;
 
   animalcolorDefList: AnimalColorsDefListDto[] = [];
@@ -34,6 +61,8 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
   buttonDisabled = false;
   selectedCustomerId: any;
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
@@ -43,38 +72,76 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
     private _dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.sextype = sextype;
     this.selectedCustomerId = data.customerId;
+    this.selectedpatients = data.selectedPatients;
   }
 
   ngOnInit() {
 
-    this.getAnimalColorsDefList();
-    this.getAnimalTypesList();
-    this.getAnimalBreedsDefList();
-    this.sextype = sextype;
+
+    zip(
+      this.getAnimalColorsDefList(),
+      this.getAnimalTypesList(),
+      this.getAnimalBreedsDefList()
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (value) => {
+          this.setAnimalColorsDefList(value[0]),
+            this.setAnimalTypesList(value[1]),
+            this.setAnimalBreedsDefList(value[2])
+        },
+        error: (e) => {
+          console.log(e);
+        },
+        complete: () => {
+          this.fillFormData(this.selectedpatients);
+        },
+      });
+
+
+
     this.patientDetailsForm = this._formBuilder.group({
       id: [''],
       name: ['', [Validators.required]],
       birthDate: [''],
       chipNumber: [''],
-      sex: ['1'],
+      sex: [1],
       animalType: [0],
-      animalBreed: [''],
+      animalBreed: [],
       animalColor: [''],
       reportNumber: [''],
       specialNote: [''],
-      sterilization: [''],
-      images: [[]],
-      active: [false],
+      sterilization: [],
     });
-
 
 
   }
 
+  fillFormData(selectedpatient: PatientDetailsDto) {
+
+    if (this.selectedpatients !== null) {
+      this.patientDetailsForm.setValue({
+        id: selectedpatient.id,
+        name: selectedpatient.name,
+        birthDate: selectedpatient.birthDate,
+        chipNumber: selectedpatient.chipNumber,
+        sex: selectedpatient.sex,
+        animalType: selectedpatient.animalType,
+        animalBreed: selectedpatient.animalBreed,
+        animalColor: selectedpatient.animalColor,
+        reportNumber: selectedpatient.reportNumber,
+        specialNote: selectedpatient.specialNote,
+        sterilization: selectedpatient.sterilization
+      });
+      this.filterTagsByVendor(selectedpatient.animalType);
+    }
+  }
+
   filterTagsByVendor(selectedVendor: any) {
 
-    const selectedValue = selectedVendor.value;
+    const selectedValue = selectedVendor;
     this.filteredAnimalBreed = this.animalBreedsDef.filter(
       (tag) => tag.animaltype == selectedValue
     );
@@ -83,27 +150,6 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
     });
     // this.selectedPatientDetailsForm.get('animalBreed').setValue(null);
     // this.selectedPatients.animalBreed = null;
-  }
-
-  getAnimalColorsDefList() {
-    this._animalColorDefService
-      .getAnimalColorsDefList()
-      .subscribe((response) => {
-        this.animalcolorDefList = response.data;
-      });
-  }
-
-  getAnimalTypesList() {
-    this._customerService.getVetVetAnimalsType().subscribe((response) => {
-      this.animalTypesList = response.data;
-      console.log('anımals', this.animalTypesList);
-    });
-  }
-
-  getAnimalBreedsDefList() {
-    this._customerService.getAnimalBreedsDefList().subscribe((response) => {
-      this.animalBreedsDef = response.data;
-    });
   }
 
   addPanelOpen(): void {
@@ -150,11 +196,11 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
 
   addOrUpdatePatients(): void {
     this.buttonDisabled = true;
-    this.selectedpatients ? this.updatePatients()  : this.addPatients();
+    this.selectedpatients ? this.updatePatients() : this.addPatients();
   }
 
   addPatients(): void {
-    
+
     const item: PatientDetails = {
       id: '',
       recId: uuidv4(),
@@ -197,23 +243,88 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
   }
 
   updatePatients(): void {
+    const item: PatientDetails = {
+      recId: uuidv4(),
+      id: this.patientDetailsForm.value?.id,
+      name: this.patientDetailsForm.value?.name,
+      birthDate: this.patientDetailsForm.value?.birthDate,
+      chipNumber: this.patientDetailsForm.value?.chipNumber,
+      sex: this.patientDetailsForm.value?.sex,
+      animalType: this.patientDetailsForm.value?.animalType,
+      animalBreed: this.patientDetailsForm.value?.animalBreed,
+      animalColor: this.patientDetailsForm.value?.animalColor,
+      reportNumber: this.patientDetailsForm.value?.reportNumber,
+      specialNote: this.patientDetailsForm.value?.specialNote,
+      sterilization: this.patientDetailsForm.value?.sterilization,
+      active: true,
+      thumbnail: '',
+      images: [],
+    };
+    const patientModel = new CreatePatientCommand(
+      this.selectedCustomerId,
+      item
+    );
 
+    this._customerService.updatePatient(patientModel).subscribe(
+      (response) => {
+        if (response.isSuccessful) {
+          this.showSweetAlert('success');
+          this._dialogRef.close({
+            status: true,
+          });
+        } else {
+          this.showSweetAlert('error');
+          this.buttonDisabled = true;
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
+  getAnimalColorsDefList(): Observable<any> {
+    return this._animalColorDefService.getAnimalColorsDefList();
+  };
 
+  setAnimalColorsDefList(response: any): void {
+    if (response.data) {
+      this.animalcolorDefList = response.data;
+    }
+  }
+
+  getAnimalTypesList(): Observable<any> {
+    return this._customerService.getVetVetAnimalsType();
+  };
+
+  setAnimalTypesList(response: any): void {
+    if (response.data) {
+      this.animalTypesList = response.data;
+    }
+  }
+
+  getAnimalBreedsDefList(): Observable<any> {
+    return this._customerService.getAnimalBreedsDefList()
+  };
+
+  setAnimalBreedsDefList(response: any): void {
+    if (response.data) {
+      this.animalBreedsDef = response.data;
+    }
+  }
 
 }
 
 
 export const sextype = [
   {
-    id: '1',
+    id: 1,
     parentId: null,
     name: 'Erkek',
     slug: 'Erkek',
   },
   {
-    id: '2',
+    id: 2,
     parentId: null,
     name: 'Dişi',
     slug: 'Dişi',

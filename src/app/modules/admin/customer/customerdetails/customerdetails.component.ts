@@ -432,13 +432,31 @@ export class CustomerDetailsComponent implements OnInit {
 
         const selectedPatients = this.patientDetails.find((item) => item.recId == id);
         if (selectedPatients) {
+            // const model = {
+            //     customerId: this.selectedCustomerId,
+            //     selectedpatients: selectedPatients
+            // }
+            // console.log(model);
+            // const dialog = this._dialog
+            //     .open(CreateEditDetailspatientsComponent, {
+            //         maxWidth: '100vw !important',
+            //         disableClose: true,
+            //         data: model
+            //     })
+            //     .afterClosed()
+            //     .subscribe((response) => {
+            //         if (response.status) {
+            //             this.getCustomerDetailList();
+            //         }
+            //     });
+
             const model = {
                 customerId: this.selectedCustomerId,
-                selectedpatients: selectedPatients
+                selectedPatients : selectedPatients
             }
             console.log(model);
             const dialog = this._dialog
-                .open(CreateEditDetailspatientsComponent, {
+                .open(CreateEditCustomerpatientsComponent, {
                     maxWidth: '100vw !important',
                     disableClose: true,
                     data: model
@@ -449,6 +467,8 @@ export class CustomerDetailsComponent implements OnInit {
                         this.getCustomerDetailList();
                     }
                 });
+
+
         }
     }
 

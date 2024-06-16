@@ -28,7 +28,8 @@
         {{element.rameiningBalance}}TL
         <br>
         <span *ngIf="element.rameiningBalance === 0">Ödenmiş</span>
-        <span *ngIf="element.rameiningBalance > 0">Ödenmemiş</span>
+        <span *ngIf="element.rameiningBalance == element.amount">Ödenmemiş</span>
+        <span *ngIf="element.rameiningBalance != element.amount && element.rameiningBalance > 0">Kısmen Ödenmiş</span>
       </td>
     </ng-container>
 

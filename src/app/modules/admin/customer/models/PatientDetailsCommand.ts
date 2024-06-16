@@ -8,7 +8,7 @@ export interface InventoryPagination {
 }
 
 export interface SexTYpe {
-    id: string;
+    id: number;
     parentId: string;
     name: string;
     slug: string;

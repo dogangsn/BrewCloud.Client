@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 
 export class PatientTabComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalType', 'actions'];
+  displayedColumns: string[] = ['name', 'birthDate', 'chipNumber', 'animalTypeName', 'actions'];
 
   @ViewChild('paginator') paginator: MatPaginator;
   receivedCustomerId: string;

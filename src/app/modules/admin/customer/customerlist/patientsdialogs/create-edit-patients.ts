@@ -111,7 +111,7 @@ export class CreateEditPatientsDialogComponent implements OnInit {
             name: ['', [Validators.required]],
             birthDate: ['', [Validators.required]],
             chipNumber: [''],
-            sex: ['', [Validators.required]],
+            sex: [1, [Validators.required]],
             animalType: ['', [Validators.required]],
             animalBreed: ['', [Validators.required]],
             animalColor: [''],
@@ -368,13 +368,13 @@ export class CreateEditPatientsDialogComponent implements OnInit {
 
 export const sextype = [
     {
-        id: '1',
+        id: 1,
         parentId: null,
         name: 'Erkek',
         slug: 'Erkek',
     },
     {
-        id: '2',
+        id: 2,
         parentId: null,
         name: 'Dişi',
         slug: 'Dişi',

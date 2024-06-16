@@ -103,4 +103,8 @@ export class CustomerService {
     balanceCollection(model: any) : Observable<any> {
         return this._httpService.post(endPoints.customers.balanceCollection, model);
     }
+
+    updatePatient(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.updatePatient, model);
+    }
 }
