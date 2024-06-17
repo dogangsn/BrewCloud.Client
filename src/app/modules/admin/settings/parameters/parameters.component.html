@@ -237,6 +237,12 @@
                         [formControlName]="'isFirstInspection'" #isfirstInspectionToggle>
                     </mat-slide-toggle>
                 </div>
+                <div class="flex items-center justify-between cursor-pointer" (click)="isfirstInspectionToggle.toggle()">
+                    <div class="leading-6 font-medium">Muayane Girişlerinde Satış Kaydı Üretilsin (Tutar 0 ise)</div>
+                    <mat-slide-toggle class="ml-2" [color]="'primary'" (click)="isfirstInspectionToggle.toggle()"
+                        [formControlName]="'isExaminationAmuntZero'" #isfirstInspectionToggle>
+                    </mat-slide-toggle>
+                </div>
                 <!-- </div> -->
             </div>
         </form>

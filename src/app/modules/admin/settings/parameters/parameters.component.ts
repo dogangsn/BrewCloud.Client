@@ -96,7 +96,8 @@ export class ParametersComponent implements OnInit {
             isAnimalsBreeds: [false],
             isFirstInspection: [false],
             appointmentBeginDate: [''],
-            appointmentEndDate: ['']
+            appointmentEndDate: [''],
+            isExaminationAmuntZero: [false]
         });
 
     }
@@ -194,7 +195,8 @@ export class ParametersComponent implements OnInit {
                 isAnimalsBreeds: getparam[0].isAnimalsBreeds,
                 isFirstInspection: getparam[0].isFirstInspection,
                 appointmentBeginDate: getparam[0].appointmentBeginDate,
-                appointmentEndDate: getparam[0].appointmentEndDate
+                appointmentEndDate: getparam[0].appointmentEndDate,
+                isExaminationAmuntZero: getparam[0].isExaminationAmuntZero
             });
             this.selectedDays.setValue(daysfill);
         }
@@ -280,7 +282,8 @@ export class ParametersComponent implements OnInit {
             this.getFormValueByName('isAnimalsBreeds'),
             this.getFormValueByName('isFirstInspection'),
             this.getFormValueByName('appointmentBeginDate'),
-            this.getFormValueByName('appointmentEndDate')
+            this.getFormValueByName('appointmentEndDate'),
+            this.getFormValueByName('isExaminationAmuntZero')
         );
 
         this.selectedDays.value.forEach((x) => {

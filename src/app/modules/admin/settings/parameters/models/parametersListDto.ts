@@ -17,4 +17,5 @@ export class parametersListDto {
     isFirstInspection: boolean;
     appointmentBeginDate: string;
     appointmentEndDate: string;
+    isExaminationAmuntZero : boolean;
 }
