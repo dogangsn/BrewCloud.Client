@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { CustomerDataService } from '../../../services/customer-data.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
@@ -18,20 +18,23 @@ export class SmstransactionsDialogComponent implements OnInit {
 
   smstransactionsgroup: FormGroup;
   buttonDisabled = false;
+  selectedCustomerId: any;
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
     private _translocoService: TranslocoService,
     private _customerService: CustomerService,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    this.selectedCustomerId = data.customerId;
+  }
 
   ngOnInit() {
     this.smstransactionsgroup = this._formBuilder.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
     });
-
   }
 
   closeDialog(): void {
@@ -45,16 +48,35 @@ export class SmstransactionsDialogComponent implements OnInit {
   sendSms(): void {
     this.buttonDisabled = true;
 
+    let title = this.getFormValueByName('title');
+    let content = this.getFormValueByName('content');
+    if (!title || !content) {
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Başlık veya İçerik Boş Bırakılamaz.');
+      return;
+    }
+
     var model = {
       type: 1,
       title: this.getFormValueByName('title'),
       content: this.getFormValueByName('content'),
-      phoneNumber : '05398533010'
+      customerId: this.selectedCustomerId
     }
 
     this._customerService.sendMessage(model).subscribe(response => {
       if (response.isSuccessful) {
-
+        this.showSweetAlert(
+          'success',
+          'sweetalert.transactionSuccessful'
+        );
+        this._dialogRef.close({
+          status: true,
+        });
+      } else {
+        this.showSweetAlert(
+          'error',
+          response.errors
+        );
       }
     });
 
@@ -81,4 +103,5 @@ export class SmstransactionsDialogComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
+
 }

@@ -18,7 +18,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 export class SmstemplateComponent implements OnInit {
 
   
-  displayedColumns: string[] = ['active', 'templateName', 'actions'];
+  displayedColumns: string[] = ['active', 'templateName','enableSMS',  'enableAppNotification', 'enableEmail', 'enableWhatsapp','actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   smstemplate: SmsTemplateListDto[] = [];
   dataSource = new MatTableDataSource<SmsTemplateListDto>(this.smstemplate);

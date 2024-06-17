@@ -424,11 +424,15 @@ export class CustomerDetailsComponent implements OnInit {
 
     //smstransactions-dialog
     smstransactions(): void {
+        const model = {
+            customerId: this.selectedCustomerId,
+        }
+
         const dialog = this._dialog
             .open(SmstransactionsDialogComponent, {
                 maxWidth: '100vw !important',
                 disableClose: true,
-                data: null
+                data: model
             })
             .afterClosed()
             .subscribe((response) => {
