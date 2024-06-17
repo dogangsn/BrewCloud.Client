@@ -28,7 +28,7 @@
         {{element.rameiningBalance}}TL
         <br>
         <span *ngIf="element.rameiningBalance === 0">Ödenmiş</span>
-        <span *ngIf="element.rameiningBalance == element.amount">Ödenmemiş</span>
+        <span *ngIf="element.rameiningBalance === element.amount && element.rameiningBalance !== 0">Ödenmemiş</span>
         <span *ngIf="element.rameiningBalance != element.amount && element.rameiningBalance > 0">Kısmen Ödenmiş</span>
       </td>
     </ng-container>
@@ -39,7 +39,7 @@
       <td mat-cell *matCellDef="let element">
         <div class="button-container gap-x-2">
           <button mat-flat-button color="primary" (click)="opencreateeditsales(element.saleOwnerId)" [disabled]="element.rameiningBalance === 0"><mat-icon>add</mat-icon>Ödeme Ekle</button>
-          <button mat-button color="primary" (click)="redirectToUpdate(element.saleOwnerId)"><mat-icon>visibility</mat-icon>Satış detayları</button>
+          <button mat-button color="primary" (click)="redirectToUpdate(element.saleOwnerId)" [disabled]="element.salesContent === 'MUAYENE SATIS'"><mat-icon>visibility</mat-icon>Satış detayları</button>
           <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="menu-button">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -73,5 +73,5 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10"  showFirstLastButtons #paginator
     aria-label="Select page of periodic elements">
   </mat-paginator>
-
 </div>
+ 

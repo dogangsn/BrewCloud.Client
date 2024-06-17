@@ -121,7 +121,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
 
   fillFormData(selectedpatient: PatientDetailsDto) {
 
-    if (this.selectedpatients !== null) {
+    if (this.selectedpatients !== null && this.selectedpatients !== undefined) {
       this.patientDetailsForm.setValue({
         id: selectedpatient.id,
         name: selectedpatient.name,
@@ -141,7 +141,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
 
   filterTagsByVendor(selectedVendor: any) {
 
-    const selectedValue = selectedVendor;
+    const selectedValue = selectedVendor.value;
     this.filteredAnimalBreed = this.animalBreedsDef.filter(
       (tag) => tag.animaltype == selectedValue
     );
@@ -202,7 +202,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
   addPatients(): void {
 
     const item: PatientDetails = {
-      id: '',
+      id: uuidv4(),
       recId: uuidv4(),
       name: this.patientDetailsForm.value?.name,
       birthDate: this.patientDetailsForm.value?.birthDate,

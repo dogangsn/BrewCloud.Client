@@ -125,7 +125,7 @@ export class ExaminationaddComponent implements OnInit {
             treatmentDescription: [''],
             selectedState: [this.states[0]],
             isPrice: [false],
-            price : [0]
+            price: [0]
         });
     }
 
@@ -166,13 +166,13 @@ export class ExaminationaddComponent implements OnInit {
                     const item = new ExaminationDto(
                         this.lastSelectedValue,
                         this.getFormValueByName('selectedState') === null ? '' : this.getFormValueByName('selectedState'),
-                        this.getFormValueByName('customerId') === undefined ||  this.getFormValueByName('customerId') === null || this.getFormValueByName('customerId') === '' ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('customerId'),
-                        this.getFormValueByName('patientId') === undefined || this.getFormValueByName('patientId') === null || this.getFormValueByName('patientId') === '' ? '00000000-0000-0000-0000-000000000000'  : this.getFormValueByName('patientId'),
+                        this.getFormValueByName('customerId') === undefined || this.getFormValueByName('customerId') === null || this.getFormValueByName('customerId') === '' ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('customerId'),
+                        this.getFormValueByName('patientId') === undefined || this.getFormValueByName('patientId') === null || this.getFormValueByName('patientId') === '' ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('patientId'),
                         this.getFormValueByName('bodyTemperature') === null ? '' : this.getFormValueByName('bodyTemperature'),
-                        this.getFormValueByName('pulse') === null  ? ''  : this.getFormValueByName('pulse'),
-                        this.getFormValueByName('respiratoryRate') === null  ? '' : this.getFormValueByName('respiratoryRate'),
-                        this.getFormValueByName('weight') === null  ? ''  : this.getFormValueByName('weight'),
-                        this.getFormValueByName('complaintAndHistory') === null  ? '' : this.getFormValueByName('complaintAndHistory'),
+                        this.getFormValueByName('pulse') === null ? '' : this.getFormValueByName('pulse'),
+                        this.getFormValueByName('respiratoryRate') === null ? '' : this.getFormValueByName('respiratoryRate'),
+                        this.getFormValueByName('weight') === null ? '' : this.getFormValueByName('weight'),
+                        this.getFormValueByName('complaintAndHistory') === null ? '' : this.getFormValueByName('complaintAndHistory'),
                         this.getFormValueByName('treatmentDescription') === null ? '' : this.getFormValueByName('treatmentDescription'),
                         this.symptomsString,
                         this.getFormValueByName('isPrice'),
@@ -191,6 +191,7 @@ export class ExaminationaddComponent implements OnInit {
                                 this.examinationForm
                                     .get('selectedState')
                                     .patchValue(this.selectedState);
+                                this.togglePriceInput(false);
                                 this._dialogRef.close({
                                     status: true,
                                 });

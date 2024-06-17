@@ -226,7 +226,7 @@ export class SalesTabComponent implements OnInit {
   public redirectToDelete = (id: string) => {
 
     const item = this.salesCustomerLis.find((x) => x.saleOwnerId === id);
-    if (item.rameiningBalance === 0) {
+    if (item.rameiningBalance === 0 && !item.isExaminations) {
       this.showSweetAlert('error', 'Tahsilat Olan Satış Silinemez. Tahsilatını Siliniz.');
       return;
     }

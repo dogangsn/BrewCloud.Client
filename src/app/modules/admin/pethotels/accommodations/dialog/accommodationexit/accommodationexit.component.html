@@ -50,14 +50,14 @@
           </div>
 
           <div class="flex float : left gt-md:flex-row">
-            <div class="flex-auto gt-xs:pl-3">>
-              <label class="font-semibold text-gray-700 mb-1">Giriş Tarihi</label>
+            <div class="flex-auto gt-xs:pl-3">
+              <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
               <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
                 (onValueChanged)="handleValueChange($event)">
               </dx-date-box>
             </div>
-            <div class="ml-5  flex-auto gt-xs:pl-3">>
-              <label class="font-semibold text-gray-700 mb-1">Çıkış Tarihi</label>
+            <div class="ml-5  flex-auto gt-xs:pl-3">
+              <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
               <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
                 (onValueChanged)="handleValueCheckOutChange($event)">
               </dx-date-box>
