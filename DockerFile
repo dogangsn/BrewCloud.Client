@@ -1,16 +1,5 @@
-# FROM node:20.10.0-alpine AS build
-# WORKDIR /usr/src/app
-# COPY package*.json ./
-# RUN npm install 
-# RUN npx ngcc --properties es2023 browser main --first-only --create-ivy-entry-points
-# COPY . .
-# RUN npm run build
-# FROM nginx:stable
-# COPY --from=build /app/dist/vetsystems.client/ /usr/share/nginx/html
-# EXPOSE 80
-
 #stage 1
-FROM node:14.15-alpine  as node
+FROM node:14.20.0-alpine  as node
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install --force

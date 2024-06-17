@@ -1,15 +1,17 @@
+version: '3.4'
+
 services:
   vetsystemsclient:
-    container_name: vetsystemsclientcontainer
-    build: .
-    image: vetsystemsclient:v1
-    ports:
-      - 80:80
-    expose:
-      - 80
-    networks:
-      - internalnet
-networks:
-  internalnet:
-    driver: bridge
-  
+    image: vetsystemsclient
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    deploy:
+      resources:
+        limits:
+          cpus: '2.000'
+          memory: 2048M
+        reservations:
+          memory: 1024M
