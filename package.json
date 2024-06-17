@@ -8,8 +8,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "post-build": "node ./build/post-build.js",
-        "build": "set NODE_OPTIONS=--max_old_space_size=16192 && ng build && npm run post-build",
+        "build": "set NODE_OPTIONS=--max_old_space_size=16192 && ng build && npm run ",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "vetsystem": "set NODE_OPTIONS=--max_old_space_size=16192 && ng s -o",
