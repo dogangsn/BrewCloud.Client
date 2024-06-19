@@ -15,8 +15,9 @@ import { CustomerDetailsService } from './service/customerdetailservice';
 import { customerlistReportComponent } from '../report/customerlistReport/customerlistReport.component';
 // import { DtoPmsRptParameter } from '../../models/DtoPmsRptParameter';
 import { customerlistRptParameter } from '../report/models/customerlistRptParameter';
-import { formatDate } from '@angular/common'; 
+import { formatDate } from '@angular/common';
 import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientlist-dialog/patientlist-dialog.component';
+import { PayChartComponent } from '../customerdetails/dialogs/pay-chart/pay-chart.component';
 
 @Component({
     selector: 'customerslist',
@@ -24,7 +25,7 @@ import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientli
     encapsulation: ViewEncapsulation.None,
 })
 export class CustomersListComponent implements OnInit {
-    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'actions'];
+    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'balance', 'actions'];
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -54,9 +55,9 @@ export class CustomersListComponent implements OnInit {
             // this.dataSource.paginator = this.paginator;
             setTimeout(() => {
                 if (this.dataSource) {
-                  this.dataSource.paginator = this.paginator;
+                    this.dataSource.paginator = this.paginator;
                 }
-              }, 0);
+            }, 0);
             this.loader = false;
         });
     }
@@ -166,14 +167,13 @@ export class CustomersListComponent implements OnInit {
 
 
     redirectToPatientList = (id: string) => {
-
         const _customer = this.customerlist.find(x => x.id === id);
         if (_customer) {
 
             const data = {
-                customerId : id
+                customerId: id
             }
-debugger
+            debugger
             const dialog = this._dialog
                 .open(PatientlistDialogComponent, {
                     maxWidth: '100%',
@@ -187,11 +187,34 @@ debugger
                         //this.getCustomerList();
                     }
                 });
-
         }
-
     }
 
+    openPayChart = (id: string) => {
+
+        const _customer = this.customerlist.find(x => x.id === id);
+        if (_customer) {
+            const model = {
+                customerId: id,
+            }
+            console.log(model);
+            const dialog = this._dialog
+                .open(PayChartComponent, {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                        // this.getCustomerList();
+                    }
+                });
+        }
+
+
+
+    }
 
 
 

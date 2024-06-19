@@ -36,6 +36,11 @@ import {
 import { DxCheckBoxModule, DxSchedulerModule, DxSelectBoxModule } from 'devextreme-angular';
 import { DxDateBoxModule } from 'devextreme-angular';
 import {MatCardModule} from '@angular/material/card';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const root: Route[] = [
   {
@@ -76,7 +81,15 @@ const root: Route[] = [
     DxSchedulerModule,
     MatCardModule,
     DxDateBoxModule,
-    DxCheckBoxModule
+    DxCheckBoxModule,
+    MatTooltipModule,
+    NgApexchartsModule,
+    SharedModule,
+    MatRippleModule,
+    MatSidenavModule,
+    MatTabsModule,
+    TranslocoModule,
+    MatButtonToggleModule
   ],
   declarations: [ReportappointmentComponent]
 })

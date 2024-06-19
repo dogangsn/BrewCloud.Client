@@ -7,4 +7,5 @@ export class customersListDto {
     eMail:string;
     note:string;
     petCount:Number|null;
+    balance : number;
 }
