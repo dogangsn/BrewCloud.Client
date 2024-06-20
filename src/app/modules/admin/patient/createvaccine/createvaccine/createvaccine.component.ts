@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { VaccineListDto } from 'app/modules/admin/definition/vaccinelist/models/vaccineListDto';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { VaccineService } from 'app/core/services/definition/vaccinelist/vaccinelist.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
@@ -17,17 +17,23 @@ import { CreateEditVaccineDialogComponent } from 'app/modules/admin/definition/v
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 import { PatientOwnerListDto } from '../../patientlist/models/patientOwnerListDto';
 import { PatientDetailsDto } from 'app/modules/admin/customer/models/PatientDetailsDto';
+import { CreateVetVaccineCalendarDto } from '../models/create-vaccine-appoitment-dto';
+import { CreateVaccineListDto } from '../models/vaccine-examination-list-dto';
+import { VaccineCalendarService } from 'app/core/services/vaccinecalendar/vaccinecalendar.service';
+
 
 @Component({
   selector: 'app-createvaccine',
   templateUrl: './createvaccine.component.html',
   styleUrls: ['./createvaccine.component.css']
 })
+
+
 export class CreatevaccineComponent implements OnInit {
 
   selectedPatientId: string;
-  vaccine: VaccineListDto[] = [];
-  dataSource = new MatTableDataSource<VaccineListDto>(this.vaccine);
+  vaccine: CreateVaccineListDto[] = [];
+  dataSource = new MatTableDataSource<CreateVaccineListDto>(this.vaccine);
   displayedColumns: string[] = ['vaccineName', 'timeDone', 'renewalOption', 'totalSaleAmount'];
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
   isUpdateButtonActive: boolean;
@@ -37,7 +43,10 @@ export class CreatevaccineComponent implements OnInit {
   patient: PatientDetailsDto;
   birthDate: Date;
 
+  createVaccineExaminationList : CreateVetVaccineCalendarDto[] = [];
+
   destroy$: Subject<boolean> = new Subject<boolean>();
+  private _dialogRef: any;
 
 
 
@@ -47,7 +56,9 @@ export class CreatevaccineComponent implements OnInit {
     private _dialog: MatDialog,
     private _vaccineService: VaccineService,
     private _customerService: CustomerService,
-    private _patientService: PatientListService
+    private _patientService: PatientListService,
+    private _vaccineCalendarService: VaccineCalendarService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -89,11 +100,12 @@ export class CreatevaccineComponent implements OnInit {
         this.vaccine = response.data;
         console.log(this.vaccine);
 
-        this.dataSource = new MatTableDataSource<VaccineListDto>(
+        this.dataSource = new MatTableDataSource<CreateVaccineListDto>(
           this.vaccine
         );
         this.vaccine.forEach(element => {
           element.isAdd = element.timeDone > 0;
+          element.isDone = false;
           const vaccineDate = new Date(this.birthDate);
           vaccineDate.setDate(vaccineDate.getDate() + element.timeDone);
           element.vaccineDate = vaccineDate;
@@ -101,6 +113,45 @@ export class CreatevaccineComponent implements OnInit {
         
       });
   }
+
+  saveData(): void {
+
+     this.createVaccineExaminationList = this.dataSource.data.map(vaccine => ({
+      vaccineName: vaccine.vaccineName,
+      isAdd: vaccine.isAdd,
+      vaccineDate: vaccine.vaccineDate,
+      isDone: vaccine.isDone,
+      patientId: this.selectedPatientId,
+      customerId: this.patient.customerId,
+      animalType: this.animalType,
+      vaccineId: vaccine.id
+    }));
+    console.log('Saved Data:', this.createVaccineExaminationList );
+    const model = {
+      VaccineCalendars:this.createVaccineExaminationList
+    }
+
+    this._vaccineCalendarService.createVaccineExaminations(model).subscribe(
+      (response) => {
+          if (response.isSuccessful) {
+              this.showSweetAlert('success','success');
+              
+              this.redirectToDetail(this.patient.id);
+          } else {
+              this.showSweetAlert('error','error');
+          }
+      },
+      (err) => {
+          console.log(err);
+      }
+  );
+    // Here, you can further process the savedData object, such as sending it to a server.
+  }
+
+  public redirectToDetail = (id: string) => {
+    console.log(id);
+    this.router.navigate(['/patientslist/patientdetails/', id]);
+  };
 
   getPatient(): Observable<any> {
     const model = {
@@ -114,7 +165,7 @@ export class CreatevaccineComponent implements OnInit {
     debugger
     if (response.data) {
       this.patient = response.data;
-      this.animalType = this.patient.animalType == 'Köpek' ? 1 : this.patient.animalType == 'Kedi' ? 2 : 0;
+      this.animalType = this.patient.animalType;
       this.birthDate = new Date(this.patient.birthDate);
       
     }

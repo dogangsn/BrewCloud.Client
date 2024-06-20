@@ -4,7 +4,7 @@ export class PatientDetailsDto {
     name: string;
     sex: number;
     animalColor: string;
-    animalType: string;
+    animalType: number;
     birthDate: string;
     breedType: string;
     chipNumber: string;
@@ -20,7 +20,7 @@ export class PatientDetailsDto {
         name: string,
         sex: number,
         animalColor: string,
-        animalType: string,
+        animalType: number,
         birthDate: string,
         breedType: string,
         chipNumber: string,
