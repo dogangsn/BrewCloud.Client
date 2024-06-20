@@ -1,5 +1,6 @@
 export class AccomodationListDto {
     customerName: string;
+    patientName :string;
     roomName: string;
     roomId: string;
     customerId?: string | null;
@@ -13,4 +14,6 @@ export class AccomodationListDto {
     createusers: string;
     type: number;
     id: string;
+    price:number;
+    pricingType: number;
 }

@@ -1,9 +1,21 @@
-<h1 mat-dialog-title class="mat-dialog-title">
-  <button class="dialog-close-button" (click)="closeDialog()">
+<h1 mat-dialog-title class="mat-dialog-title"
+mat-dialog-title
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragHandle
+>
+<button class="dialog-close-button">
+  <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path
+          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+      ></path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+  </svg>
+</button>
+  <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
     <span class="material-icons"> highlight_off </span>
   </button>
 </h1>
-
 <div class="modalForm">
   <mat-dialog-content>
 
@@ -23,8 +35,8 @@
           <div class="flex float : left gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Müşteri</mat-label>
-              <mat-select [placeholder]="'Müşteri'" [formControlName]="'customerId'" name="customerId"
-                (selectionChange)="handleCustomerChange($event)" disabled="true">
+              <mat-select [disabled]="true"  [placeholder]="'Müşteri'" [formControlName]="'customerId'" name="customerId"
+                (selectionChange)="handleCustomerChange($event)" class="disableCustomCss">
                 <mat-option *ngFor="let item of customers" [value]="item.id">{{ item.firstName }}
                   {{ item.lastName }}</mat-option>
               </mat-select>
@@ -33,8 +45,7 @@
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
               <mat-label>Hasta</mat-label>
               <mat-select name="patientId" [formControlName]="'patientId'" [placeholder]="'Hasta'" disabled="true">
-                <mat-option>None</mat-option>
-                <mat-option *ngFor="let item of patientList" [value]="item.recId">{{ item.name }}</mat-option>
+                <mat-option *ngFor="let item of patientListAll" [value]="item.id">{{ item.name }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -42,9 +53,9 @@
           <div class="flex float : left gt-md:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
               <mat-label>Oda</mat-label>
-              <mat-select name="patientId" [formControlName]="'patientId'" [placeholder]="'Hasta'" disabled="true">
-                <mat-option>None</mat-option>
-                <mat-option *ngFor="let item of patientList" [value]="item.recId">{{ item.name }}</mat-option>
+              <mat-select name="roomId" [formControlName]="'roomId'" [placeholder]="'Oda'" disabled="true">
+
+                <mat-option *ngFor="let item of rooms" [value]="item.id">{{ item.roomName }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -52,27 +63,27 @@
           <div class="flex float : left gt-md:flex-row">
             <div class="flex-auto gt-xs:pl-3">
               <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
-              <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+              <dx-date-box [value]="selectedaccomodationexit.checkinDate" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }" [disabled]="true"
                 (onValueChanged)="handleValueChange($event)">
               </dx-date-box>
             </div>
             <div class="ml-5  flex-auto gt-xs:pl-3">
               <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
-              <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+              <dx-date-box [value]="selectedaccomodationexit.checkoutDate" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }" 
                 (onValueChanged)="handleValueCheckOutChange($event)">
               </dx-date-box>
             </div>
           </div>
-        
-          <div class="flex float : left gt-md:flex-row">
+
+          <div class="flex float : left gt-md:flex-row mt-6">
             <mat-form-field class=" flex-auto gt-xs:pl-3">
               <mat-label>Konaklama Ücreti (TL)</mat-label>
-              <input matInput [formControlName]="'price'" type="number">
+              <input matInput [formControlName]="'price'" type="number" min="0">
             </mat-form-field>
 
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
               <mat-label>Tahsilat tutarı</mat-label>
-              <input matInput [formControlName]="'price'" type="number">
+              <input matInput [formControlName]="'pricecollection'" type="number" min="0">
             </mat-form-field>
 
             <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">

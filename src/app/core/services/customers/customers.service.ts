@@ -107,4 +107,7 @@ export class CustomerService {
     updatePatient(model: any): Observable<any> {
         return this._httpService.post(endPoints.customers.updatePatient, model);
     }
+    updateCustomerArchive(model: any): Observable<any> {
+        return this._httpService.post(endPoints.customers.updateCustomerArchive, model);
+    }
 }

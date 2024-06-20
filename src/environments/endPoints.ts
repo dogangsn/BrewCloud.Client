@@ -48,7 +48,8 @@ export const endPoints = {
         deleteCollection : 'vet/Accounting/DeleteCollection',
         getSalesById : 'vet/Accounting/GetSalesById',
         balanceCollection : 'vet/Accounting/CreateBalanceSaleCollection',
-        updatePatient : 'vet/Customers/UpdatePatient'
+        updatePatient : 'vet/Customers/UpdatePatient',
+        updateCustomerArchive : 'vet/Customers/UpdateCustomerArchive'
     },
     examinations:{
         examinationlist: 'vet/Patient/GetExaminations',

@@ -17,21 +17,29 @@ import { PayChartListDto } from './model/PayChartListDto';
 })
 export class PayChartComponent implements OnInit {
 
+    // displayedColumns: string[] = [
+    //     'date',
+    //     'operation',
+    //     'debit',
+    //     'paid',
+    //     'totalPaid',
+    //     'total',
+    //     'actions',
+    // ];
     displayedColumns: string[] = [
         'date',
-        'operation',
-        'debit',
+        'credit',
         'paid',
-        'totalPaid',
-        'total',
-        'actions',
+        'paymentName',
+        'remark'
     ];
     @ViewChild('paginator') paginator: MatPaginator;
 
     selectedCustomerId: any;
+    //payChartList: PayChartListDto[] = [];
+    // dataSource = new MatTableDataSource<any>(this.payChartList);
     payChartList: PayChartListDto[] = [];
     dataSource = new MatTableDataSource<any>(this.payChartList);
-
     selectedsaleId : any;
 
     constructor(
@@ -57,8 +65,7 @@ export class PayChartComponent implements OnInit {
             .getPayChartList(model)
             .subscribe((response) => {
                 this.payChartList = response.data;
-                this.payChartList = this.payChartList.filter(x=>x.saleBuyId == this.selectedsaleId);
-
+             
                 this.dataSource = new MatTableDataSource<PayChartListDto>(
                     this.payChartList
                 );
