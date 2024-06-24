@@ -18,12 +18,13 @@ import { AccommodationexitComponent } from './dialog/accommodationexit/accommoda
 })
 export class AccommodationsComponent implements OnInit {
 
-  displayedColumns: string[] = ['customerName', 'roomName', 'checkinDate', 'checkOutDate', 'actions'];
+  displayedColumns: string[] = ['warning', 'customerName', 'roomName', 'checkinDate', 'checkOutDate', 'actions'];
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
   accommodations: AccomodationListDto[] = [];
   dataSource = new MatTableDataSource<AccomodationListDto>(this.accommodations);
+  now: Date = new Date();
 
   constructor(
     private _dialog: MatDialog,

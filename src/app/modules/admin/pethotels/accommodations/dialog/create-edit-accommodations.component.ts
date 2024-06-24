@@ -156,13 +156,13 @@ export class CreateEditAccommodationsComponent implements OnInit {
     this._accomodations.createAccommodation(item).subscribe(
       (response) => {
         if (response.isSuccessful) {
-          this.showSweetAlert('success');
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
           this._dialogRef.close({
             status: true,
           });
         } else {
           this.buttonDisabled = false;
-          this.showSweetAlert('error');
+          this.showSweetAlert('error', response.errors);
         }
       },
       (err) => {
@@ -177,7 +177,7 @@ export class CreateEditAccommodationsComponent implements OnInit {
   }
 
 
-  showSweetAlert(type: string): void {
+  showSweetAlert(type: string, message: string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.success'),
@@ -188,7 +188,7 @@ export class CreateEditAccommodationsComponent implements OnInit {
     } else {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.error'),
-        this.translate('sweetalert.transactionFailed'),
+        message,
         SweetalertType.error
       );
       GeneralService.sweetAlert(sweetAlertDto);
