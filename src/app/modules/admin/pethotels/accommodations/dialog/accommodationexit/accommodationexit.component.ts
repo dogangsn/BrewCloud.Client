@@ -11,6 +11,8 @@ import { RoomListDto } from '../../../accommodationrooms/models/roomListDto';
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
 import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/models/PaymentMethodsDto';
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
+import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
+import { PatientOwnerListDto } from 'app/modules/admin/patient/patientlist/models/patientOwnerListDto';
 
 @Component({
   selector: 'app-accommodationexit',
@@ -22,6 +24,7 @@ export class AccommodationexitComponent implements OnInit {
   selectedaccomodationexit: any;
   buttonDisabled = false;
   accommodationexit: FormGroup;
+  patientListAll: PatientOwnerListDto[] = [];
   patientList: PatientDetails[] = [];
   customers: customersListDto[] = [];
   rooms: RoomListDto[] = [];
@@ -29,9 +32,10 @@ export class AccommodationexitComponent implements OnInit {
   now: Date = new Date();
   selectedCheckinDate: Date = new Date();
   selectedCheckOutDate: Date = new Date();
-
   payments: PaymentMethodsDto[] = [];
 
+  price: number = 0;
+  priceType: number;
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
@@ -40,9 +44,14 @@ export class AccommodationexitComponent implements OnInit {
     private _customerService: CustomerService,
     private _accomodations: AccommodationsService,
     private _paymentmethodsService: PaymentMethodservice,
+    private _patientService: PatientListService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.selectedaccomodationexit = data;
+    if (this.selectedaccomodationexit !== null) {
+      this.price = this.selectedaccomodationexit.price;
+      this.priceType = this.selectedaccomodationexit.priceType
+    }
   }
 
   ngOnInit() {
@@ -50,26 +59,36 @@ export class AccommodationexitComponent implements OnInit {
     zip(
       this.getCustomerList(),
       this.getRoomList(),
-      this.paymentsList()
-
+      this.paymentsList(),
+      this.getPatientList()
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: (value) => {
         this.setCustomerList(value[0]),
           this.setRoomList(value[1]),
-          this.setpaymentList(value[2])
+          this.setpaymentList(value[2]),
+          this.setPatientList(value[3])
       },
       error: (e) => {
         console.log(e);
       },
       complete: () => {
-
+        this.fillFormData(this.selectedaccomodationexit);
       }
     });
 
 
-
+    this.accommodationexit = this._formBuilder.group({
+      customerId: [{ value: '', disabled: true }],
+      patientId: [{ value: '', disabled: true }],
+      roomId: [{ value: '', disabled: true }],
+      checkinDate: [{ value: '', disabled: true }],
+      checkoutDate: [{ value: '' }],
+      paymenttype: [1],
+      price: 0,
+      pricecollection: 0
+    });
   }
 
   fillFormData(selectedAccomodation: any) {
@@ -77,12 +96,16 @@ export class AccommodationexitComponent implements OnInit {
     if (this.selectedaccomodationexit !== null) {
       this.accommodationexit.setValue({
         customerId: selectedAccomodation.customerId,
-        patientId: selectedAccomodation.patientId,
-        roomId: selectedAccomodation.roomId
+        patientId: selectedAccomodation.patientsId,
+        roomId: selectedAccomodation.roomId,
+        checkinDate: selectedAccomodation.checkinDate,
+        checkoutDate: selectedAccomodation.checkoutDate,
+        paymenttype: 1,
+        price: this.price,
+        pricecollection: 0
       });
     }
   }
-
 
   getCustomerList(): Observable<any> {
     return this._customerService.getcustomerlist();
@@ -129,7 +152,6 @@ export class AccommodationexitComponent implements OnInit {
       });
   }
 
-
   handleValueChange(e) {
     this.selectedCheckinDate = e.value;
   }
@@ -149,8 +171,23 @@ export class AccommodationexitComponent implements OnInit {
     }
   }
 
+  getPatientList(): Observable<any> {
+    return this._patientService.gtPatientList();
+  }
 
+  setPatientList(response: any): void {
+    if (response.data) {
+      this.patientListAll = response.data;
+    }
+  }
 
+  calculateAccom(): void {
+      
+  }
 
+}
 
+export enum PriceTypes {
+  Daily = 0,
+  Hours = 1
 }

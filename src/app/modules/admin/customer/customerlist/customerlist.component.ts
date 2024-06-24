@@ -62,7 +62,6 @@ export class CustomersListComponent implements OnInit {
         });
     }
 
-
     addPanelOpen(): void {
         //this.erpfinancemonitorForm.reset();
         const dialog = this._dialog
@@ -214,6 +213,29 @@ export class CustomersListComponent implements OnInit {
 
 
 
+    }
+
+    updateArchive = (id: string) => {
+        const _customer = this.customerlist.find(x => x.id === id);
+        if (_customer) {
+            const model = {
+                customerId: id,
+                archive: true
+            }
+            this._customerListService.updateCustomerArchive(model).subscribe(
+                (response) => {
+                    if (response.isSuccessful) {
+                        this.showSweetAlert('success');
+                        this.getCustomerList();
+                    } else {
+                        this.showSweetAlert('error');
+                    }
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
+        }
     }
 
 

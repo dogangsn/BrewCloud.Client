@@ -20,6 +20,7 @@
         "nothingSelected": "Nothing Selected.",
         "selectBranch": "Select a Branch...",
         "selectDepartment": "Select a Department...",
-        "selectPricing": "Select the personnel whose salary will be updated."
+        "selectPricing": "Select the personnel whose salary will be updated.",
+        "areYouSureChange": "Değiştirilecektir emin misiniz ?"
     }
 }
