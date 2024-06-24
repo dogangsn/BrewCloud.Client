@@ -171,11 +171,8 @@ export class CreateEditAccommodationsComponent implements OnInit {
     );
   }
 
-
   updateaAccomodation(): void {
-
   }
-
 
   showSweetAlert(type: string, message: string): void {
     if (type === 'success') {
@@ -198,8 +195,6 @@ export class CreateEditAccommodationsComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
-
-
 
 
 }

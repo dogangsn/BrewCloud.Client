@@ -13,6 +13,10 @@ import { PaymentMethodsDto } from 'app/modules/admin/definition/paymentmethods/m
 import { PaymentMethodservice } from 'app/core/services/definition/paymentmethods/paymentmethods.service';
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 import { PatientOwnerListDto } from 'app/modules/admin/patient/patientlist/models/patientOwnerListDto';
+import { CreateAccommodationExit } from '../../models/createAccommodationExit';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
 
 @Component({
   selector: 'app-accommodationexit',
@@ -132,7 +136,44 @@ export class AccommodationexitComponent implements OnInit {
   }
 
   addOrUpdateAccommodationExit(): void {
+    this.buttonDisabled = true;
+    this.addAccommodationExit();
+  }
 
+  addAccommodationExit(): void {
+    const item = new CreateAccommodationExit(
+      this.selectedaccomodationexit.id,
+      this.getFormValueByName('customerId'),
+      this.getFormValueByName('patientId'),
+      this.getFormValueByName('roomId'),
+      this.selectedCheckinDate,
+      this.selectedCheckOutDate,
+      this.getFormValueByName('price'),
+      this.getFormValueByName('pricecollection'),
+      this.getFormValueByName('paymenttype'),
+    )
+    this._accomodations.updateCheckOut(item).subscribe(
+      (response) => {
+        if (response.isSuccessful) {
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
+          this._dialogRef.close({
+            status: true,
+          });
+        } else {
+          this.buttonDisabled = false;
+          this.showSweetAlert('error', response.errors);
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+
+  }
+
+  getFormValueByName(formName: string): any {
+    return this.accommodationexit.get(formName).value;
   }
 
   handleCustomerChange(event: any) {
@@ -182,7 +223,28 @@ export class AccommodationexitComponent implements OnInit {
   }
 
   calculateAccom(): void {
-      
+
+  }
+
+  showSweetAlert(type: string, message: string): void {
+    if (type === 'success') {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.success'),
+        this.translate('sweetalert.transactionSuccessful'),
+        SweetalertType.success
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.error'),
+        message,
+        SweetalertType.error
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    }
+  }
+  translate(key: string): any {
+    return this._translocoService.translate(key);
   }
 
 }

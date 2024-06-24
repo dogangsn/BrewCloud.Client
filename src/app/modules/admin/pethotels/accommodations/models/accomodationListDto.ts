@@ -16,4 +16,5 @@ export class AccomodationListDto {
     id: string;
     price:number;
     pricingType: number;
+    isLogOut : boolean;
 }
