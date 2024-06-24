@@ -75,40 +75,37 @@ export class AccommodationsTabComponent implements OnInit {
         return;
       }
 
-    }
-
-
-    const sweetAlertDto = new SweetAlertDto(
-      this.translate('sweetalert.areYouSure'),
-      this.translate('sweetalert.areYouSureDelete'),
-      SweetalertType.warning
-    );
-    GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-      (swalResponse) => {
-        if (swalResponse.isConfirmed) {
-          const model = {
-            id: id,
-          };
-          this._accommodationrooms
-            .deleteAccomodation(model)
-            .subscribe((response) => {
-              if (response.isSuccessful) {
-                this.getAccommodationsList();
-                const sweetAlertDto2 = new SweetAlertDto(
-                  this.translate('sweetalert.success'),
-                  this.translate('sweetalert.transactionSuccessful'),
-                  SweetalertType.success
-                );
-                GeneralService.sweetAlert(sweetAlertDto2);
-              } else {
-                this.showSweetAlert('error', response.errors[0]);
-                console.log(response.errors[0]);
-              }
-            });
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.areYouSure'),
+        this.translate('sweetalert.areYouSureDelete'),
+        SweetalertType.warning
+      );
+      GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+        (swalResponse) => {
+          if (swalResponse.isConfirmed) {
+            const model = {
+              id: id,
+            };
+            this._accommodationrooms
+              .deleteAccomodation(model)
+              .subscribe((response) => {
+                if (response.isSuccessful) {
+                  this.getAccommodationsList();
+                  const sweetAlertDto2 = new SweetAlertDto(
+                    this.translate('sweetalert.success'),
+                    this.translate('sweetalert.transactionSuccessful'),
+                    SweetalertType.success
+                  );
+                  GeneralService.sweetAlert(sweetAlertDto2);
+                } else {
+                  this.showSweetAlert('error', response.errors[0]);
+                  console.log(response.errors[0]);
+                }
+              });
+          }
         }
-      }
-    );
-
+      );
+    }
 
 
   };
