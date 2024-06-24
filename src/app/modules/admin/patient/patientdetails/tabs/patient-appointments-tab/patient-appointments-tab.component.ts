@@ -37,10 +37,9 @@ export class PatientAppointmentsTabComponent implements OnInit {
   }
 
   getAppointmentDailyList() {
-const model ={
-  PatientId : this.receivedPatientId
-}
-debugger
+    const model ={
+      PatientId : this.receivedPatientId
+    }
     this._appointmentService
       .getAppointmentListByPatientId(model)
       .subscribe((response) => {

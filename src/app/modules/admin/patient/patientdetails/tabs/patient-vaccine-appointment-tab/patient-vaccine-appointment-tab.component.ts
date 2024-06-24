@@ -9,6 +9,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CreateVaccineListDto } from '../../../createvaccine/models/vaccine-examination-list-dto';
 import { VaccineCalendarService } from 'app/core/services/vaccinecalendar/vaccinecalendar.service';
+import { VaccineAppointmentDoneComponent } from './dialogs/vaccine-appointment-done/vaccine-appointment-done.component';
 
 @Component({
   selector: 'app-patient-vaccine-appointment-tab',
@@ -21,8 +22,9 @@ export class PatientVaccineAppointmentTabComponent implements OnInit {
   recievedPatientId:string;
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
-  vaccines: CreateVaccineListDto[] = [];
-  dataSource = new MatTableDataSource<CreateVaccineListDto>(this.vaccines);
+  vaccineAppointmentList: CreateVaccineListDto[] = [];
+  dataSource = new MatTableDataSource<CreateVaccineListDto>(this.vaccineAppointmentList);
+  vaccineAppointment: CreateVaccineListDto;
 
   constructor(
     private _dialog: MatDialog,
@@ -43,9 +45,9 @@ export class PatientVaccineAppointmentTabComponent implements OnInit {
     }
 
     this._vaccineCalendarService.getPatientVaccineList(model).subscribe((response) => {
-      this.vaccines = response.data;
+      this.vaccineAppointmentList = response.data;
       this.dataSource = new MatTableDataSource<CreateVaccineListDto>(
-        this.vaccines
+        this.vaccineAppointmentList
       );
       this.dataSource.paginator = this.paginator;
     });
@@ -106,6 +108,21 @@ export class PatientVaccineAppointmentTabComponent implements OnInit {
       }
     );
   };
+
+  public redirectToDone(vaccineAppointment){
+    const dialog = this._dialog
+        .open(VaccineAppointmentDoneComponent, {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: vaccineAppointment,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                this.getPatientVaccineList();
+            }
+        });
+  }
 
 
   formatDate(date: string): string {
