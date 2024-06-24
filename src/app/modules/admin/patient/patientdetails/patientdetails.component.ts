@@ -51,7 +51,7 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     this._patientService.getPatientFindById(model).subscribe(response => {
-      debugger
+      
         this.patient = response.data;
         this.patient.id = this.patient.id.split("-").pop();
         this.name = this.patient.name;
@@ -66,7 +66,7 @@ export class PatientDetailsComponent implements OnInit {
     }
 
     this._customerService.getCustomersFindById(model).subscribe(response => {
-      debugger
+      
         this.customer = response.data;
         this._customerDataService.setCustomerId(this.customer.id);
         this.loader = false;

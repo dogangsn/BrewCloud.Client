@@ -69,7 +69,6 @@ export class SearchComponent implements OnChanges, OnInit, OnDestroy
 
     ngOnInit(): void
     {
-        debugger;
         this.searchControl.valueChanges
             .pipe(
                 debounceTime(this.debounce),

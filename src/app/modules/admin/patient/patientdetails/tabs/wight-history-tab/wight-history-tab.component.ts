@@ -35,7 +35,7 @@ export class WightHistoryTabComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    debugger
+    
     this.recievedPatientId=this._customerDataService.getPatientId();
     this.getAccommodationsList();
   }
@@ -108,7 +108,7 @@ export class WightHistoryTabComponent implements OnInit {
   }
 
   isWeightdecrease(element: any, index: number): boolean {
-    debugger
+    
     if (index === this.weighControls.length - 1) {
       return false;
     }

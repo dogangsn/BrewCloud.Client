@@ -58,7 +58,6 @@ export class PatientExaminationsTabComponent implements OnInit {
       const model = {
         id : this.receivedPatientId,
       }
-      debugger
       this._examinationService.getExaminationlistByPatientId(model).subscribe((response) => {
           this.examinationList = response.data;
           this.dataSource = new MatTableDataSource<ExaminationListDto>(

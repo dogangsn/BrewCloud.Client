@@ -33,7 +33,6 @@ export class CustomerPatientsTabComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    debugger
     this.receivedCustomerId = this._customerDataService.getCustomerId();
     this.getPatients();
   }

@@ -20,8 +20,8 @@ export class VaccineCalendarService {
         return this._httpService.post(endPoints.vaccineCalendar.createVaccineExaminations, model);
     }
 
-    updateVaccine(model: any): Observable<any> {
-        return this._httpService.post(endPoints.vaccine.updateVaccine, model);
+    updateVaccineExamination(model: any): Observable<any> {
+        return this._httpService.post(endPoints.vaccineCalendar.updateVaccineExamination, model);
     }
 
     deletePatientVaccine(model: any): Observable<any> {

@@ -44,7 +44,8 @@ export class CreateEditVaccineDialogComponent implements OnInit {
     destroy$: Subject<boolean> = new Subject<boolean>();
     taxisList: TaxesDto[] = [];
     productdescription: ProductDescriptionsDto[] = [];
-    
+    stylesheet = document.styleSheets[0];
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -60,6 +61,7 @@ export class CreateEditVaccineDialogComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
 
         this.getAnimalTypesList();
 
