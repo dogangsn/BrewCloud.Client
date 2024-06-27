@@ -23,6 +23,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
+import { LogViewComponent } from '../commonscreen/log-view/log-view.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 const root: Route[] = [
     {
         path     : '',
@@ -74,11 +76,13 @@ const root: Route[] = [
         SharedModule,
         MatDialogModule,
         MatRadioModule,
+        DragDropModule,
         RouterModule.forChild(root)
     ],
     declarations: [
         SuppliersComponent,
-        CreateEditSuppliersDialogComponent
+        CreateEditSuppliersDialogComponent,
+        LogViewComponent
     ]
     
 })

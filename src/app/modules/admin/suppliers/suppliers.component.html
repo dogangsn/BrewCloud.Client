@@ -38,6 +38,10 @@
                   [svgIcon]="'heroicons_solid:link'"></mat-icon>
               Kayıtlı Tedarikçiden Alış
           </button> -->
+      <button mat-stroked-button (click)="getSuppliers()">
+        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+        Yenile
+      </button>
       <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
         Yeni Tedarikçi Ekle
@@ -103,6 +107,15 @@
             <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logView(element.id)">
+                <mat-icon>history</mat-icon>
+                <span>İşlem Geçmişi</span>
+              </button>
+            </mat-menu>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,4 +1,4 @@
-export const endPoints = { 
+export const endPoints = {
     auth: {
         forgotPassword: 'api/auth/forgot-password',
         resetPassword: 'api/auth/reset-password',
@@ -7,51 +7,52 @@ export const endPoints = {
         signUp: 'identityserver/api/user/SignUp',
         unlockSession: 'api/auth/unlock-session',
     },
-    account :{
+    account: {
         createaccount: 'identityserver/api/account/create',
         complateactivation: 'identityserver/api/account/complateactivation',
-        refreshactivation  : 'identityserver/api/account/RefreshActivation'
+        refreshactivation: 'identityserver/api/account/RefreshActivation'
     },
-    settings : {
+    settings: {
         getUsersList: 'account/settings/GetUsersList',
         getCompany: 'account/settings/GetCompany',
         updateCompany: 'account/settings/UpdateCompany',
         createUsers: 'account/settings/CreateUser',
         updateUsers: 'account/settings/UpdateUser',
         getRolsSettings: 'account/settings/GetRoleSettingList',
-        createRols : 'account/settings/CreateRoleSetting',
-        updateRols : 'account/settings/UpdateRoleSetting',
-        deleteRols : 'account/settings/DeleteRoleSetting',
-        getNavigation : 'account/settings/GetNavigation'
+        createRols: 'account/settings/CreateRoleSetting',
+        updateRols: 'account/settings/UpdateRoleSetting',
+        deleteRols: 'account/settings/DeleteRoleSetting',
+        getNavigation: 'account/settings/GetNavigation'
+
     },
-    customers:{
+    customers: {
         customerslist: 'vet/Customers/CustomersList',
         createCustomers: 'vet/Customers/CreateCustomer',
-        deleteCustomer : 'vet/Customers/DeleteCustomer',
-        animalsTypeList : 'vet/Customers/VetAnimalsTypeList',
-        animalBreedsDefList : 'vet/Customers/AnimalBreedsDefList',
+        deleteCustomer: 'vet/Customers/DeleteCustomer',
+        animalsTypeList: 'vet/Customers/VetAnimalsTypeList',
+        animalBreedsDefList: 'vet/Customers/AnimalBreedsDefList',
         getCustomersFindById: 'vet/Customers/GetCustomersFindById',
         updateCustomerById: 'vet/Customers/UpdateCustomerById',
-        createPatient : 'vet/Customers/CreatePatient',
+        createPatient: 'vet/Customers/CreatePatient',
         deletePatient: 'vet/Customers/DeletePatient',
-        getTransactionMovement : 'vet/Customers/GetTransactionMovementList',
+        getTransactionMovement: 'vet/Customers/GetTransactionMovementList',
         getPaymentTransaction: 'vet/Customers/GetPaymentTransactionList',
-        createCollection : 'vet/Customers/CreateCollection',
-        getpaychartList : 'vet/Customers/GetPayChartList',
-        deletePayChart : 'vet/Customers/DeletePayChart',
+        createCollection: 'vet/Customers/CreateCollection',
+        getpaychartList: 'vet/Customers/GetPayChartList',
+        deletePayChart: 'vet/Customers/DeletePayChart',
         getPatients: 'vet/Customers/GetPatientsByCustomerId',
-        sendMessage : 'vet/Customers/SendMessage',
-        createSale : 'vet/Accounting/CreateSale',
-        updateSale : 'vet/Accounting/UpdateSale',
-        getSalesCustomerList : 'vet/Customers/GetSalesCustomerList',
-        createSaleCollection : 'vet/Accounting/CreateSaleCollection',
-        deleteCollection : 'vet/Accounting/DeleteCollection',
-        getSalesById : 'vet/Accounting/GetSalesById',
-        balanceCollection : 'vet/Accounting/CreateBalanceSaleCollection',
-        updatePatient : 'vet/Customers/UpdatePatient',
-        updateCustomerArchive : 'vet/Customers/UpdateCustomerArchive'
+        sendMessage: 'vet/Customers/SendMessage',
+        createSale: 'vet/Accounting/CreateSale',
+        updateSale: 'vet/Accounting/UpdateSale',
+        getSalesCustomerList: 'vet/Customers/GetSalesCustomerList',
+        createSaleCollection: 'vet/Accounting/CreateSaleCollection',
+        deleteCollection: 'vet/Accounting/DeleteCollection',
+        getSalesById: 'vet/Accounting/GetSalesById',
+        balanceCollection: 'vet/Accounting/CreateBalanceSaleCollection',
+        updatePatient: 'vet/Customers/UpdatePatient',
+        updateCustomerArchive: 'vet/Customers/UpdateCustomerArchive'
     },
-    examinations:{
+    examinations: {
         examinationlist: 'vet/Patient/GetExaminations',
         getExamination: 'vet/Patient/GetExaminationByRecId',
         createExamination: 'vet/Patient/CreateExamination',
@@ -61,196 +62,197 @@ export const endPoints = {
         updateExaminationStatus: 'vet/Patient/UpdateExaminationStatus',
         getExaminationlistByPatient: 'vet/Patient/getExaminationlistByPatientId',
     },
-    
-    productdescription:{
+
+    productdescription: {
         productdescriptionList: 'vet/Definition/ProductDescriptionList',
-        createProductDescriptions : 'vet/Definition/CreateProductDescription',
-        updateProductDescriptions : 'vet/Definition/UpdateProductDescription',
-        deleteProductDescriptions : 'vet/Definition/DeleteProductDescription',
+        createProductDescriptions: 'vet/Definition/CreateProductDescription',
+        updateProductDescriptions: 'vet/Definition/UpdateProductDescription',
+        deleteProductDescriptions: 'vet/Definition/DeleteProductDescription',
         productDescriptionFilters: 'vet/Definition/ProductDescriptionFilters',
-        productMovementList : 'vet/Definition/ProductMovementList',
-        updateProductActive : 'vet/Definition/UpdateProductActive'
+        productMovementList: 'vet/Definition/ProductMovementList',
+        updateProductActive: 'vet/Definition/UpdateProductActive'
     },
     productcategory: {
         productcategoryList: 'vet/Definition/ProductCategoryList',
-        createProductCategory : 'vet/Definition/CreateProductCategories',
-        updateProductCategory : 'vet/Definition/UpdateProductCategories',
-        deleteProductCategory : 'vet/Definition/DeleteProductCategories',
+        createProductCategory: 'vet/Definition/CreateProductCategories',
+        updateProductCategory: 'vet/Definition/UpdateProductCategories',
+        deleteProductCategory: 'vet/Definition/DeleteProductCategories',
     },
-    units : {
-        unitsList : 'vet/Definition/UnitsList',
-        createUnits : 'vet/Definition/CreateUnits',
-        updateUnits : 'vet/Definition/UpdateUnits',
-        deleteUnits : 'vet/Definition/DeleteUnits',
+    units: {
+        unitsList: 'vet/Definition/UnitsList',
+        createUnits: 'vet/Definition/CreateUnits',
+        updateUnits: 'vet/Definition/UpdateUnits',
+        deleteUnits: 'vet/Definition/DeleteUnits',
     },
-    casedefinition : {
-        casedefinitionList : 'vet/Definition/CasingDefinitionList',
-        Createcasedefinition : 'vet/Definition/CreateCasingDefinition',
-        Updatecasedefinition : 'vet/Definition/UpdateCasingDefinition',
-        Deletecasedefinition : 'vet/Definition/DeleteCasingDefinition'
+    casedefinition: {
+        casedefinitionList: 'vet/Definition/CasingDefinitionList',
+        Createcasedefinition: 'vet/Definition/CreateCasingDefinition',
+        Updatecasedefinition: 'vet/Definition/UpdateCasingDefinition',
+        Deletecasedefinition: 'vet/Definition/DeleteCasingDefinition'
     },
-    customergroup : {
+    customergroup: {
         customerGroupList: 'vet/Definition/CustomerGroupList',
-        createCustomerGroupDef : 'vet/Definition/CreateCustomerGroupDef',
-        updateCustomerGroupDef : 'vet/Definition/UpdateCustomerGroupDef',
-        deleteCustomerGroupDef : 'vet/Definition/DeleteCustomerGroupDef',
+        createCustomerGroupDef: 'vet/Definition/CreateCustomerGroupDef',
+        updateCustomerGroupDef: 'vet/Definition/UpdateCustomerGroupDef',
+        deleteCustomerGroupDef: 'vet/Definition/DeleteCustomerGroupDef',
     },
-    store:{
-        storeList : 'vet/Store/StoreList',
+    store: {
+        storeList: 'vet/Store/StoreList',
         createStore: 'vet/Store/CreateStore',
-        updateStore : 'vet/Store/UpdateStore',
-        deleteStore : 'vet/Store/DeleteStore'
+        updateStore: 'vet/Store/UpdateStore',
+        deleteStore: 'vet/Store/DeleteStore'
     },
-    suppliers : {
-        suppliersList : 'vet/Suppliers/SuppliersList',
-        Createsuppliers : 'vet/Suppliers/CreateSuppliers',
-        Updatesuppliers : 'vet/Suppliers/UpdateSuppliers',
-        Deletesuppliers : 'vet/Suppliers/DeleteSuppliers'
+    suppliers: {
+        suppliersList: 'vet/Suppliers/SuppliersList',
+        Createsuppliers: 'vet/Suppliers/CreateSuppliers',
+        Updatesuppliers: 'vet/Suppliers/UpdateSuppliers',
+        Deletesuppliers: 'vet/Suppliers/DeleteSuppliers'
     },
     animalColorsDef: {
-        animalColorsDefList : "vet/Definition/AnimalColorsDefList",
+        animalColorsDefList: "vet/Definition/AnimalColorsDefList",
         CreateAnimalColorsDef: "vet/Definition/CreateAnimalColorsDef"
     },
     saleBuy: {
-        createSaleBuy : "vet/SaleBuy/CreateSaleBuy",
-        saleBuyList : "vet/SaleBuy/SaleBuyList",
-        saleBuyFilter : 'vet/SaleBuy/SaleBuyListFilter',
+        createSaleBuy: "vet/SaleBuy/CreateSaleBuy",
+        saleBuyList: "vet/SaleBuy/SaleBuyList",
+        saleBuyFilter: 'vet/SaleBuy/SaleBuyListFilter',
         deleteSaleBuy: 'vet/SaleBuy/DeleteSaleBuy',
-        updateSaleBuy : 'vet/SaleBuy/UpdateSaleBuy'
+        updateSaleBuy: 'vet/SaleBuy/UpdateSaleBuy'
     },
-    paymentmethods : {
-        paymentmethodsList : 'vet/Definition/PaymentMethodList',
+    paymentmethods: {
+        paymentmethodsList: 'vet/Definition/PaymentMethodList',
         createPaymentMethods: 'vet/Definition/CreatePaymentMethods',
         updatePaymentMethods: 'vet/Definition/UpdatePaymentMethods',
         deletePaymentMethods: 'vet/Definition/DeletePaymentMethods',
     },
-    agenda : {
-        agendaList : 'vet/Agenda/AgendaList',
-        agendaListById : 'vet/Agenda/AgendaListById',
-        Createagenda : 'vet/Agenda/CreateAgenda',
-        Updateagenda : 'vet/Agenda/UpdateAgenda',
-        Deleteagenda : 'vet/Agenda/DeleteAgenda'
+    agenda: {
+        agendaList: 'vet/Agenda/AgendaList',
+        agendaListById: 'vet/Agenda/AgendaListById',
+        Createagenda: 'vet/Agenda/CreateAgenda',
+        Updateagenda: 'vet/Agenda/UpdateAgenda',
+        Deleteagenda: 'vet/Agenda/DeleteAgenda'
     },
-    demandproducts : {
-        demandproductsList : 'vet/Demands/DemandProductsList',
-        Createdemandproducts : 'vet/Demands/CreateDemandProducts',
-        Updatedemandproducts : 'vet/Demands/UpdateDemandProducts',
-        Deletedemandproducts : 'vet/Demands/DeleteDemandProducts'
+    demandproducts: {
+        demandproductsList: 'vet/Demands/DemandProductsList',
+        Createdemandproducts: 'vet/Demands/CreateDemandProducts',
+        Updatedemandproducts: 'vet/Demands/UpdateDemandProducts',
+        Deletedemandproducts: 'vet/Demands/DeleteDemandProducts'
     },
-    demands : {
-        demandsList : 'vet/Demands/DemandList',
-        createdemand : 'vet/Demands/CreateDemand',
-        updatedemand : 'vet/Demands/UpdateDemand',
-        deletedemand : 'vet/Demands/DeleteDemand',
-        updatebuydemands:'vet/Demands/UpdateDemandIsBuying'
+    demands: {
+        demandsList: 'vet/Demands/DemandList',
+        createdemand: 'vet/Demands/CreateDemand',
+        updatedemand: 'vet/Demands/UpdateDemand',
+        deletedemand: 'vet/Demands/DeleteDemand',
+        updatebuydemands: 'vet/Demands/UpdateDemandIsBuying'
     },
-    demandTrans : {
-        demandsTransList : 'vet/Demands/DemandTransList',
+    demandTrans: {
+        demandsTransList: 'vet/Demands/DemandTransList',
     },
-    demandComplate : {
-        demandsComplateList : 'vet/Demands/DemandComplatedList'
+    demandComplate: {
+        demandsComplateList: 'vet/Demands/DemandComplatedList'
     },
-    lab : {
-        customersLabList : 'vet/lab/CustomersLabList'
+    lab: {
+        customersLabList: 'vet/lab/CustomersLabList'
     },
-    parameters : {
-        parametersList : 'vet/Settings/ParametersList',
-        updateparameters : 'vet/Settings/UpdateParameters',
+    parameters: {
+        parametersList: 'vet/Settings/ParametersList',
+        updateparameters: 'vet/Settings/UpdateParameters',
         createsmsparameters: 'vet/Settings/CreateSmsParameters',
         updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
-        getSmsParametersIdBy : 'vet/Settings/GetSmsParametersIdBy'
+        getSmsParametersIdBy: 'vet/Settings/GetSmsParametersIdBy',
+        getlogs: 'vet/Settings/GetLogs'
     },
-    chat:{
+    chat: {
         getAllUsers: 'chat/Account/GetAllUsers'
     },
-    appointments : {
-        appointmensList : 'vet/Appointment/AppointmentsList',
-        createappointment : 'vet/Appointment/CreateAppointment',
-        deleteappointment : 'vet/Appointment/DeleteAppointment',
-        updateappointment : 'vet/Appointment/UpdateAppointment',
-        getvetuserslist : 'vet/GeneralSettings/GetVetUsersList',
-        appointmentsByIdList : 'vet/Appointment/AppointmentFindByIdList',
-        updatePaymentReceivedAppointment : 'vet/Appointment/UpdatePaymentReceivedAppointment',
-        updateCompletedAppointment : 'vet/Appointment/UpdateCompletedAppointment',
-        getAppointmentDailyList : 'vet/Appointment/GetAppointmentDailyList',
-        updateAppointmentStatus : 'vet/Appointment/UpdateAppointmentStatus',
-        getAppointmentListByPatientId : 'vet/Appointment/GetAppointmentListByPatientId',
+    appointments: {
+        appointmensList: 'vet/Appointment/AppointmentsList',
+        createappointment: 'vet/Appointment/CreateAppointment',
+        deleteappointment: 'vet/Appointment/DeleteAppointment',
+        updateappointment: 'vet/Appointment/UpdateAppointment',
+        getvetuserslist: 'vet/GeneralSettings/GetVetUsersList',
+        appointmentsByIdList: 'vet/Appointment/AppointmentFindByIdList',
+        updatePaymentReceivedAppointment: 'vet/Appointment/UpdatePaymentReceivedAppointment',
+        updateCompletedAppointment: 'vet/Appointment/UpdateCompletedAppointment',
+        getAppointmentDailyList: 'vet/Appointment/GetAppointmentDailyList',
+        updateAppointmentStatus: 'vet/Appointment/UpdateAppointmentStatus',
+        getAppointmentListByPatientId: 'vet/Appointment/GetAppointmentListByPatientId',
     },
     title: {
-        titleDefinationList : 'account/settings/GetTitleDefination',
-        createtitle : 'account/settings/CreateTitleDefination',
-        updatetitle : 'account/settings/UpdateTitleDefination',
-        deleteTitle : 'account/settings/DeleteTileDefination',
+        titleDefinationList: 'account/settings/GetTitleDefination',
+        createtitle: 'account/settings/CreateTitleDefination',
+        updatetitle: 'account/settings/UpdateTitleDefination',
+        deleteTitle: 'account/settings/DeleteTileDefination',
     },
     mailing: {
-        getsmptsettingsList : 'mail/Mailing/GetSmtpSettings',
-        createMailSettings : 'mail/Mailing/CreateSmtpSetting',
-        deletedMaildSettings : 'mail/Mailing/DeleteSmtpSetting',
+        getsmptsettingsList: 'mail/Mailing/GetSmtpSettings',
+        createMailSettings: 'mail/Mailing/CreateSmtpSetting',
+        deletedMaildSettings: 'mail/Mailing/DeleteSmtpSetting',
         updateMailSettings: 'mail/Mailing/UpdateSmtpSetting',
-        sendMail : 'mail/Mailing/SendMail'
+        sendMail: 'mail/Mailing/SendMail'
     },
     dashboards: {
-        getdashBoard : 'vet/Dashboard/GetDashBoard'
+        getdashBoard: 'vet/Dashboard/GetDashBoard'
     },
     clinicalstatistics: {
-        getClinicalstatisticsList : 'vet/Clinicalstatistics/GetClinicalstatisticsList',
-        getGraphicList : 'vet/Clinicalstatistics/GetGraphicList',
-        getweekVisitList : 'vet/Clinicalstatistics/WeekVisitList',
+        getClinicalstatisticsList: 'vet/Clinicalstatistics/GetClinicalstatisticsList',
+        getGraphicList: 'vet/Clinicalstatistics/GetGraphicList',
+        getweekVisitList: 'vet/Clinicalstatistics/WeekVisitList',
         getbagelSliceGraphList: 'vet/Clinicalstatistics/BagelSliceGraphList'
     },
     appointmenttypes: {
-        getAppointmentTypes : 'vet/Definition/GetAppointmentTypesList',
-        createAppointmentTypes : 'vet/Definition/CreateAppointmentTypes',
-        deleteAppointmentTypes : 'vet/Definition/DeleteAppointmentTypes',
+        getAppointmentTypes: 'vet/Definition/GetAppointmentTypesList',
+        createAppointmentTypes: 'vet/Definition/CreateAppointmentTypes',
+        deleteAppointmentTypes: 'vet/Definition/DeleteAppointmentTypes',
         updateAppointmentTypes: 'vet/Definition/UpdateAppointmentTypes'
     },
-    taxis : {
-        getTaxisList : 'vet/Definition/GetTaxisList',
-        createTaxis : 'vet/Definition/CreateTaxis',
-        deleteTaxis : 'vet/Definition/DeleteTaxis',
-        updateTaxis : 'vet/Definition/UpdateTaxis'
+    taxis: {
+        getTaxisList: 'vet/Definition/GetTaxisList',
+        createTaxis: 'vet/Definition/CreateTaxis',
+        deleteTaxis: 'vet/Definition/DeleteTaxis',
+        updateTaxis: 'vet/Definition/UpdateTaxis'
     },
-    reports:{
+    reports: {
         createFilter: 'vet/Reports/CreateReportFilter',
     },
-    vaccine : {
-        vaccineList : 'vet/Vaccine/VaccineList',
+    vaccine: {
+        vaccineList: 'vet/Vaccine/VaccineList',
         createVaccine: 'vet/Vaccine/CreateVaccine',
-        deleteVaccine : 'vet/Vaccine/DeteleVaccine',
+        deleteVaccine: 'vet/Vaccine/DeteleVaccine',
         updateVaccine: 'vet/Vaccine/UpdateVaccine'
     },
-    vaccineCalendar : {
-        patientVaccineList : 'vet/VaccineCalendar/PatientVaccineList',
+    vaccineCalendar: {
+        patientVaccineList: 'vet/VaccineCalendar/PatientVaccineList',
         createVaccineExaminations: 'vet/VaccineCalendar/CreateVaccineExamination',
-        deletePatientVaccine : 'vet/Vaccine/DeletePatientVaccine',
+        deletePatientVaccine: 'vet/Vaccine/DeletePatientVaccine',
         updateVaccineExamination: 'vet/VaccineCalendar/UpdateVaccineExamination'
     },
-    pethotels : {
-        getRoomList : 'vet/PetHotels/getRoomList',
-        createRoom : 'vet/PetHotels/CreateRoom',
-        updateRoom : 'vet/PetHotels/UpdateRoom',
-        deleteRoom : 'vet/PetHotels/DeleteRoom',
-        getAccomodationList : 'vet/PetHotels/GetAccomodationList',
-        createAccommodation : 'vet/PetHotels/CreateAccomodation',
-        deleteAccomodation : 'vet/PetHotels/DeleteAccomodation',
-        updateCheckOut : 'vet/PetHotels/UpdateCheckOut'
+    pethotels: {
+        getRoomList: 'vet/PetHotels/getRoomList',
+        createRoom: 'vet/PetHotels/CreateRoom',
+        updateRoom: 'vet/PetHotels/UpdateRoom',
+        deleteRoom: 'vet/PetHotels/DeleteRoom',
+        getAccomodationList: 'vet/PetHotels/GetAccomodationList',
+        createAccommodation: 'vet/PetHotels/CreateAccomodation',
+        deleteAccomodation: 'vet/PetHotels/DeleteAccomodation',
+        updateCheckOut: 'vet/PetHotels/UpdateCheckOut'
     },
     patient: {
-        getPatientList : 'vet/Patient/GetPatientList',
+        getPatientList: 'vet/Patient/GetPatientList',
         getPatientFindById: 'vet/Patient/GetPatientById',
         getWeightControls: 'vet/Patient/GetWeightControls',
         updatePatientsWeight: 'vet/Patient/UpdatePatientsWeight'
     },
-    stocktracking : {
-        getstockTrackingProductFilter : 'vet/Definition/StockTrackingProductFilter',
-        createStockTracking : 'vet/Definition/CreateStockTracking',
-        updateStockTracking : 'vet/Definition/UpdateStockTracking',
-        deleteStockTracking :'vet/Definition/DeleteStockTracking'
+    stocktracking: {
+        getstockTrackingProductFilter: 'vet/Definition/StockTrackingProductFilter',
+        createStockTracking: 'vet/Definition/CreateStockTracking',
+        updateStockTracking: 'vet/Definition/UpdateStockTracking',
+        deleteStockTracking: 'vet/Definition/DeleteStockTracking'
     },
-    smstemplate : {
-        getSmsTemplate :'vet/Definition/GetSmsTemplateList',
-        createSmsTemplate : 'vet/Definition/CreateSmsTemplate',
-        updateSmsTemplate : 'vet/Definition/UpdateSmsTemplate',
-        deleteSmsTemplate :'vet/Definition/DeleteSmsTemplate',
+    smstemplate: {
+        getSmsTemplate: 'vet/Definition/GetSmsTemplateList',
+        createSmsTemplate: 'vet/Definition/CreateSmsTemplate',
+        updateSmsTemplate: 'vet/Definition/UpdateSmsTemplate',
+        deleteSmsTemplate: 'vet/Definition/DeleteSmsTemplate',
     }
 }

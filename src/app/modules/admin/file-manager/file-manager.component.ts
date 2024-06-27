@@ -1,6 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { Subject } from 'rxjs';
+import { Item, Items } from './models/file-manager.types';
+ 
+ 
 @Component({
   selector: 'app-file-manager',
   templateUrl: './file-manager.component.html',
@@ -9,9 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class FileManagerComponent implements OnInit {
 
   drawerMode: 'side' | 'over';
-
+  @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
   selectedFile: File | null = null;
-  
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  items: Items;
+  selectedItem: Item;
+
+  files: any[] = [];
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _changeDetectorRef: ChangeDetectorRef,
@@ -21,29 +30,36 @@ export class FileManagerComponent implements OnInit {
   ngOnInit() {
   }
 
-  onBackdropClicked(): void
-  {
-      this._router.navigate(['./'], {relativeTo: this._activatedRoute});
-      this._changeDetectorRef.markForCheck();
+  onBackdropClicked(): void {
+    this._router.navigate(['./'], { relativeTo: this._activatedRoute });
+    this._changeDetectorRef.markForCheck();
   }
 
+  openFileUpload() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
 
-  onFileSelected(event: Event): void {
+  // Dosya seçildiğinde çağrılan fonksiyon
+  onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      console.log('Selected file:', this.selectedFile); 
+    if (input.files) {
+      const file = input.files[0];
+      console.log('Seçilen dosya:', file);
+      // Seçilen dosya ile ilgili işlemleri burada yapabilirsiniz
     }
   }
 
-  uploadFile(): void {
-    if (this.selectedFile) {
-      // Dosya yükleme işlemlerini burada yapabilirsiniz
-      console.log('Uploading file:', this.selectedFile);
-    } else {
-      console.error('No file selected!');
-    }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
   }
+  trackByFn(index: number, item: any): any {
+    return item.id || index;
+  }
+ 
 
 }
+

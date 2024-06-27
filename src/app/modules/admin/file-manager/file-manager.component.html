@@ -59,15 +59,14 @@
                       <!-- Upload button -->
                       <button
                           mat-flat-button
-                          [color]="'primary'" (click)="uploadFile()">
+                          [color]="'primary'" (click)="openFileUpload()">
                           <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                           <span class="ml-2 mr-1">Dosya Yükle</span>
                       </button>
                   </div>
               </div>
 
-              <!-- Items list -->
-              <!-- <ng-container *ngIf="items && (items.folders.length > 0 || items.files.length > 0); else noItems">
+              <ng-container *ngIf="items && (items.folders.length > 0 || items.files.length > 0); else noItems">
                   <div class="p-6 md:p-8 space-y-8">
       
                       <ng-container *ngIf="items.folders.length > 0">
@@ -154,15 +153,14 @@
                           </div>
                       </ng-container>
                   </div>
-              </ng-container> -->
+              </ng-container>
 
-              <!-- No items template -->
               <ng-template #noItems>
                   <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
                       <mat-icon
                           class="icon-size-24"
                           [svgIcon]="'heroicons_outline:folder-open'"></mat-icon>
-                      <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">There are no items!</div>
+                      <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Hiç öğe yok!</div>
                   </div>
               </ng-template>
 

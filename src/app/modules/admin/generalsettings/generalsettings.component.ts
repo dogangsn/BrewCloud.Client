@@ -58,13 +58,13 @@ export class GeneralsettingsComponent implements OnInit {
                 description:
                     'Şirket üzerinde Mail Trafiği üzerine SMTP ayarlarının tanımlanması',
             },
-            {
-                id: 'logs',
-                icon: 'heroicons_outline:user-group',
-                title: 'Log Kayıtları',
-                description:
-                    'İşlemlerde Silme/Düzenleme/Ekleme Log kayıtları detayları',
-            },
+            // {
+            //     id: 'logs',
+            //     icon: 'heroicons_outline:user-group',
+            //     title: 'Log Kayıtları',
+            //     description:
+            //         'İşlemlerde Silme/Düzenleme/Ekleme Log kayıtları detayları',
+            // },
         ];
 
         // Subscribe to media changes

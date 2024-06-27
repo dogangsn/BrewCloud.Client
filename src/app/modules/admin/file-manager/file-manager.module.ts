@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const routes: Routes = [
   {
-      path: '',
-      component : FileManagerComponent,
+    path: '',
+    component: FileManagerComponent,
   },
 ]
 
@@ -24,6 +25,9 @@ const routes: Routes = [
     MatTooltipModule,
     SharedModule,
     RouterModule.forChild(routes)
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA // Eğer gerekirse bu satırı ekleyin
   ],
   declarations: [FileManagerComponent]
 })

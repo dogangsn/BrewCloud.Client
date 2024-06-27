@@ -19,8 +19,10 @@
             "ES2022",
             "dom"
         ]
+     
     },
     "angularCompilerOptions": {
-        "enableI18nLegacyMessageIdFormat": false
+        "enableI18nLegacyMessageIdFormat": false,
+        "allowSyntheticDefaultImports": true
     }
 }
