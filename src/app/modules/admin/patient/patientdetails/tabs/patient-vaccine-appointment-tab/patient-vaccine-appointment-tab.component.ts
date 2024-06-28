@@ -124,6 +124,8 @@ export class PatientVaccineAppointmentTabComponent implements OnInit {
         });
   }
 
+  
+
 
   formatDate(date: string): string {
     const options: Intl.DateTimeFormatOptions = {

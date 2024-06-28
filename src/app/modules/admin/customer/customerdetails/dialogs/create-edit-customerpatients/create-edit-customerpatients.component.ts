@@ -18,6 +18,7 @@ import { PatientDetailsDto } from '../../../models/PatientDetailsDto';
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { Router } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -70,6 +71,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
     private _animalColorDefService: AnimalColorsDefService,
     private _customerService: CustomerService,
     private _dialog: MatDialog,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.sextype = sextype;
@@ -226,14 +228,26 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
     this._customerService.createPatients(patientModel).subscribe(
       (response) => {
         if (response.isSuccessful) {
-          this.showSweetAlert('success');
-          this._dialogRef.close({
-            status: true,
-          });
-        } else {
+          const sweetAlertDto = new SweetAlertDto(
+              'Kayıt İşlemi Gerçekleşti',
+              'Aşı Kayıt Ekranına yönlendirileceksiniz!',
+              SweetalertType.success
+          );
+          GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+              (swalResponse) => {
+                  if (swalResponse.isConfirmed) {
+                    this._dialogRef.close();
+                      this.router.navigate([
+                          'customerlist/createvaccine',
+                          response.data,
+                      ]);
+                  }
+              }
+          );
+      } else {
           this.showSweetAlert('error');
           this.buttonDisabled = true;
-        }
+      }
       },
       (err) => {
         console.log(err);

@@ -30,6 +30,8 @@ export class VaccineAppointmentDoneComponent implements OnInit {
   patient: PatientDetailsDto;
   customer: CustomerDetailDto;
   vaccine: VaccineListDto;
+  stylesheet = document.styleSheets[0];
+  loader = true;
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -45,6 +47,9 @@ export class VaccineAppointmentDoneComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
+
     this.vaccineAppointmentForm = this._formBuilder.group({
       patientName: [''],
       vaccineName: [''],
@@ -58,6 +63,9 @@ export class VaccineAppointmentDoneComponent implements OnInit {
       .subscribe({
         next: (value) => {
           this.setVaccineAppointment(value[0]);
+        },
+        complete() {
+          this.loader = false;
         },
         error: (e) => {
           console.log(e);
@@ -112,12 +120,19 @@ export class VaccineAppointmentDoneComponent implements OnInit {
 
   closeDialog(): void {
     this._dialogRef.close({ status: null });
+    for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+      if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+          (this.stylesheet as CSSStyleSheet).deleteRule(index);
+      }
+  }
   }
 
   fillFormData() {
 
     const nextVaccinationDate = new Date();
-    nextVaccinationDate.setDate(nextVaccinationDate.getDate() + this.vaccine[0].timeDone);
+    if (this.vaccine[0].timeDone>0) {
+      nextVaccinationDate.setDate(nextVaccinationDate.getDate() + this.vaccine[0].timeDone);
+    }
 
     this.vaccineAppointmentForm.setValue({
       patientName: this.patient.name,
@@ -126,6 +141,8 @@ export class VaccineAppointmentDoneComponent implements OnInit {
       doneDate: new Date(),
       nextVaccinationDate: nextVaccinationDate
     });
+
+    this.loader = false;
   }
 
   getFormValueByName(formName: string): any {
@@ -147,6 +164,11 @@ export class VaccineAppointmentDoneComponent implements OnInit {
           this._dialogRef.close({
             status: true,
           });
+          for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+            if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+                (this.stylesheet as CSSStyleSheet).deleteRule(index);
+            }
+        }
         } else {
           this.showSweetAlert('error');
         }
@@ -177,5 +199,7 @@ export class VaccineAppointmentDoneComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
+
+  
 
 }

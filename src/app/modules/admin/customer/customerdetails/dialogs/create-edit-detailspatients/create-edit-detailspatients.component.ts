@@ -15,6 +15,7 @@ import { AnimalColorsDefListDto } from '../../../models/AnimalColorsDefListDto';
 import { VetVetAnimalsTypeListDto } from '../../../models/VetVetAnimalsTypeListDto';
 import { CreatePatientCommand } from '../../../models/CreatePatientCommand';
 import { CreateEditAnimalsColorDialogComponent } from '../../../customeradd/dialog/create-edit-animalscolor';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-create-edit-detailspatients',
@@ -46,6 +47,7 @@ export class CreateEditDetailspatientsComponent implements OnInit {
         private _animalColorDefService: AnimalColorsDefService,
         private _customerService: CustomerService,
         private _dialog: MatDialog,
+        private router: Router,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         debugger;
@@ -160,10 +162,21 @@ export class CreateEditDetailspatientsComponent implements OnInit {
             this._customerService.createPatients(patientModel).subscribe(
                 (response) => {
                     if (response.isSuccessful) {
-                        this.showSweetAlert('success', '');
-                        this._dialogRef.close({
-                            status: true,
-                        });
+                        const sweetAlertDto = new SweetAlertDto(
+                            'Kayıt İşlemi Gerçekleşti',
+                            'Aşı Kayıt Ekranına yönlendirileceksiniz!',
+                            SweetalertType.success
+                        );
+                        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+                            (swalResponse) => {
+                                if (swalResponse.isConfirmed) {
+                                    this.router.navigate([
+                                        'customerlist/createvaccine',
+                                        response.data,
+                                    ]);
+                                }
+                            }
+                        );
                     } else {
                         this.showSweetAlert('error' ,'');
                         this.buttonDisabled = true;

@@ -11,7 +11,23 @@
         <span>Yapıldı Olarak İşaretle</span>
       </h5>
     </div>
-    <div class="modal-body mbody-patients">
+    <div role="status" class="animate-pulse modal-body mbody-patients" *ngIf="loader">
+      <div class="gap-6 w-full mt-14">
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700 mb-11"></div>
+          <div class="flex gap-2 mb-11">
+              <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          </div>
+          
+          <div class="flex items-center mb-4 mt-3 gap-2">
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          </div>
+          
+      </div>
+  </div>
+    
+    <div class="modal-body mbody-patients" *ngIf="!loader">
       <div class="qm-pr-content">
         <div class="row">
           <div class="col-sm-12 mt-2 common-width">

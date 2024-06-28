@@ -321,6 +321,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
                             (swalResponse) => {
                                 if (swalResponse.isConfirmed) {
+                                    this._dialog.closeAll();
                                     this.router.navigate([
                                         'customerlist/createvaccine',
                                         response.data,
