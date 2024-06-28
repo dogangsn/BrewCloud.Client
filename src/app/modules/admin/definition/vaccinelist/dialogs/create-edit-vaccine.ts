@@ -53,11 +53,11 @@ export class CreateEditVaccineDialogComponent implements OnInit {
         private _customerService: CustomerService,
         private _taxisService: TaxisService,
         private _productdescriptionService: ProductDescriptionService,
-        private _vaccineService : VaccineService,
+        private _vaccineService: VaccineService,
         @Inject(MAT_DIALOG_DATA) public data: VaccineListDto
     ) {
         this.selectedvaccine = data;
-        
+
     }
 
     ngOnInit(): void {
@@ -74,7 +74,7 @@ export class CreateEditVaccineDialogComponent implements OnInit {
         ).subscribe({
             next: (value) => {
                 this.setTaxis(value[0]),
-                this.setProductList(value[1])
+                    this.setProductList(value[1])
             },
             error: (e) => {
                 console.log(e);
@@ -102,16 +102,16 @@ export class CreateEditVaccineDialogComponent implements OnInit {
             remark: ['']
         });
     }
- 
+
     fillFormData(selectedVaccinedef: VaccineListDto) {
- 
+
         if (this.selectedvaccine !== null) {
             const numberValue = Number(selectedVaccinedef.animalType);
 
             this.vaccine.setValue({
-                animalType : numberValue,
-                vaccineName : selectedVaccinedef.vaccineName,
-                timeDone : selectedVaccinedef.timeDone.toString(),
+                animalType: numberValue,
+                vaccineName: selectedVaccinedef.vaccineName,
+                timeDone: selectedVaccinedef.timeDone.toString(),
                 renewalOption: selectedVaccinedef.renewalOption.toString(),
                 obligation: selectedVaccinedef.obligation.toString()
             });
@@ -135,10 +135,15 @@ export class CreateEditVaccineDialogComponent implements OnInit {
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
+        for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+            if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+                (this.stylesheet as CSSStyleSheet).deleteRule(index);
+            }
+        }
     }
 
     addVaccine(): void {
-        const item = new CreateVaccineCommand( 
+        const item = new CreateVaccineCommand(
             this.getFormValueByName('animalType'),
             this.getFormValueByName('vaccineName'),
             this.getFormValueByName('timeDone'),
@@ -165,7 +170,7 @@ export class CreateEditVaccineDialogComponent implements OnInit {
     }
 
     updateVaccine(): void {
-        const item = new UpdateVaccineCommand( 
+        const item = new UpdateVaccineCommand(
             this.selectedvaccine.id,
             this.getFormValueByName('animalType'),
             this.getFormValueByName('vaccineName'),
@@ -230,14 +235,14 @@ export class CreateEditVaccineDialogComponent implements OnInit {
 
     getProductList(): Observable<any> {
         const model = {
-          ProductType: 2,
+            ProductType: 2,
         };
         return this._productdescriptionService
             .getProductDescriptionFilters(model);
     }
 
-    setProductList(response: any) : void {
-        if(response.data) {
+    setProductList(response: any): void {
+        if (response.data) {
             this.productdescription = response.data;
         }
     }
@@ -288,7 +293,7 @@ export class CreateEditVaccineDialogComponent implements OnInit {
                 this.selectedvaccineMedicine = neVaccineM;
                 this.vaccineMedicineForm.patchValue(neVaccineM);
             } else if (selectedVaccine) {
-                selectedVaccine.id = this.vaccineMedicineForm.value?.id; 
+                selectedVaccine.id = this.vaccineMedicineForm.value?.id;
                 selectedVaccine.productId = this.vaccineMedicineForm.value?.productId;
                 selectedVaccine.quantity = this.vaccineMedicineForm.value?.quantity;
                 selectedVaccine.remark = this.vaccineMedicineForm.value?.remark;
@@ -319,12 +324,12 @@ export class CreateEditVaccineDialogComponent implements OnInit {
             );
             if (selectedProductIndex !== -1) {
                 this.vaccineMedicine[selectedProductIndex].id = this.vaccineMedicineForm.value?.id;
-                this.vaccineMedicine[selectedProductIndex].productId =  this.vaccineMedicineForm.value?.productId;
+                this.vaccineMedicine[selectedProductIndex].productId = this.vaccineMedicineForm.value?.productId;
                 this.vaccineMedicine[selectedProductIndex].quantity = this.vaccineMedicineForm.value?.quantity;
                 this.vaccineMedicine[selectedProductIndex].remark = this.vaccineMedicineForm.value?.remark;
                 this.vaccineMedicine[selectedProductIndex].salesAmount = this.vaccineMedicineForm.value?.salesAmount;
                 this.vaccineMedicine[selectedProductIndex].taxisId = this.vaccineMedicineForm.value?.taxisId;
- 
+
             }
         }
     }
