@@ -251,7 +251,7 @@ export const appRoutes: Route[] = [
                     ),
             },
             {
-                path: 'filemanager',
+                path: 'file-manager',
                 loadChildren: () =>
                     import('app/modules/admin/file-manager/file-manager.module').then(
                         (m) => m.FileManagerModule

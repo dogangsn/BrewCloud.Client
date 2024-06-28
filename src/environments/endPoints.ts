@@ -254,5 +254,12 @@ export const endPoints = {
         createSmsTemplate: 'vet/Definition/CreateSmsTemplate',
         updateSmsTemplate: 'vet/Definition/UpdateSmsTemplate',
         deleteSmsTemplate: 'vet/Definition/DeleteSmsTemplate',
+    },
+    filemanager : {
+        getFileManager : 'vet/FileManager/GetFileManagerList',
+        createFileManager : 'vet/FileManager/CreateFileManager',
+        deleteFileManager : 'vet/FileManager/DeleteFileManager',
+        updateFileManager : '',
+        getItemById : 'vet/FileManager/GetFileManagerForById'
     }
 }
