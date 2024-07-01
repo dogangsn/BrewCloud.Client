@@ -14,9 +14,7 @@ export class FileManagerService {
     private _item: BehaviorSubject<Item | null> = new BehaviorSubject(null);
     private _items: BehaviorSubject<Items | null> = new BehaviorSubject(null);
 
-    
     constructor(private _httpService: HttpService) { }
-
 
     get items$(): Observable<Items> {
         return this._items.asObservable();
@@ -34,19 +32,23 @@ export class FileManagerService {
         return this._httpService.post(endPoints.filemanager.createFileManager, model);
     }
 
+    deleteFileManager(model : any) : Observable<any> {
+        return this._httpService.post(endPoints.filemanager.deleteFileManager, model);
+    }
+
     getItemById(model: any): Observable<any> {
         return this._httpService.post(endPoints.filemanager.getItemById, model)
-        .pipe(
-            take(1),
-            map((items) => {
- 
-                const item = [...items.data.files].find(value => value.id === model.id) || null;
- 
-                this._item.next(item);
- 
-                return item;
-            }),
-        );
+            .pipe(
+                take(1),
+                map((items) => {
+
+                    const item = [...items.data.files].find(value => value.id === model.id) || null;
+
+                    this._item.next(item);
+
+                    return item;
+                }),
+            );
     }
 
 }

@@ -22,6 +22,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { CreateeditPrinttemplateComponent } from './dialog/createedit-printtemplate.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 const root: Route[] = [
   {
@@ -74,6 +75,7 @@ const root: Route[] = [
     SharedModule,
     EditorModule,
     MatDialogModule,
+    MatChipsModule,
     RouterModule.forChild(root)
   ],
   declarations: [PrinttemplateComponent, CreateeditPrinttemplateComponent],

@@ -26,9 +26,33 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <mat-form-field  class="flex-auto gt-xs:pl-3">
+                        <mat-select [formControlName]="'printType'" [placeholder]="'Çıktı Tipi'" name="printType" (selectionChange)="updateAvailableOptions($event.value)">
+                            <mat-option *ngFor="let type of printTypes" [value]="type">{{ getPrintTypeDisplay(type) }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
 
-                <editor apiKey="iktfbuknhfrkmngbmlyooj1857f25w3xhwmpcot5ocvaqu1t" id="basic-example"
-                    [init]="tinymceOptions"></editor>
+                <div class="row" *ngIf="availableOptions.length > 0">
+                    <div class="col-sm-12 mt-2 common-width">
+                      <mat-chip-listbox>
+                        <mat-chip *ngFor="let option of availableOptions" [selected]="option.selected"
+                                  (click)="toggleSelection(option)" selectable="true" color="primary" selectedColor="accent">
+                          {{ option.name }}
+                        </mat-chip>
+                      </mat-chip-listbox>
+                    </div>
+                  </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mt-2 common-width">
+
+                        <editor #editor apiKey="iktfbuknhfrkmngbmlyooj1857f25w3xhwmpcot5ocvaqu1t" id="basic-example"
+                            [init]="tinymceOptions"></editor>
+
+                    </div>
+                </div>
 
             </div>
 
