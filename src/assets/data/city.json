@@ -339,20 +339,79 @@
       "name": "Zonguldak",
       "districts": ["Alaplı", "Çaycuma", "Devrek", "Ereğli", "Gökçebey", "Kilimli", "Merkez"]
     },
-    { "id": 68, "name": "Aksaray" },
-  { "id": 69, "name": "Bayburt" },
-  { "id": 70, "name": "Karaman" },
-  { "id": 71, "name": "Kırıkkale" },
-  { "id": 72, "name": "Batman" },
-  { "id": 73, "name": "Şırnak" },
-  { "id": 74, "name": "Bartın" },
-  { "id": 75, "name": "Ardahan" },
-  { "id": 76, "name": "Iğdır" },
-  { "id": 77, "name": "Yalova" },
-  { "id": 78, "name": "Karabük" },
-  { "id": 79, "name": "Kilis" },
-  { "id": 80, "name": "Osmaniye" },
-  { "id": 81, "name": "Düzce" }
+    
+      {
+        "id": 68,
+        "name": "Zonguldak",
+        "districts": ["Alaplı", "Çaycuma", "Devrek", "Ereğli", "Gökçebey", "Kilimli", "Merkez"]
+      },
+      {
+        "id": 69,
+        "name": "Aksaray",
+        "districts": ["Ağaçören", "Eskil", "Gülağaç", "Güzelyurt", "Merkez", "Ortaköy", "Sarıyahşi"]
+      },
+      {
+        "id": 70,
+        "name": "Bayburt",
+        "districts": ["Aydıntepe", "Demirözü", "Merkez"]
+      },
+      {
+        "id": 71,
+        "name": "Karaman",
+        "districts": ["Ermenek", "Merkez", "Ayrancı", "Kazımkarabekir", "Başyayla", "Sarıveliler"]
+      },
+      {
+        "id": 72,
+        "name": "Kırıkkale",
+        "districts": ["Bahşili", "Balışeyh", "Çelebi", "Delice", "Karakeçili", "Keskin", "Merkez", "Sulakyurt", "Yahşihan"]
+      },
+      {
+        "id": 73,
+        "name": "Batman",
+        "districts": ["Beşiri", "Gercüş", "Hasankeyf", "Kozluk", "Merkez", "Sason"]
+      },
+      {
+        "id": 74,
+        "name": "Şırnak",
+        "districts": ["Beytüşşebap", "Cizre", "Güçlükonak", "İdil", "Merkez", "Silopi", "Uludere"]
+      },
+      {
+        "id": 75,
+        "name": "Bartın",
+        "districts": ["Amasra", "Kurucaşile", "Merkez", "Ulus"]
+      },
+      {
+        "id": 76,
+        "name": "Ardahan",
+        "districts": ["Çıldır", "Damal", "Göle", "Hanak", "Merkez", "Posof"]
+      },
+      {
+        "id": 77,
+        "name": "Iğdır",
+        "districts": ["Aralık", "Karakoyunlu", "Merkez", "Tuzluca"]
+      },
+      {
+        "id": 78,
+        "name": "Yalova",
+        "districts": ["Altınova", "Armutlu", "Çiftlikköy", "Merkez", "Termal"]
+      },
+      {
+        "id": 79,
+        "name": "Karabük",
+        "districts": ["Eflani", "Eskipazar", "Merkez", "Ovacık", "Safranbolu", "Yenice"]
+      },
+      {
+        "id": 80,
+        "name": "Kilis",
+        "districts": ["Elbeyli", "Merkez", "Musabeyli", "Polateli"]
+      },
+      {
+        "id": 81,
+        "name": "Osmaniye",
+        "districts": ["Bahçe", "Düziçi", "Hasanbeyli", "Kadirli", "Merkez", "Sumbas", "Toprakkale"]
+      }
+    
+    
   
  
 
