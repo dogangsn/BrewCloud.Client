@@ -57,6 +57,7 @@ import { Duration } from 'luxon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditAnimalsColorDialogComponent } from './dialog/create-edit-animalscolor';
+import { CityService } from 'app/core/services/assetsService/cityService.service';
 
 @Component({
     selector: 'customeradd',
@@ -114,7 +115,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     selectedValue: string;
     AnimalTypeControl: FormControl = new FormControl();
-
+    cities: any[] = [];
+    selectedCityValue: string;
     //
 
     constructor(
@@ -127,7 +129,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _animalColorDefService: AnimalColorsDefService,
         private router: Router,
         private route: ActivatedRoute,
-        private _dialog: MatDialog
+        private _dialog: MatDialog,
+        private _cityService: CityService
     ) {}
 
     ngOnInit() {
@@ -137,6 +140,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
+
+        this._cityService.getCities().subscribe(data => {
+            this.cities = data;
+          });
 
         this.accountForm = this._formBuilder.group({
             firstName: ['', [Validators.required]],

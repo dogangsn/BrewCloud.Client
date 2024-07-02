@@ -4,6 +4,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TinymceEditorService } from 'app/modules/bases/global/tinymce-editor.service';
 import { PrintType, PrintTypeDisplay } from '../models/printType.enum';
 import { Editor, EditorEvent, } from 'tinymce';
+import { PrintTemplateService } from 'app/core/services/definition/printtemplate/printtemplate.service';
+import { CreatePrintTemplateCommand } from '../models/createPrintTemplateCommand';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { TranslocoService } from '@ngneat/transloco';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
 
 @Component({
   selector: 'app-createedit-printtemplate',
@@ -11,7 +17,7 @@ import { Editor, EditorEvent, } from 'tinymce';
   styleUrls: ['./createedit-printtemplate.component.css']
 })
 export class CreateeditPrinttemplateComponent implements OnInit {
- 
+
   @ViewChild('editor', { static: true }) editorElement!: ElementRef;
 
   selectedprinttemplate: any;
@@ -23,27 +29,53 @@ export class CreateeditPrinttemplateComponent implements OnInit {
   printTypes = Object.values(PrintType).filter(value => typeof value === 'number') as PrintType[];
 
   availableOptions: { name: string, selected: boolean, value: string }[] = [];
-  editorContentControl: FormControl = new FormControl('');
-  
+
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _tinymceService: TinymceEditorService,
     private _formBuilder: FormBuilder,
+    private _printtemplate: PrintTemplateService,
+    private _translocoService: TranslocoService,
   ) { }
 
   ngOnInit() {
     this.tinymceOptions = this._tinymceService.getTinymceOptions();
-
     this.printtemplate = this._formBuilder.group({
       templatename: ['', Validators.required],
-      printType : [0, Validators.required],
-      templatecontent: this.editorContentControl
+      printType: [0, Validators.required],
+      templatecontent: ['']
     });
-
   }
 
   addOrUpdatePrintTemplate(): void {
+    this.addPrintTemplate();
+  }
 
+  addPrintTemplate(): void {
+    const model = new CreatePrintTemplateCommand(
+      this.getFormValueByName('templatename'),
+      this.getFormValueByName('printType'),
+      this.getFormValueByName('templatecontent'),
+    );
+
+    this._printtemplate
+      .createPrintTemplate(model)
+      .subscribe(
+        (response) => {
+          if (response.isSuccessful) {
+            this.showSweetAlert('success');
+            this._dialogRef.close({
+              status: true,
+            });
+          } else {
+            this.showSweetAlert('error');
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   closeDialog(): void {
@@ -54,6 +86,9 @@ export class CreateeditPrinttemplateComponent implements OnInit {
     return PrintTypeDisplay[type];
   }
 
+  getFormValueByName(formName: string): any {
+    return this.printtemplate.get(formName).value;
+  }
 
   updateAvailableOptions(selectedPrintType: PrintType): void {
     switch (selectedPrintType) {
@@ -73,7 +108,7 @@ export class CreateeditPrinttemplateComponent implements OnInit {
           { name: 'Tarih', selected: false, value: '[[Date]]' },
           { name: 'Doktor Adı', selected: false, value: '[[doctorname]]' },
         ];
-        break; 
+        break;
       default:
         this.availableOptions = [];
         break;
@@ -81,7 +116,6 @@ export class CreateeditPrinttemplateComponent implements OnInit {
   }
 
   toggleSelection(option: any) {
- 
 
     const textarea = this.editorElement.nativeElement;
     const cursorPosition = textarea.selectionStart;
@@ -93,9 +127,32 @@ export class CreateeditPrinttemplateComponent implements OnInit {
     setTimeout(() => {
       textarea.selectionStart = textarea.selectionEnd = cursorPosition + option.value.length;
     }, 0);
- 
+
 
   }
+
+  showSweetAlert(type: string): void {
+    if (type === 'success') {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.success'),
+        this.translate('sweetalert.transactionSuccessful'),
+        SweetalertType.success
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+      const sweetAlertDto = new SweetAlertDto(
+        this.translate('sweetalert.error'),
+        this.translate('sweetalert.transactionFailed'),
+        SweetalertType.error
+      );
+      GeneralService.sweetAlert(sweetAlertDto);
+    }
+  }
+
+  translate(key: string): any {
+    return this._translocoService.translate(key);
+  }
+
 
 
 }

@@ -82,8 +82,13 @@
             <div class="flex float : left gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
                     <mat-label>İl</mat-label>
-                    <input matInput [formControlName]="'province'">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <!-- <input matInput [formControlName]="'province'">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of cities"
+                            [value]="item.name">{{item.name}}</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-md:pl-3">
                     <mat-label>İlçe</mat-label>

@@ -261,5 +261,12 @@ export const endPoints = {
         deleteFileManager : 'vet/FileManager/DeleteFileManager',
         updateFileManager : '',
         getItemById : 'vet/FileManager/GetFileManagerForById'
+    },
+    printtemplate : {
+        getPrintTemplateList: 'vet/Definition/GetPrintTemplateList',
+        createPrintTemplate : 'vet/Definition/CreatePrintTemplate',
+        getPrintTemplateFilterByType : 'vet/Definition/GetPrintTemplateFilterByType',
+        deletePrintTemplate : 'vet/Definition/DeletePrintTemplate',
+        updatePrintTemplate : 'vet/Definition/UpdatePrintTemplate'
     }
 }
