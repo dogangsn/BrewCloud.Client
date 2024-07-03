@@ -9,6 +9,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-printtemplate',
@@ -92,5 +93,38 @@ export class PrinttemplateComponent implements OnInit {
       }
     );
   }
+
+  public redirectToUpdate = (id: string) => {
+
+    const selecteditem = this.printtemplate.find((store) => store.id === id);
+    if (selecteditem) {
+      const dialogRef = this._dialog.open(
+        CreateeditPrinttemplateComponent,
+        {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selecteditem
+        }
+      );
+
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getPrintTemplateList();
+        }
+      });
+    }
+  };
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+        LogViewComponent,
+        {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+        }
+    );
+}
+
 
 }

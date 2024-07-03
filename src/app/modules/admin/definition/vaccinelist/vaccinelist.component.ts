@@ -13,6 +13,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatChipListboxChange } from '@angular/material/chips';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-vaccinelist',
@@ -241,6 +242,17 @@ export class VaccinelistComponent implements OnInit {
     }
     this.dataSource.paginator = this.paginator; // Reset paginator to the first page after filtering
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+        LogViewComponent,
+        {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+        }
+    );
+}
 
 
 }

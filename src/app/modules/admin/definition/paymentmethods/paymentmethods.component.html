@@ -68,6 +68,15 @@
                     <button mat-icon-button color="warn" (click)="redirectToDelete(element.recId)">
                         <mat-icon class="mat-18">delete</mat-icon>
                     </button>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="logView(element.id)">
+                          <mat-icon>history</mat-icon>
+                          <span>İşlem Geçmişi</span>
+                        </button>
+                      </mat-menu>
                 </td>
 
             </ng-container>

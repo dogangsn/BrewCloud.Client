@@ -13,6 +13,7 @@ import { ProductmovementListComponent } from './dialogs/productmovement-list/pro
 import { StockTrackingListComponent } from './dialogs/stockTracking-list/stockTracking-list.component';
 import { CreateeditStockTrackingComponent } from './dialogs/createedit-stockTracking/createedit-stockTracking.component';
 import { StockTrackingType } from './models/createStockTrackingCommand';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
     selector: 'app-productdescription',
@@ -281,6 +282,17 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
                 }
             });
 
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
     }
 
 }

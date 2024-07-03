@@ -12,6 +12,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { StockTrackingListComponent } from '../productdescription/dialogs/stockTracking-list/stockTracking-list.component';
 import { StockTrackingType } from '../productdescription/models/createStockTrackingCommand';
 import { CreateeditStockTrackingComponent } from '../productdescription/dialogs/createedit-stockTracking/createedit-stockTracking.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
     selector: 'app-vaccinedefinition',
@@ -255,5 +256,16 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
                 }
             });
 
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
     }
 }

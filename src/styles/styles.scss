@@ -250,7 +250,7 @@ a {
 // }
 // .mat-form-field {
 //     width: 100% !important;
-    
+
 // }
 
 .contractForm .multiselect-dropdown .dropdown-list {
@@ -400,29 +400,34 @@ a {
     font-size: 13px !important;
     line-height: 15px !important;
 }
+
 .custom-dx-table>.dx-datagrid .dx-row:not(.dx-datagrid-filter-row)>td.cell-highlighted.dx-editor-cell.dx-editor-inline-block:not(.dx-command-select)::before {
     padding: 0px 5px;
 }
-.dx-texteditor.dx-editor-underlined{
-    border-bottom: 1px solid rgba(222, 222, 222, 0.849)  !important;
+
+.dx-texteditor.dx-editor-underlined {
+    border-bottom: 1px solid rgba(222, 222, 222, 0.849) !important;
 }
+
 .dx-texteditor.dx-editor-underlined::after {
-    border-bottom: 1px solid rgba(222, 222, 222, 0.178)  !important;
+    border-bottom: 1px solid rgba(222, 222, 222, 0.178) !important;
 }
+
 .dx-texteditor.dx-editor-underlined.dx-state-hover::after {
     border-bottom: 1px solid rgba(222, 222, 222, 0.712) !important;
-  }
+}
 
 dx-check-box {
-    color:rgba(117,117,117,.87) !important;
-}
-dx-checkbox-icon{
-    color:rgb(222 222 222) !important;
+    color: rgba(117, 117, 117, .87) !important;
 }
 
-.mat-dialog-title{
+dx-checkbox-icon {
+    color: rgb(222 222 222) !important;
+}
+
+.mat-dialog-title {
     text-align: right;
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
     position: absolute !important;
     top: 0;
     right: 5px;
@@ -432,4 +437,34 @@ dx-checkbox-icon{
 
 .mdc-dialog__title {
     margin: 25px 20px 1px !important;
+}
+
+#common-scaled-dialog {
+    height: 78vh;
+
+}
+
+#common-scaled-dialog .mat-mdc-dialog-content {
+    height: 100%;
+    max-height: max-content;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+}
+
+#common-scaled-dialog .modal-body {
+    /* padding: 0 !important; */
+    /* padding: 10px !important; */
+    /* border-radius: 5px; */
+    width: 100%;
+    height: 86%;
+
+}
+
+#common-dialog-buttons {
+    margin-top: auto;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }

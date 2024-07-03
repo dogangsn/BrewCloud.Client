@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TinymceEditorService } from 'app/modules/bases/global/tinymce-editor.service';
 import { PrintType, PrintTypeDisplay } from '../models/printType.enum';
 import { Editor, EditorEvent, } from 'tinymce';
@@ -10,6 +10,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { PrintTemplateListDto } from '../models/printtemplatelistdto';
+import { UpdatePrintTemplateCommand } from '../models/updatePrintTemplateCommand';
 
 @Component({
   selector: 'app-createedit-printtemplate',
@@ -20,7 +22,7 @@ export class CreateeditPrinttemplateComponent implements OnInit {
 
   @ViewChild('editor', { static: true }) editorElement!: ElementRef;
 
-  selectedprinttemplate: any;
+  selectedprinttemplate: PrintTemplateListDto;
   tinymceOptions: any;
   buttonDisabled = false;
   printtemplate: FormGroup;
@@ -37,7 +39,10 @@ export class CreateeditPrinttemplateComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _printtemplate: PrintTemplateService,
     private _translocoService: TranslocoService,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: PrintTemplateListDto
+  ) {
+    this.selectedprinttemplate = data;
+  }
 
   ngOnInit() {
     this.tinymceOptions = this._tinymceService.getTinymceOptions();
@@ -46,10 +51,25 @@ export class CreateeditPrinttemplateComponent implements OnInit {
       printType: [0, Validators.required],
       templatecontent: ['']
     });
+
+
+    this.fillFormData(this.selectedprinttemplate)
+  }
+
+  fillFormData(selectedPrint: PrintTemplateListDto) {
+
+    if (this.selectedprinttemplate !== null) {
+      this.printtemplate.setValue({
+        templatename: selectedPrint.templateName,
+        printType: selectedPrint.type,
+        templatecontent: selectedPrint.htmlContent
+      });
+    }
   }
 
   addOrUpdatePrintTemplate(): void {
-    this.addPrintTemplate();
+    this.buttonDisabled = true;
+    this.selectedprinttemplate ? this.updatePrintTemplate() : this.addPrintTemplate();
   }
 
   addPrintTemplate(): void {
@@ -61,6 +81,33 @@ export class CreateeditPrinttemplateComponent implements OnInit {
 
     this._printtemplate
       .createPrintTemplate(model)
+      .subscribe(
+        (response) => {
+          if (response.isSuccessful) {
+            this.showSweetAlert('success');
+            this._dialogRef.close({
+              status: true,
+            });
+          } else {
+            this.showSweetAlert('error');
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  updatePrintTemplate(): void {
+    const model = new UpdatePrintTemplateCommand(
+      this.selectedprinttemplate.id,
+      this.getFormValueByName('templatename'),
+      this.getFormValueByName('printType'),
+      this.getFormValueByName('templatecontent'),
+    );
+
+    this._printtemplate
+      .updatePrintTemplate(model)
       .subscribe(
         (response) => {
           if (response.isSuccessful) {

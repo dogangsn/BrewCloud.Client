@@ -5,7 +5,7 @@
 </h1>
 
 
-<div class="modalForm">
+<div class="modalForm" id="common-scaled-dialog">
   <mat-dialog-content>
     <div class="modal-header">
       <h5 class="modal-title">
@@ -39,29 +39,25 @@
 
               <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                 <mat-label>Yetki Aksiyonu</mat-label>
-                <mat-select
-                [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'"
-                 
-                disableOptionCentering
-                #roleSelect="matSelect">
-                <mat-select-trigger class="text-md">
+                <mat-select [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'" disableOptionCentering
+                  #roleSelect="matSelect">
+                  <mat-select-trigger class="text-md">
                     <span>Role:</span>
                     <span class="ml-1 font-medium">{{roleSelect.value | titlecase}}</span>
-                </mat-select-trigger>
-                <ng-container *ngFor="let role of rolesAction">
-                    <mat-option
-                        class="h-auto py-4 leading-none"
-                        [value]="role.value">
-                        <div class="font-medium">{{role.label}}</div>
-                        <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}</div>
+                  </mat-select-trigger>
+                  <ng-container *ngFor="let role of rolesAction">
+                    <mat-option class="h-auto py-4 leading-none" [value]="role.value">
+                      <div class="font-medium">{{role.label}}</div>
+                      <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}
+                      </div>
                     </mat-option>
-                </ng-container>
-            </mat-select>
-            </mat-form-field>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
 
             </div>
 
-            <div style="height: 10vw; overflow: auto;">
+            <div style="height: 42vh; overflow: auto;">
               <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" style="height: 100%;">
                 <!-- This is the tree node template for leaf nodes -->
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
@@ -88,33 +84,33 @@
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
-        <div class="-ml-2">
-          <button mat-icon-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:id'"></mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
-          </button>
-        </div>
 
-        <div class="flex items-center mt-4 sm:mt-0">
-          <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
-            Vazgeç
-          </button>
-          <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="addOrUpdateRole()">
-            Kaydet
-          </button>
-        </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6" id="common-dialog-buttons">
+      <div class="-ml-2">
+        <button mat-icon-button>
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:id'"></mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+        </button>
+      </div>
+
+      <div class="flex items-center mt-4 sm:mt-0">
+        <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+          Vazgeç
+        </button>
+        <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="addOrUpdateRole()">
+          Kaydet
+        </button>
       </div>
     </div>
-
 
   </mat-dialog-content>
 </div>

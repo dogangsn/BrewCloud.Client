@@ -115,28 +115,30 @@ export class CustomersListComponent implements OnInit {
         );
     }
     public redirectToPrint = (id: string) => {
-        const pmsrpt1090 = new customerlistRptParameter()
-        // pmsrpt1090.cinfrom = formatDate(this.getFormValueByName('cindatefrom'), 'yyyy-MM-dd', 'en-US'),
-        // pmsrpt1090.cinto = formatDate(this.getFormValueByName('cindateto'), 'yyyy-MM-dd', 'en-US'),
-        // pmsrpt1090.coutfrom = formatDate(this.getFormValueByName('coutdatefrom'), 'yyyy-MM-dd', 'en-US'),
-        // pmsrpt1090.coutto = formatDate(this.getFormValueByName('coutdateto'), 'yyyy-MM-dd', 'en-US'),
 
-        pmsrpt1090.resuuid = "00000000-0000-0000-0000-000000000000",
+        // const pmsrpt1090 = new customerlistRptParameter()
+        // // pmsrpt1090.cinfrom = formatDate(this.getFormValueByName('cindatefrom'), 'yyyy-MM-dd', 'en-US'),
+        // // pmsrpt1090.cinto = formatDate(this.getFormValueByName('cindateto'), 'yyyy-MM-dd', 'en-US'),
+        // // pmsrpt1090.coutfrom = formatDate(this.getFormValueByName('coutdatefrom'), 'yyyy-MM-dd', 'en-US'),
+        // // pmsrpt1090.coutto = formatDate(this.getFormValueByName('coutdateto'), 'yyyy-MM-dd', 'en-US'),
 
-            // pmsrpt1090.hotelidlist = this.hotelRecIdList.substring(0, this.hotelRecIdList.length - 1);
-            pmsrpt1090.hotelidlist = 'deneme1';
+        // pmsrpt1090.resuuid = "00000000-0000-0000-0000-000000000000",
 
-        // rapora parametreleri backend den döndürmek icin secilen parametrelerin nameleri backend e gönderildi.
-        // pmsrpt1090.hotellist = this.pmsHotelListValue != null ? this.pmsHotelListValue.map(x => x.propertyName).toString() : "";
-        pmsrpt1090.hotellist = 'deneme2';
+        //     // pmsrpt1090.hotelidlist = this.hotelRecIdList.substring(0, this.hotelRecIdList.length - 1);
+        //     pmsrpt1090.hotelidlist = 'deneme1';
 
-        pmsrpt1090.reportId = 1090;
-        debugger;
-        const dialog = this._dialog.open(customerlistReportComponent, {
-            width: '80%',
-            disableClose: true,
-            data: pmsrpt1090//data
-        })
+        // // rapora parametreleri backend den döndürmek icin secilen parametrelerin nameleri backend e gönderildi.
+        // // pmsrpt1090.hotellist = this.pmsHotelListValue != null ? this.pmsHotelListValue.map(x => x.propertyName).toString() : "";
+        // pmsrpt1090.hotellist = 'deneme2';
+
+        // pmsrpt1090.reportId = 1090;
+        // debugger;
+        // const dialog = this._dialog.open(customerlistReportComponent, {
+        //     width: '80%',
+        //     disableClose: true,
+        //     data: pmsrpt1090//data
+        // })
+        
     }
     showSweetAlert(type: string): void {
         if (type === 'success') {

@@ -9,6 +9,7 @@ import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-taxes',
@@ -136,6 +137,17 @@ export class TaxesComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+        LogViewComponent,
+        {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+        }
+    );
+}
 
 
 }
