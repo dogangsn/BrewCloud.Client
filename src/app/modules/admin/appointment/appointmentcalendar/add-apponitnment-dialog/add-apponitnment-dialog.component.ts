@@ -75,6 +75,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     parameters: parametersListDto[] = [];
     buttonDisabled: boolean = false;
     controlDate= new Date();
+    loader=true;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -138,7 +139,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 console.log(e);
             },
             complete: () => {
-
+                this.loader=false;
             }
         });
 debugger

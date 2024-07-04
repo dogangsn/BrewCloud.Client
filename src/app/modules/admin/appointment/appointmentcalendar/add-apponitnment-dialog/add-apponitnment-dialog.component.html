@@ -26,22 +26,29 @@ mat-dialog-title
       </h5>
     </div>
 
-    <div class="modal-body mbody-customeradd w-full">
-      <div class="qm-pr-content w-full">
-        <div class="container-fluid w-full" [formGroup]="appointmentAdd">
+    
 
-          
-          <!-- <div class="flex float : left gt-xs:flex-row">
-          
-              <div class="dx-field">
-                <div class="dx-field-label">Randevu Başlangıç</div>
-                <div class="dx-field-value">
-                  <dx-date-box [value]="now" type="datetime" [inputAttr]="{ 'aria-label': 'Date And Time' }">
-                  </dx-date-box>
-                </div>
-              </div>
- 
-          </div> -->
+    <div class="modal-body mbody-customeradd w-full" >
+      <div role="status" class="animate-pulse" *ngIf="loader">
+        <div class="w-full">
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700 mb-11"></div>
+            <div class="flex gap-2 mb-11">
+                <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+                <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            </div>
+            <div class="flex gap-2 mb-11">
+              <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+              <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            </div>
+            <div class="flex items-center mb-4 mt-3 gap-2">
+              <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+            </div>
+            <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700 mb-11"></div>
+            
+        </div>
+    </div>
+      <div class="qm-pr-content w-full" *ngIf="!loader">
+        <div class="container-fluid w-full" [formGroup]="appointmentAdd">
 
           <div class="flex float : left gt-xs:flex-row">
             <mat-form-field class="flex-auto gt-xs:pl-3">
@@ -51,7 +58,6 @@ mat-dialog-title
                 <mat-option *ngFor="let item of vetDoctorList"
                                [value]="item.id">{{item.firstname}}</mat-option>
               </mat-select>
-              <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>
           </div>
           <div class="float : left flex  gt-xs:flex-row" *ngIf="visibleCustomer">
@@ -147,9 +153,6 @@ mat-dialog-title
               </div>
           </div>
           </div>
-          
-          
-
           
           <div class="flex float : left gt-xs:flex-row gap-t-3">
             <mat-form-field class="flex-auto gt-xs:pl-3">
