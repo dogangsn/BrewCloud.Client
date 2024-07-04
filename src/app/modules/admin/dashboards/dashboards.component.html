@@ -19,7 +19,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="!loader">
             <!-- Summary -->
             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex items-start justify-between">
+                <div class="flex items-center justify-center">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Eklenen Randevu</div>
                     <div class="ml-2 -mt-2 -mr-3">
 
@@ -39,7 +39,7 @@
             </div>
             <!-- Overdue -->
             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex items-start justify-between">
+                <div class="flex items-start justify-center">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Yeni Müşteri</div>
                     <div class="ml-2 -mt-2 -mr-3">
 
@@ -58,7 +58,7 @@
             </div>
             <!-- Issues -->
             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex items-start justify-between">
+                <div class="flex items-start justify-center">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Günlük Ciro</div>
                     <div class="ml-2 -mt-2 -mr-3">
 
@@ -76,7 +76,7 @@
             </div>
             <!-- Features -->
             <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex items-start justify-between">
+                <div class="flex items-start justify-center">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Toplam Stok Değeri</div>
                     <div class="ml-2 -mt-2 -mr-3">
 
@@ -123,10 +123,10 @@
                 <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
 
                     <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Yaklaşan Randevular</div>
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate ml-3 text-slate-500">Yaklaşan Randevular</div>
                         <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
 
-                            <div class="mat-elevation-z8">
+                            <div class="mat-elevation-z8 border">
                                 <table mat-table [dataSource]="upcomingdataSource">
 
                                     <ng-container matColumnDef="customerPatientName">
@@ -173,11 +173,11 @@
             <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
                 <div class="grid grid-cols-1 sm:grid-cols-6 gap-6 w-full min-w-0">
                     <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Geçmiş Randevular</div>
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate ml-3 text-slate-500">Geçmiş Randevular</div>
                         <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
 
 
-                            <div class="mat-elevation-z8">
+                            <div class="mat-elevation-z8 border">
                                 <table mat-table [dataSource]="pastdataSource">
 
                                     <ng-container matColumnDef="customerPatientName">
