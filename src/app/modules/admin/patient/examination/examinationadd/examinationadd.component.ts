@@ -112,6 +112,7 @@ export class ExaminationaddComponent implements OnInit {
             },
             complete: () => {
                 //this.fillFormData(this.selectedsales);
+                
                 this.loader=false;
             }
         });
@@ -249,14 +250,15 @@ export class ExaminationaddComponent implements OnInit {
         var varMi = this.allSymptoms.some((symptom) =>
             symptom.toLowerCase().startsWith(value.toLowerCase())
         );
+        event.chipInput!.clear();
         if (varMi) {
             return;
         }
         if (value) {
             this.symptoms.push(value);
         }
-
-        event.chipInput!.clear();
+        
+        
 
         this.symptomCtrl.setValue(null);
     }
