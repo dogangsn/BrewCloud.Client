@@ -62,6 +62,7 @@ export class ExaminationaddComponent implements OnInit {
     symptomsString: string;
     selectedState: string;
     states: string[] = ['Aktif', 'Tamamlandı', 'Bekliyor'];
+    loader=true;
 
     addEnabled: boolean = true;
     visibleCustomer: boolean;
@@ -111,6 +112,7 @@ export class ExaminationaddComponent implements OnInit {
             },
             complete: () => {
                 //this.fillFormData(this.selectedsales);
+                this.loader=false;
             }
         });
 

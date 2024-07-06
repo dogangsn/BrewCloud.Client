@@ -28,6 +28,8 @@ export class VaccinelistComponent implements OnInit {
   vaccine: VaccineListDto[] = [];
   dataSource = new MatTableDataSource<VaccineListDto>(this.vaccine);
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
+  loader=true;
+  items = Array(13);
 
   options = [
     { name: 'Köpek', selected: false, type:1 },
@@ -61,6 +63,7 @@ export class VaccinelistComponent implements OnInit {
       },
       complete: () => {
         this.getVaccineList();
+        this.loader = false;
       }
     });
 

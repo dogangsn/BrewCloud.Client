@@ -27,6 +27,8 @@ export class SalesComponent implements OnInit, AfterViewInit {
         'total',
         'actions',
     ];
+    loader=true;
+    items = Array(13);
     //@ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild('paginator') paginator: MatPaginator;
     //@ViewChild('paginatorPageSize') paginatorPageSize: MatPaginator;
@@ -62,6 +64,12 @@ export class SalesComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            this.loader = false;
             console.log(this.salebuyList);
         });
     }

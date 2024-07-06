@@ -28,6 +28,7 @@ export class ExaminationlistComponent implements OnInit {
     );
     loader = true;
     examination: ExaminationDto;
+    items = Array(13);
 
     displayedColumns: string[] = [
         'status',
@@ -69,7 +70,11 @@ export class ExaminationlistComponent implements OnInit {
                 this.examinationList
             );
             this.dataSource.paginator = this.paginator;
-
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
             this.loader = false;
         });
     }

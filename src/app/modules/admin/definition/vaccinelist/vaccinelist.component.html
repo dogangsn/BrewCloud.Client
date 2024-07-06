@@ -26,12 +26,20 @@
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
 
-    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)">
+    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)" *ngIf="!loader">
       <mat-chip-option *ngFor="let option of options" [value]="option.type" [selected]="option.selected">{{option.name}}</mat-chip-option>
     </mat-chip-listbox>
-    
 
-    <div class="mat-elevation-z8">
+    <div role="status" class="animate-pulse flex gap-2 w-full" *ngIf="loader">
+      <div class="h-9 w-16 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+      <div class="h-9 w-14 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+      <div class="h-9 w-22 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+    </div>
+
+    <div role="status" class="animate-pulse" *ngIf="loader">
+      <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+    </div>
+    <div class="mat-elevation-z8"  *ngIf="!loader">
       <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="animalType">

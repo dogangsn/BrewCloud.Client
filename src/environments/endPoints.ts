@@ -225,7 +225,8 @@ export const endPoints = {
         patientVaccineList: 'vet/VaccineCalendar/PatientVaccineList',
         createVaccineExaminations: 'vet/VaccineCalendar/CreateVaccineExamination',
         deletePatientVaccine: 'vet/VaccineCalendar/DeteleVaccineAppointment',
-        updateVaccineExamination: 'vet/VaccineCalendar/UpdateVaccineExamination'
+        updateVaccineExamination: 'vet/VaccineCalendar/UpdateVaccineExamination',
+        allVaccineAppointmentsList: 'vet/VaccineCalendar/AllVaccineAppointmentsList'
     },
     pethotels: {
         getRoomList: 'vet/PetHotels/getRoomList',

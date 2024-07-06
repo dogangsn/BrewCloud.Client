@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { CalendarEvent } from 'angular-calendar';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
+import { VaccineCalendarService } from 'app/core/services/vaccinecalendar/vaccinecalendar.service';
 
 @Component({
   selector: 'app-vaccineappointment',
@@ -21,22 +22,19 @@ export class VaccineappointmentComponent implements OnInit {
     private _translocoService: TranslocoService,
     private router: Router,
     private route: ActivatedRoute,
-    private _appointmentService: AppointmentService,) { }
+    private _appointmentService: AppointmentService,
+    private _vaccineAppointmentService: VaccineCalendarService
+  ) { }
 
   ngOnInit() {
     this.getApponitmentList();
   }
 
   getApponitmentList() {
-    const model = {
-      appointmentType: 1
-    }
-    this._appointmentService.getAppointmentslist(model).subscribe((response) => {
+    this._vaccineAppointmentService.allVaccineAppointmentsList().subscribe((response)=>{
       this.appointmentsData = response.data;
-      console.log(response.data);
-
       this.loader = false;
-    });
+    })
   }
 
   addPanelOpen(): void {

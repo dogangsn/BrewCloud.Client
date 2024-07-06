@@ -23,6 +23,8 @@ export class UnitComponent implements OnInit, AfterViewInit {
     @ViewChild('paginator') paginator: MatPaginator;
     units: unitdefinitionListDto[] = [];
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
+    loader = true;
+    items = Array(13);
 
     constructor(
         private _dialog: MatDialog,
@@ -49,6 +51,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            this.loader = false;
         });
     }
 

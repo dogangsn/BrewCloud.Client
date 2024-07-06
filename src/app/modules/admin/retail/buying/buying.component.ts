@@ -29,6 +29,8 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         'total',
         'actions',
     ];
+    loader = true;
+    items = Array(13);
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -67,6 +69,12 @@ export class BuyingComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            this.loader = false;
             console.log(this.salebuyList);
         });
     }

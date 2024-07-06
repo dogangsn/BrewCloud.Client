@@ -42,6 +42,8 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
     producttype: number;
+    loader=true;
+    items = Array(13);
 
     constructor(
         private _dialog: MatDialog,
@@ -68,8 +70,12 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
                 console.log(this.productdescription);
 
                 this.dataSource = new MatTableDataSource<ProductDescriptionsDto>(this.productdescription);
-
-                this.dataSource.paginator = this.paginator;
+                setTimeout(() => {
+                    if (this.dataSource) {
+                        this.dataSource.paginator = this.paginator;
+                    }
+                }, 0);
+                this.loader = false;
             });
     }
 

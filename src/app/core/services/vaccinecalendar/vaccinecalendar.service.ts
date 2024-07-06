@@ -28,5 +28,9 @@ export class VaccineCalendarService {
         return this._httpService.post(endPoints.vaccineCalendar.deletePatientVaccine, model);
     }
 
+    allVaccineAppointmentsList(): Observable<any> {
+        return this._httpService.getRequest(endPoints.vaccineCalendar.allVaccineAppointmentsList);
+    }
+
 
 }
