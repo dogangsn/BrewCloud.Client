@@ -8,6 +8,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-dailyappointment',
@@ -20,7 +21,7 @@ export class DailyappointmentComponent implements OnInit {
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
-  
+
   dailyappointment: DailyAppointmentListDto[] = [];
   dataSource = new MatTableDataSource<DailyAppointmentListDto>(this.dailyappointment);
   loader = true;
@@ -28,7 +29,7 @@ export class DailyappointmentComponent implements OnInit {
   constructor(
     private _appointmentService: AppointmentService,
     private _translocoService: TranslocoService,
-
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -125,7 +126,7 @@ export class DailyappointmentComponent implements OnInit {
   public redirectStatusUpdate = (id: string, status: number) => {
     const model = {
       id: id,
-      status : status
+      status: status
     };
     this._appointmentService
       .updateAppointmentStatus(model)
@@ -142,6 +143,18 @@ export class DailyappointmentComponent implements OnInit {
           console.error('Silme işlemi başarısız.');
         }
       });
+  }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
+
   }
 
 }

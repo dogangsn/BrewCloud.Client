@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { LogViewComponent } from '../commonscreen/log-view/log-view.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PrintTemplateSelectedComponent } from '../commonscreen/print-template-selected/print-template-selected.component';
 const root: Route[] = [
     {
         path     : '',
@@ -82,7 +83,8 @@ const root: Route[] = [
     declarations: [
         SuppliersComponent,
         CreateEditSuppliersDialogComponent,
-        LogViewComponent
+        LogViewComponent,
+        PrintTemplateSelectedComponent
     ]
     
 })
