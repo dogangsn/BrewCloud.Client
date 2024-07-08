@@ -30,7 +30,7 @@
       <div class="w-1/6">
         <mat-form-field appearance="fill" >
           <mat-label>Başlangıç Tarihi</mat-label>
-          <input [value]="birthDate" matInput [matDatepicker]="picker">
+          <input [value]="birthDate" matInput [matDatepicker]="picker" disabled>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
