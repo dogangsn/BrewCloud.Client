@@ -257,7 +257,8 @@ export class CustomerDetailsComponent implements OnInit {
             customerId: this.selectedCustomerId,
             visibleCustomer: false,
             patientId: null,
-            patinetlist: null
+            patinetlist: null,
+            selectedAppointment: null
         }
         const patientModel = {
             id: this.selectedCustomerId

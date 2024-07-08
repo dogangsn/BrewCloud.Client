@@ -1,11 +1,12 @@
 #stage 1
-FROM node:14.20.0-alpine  as node
+FROM node:20.10.0-alpine  as node
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install --force
 COPY . .
-RUN npm run build  
+RUN npm run production  
 
 #stage 2
 FROM nginx:alpine
-COPY --from=node /app/dist/vetsystems.client /usr/share/nginx/html
+COPY --from=node /usr/src/app/dist/vetsystems.client /usr/share/nginx/html
+EXPOSE 80

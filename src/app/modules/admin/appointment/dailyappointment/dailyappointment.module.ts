@@ -26,6 +26,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list'; 
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -81,6 +82,7 @@ const root: Route[] = [
     MatListModule,
     MatGridListModule ,
     MatTableModule,
+    MatDialogModule,
     RouterModule.forChild(root),
   ],
   declarations: [DailyappointmentComponent]

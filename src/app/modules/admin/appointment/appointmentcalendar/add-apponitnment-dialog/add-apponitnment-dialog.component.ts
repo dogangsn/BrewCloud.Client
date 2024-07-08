@@ -38,6 +38,7 @@ import { VaccineListDto } from 'app/modules/admin/definition/vaccinelist/models/
 import { Observable, Subject, takeUntil, zip } from 'rxjs';
 import { ParametersService } from 'app/core/services/settings/parameters.service';
 import { parametersListDto } from 'app/modules/admin/settings/parameters/models/parametersListDto';
+import { UpdateAppointmentCommand } from '../models/updateAppointmentCommand';
 
 @Component({
     selector: 'app-add-apponitnment-dialog',
@@ -51,7 +52,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     customers: customersListDto[] = [];
     appointment: AppointmentDto;
     selectedAppointmentType: number;
-    selectedAppointmentForm: FormGroup; 
+    selectedAppointmentForm: FormGroup;
     addVaccineList: addVaccineDto[] = [];
     vetDoctorList: VetUsersDto[] = [];
     patientList: PatientDetails[] = [];
@@ -74,14 +75,14 @@ export class AddApponitnmentDialogComponent implements OnInit {
     destroy$: Subject<boolean> = new Subject<boolean>();
     parameters: parametersListDto[] = [];
     buttonDisabled: boolean = false;
-    controlDate= new Date();
-    loader=true;
+    controlDate = new Date();
+    loader = true;
 
     constructor(
         private _formBuilder: FormBuilder,
         private _dialogRef: MatDialogRef<any>,
         private _customerService: CustomerService,
-        private _appointmentService: AppointmentService, 
+        private _appointmentService: AppointmentService,
         private _translocoService: TranslocoService,
         private _appointmenttypesService: AppointmentTypeservice,
         private _vaccineService: VaccineService,
@@ -122,27 +123,28 @@ export class AddApponitnmentDialogComponent implements OnInit {
     ngOnInit() {
 
         zip(
-        this.getVaccineList(),
-        this.getAppointmentTypeList(),
-        this.getCustomerList(),
-        this.getApponitmentDoctorList(),
+            this.getVaccineList(),
+            this.getAppointmentTypeList(),
+            this.getCustomerList(),
+            this.getApponitmentDoctorList(),
         ).pipe(
             takeUntil(this.destroy$)
         ).subscribe({
             next: (value) => {
                 this.setVaccineList(value[0]),
-                this.setAppointmentTypeList(value[1]),
-                this.setCustomerList(value[2]),
-                this.setApponitmentDoctorList(value[3])
+                    this.setAppointmentTypeList(value[1]),
+                    this.setCustomerList(value[2]),
+                    this.setApponitmentDoctorList(value[3])
             },
             error: (e) => {
                 console.log(e);
             },
             complete: () => {
-                this.loader=false;
+                this.fillFormData(this.selectedAppointment);
+                this.loader = false;
             }
         });
-debugger
+
         this.appointmentAdd = this._formBuilder.group({
             doctorId: ['00000000-0000-0000-0000-000000000000'],
             appointmentType: [2, Validators.required],
@@ -166,7 +168,7 @@ debugger
         this.addVaccineList.push(model);
 
         if (this.selectedPatientId != null) {
-            debugger
+
             this.handleCustomerChange(this.selectedCustomerId)
             // this.appointmentAdd.get('patientId').patchValue(this.selectedPatientId);
         }
@@ -187,11 +189,11 @@ debugger
 
     getVaccineList(): Observable<any> {
         const model = {
-            AnimalType : 0
+            AnimalType: 0
         };
-    
+
         return this._vaccineService
-        .getVaccineList(model);
+            .getVaccineList(model);
     }
 
     setVaccineList(response: any): void {
@@ -228,7 +230,6 @@ debugger
         });
     }
 
-    
 
     handleCustomerChange(event: any) {
         const model = {
@@ -246,8 +247,6 @@ debugger
             }
         });
     }
-
-    
 
     closeDialog(): void {
         this._dialogRef.close({ status: null });
@@ -267,40 +266,78 @@ debugger
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const item = new CreateAppointmentCommand(
-                        this.lastSelectedValue,
-                        ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
-                        (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
-                        this.getFormValueByName('note'),
-                        this.getFormValueByName('appointmentType'),
-                        this.selectedStatus,
-                        this.getFormValueByName('patientId'),
-                        this.addVaccineList
-                    );
-                    debugger;
-
-                    if (this.validateControl()) {
-                        this.buttonDisabled = false;
-                        return;
-                    }
-                    this._appointmentService.createAppointment(item).subscribe(
-                        (response) => {
-                            debugger;
-
-                            if (response.isSuccessful) {
-                                this.showSweetAlert('success','sweetalert.transactionSuccessful');
-                                this._dialogRef.close({
-                                    status: true,
-                                });
-                            } else {
-                                this.showSweetAlert('error','sweetalert.transactionFailed');
-                            }
-                        },
-                        (err) => {
-                            console.log(err);
-                        }
-                    );
+                    this.selectedAppointment ? this.updateAppointment() : this.addAppointment();
                 }
+            }
+        );
+    }
+
+
+    addAppointment(): void {
+        const item = new CreateAppointmentCommand(
+            this.lastSelectedValue,
+            ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
+            (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
+            this.getFormValueByName('note'),
+            this.getFormValueByName('appointmentType'),
+            this.selectedStatus,
+            this.getFormValueByName('patientId'),
+            this.addVaccineList
+        );
+        if (this.validateControl()) {
+            this.buttonDisabled = false;
+            return;
+        }
+        this._appointmentService.createAppointment(item).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error', 'sweetalert.transactionFailed');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+    }
+
+    updateAppointment(): void {
+        const item = new UpdateAppointmentCommand(
+            this.selectedAppointment.id,
+            this.lastSelectedValue,
+            ((this.getFormValueByName('doctorId') === undefined || this.getFormValueByName('doctorId') === null) ? '00000000-0000-0000-0000-000000000000' : this.getFormValueByName('doctorId')),
+            (this.visibleCustomer == true ? this.getFormValueByName('customerId') : this.selectedCustomerId),
+            this.getFormValueByName('note'),
+            this.getFormValueByName('appointmentType'),
+            this.selectedStatus,
+            this.getFormValueByName('patientId'),
+            this.addVaccineList
+        );
+        if (this.validateControl()) {
+            this.buttonDisabled = false;
+            return;
+        }
+        this._appointmentService.updateAppointment(item).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error', 'sweetalert.transactionFailed');
+                }
+            },
+            (err) => {
+                console.log(err);
             }
         );
     }
@@ -308,7 +345,7 @@ debugger
     validateControl(): boolean {
 
         debugger;
-        if (this.lastSelectedValue <= this.morning8 || this.lastSelectedValue.getHours()>this.evening8.getHours()) {
+        if (this.lastSelectedValue <= this.morning8 || this.lastSelectedValue.getHours() > this.evening8.getHours()) {
             this.showSweetAlert(
                 'error',
                 'Randevu saatleri uygun değil!'
@@ -381,18 +418,18 @@ debugger
 
     handleValueChange(e) {
         debugger
-        this.controlDate = e.value
-        if (this.controlDate.getHours() <= this.morning8.getHours() ||this.controlDate <= this.morning8 || this.controlDate.getHours() >= this.evening8.getHours()) {
+        this.controlDate = this.parseDateTime(e.value)
+        if (this.controlDate.getHours() <= this.morning8.getHours() || this.controlDate <= this.morning8 || this.controlDate.getHours() >= this.evening8.getHours()) {
             this.showSweetAlert(
                 'error',
                 'Randevu saatleri uygun değil!'
             );
-            this.buttonDisabled=true;
-        }else{
-            this.buttonDisabled=false;
+            this.buttonDisabled = true;
+        } else {
+            this.buttonDisabled = false;
         }
-        this.lastSelectedValue = e.value; // Son seçilen değeri saklıyoruz
-        
+        this.lastSelectedValue = this.parseDateTime(e.value); // Son seçilen değeri saklıyoruz
+
         console.log('Yeni tarih ve saat: ', this.lastSelectedValue);
         // Yeni değeri kullanmak için burada işlemler yapabilirsiniz
     }
@@ -408,8 +445,23 @@ debugger
 
         if (this.selectedAppointment !== null) {
             this.appointmentAdd.setValue({
-
+                doctorId: selectedAppointments.doctorId,
+                appointmentType: selectedAppointments.appointmentType,
+                customerId: selectedAppointments.customerId,
+                note: selectedAppointments.note,
+                status: selectedAppointments.status,
+                patientId: selectedAppointments.patientsId
             });
+            this.selectedPatientId = selectedAppointments.patientsId;
+            this.now = selectedAppointments.date;
+            this.selectedStatus = selectedAppointments.status;
+            if (selectedAppointments.appointmentType == 1) {
+                this.addVaccineList = selectedAppointments.vaccineItems;
+            }
+
+            if (this.selectedPatientId != null) {
+                this.handleCustomerChange(this.selectedCustomerId)
+            }
         }
     }
 
@@ -418,7 +470,27 @@ debugger
         console.log("Seçilen değer:", this.selectedStatus);
     }
 
-    
+    parseDateTime(value: any): Date {
+        if (value instanceof Date) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            const dateTime = new Date(value);
+            if (!isNaN(dateTime.getTime())) {
+                return dateTime;
+            }
+            // Özel formatları manuel olarak parse etme
+            const customFormat = /^(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})$/;
+            const match = (value as string).match(customFormat);
+            if (match) {
+                const [_, day, month, year, hours, minutes, seconds] = match.map(Number);
+                return new Date(year, month - 1, day, hours, minutes, seconds);
+            }
+        }
+        return null; // Geçersiz tarih
+    }
+
+
 
 }
 

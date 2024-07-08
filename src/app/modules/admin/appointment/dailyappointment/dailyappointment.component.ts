@@ -9,6 +9,8 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { AddApponitnmentDialogComponent } from '../appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { EditAppointmentComponent } from '../../customer/customerdetails/dialogs/appointment-history/dialogs/edit-appointment.component';
 
 @Component({
   selector: 'app-dailyappointment',
@@ -46,7 +48,11 @@ export class DailyappointmentComponent implements OnInit {
           this.dailyappointment
         );
         this.dataSource.paginator = this.paginator;
-
+        setTimeout(() => {
+          if (this.dataSource) {
+            this.dataSource.paginator = this.paginator;
+          }
+        }, 0)
         this.loader = false;
       });
   }
@@ -57,27 +63,53 @@ export class DailyappointmentComponent implements OnInit {
   }
 
   public redirectToUpdate = (id: string) => {
-    // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
-    // if (selectedAppointment) {
-    //     const model = {
-    //         visibleCustomer: false,
-    //         selectedAppointment: selectedAppointment,
-    //         customerId: this.selectedCustomerId
-    //     };
-    //     const dialogRef = this._dialog.open(
-    //         EditAppointmentComponent,
-    //         {
-    //             maxWidth: '100vw !important',
-    //             disableClose: true,
-    //             data: model
-    //         }
-    //     );
-    //     dialogRef.afterClosed().subscribe((response) => {
-    //         if (response.status) {
-    //             this.getAppointmentDailyList();
-    //         }
-    //     });
-    // }
+    const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    if (selectedAppointment) {
+      const model = {
+        visibleCustomer: true,
+        selectedAppointment: selectedAppointment,
+        customerId: selectedAppointment.customerId
+      };
+      const dialogRef = this._dialog.open(
+        AddApponitnmentDialogComponent,
+        {
+          minWidth: '1000px',
+          disableClose: true,
+          data: model
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAppointmentDailyList();
+        }
+      });
+    }
+
+    // // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    // // if (selectedAppointment) {
+
+    // //     const model = {
+    // //         visibleCustomer: false,
+    // //         selectedAppointment: selectedAppointment,
+    // //         customerId:  selectedAppointment.customerId
+    // //     };
+
+    // //     const dialogRef = this._dialog.open(
+    // //         EditAppointmentComponent,
+    // //         {
+    // //             maxWidth: '100vw !important',
+    // //             disableClose: true,
+    // //             data: model
+    // //         }
+    // //     );
+    // //     dialogRef.afterClosed().subscribe((response) => {
+    // //         if (response.status) {
+    // //             this.getAppointmentDailyList();
+    // //         }
+    // //     });
+    // // }
+
+
   }
 
   public redirectToDelete = (id: string) => {
