@@ -101,7 +101,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
         this._parameterService.getparameterList().subscribe((response) => {
-            debugger
+
             this.parameters = response.data;
             const [beginHours, beginMinutes] = this.parameters[0].appointmentBeginDate.split(':').map(Number);
             this.morning8.setHours(beginHours);
@@ -230,7 +230,6 @@ export class AddApponitnmentDialogComponent implements OnInit {
         });
     }
 
-
     handleCustomerChange(event: any) {
         const model = {
             id: event.value
@@ -271,7 +270,6 @@ export class AddApponitnmentDialogComponent implements OnInit {
             }
         );
     }
-
 
     addAppointment(): void {
         const item = new CreateAppointmentCommand(
@@ -452,6 +450,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 status: selectedAppointments.status,
                 patientId: selectedAppointments.patientsId
             });
+            this.selectedAppointmentType = selectedAppointments.appointmentType;
             this.selectedPatientId = selectedAppointments.patientsId;
             this.now = selectedAppointments.date;
             this.selectedStatus = selectedAppointments.status;
@@ -490,10 +489,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         return null; // Geçersiz tarih
     }
 
-
-
 }
-
 
 const StatusTypeValues = {
     1: "Bekliyor",

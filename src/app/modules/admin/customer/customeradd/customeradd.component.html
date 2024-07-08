@@ -84,16 +84,21 @@
                     <mat-label>İl</mat-label>
                     <!-- <input matInput [formControlName]="'province'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
-                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province">
+                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province" (selectionChange)="handleCityChange($event)">
                         <mat-option>None</mat-option>
-                        <mat-option *ngFor="let item of cities"
+                        <mat-option *ngFor="let item of cities" 
                             [value]="item.name">{{item.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-md:pl-3">
                     <mat-label>İlçe</mat-label>
-                    <input matInput [formControlName]="'district'">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <!-- <input matInput [formControlName]="'district'">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of district"
+                            [value]="item">{{item}}</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Vergi Dairesi</mat-label>

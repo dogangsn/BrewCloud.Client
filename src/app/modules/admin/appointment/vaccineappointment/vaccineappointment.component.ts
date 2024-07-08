@@ -5,6 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CalendarEvent } from 'angular-calendar';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 import { VaccineCalendarService } from 'app/core/services/vaccinecalendar/vaccinecalendar.service';
+import { AddApponitnmentDialogComponent } from '../appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 
 @Component({
   selector: 'app-vaccineappointment',
@@ -40,22 +41,22 @@ export class VaccineappointmentComponent implements OnInit {
   addPanelOpen(): void {
 
     const model = {
-      visibleCustomer: true,
+        visibleCustomer: true,
+        selectedAppointment : null
     };
-
     const dialog = this._dialog
-    // .open(AddApponitnmentDialogComponent, {
-    //     maxWidth: '100vw !important',
-    //     disableClose: true,
-    //     data: model,
-    // })
-    // .afterClosed()
-    // .subscribe((response) => {
-    //     if (response.status) {
-    //         this.getApponitmentList();
-    //     }
-    // });
-  }
+        .open(AddApponitnmentDialogComponent, { 
+            minWidth: '1000px',
+            disableClose: true,
+            data: model,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+            if (response.status) {
+                this.getApponitmentList();
+            }
+        });
+}
 
   day(event: CalendarEvent, title: string): string {
     return event.title;
