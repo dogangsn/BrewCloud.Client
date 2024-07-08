@@ -244,6 +244,12 @@ export const endPoints = {
         getWeightControls: 'vet/Patient/GetWeightControls',
         updatePatientsWeight: 'vet/Patient/UpdatePatientsWeight'
     },
+    shortCuts: {
+        getShortCuts: 'vet/GeneralSettings/GetShortCuts',
+        createShortCuts: 'vet/GeneralSettings/CreateShortCuts',
+        updateShortCuts: 'vet/GeneralSettings/UpdateShortCuts',
+        deleteShortCuts: 'vet/GeneralSettings/DeleteShortCuts'
+    },
     stocktracking: {
         getstockTrackingProductFilter: 'vet/Definition/StockTrackingProductFilter',
         createStockTracking: 'vet/Definition/CreateStockTracking',
