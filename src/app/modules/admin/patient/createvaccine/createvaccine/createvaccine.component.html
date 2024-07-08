@@ -16,6 +16,7 @@
       </div>
       <div class="font-medium tracking-tight text-secondary" *ngIf="loader">...</div>
     <div class="font-medium tracking-tight text-secondary" *ngIf="!loader">{{ this.patient.name  + " / " + this.customer.firstname + " (" + this.customer.phonenumber + ")"}}</div>
+    <div class="font-medium tracking-tight text-secondary" *ngIf="loader">...</div>
     <div class="font-medium tracking-tight text-secondary text-red-500" *ngIf="!loader&&this.patient.isVaccineCalendarCreate" >Aşı Takvimi Oluşturulmuş!</div>
     </div>
     <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
@@ -28,7 +29,17 @@
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
 
-    <div class="w-full flex">
+    <div role="status" class="animate-pulse mt-5" *ngIf="loader">
+      <div class="w-full">
+        <div class="flex gap-4 mb-11">
+          <div class="h-13 w-1/6 bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="w-full flex" *ngIf="!loader">
       <div class="w-1/6">
         <mat-form-field appearance="fill">
           <mat-label>Başlangıç Tarihi</mat-label>
@@ -46,7 +57,12 @@
       </div>
     </div>
 
-    <div class="rounded-3xl">
+    <div role="status" class="animate-pulse" *ngIf="loader">
+      <div class="h-360 bg-gray-200 rounded-sm dark:bg-gray-700 w-full mb-4"></div>
+
+    </div>
+
+    <div class="rounded-3xl"  *ngIf="!loader">
       <table class="border bg-slate-50" mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="vaccineName">
           <th mat-header-cell *matHeaderCellDef> Aşı Adı </th>

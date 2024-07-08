@@ -62,6 +62,7 @@ export class CreatevaccineComponent implements OnInit {
     private _vaccineCalendarService: VaccineCalendarService,
     private router: Router,
   ) { }
+  
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -85,7 +86,7 @@ export class CreatevaccineComponent implements OnInit {
       complete: () => {
         this.getVaccineList();
         this.getCustomer();
-        this.loader=false;
+        
       }
     });
 
@@ -154,7 +155,7 @@ export class CreatevaccineComponent implements OnInit {
 
   public redirectToDetail = (id: string) => {
     console.log(id);
-    this.router.navigate(['/patientslist/patientdetails/', id]);
+    this.router.navigate(['/patientslist/patientdetails/', id], { queryParams: { tab: 'vaccine-calendar' } });
   };
 
   getPatient(): Observable<any> {
@@ -183,6 +184,7 @@ export class CreatevaccineComponent implements OnInit {
     this._customerService.getCustomersFindById(model).subscribe((response)=>{
       if(response.data){
         this.customer=response.data;
+        this.loader=false;
       }
     })
   }
@@ -307,6 +309,4 @@ export class CreatevaccineComponent implements OnInit {
       }
     );
   };
-
-
 }
