@@ -20,6 +20,7 @@ import { PatientDetailsDto } from 'app/modules/admin/customer/models/PatientDeta
 import { CreateVetVaccineCalendarDto } from '../models/create-vaccine-appoitment-dto';
 import { CreateVaccineListDto } from '../models/vaccine-examination-list-dto';
 import { VaccineCalendarService } from 'app/core/services/vaccinecalendar/vaccinecalendar.service';
+import { CustomerDetailDto } from 'app/modules/admin/customer/models/CustomerDetailDto';
 
 
 @Component({
@@ -41,13 +42,14 @@ export class CreatevaccineComponent implements OnInit {
   isAdd: boolean = false;
   isDone: boolean = false;
   patient: PatientDetailsDto;
+  customer: CustomerDetailDto;
   birthDate: Date;
 
   createVaccineExaminationList : CreateVetVaccineCalendarDto[] = [];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   private _dialogRef: any;
-
+  loader = true;
 
 
   constructor(
@@ -69,7 +71,7 @@ export class CreatevaccineComponent implements OnInit {
 
     zip(
       this.getPatient(),
-      this.getAnimalTypesList()
+      this.getAnimalTypesList(),
     ).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
@@ -82,6 +84,8 @@ export class CreatevaccineComponent implements OnInit {
       },
       complete: () => {
         this.getVaccineList();
+        this.getCustomer();
+        this.loader=false;
       }
     });
 
@@ -170,6 +174,19 @@ export class CreatevaccineComponent implements OnInit {
       
     }
   }
+
+  getCustomer() {
+    const model = {
+      Id : this.patient.customerId
+    };
+
+    this._customerService.getCustomersFindById(model).subscribe((response)=>{
+      if(response.data){
+        this.customer=response.data;
+      }
+    })
+  }
+
 
 
   getAnimalTypesList(): Observable<any> {

@@ -13,6 +13,7 @@ export class PatientDetailsDto {
     reportNumber : string;
     specialNote: string;
     animalBreed : number;
+    isVaccineCalendarCreate :boolean;
 
     constructor(
         id: string,
@@ -24,7 +25,8 @@ export class PatientDetailsDto {
         birthDate: string,
         breedType: string,
         chipNumber: string,
-        customerId: string
+        customerId: string,
+        isVaccineCalendarCreate: boolean,
     ) {
         this.id = id;
         this.recId = recId;
@@ -36,5 +38,6 @@ export class PatientDetailsDto {
         this.breedType = breedType;
         this.chipNumber = chipNumber;
         this.customerId = customerId;
+        this.isVaccineCalendarCreate = isVaccineCalendarCreate;
     }
 }
