@@ -25,7 +25,7 @@ export class AppointmentService {
         return this._httpService.post(endPoints.appointments.deleteappointment, model);
     }
 
-    updateAppointment(model: UpdateAppointmentCommand): Observable<any> {
+    updateAppointment(model: any): Observable<any> {
         return this._httpService.post(endPoints.appointments.updateappointment, model);
     }
     

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Injectable } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { from, Subject } from 'rxjs';
 import {
     CalendarEvent,
     CalendarEventTimesChangedEvent,
@@ -20,6 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
+import  * as signalR  from '@microsoft/signalR'; 
 
 @Component({
     selector: 'app-appointment',
@@ -28,10 +29,10 @@ import { AppointmentService } from 'app/core/services/appointment/appointment.se
 })
 export class AppointmentComponent implements OnInit {
     appointmentsData: Appointment[];
-
     currentDate: Date = new Date();
-
     loader = true;
+
+    hubConnection: signalR.HubConnection;
 
     constructor(
         private _dialog: MatDialog,
@@ -44,6 +45,8 @@ export class AppointmentComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.startConnection();
         this.getApponitmentList();
     }
 
@@ -77,6 +80,7 @@ export class AppointmentComponent implements OnInit {
 
         const model = {
             visibleCustomer: true,
+            selectedAppointment : null
         };
         
 
@@ -104,6 +108,22 @@ export class AppointmentComponent implements OnInit {
         console.log(e.appointmentsData.text)
     }
 
+    startConnection = () =>  {
+
+        this.hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl('http://localhost:5020/serviceHub', {
+            skipNegotiation: true,
+            transport : signalR.HttpTransportType.WebSockets
+        }).build();
+
+        
+        this.hubConnection.start().then(() => {
+            console.log("Hub Connect Startded")
+        }).catch(err => console.log("Error while starting connection" + err))
+
+    }
+
+    
 
 }
 

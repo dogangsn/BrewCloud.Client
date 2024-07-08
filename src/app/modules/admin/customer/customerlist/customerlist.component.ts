@@ -18,6 +18,9 @@ import { customerlistRptParameter } from '../report/models/customerlistRptParame
 import { formatDate } from '@angular/common';
 import { PatientlistDialogComponent } from '../customerdetails/dialogs/patientlist-dialog/patientlist-dialog.component';
 import { PayChartComponent } from '../customerdetails/dialogs/pay-chart/pay-chart.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { PrintTemplateSelectedComponent } from '../../commonscreen/print-template-selected/print-template-selected.component';
+import { PrintType } from '../../definition/printtemplate/models/printType.enum';
 
 @Component({
     selector: 'customerslist',
@@ -138,7 +141,16 @@ export class CustomersListComponent implements OnInit {
         //     disableClose: true,
         //     data: pmsrpt1090//data
         // })
-        
+        const dialogRef = this._dialog.open(
+            PrintTemplateSelectedComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { printType: PrintType.Customer },
+            }
+        );
+
+
     }
     showSweetAlert(type: string): void {
         if (type === 'success') {
@@ -240,7 +252,16 @@ export class CustomersListComponent implements OnInit {
         }
     }
 
-
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
 
 
 }

@@ -116,6 +116,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedValue: string;
     AnimalTypeControl: FormControl = new FormControl();
     cities: any[] = [];
+    district: any[] = [];
     selectedCityValue: string;
     //
 
@@ -1044,6 +1045,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
+    handleCityChange(event: any) {
+        let city = this.cities.filter(x => x.name === event.value);
+        if (city.length > 0) {
+            this.district = city[0].districts;
+        } else {
+            this.district = [];
+        }
+    }
 
 
 }

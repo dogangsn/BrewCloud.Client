@@ -34,6 +34,7 @@ import { ProductDescriptionsDto } from 'app/modules/admin/definition/productdesc
 import { TaxesDto } from 'app/modules/admin/definition/taxes/models/taxesDto';
 import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-examinationadd',
@@ -45,7 +46,7 @@ export class ExaminationaddComponent implements OnInit {
 
     patientList: PatientDetails[] = [];
     customers: customersListDto[] = [];
-
+    @ViewChild('myPanel') myPanel: MatExpansionPanel;
     @ViewChild('symptomInput') symptomInput: ElementRef<HTMLInputElement>;
     selectedCustomerId: any;
     panelOpenState = false;
@@ -191,6 +192,8 @@ export class ExaminationaddComponent implements OnInit {
                                 this.selectedState = this.states[0];
                                 this.examinationForm.reset();
                                 this.clearInputField();
+                                this.dataSource = [];
+                                this.myPanel.close();
                                 this.examinationForm
                                     .get('selectedState')
                                     .patchValue(this.selectedState);

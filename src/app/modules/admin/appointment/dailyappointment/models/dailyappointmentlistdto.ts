@@ -7,4 +7,9 @@ export class DailyAppointmentListDto {
     services: string;
     status : string;
     statusName : string;
+    customerId: string;
+    doctorId: string;
+    note:string;
+    beginDate: string;
+    endDate: string;
 }
