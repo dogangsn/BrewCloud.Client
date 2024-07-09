@@ -58,6 +58,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditAnimalsColorDialogComponent } from './dialog/create-edit-animalscolor';
 import { CityService } from 'app/core/services/assetsService/cityService.service';
+import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
+import { ShortcutsService } from 'app/layout/common/shortcuts/shortcuts.service';
 
 @Component({
     selector: 'customeradd',
@@ -118,6 +120,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     cities: any[] = [];
     district: any[] = [];
     selectedCityValue: string;
+    shortcut : Shortcut;
     //
 
     constructor(
@@ -131,7 +134,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private _dialog: MatDialog,
-        private _cityService: CityService
+        private _cityService: CityService,
+        private _shortcutsService: ShortcutsService
     ) { }
 
     ngOnInit() {
@@ -1052,6 +1056,24 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             this.district = [];
         }
+    }
+
+    
+    addToShortCuts() {
+        this.shortcut = {
+            id: '',  
+            label: '',
+            icon: '',
+            link: '',
+            useRouter: true
+        };
+    
+        this.shortcut.description = "Yeni Müşteri Ekle";
+        this.shortcut.label = "Müşteri Ekle";
+        this.shortcut.icon = "heroicons_outline:user-plus";
+        this.shortcut.link = "/customeradd";
+    
+        this._shortcutsService.create(this.shortcut).subscribe();
     }
 
 
