@@ -35,6 +35,8 @@ import { TaxesDto } from 'app/modules/admin/definition/taxes/models/taxesDto';
 import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
 import { ProductDescriptionService } from 'app/core/services/definition/productdescription/productdescription.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
+import { ShortcutsService } from 'app/layout/common/shortcuts/shortcuts.service';
 
 @Component({
     selector: 'app-examinationadd',
@@ -64,6 +66,7 @@ export class ExaminationaddComponent implements OnInit {
     selectedState: string;
     states: string[] = ['Aktif', 'Tamamlandı', 'Bekliyor'];
     loader=true;
+    shortcut : Shortcut;
 
     addEnabled: boolean = true;
     visibleCustomer: boolean;
@@ -83,6 +86,7 @@ export class ExaminationaddComponent implements OnInit {
         private _examinationService: ExaminationService,
         private _taxisService: TaxisService,
         private _productdescriptionService: ProductDescriptionService,
+        private _shortcutsService: ShortcutsService
     ) {
         this.selectedState = this.states[0];
         this.filteredSymptoms = this.symptomCtrl.valueChanges.pipe(
@@ -214,6 +218,22 @@ export class ExaminationaddComponent implements OnInit {
         );
     }
 
+    addToShortCuts() {
+        this.shortcut = {
+            id: '',  
+            label: '',
+            icon: '',
+            link: '',
+            useRouter: true
+        };
+    
+        this.shortcut.description = "Yeni Muayene Ekle";
+        this.shortcut.label = "Yeni Muayene Ekle";
+        this.shortcut.icon = "heroicons_outline:plus";
+        this.shortcut.link = "/examinationadd";
+    
+        this._shortcutsService.create(this.shortcut).subscribe();
+    }
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }

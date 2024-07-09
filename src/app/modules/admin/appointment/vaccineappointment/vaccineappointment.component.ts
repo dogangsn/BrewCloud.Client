@@ -42,7 +42,8 @@ export class VaccineappointmentComponent implements OnInit {
 
     const model = {
         visibleCustomer: true,
-        selectedAppointment : null
+        selectedAppointment : null,
+        isVaccine: true
     };
     const dialog = this._dialog
         .open(AddApponitnmentDialogComponent, { 

@@ -77,6 +77,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     buttonDisabled: boolean = false;
     controlDate = new Date();
     loader = true;
+    isVaccine = false;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -98,6 +99,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
         this.selectedCustomerId = data.customerId;
         this.selectedPatientId = data.patientId;
         this.visibleCustomer = data.visibleCustomer;
+        this.isVaccine = data.isVaccine;
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
         this._parameterService.getparameterList().subscribe((response) => {
@@ -209,6 +211,12 @@ export class AddApponitnmentDialogComponent implements OnInit {
     setAppointmentTypeList(response: any): void {
         if (response.data) {
             this.appointmentTypes = response.data;
+            if (this.isVaccine) {
+                this.appointmentTypes = this.appointmentTypes.filter(type => type.type === 1);  
+                if (this.appointmentTypes.length > 0) {
+                    this.appointmentAdd.get('appointmentType').setValue(this.appointmentTypes[0].type);
+                }          
+            }
         }
     }
 
