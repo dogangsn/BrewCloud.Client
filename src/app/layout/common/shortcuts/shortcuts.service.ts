@@ -53,8 +53,9 @@ export class ShortcutsService
 
     getAll() : Observable<Shortcut[]>{    
         return this._httpService.getRequest(endPoints.shortCuts.getShortCuts).pipe(
-            tap((shortcuts)=>{
-                this._shortcuts.next(shortcuts)
+            map(response => response.data), // Extract the array from the data property
+            tap((shortcuts) => {
+                this._shortcuts.next(shortcuts);
             })
         );
     }
@@ -126,9 +127,12 @@ export class ShortcutsService
      */
     delete(id: string): Observable<boolean>
     {
+        const model = {
+            id:id
+        };
         return this.shortcuts$.pipe(
             take(1),
-            switchMap(shortcuts => this._httpService.delete(endPoints.shortCuts.deleteShortCuts, {params: {id}}).pipe(
+            switchMap(shortcuts => this._httpService.post(endPoints.shortCuts.deleteShortCuts, model).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted shortcut
