@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 import { AddApponitnmentDialogComponent } from '../appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
 import { EditAppointmentComponent } from '../../customer/customerdetails/dialogs/appointment-history/dialogs/edit-appointment.component';
+import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
+import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 
 @Component({
   selector: 'app-dailyappointment',
@@ -186,6 +188,27 @@ export class DailyappointmentComponent implements OnInit {
         data: { masterId: id },
       }
     );
+
+  }
+
+  public sendMessage = (id: string) => {
+
+    const model = {
+      messageType: SmsType.Appointment, 
+      isFixMessage : true
+    };
+    const dialog = this._dialog
+      .open(MessageSendComponent, {
+        minWidth: '1000px',
+        disableClose: true,
+        data: model,
+      })
+      .afterClosed()
+      .subscribe((response) => {
+        if (response.status) {
+          // this.getApponitmentList();
+        }
+      });
 
   }
 

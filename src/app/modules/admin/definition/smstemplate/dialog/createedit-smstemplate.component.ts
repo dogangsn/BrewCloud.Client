@@ -9,6 +9,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CreateSmsTemplateCommand } from '../models/createSmsTemplateCommand';
 import { SmsTemplateListDto } from '../models/smstemplatelistDto';
 import { UpdateSmsTemplateCommand } from '../models/updateSmsTemplateCommand';
+import { PrintType, PrintTypeDisplay } from '../../printtemplate/models/printType.enum';
+import { SmsType, SmsTypeDisplay } from '../models/smsType.enum';
 
 
 @Component({
@@ -23,6 +25,8 @@ export class CreateeditSmstemplateComponent implements OnInit {
   smstemplate: FormGroup;
   selectedOption: number = 1;
   buttonDisabled = false;
+
+  printTypes = Object.values(SmsType).filter(value => typeof value === 'number') as SmsType[];
 
   availableOptions = [
     { name: 'Misafir Adı', selected: false, value: '[[customername]]' },
@@ -46,6 +50,7 @@ export class CreateeditSmstemplateComponent implements OnInit {
     this.smstemplate = this._formBuilder.group({
       active: [true],
       templatename: [''],
+      smstype : ['', Validators.required],
       enableSMS: false,
       enableAppNotification: false,
       enableEmail: false,
@@ -89,6 +94,7 @@ export class CreateeditSmstemplateComponent implements OnInit {
       this.getFormValueByName('active'),
       this.getFormValueByName('templatename'),
       this.getFormValueByName('templatecontent'),
+      this.getFormValueByName('smstype'),
       this.getFormValueByName('enableSMS'),
       this.getFormValueByName('enableAppNotification'),
       this.getFormValueByName('enableEmail'),
@@ -120,6 +126,7 @@ export class CreateeditSmstemplateComponent implements OnInit {
       this.getFormValueByName('active'),
       this.getFormValueByName('templatename'),
       this.getFormValueByName('templatecontent'),
+      this.getFormValueByName('smstype'),
       this.getFormValueByName('enableSMS'),
       this.getFormValueByName('enableAppNotification'),
       this.getFormValueByName('enableEmail'),
@@ -181,8 +188,47 @@ export class CreateeditSmstemplateComponent implements OnInit {
         enableAppNotification : selectedsmstempla.enableAppNotification,
         enableEmail : selectedsmstempla.enableEmail,
         enableWhatsapp : selectedsmstempla.enableWhatsapp,
-        templatecontent: selectedsmstempla.templateContent
+        templatecontent: selectedsmstempla.templateContent,
+        smstype: selectedsmstempla.smsType
       });
+    }
+  }
+
+  getPrintTypeDisplay(type: SmsType): string {
+    return SmsTypeDisplay[type];
+  }
+
+  updateAvailableOptions(selectedPrintType: SmsType): void {
+    switch (selectedPrintType) {
+      case SmsType.Customer:
+        this.availableOptions = [
+          { name: 'Müşteri Adı', selected: false, value: '[[customername]]' },
+          { name: 'Müşteri Soyadı', selected: false, value: '[[customerlast]]' },
+          { name: 'Tarih', selected: false, value: '[[date]]' },
+          { name: 'Telefon', selected: false, value: '[[phone]]' },
+          { name: 'VKN/TCKN', selected: false, value: '[[taxnumber]]' },
+          { name: 'Toplam Borç', selected: false, value: '[[totalbalance]]' },
+        ];
+        break;
+      case SmsType.Patient:
+        this.availableOptions = [
+          { name: 'Hasta Adı', selected: false, value: '[[patientname]]' },
+          { name: 'Hasta Cinsiyet', selected: false, value: '[[patientsex]]' },
+          { name: 'Hasta Türü', selected: false, value: '[[patienttype]]' },
+          { name: 'Hasta Yaşı', selected: false, value: '[[patientage]]' },
+          { name: 'Tarih', selected: false, value: '[[Date]]' },
+        ];
+        break;
+      case SmsType.Accomodation:
+          this.availableOptions = [
+            { name: 'Giriş Tarihi', selected: false, value: '[[checkindate]]' },
+            { name: 'Çıkış Tarihi', selected: false, value: '[[checkoutdate]]' },
+          ];
+          break;
+         
+      default:
+        this.availableOptions = [];
+        break;
     }
   }
 

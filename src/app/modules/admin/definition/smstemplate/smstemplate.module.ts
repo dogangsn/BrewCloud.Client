@@ -26,6 +26,7 @@ import { CreateeditSmstemplateComponent } from './dialog/createedit-smstemplate.
 import { MatRadioModule } from '@angular/material/radio';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const routes: Routes = [
   {
@@ -79,6 +80,7 @@ const routes: Routes = [
     MatDialogModule,
     MatRadioModule, 
     MatChipsModule,
+    DragDropModule,
     RouterModule.forChild(routes)
   ],
   declarations: [SmstemplateComponent, CreateeditSmstemplateComponent]

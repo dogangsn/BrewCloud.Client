@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Injectable } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { from, Subject } from 'rxjs';
+import { from, Observable, Subject, takeUntil, zip } from 'rxjs';
 import {
     CalendarEvent,
     CalendarEventTimesChangedEvent,
@@ -20,7 +20,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
-import  * as signalR  from '@microsoft/signalR'; 
+import * as signalR from '@microsoft/signalR';
+import { AppSignalRService } from 'app/core/services/signalR/appSignalRService.service';
+import { UserService } from 'app/core/user/user.service'; 
+import { UsersService } from 'app/core/services/settings/users/users.service';
 
 @Component({
     selector: 'app-appointment',
@@ -33,6 +36,12 @@ export class AppointmentComponent implements OnInit {
     loader = true;
 
     hubConnection: signalR.HubConnection;
+    receivedMessage: string;
+    userId: string;
+    users: any;
+
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
 
     constructor(
         private _dialog: MatDialog,
@@ -40,15 +49,57 @@ export class AppointmentComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private _appointmentService: AppointmentService,
+        private signalRService: AppSignalRService,
+        private _usersService: UsersService,
     ) {
         //this.appointmentsData = appointments;
     }
 
     ngOnInit(): void {
 
-        this.startConnection();
         this.getApponitmentList();
+        this.getUserInfo();
+
+        zip(
+            this.getUserInfo()
+
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                this.setUser(value[0])
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+                this.hubCreateConnection();
+            }
+        });
+
+        // this._userService.user$.subscribe((user) => {
+        //     this.userId = user.id;
+        // });
+
+        // this.signalRService.startConnection().subscribe(() => {
+        //     this.signalRService.receiveMessage().subscribe((message) => {
+        //       this.receivedMessage = message;
+        //     });
+        //   });
+   
     }
+ 
+
+    getUserInfo(): Observable<any> {
+        return this._usersService.getActiveUser();
+    }
+
+    setUser(response: any): void {
+        if (response.data) {
+            this.users = response.data;
+        }
+    }
+
 
     getApponitmentList() {
         const model = {
@@ -80,9 +131,9 @@ export class AppointmentComponent implements OnInit {
 
         const model = {
             visibleCustomer: true,
-            selectedAppointment : null
+            selectedAppointment: null
         };
-        
+
 
         const dialog = this._dialog
             .open(AddApponitnmentDialogComponent, {
@@ -108,22 +159,79 @@ export class AppointmentComponent implements OnInit {
         console.log(e.appointmentsData.text)
     }
 
-    startConnection = () =>  {
+    startConnection = () => {
 
         this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('http://localhost:5020/serviceHub', {
-            skipNegotiation: true,
-            transport : signalR.HttpTransportType.WebSockets
-        }).build();
+            .withUrl('http://localhost:5020/serviceHub', {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            }).build();
 
-        
+
         this.hubConnection.start().then(() => {
             console.log("Hub Connect Startded")
         }).catch(err => console.log("Error while starting connection" + err))
 
     }
 
-    
+    sendMessage(message: string): void {
+        this.signalRService.sendMessage(message);
+    }
+
+
+    hubCreateConnection(): void {
+        const address = 'http://localhost:5020/serviceHub';
+        if (this.hubConnection) {
+            this.hubConnection.stop();
+        }
+        this.hubConnection = new signalR.HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Debug)
+            .withAutomaticReconnect()
+            .withUrl(address, {
+                withCredentials: false,
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets,
+            })
+            .build();
+
+        this.hubConnection.onreconnected((connectionId) => {
+            this.hubAddGroup();
+        });
+
+        this.hubConnection
+            .start()
+            .then(() => {
+                this.hubAddGroup();
+            })
+            .catch((err) => {
+                setTimeout(() => {
+                    this.hubCreateConnection();
+                }, 2000);
+            });
+
+        this.hubConnectionStatus();
+        this.hubListener();
+    }
+
+    hubAddGroup(): void {
+        console.log(this.userId);
+        this.hubConnection.invoke('AddGroup', this.users.id).catch((err) => {
+        });
+    }
+
+    hubConnectionStatus(): void {
+        this.hubConnection.onreconnected((connectionId) => {
+        });
+    }
+
+    hubListener(): void {
+        this.hubConnection.on('viewCountUpdate', (model: any) => {
+            console.log(model);
+
+        });
+    }
+
+
 
 }
 

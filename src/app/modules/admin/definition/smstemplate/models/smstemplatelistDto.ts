@@ -1,3 +1,5 @@
+import { SmsType } from "./smsType.enum";
+
 export class SmsTemplateListDto {
     id: string;
     active: boolean;
@@ -7,4 +9,5 @@ export class SmsTemplateListDto {
     enableAppNotification?: boolean;
     enableEmail?: boolean;
     enableWhatsapp?: boolean;
+    smsType : SmsType;
 }

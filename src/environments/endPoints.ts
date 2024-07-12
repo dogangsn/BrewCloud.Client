@@ -22,8 +22,8 @@ export const endPoints = {
         createRols: 'account/settings/CreateRoleSetting',
         updateRols: 'account/settings/UpdateRoleSetting',
         deleteRols: 'account/settings/DeleteRoleSetting',
-        getNavigation: 'account/settings/GetNavigation'
-
+        getNavigation: 'account/settings/GetNavigation',
+        getActiveUser: 'account/settings/GetActiveUser'
     },
     customers: {
         customerslist: 'vet/Customers/CustomersList',
@@ -160,7 +160,8 @@ export const endPoints = {
         createsmsparameters: 'vet/Settings/CreateSmsParameters',
         updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
         getSmsParametersIdBy: 'vet/Settings/GetSmsParametersIdBy',
-        getlogs: 'vet/Settings/GetLogs'
+        getlogs: 'vet/Settings/GetLogs',
+        getSmsParametersList : 'vet/Settings/GetSmsParametersList'
     },
     chat: {
         getAllUsers: 'chat/Account/GetAllUsers'
@@ -183,6 +184,7 @@ export const endPoints = {
         createtitle: 'account/settings/CreateTitleDefination',
         updatetitle: 'account/settings/UpdateTitleDefination',
         deleteTitle: 'account/settings/DeleteTileDefination',
+
     },
     mailing: {
         getsmptsettingsList: 'mail/Mailing/GetSmtpSettings',
@@ -261,19 +263,20 @@ export const endPoints = {
         createSmsTemplate: 'vet/Definition/CreateSmsTemplate',
         updateSmsTemplate: 'vet/Definition/UpdateSmsTemplate',
         deleteSmsTemplate: 'vet/Definition/DeleteSmsTemplate',
+        getSmsTemplateIdBy: 'vet/Definition/GetSmsTemplateIdBy'
     },
-    filemanager : {
-        getFileManager : 'vet/FileManager/GetFileManagerList',
-        createFileManager : 'vet/FileManager/CreateFileManager',
-        deleteFileManager : 'vet/FileManager/DeleteFileManager',
-        updateFileManager : '',
-        getItemById : 'vet/FileManager/GetFileManagerForById'
+    filemanager: {
+        getFileManager: 'vet/FileManager/GetFileManagerList',
+        createFileManager: 'vet/FileManager/CreateFileManager',
+        deleteFileManager: 'vet/FileManager/DeleteFileManager',
+        updateFileManager: '',
+        getItemById: 'vet/FileManager/GetFileManagerForById'
     },
-    printtemplate : {
+    printtemplate: {
         getPrintTemplateList: 'vet/Definition/GetPrintTemplateList',
-        createPrintTemplate : 'vet/Definition/CreatePrintTemplate',
-        getPrintTemplateFilterByType : 'vet/Definition/GetPrintTemplateFilterByType',
-        deletePrintTemplate : 'vet/Definition/DeletePrintTemplate',
-        updatePrintTemplate : 'vet/Definition/UpdatePrintTemplate'
+        createPrintTemplate: 'vet/Definition/CreatePrintTemplate',
+        getPrintTemplateFilterByType: 'vet/Definition/GetPrintTemplateFilterByType',
+        deletePrintTemplate: 'vet/Definition/DeletePrintTemplate',
+        updatePrintTemplate: 'vet/Definition/UpdatePrintTemplate'
     }
 }

@@ -81,6 +81,7 @@ export class AuthService {
                     localStorage.removeItem('activeLang');
                     this.accessToken = response.access_token;
                     this._authenticated = true;
+                    debugger;
                     this._userService.user = response.user;
                     await this.getSidebarNavigations();
                     return of(response);
