@@ -193,22 +193,53 @@ export class DailyappointmentComponent implements OnInit {
 
   public sendMessage = (id: string) => {
 
-    const model = {
-      messageType: SmsType.Appointment, 
-      isFixMessage : true
-    };
-    const dialog = this._dialog
-      .open(MessageSendComponent, {
-        minWidth: '1000px',
-        disableClose: true,
-        data: model,
-      })
-      .afterClosed()
-      .subscribe((response) => {
-        if (response.status) {
-          // this.getApponitmentList();
-        }
+    let messageTemplate = `
+Merhaba {0},
+
+Bu bir randevu hatırlatma mesajıdır.
+Randevu Tarihi: {1}
+Randevunuzu kaçırmamanız için lütfen bu mesajı dikkate alınız. Herhangi bir sebepten dolayı randevunuza gelemeyecekseniz, lütfen bizi en kısa sürede bilgilendirin.
+
+Teşekkürler,
+`;
+
+    function formatMessage(messageTemplate, ...values) {
+      return messageTemplate.replace(/{(\d+)}/g, (match, number) => {
+        return typeof values[number] !== 'undefined' ? values[number] : match;
       });
+    }
+
+    const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    if (selectedAppointment) {
+
+     
+      let customerName =  selectedAppointment.customerPatientName;
+      let appointmentDate = this.formatDate(selectedAppointment.date.toString());
+      
+      let _message = formatMessage(messageTemplate, customerName, appointmentDate);
+      
+
+
+      const model = {
+        messageType: SmsType.Appointment,
+        isFixMessage: true,
+        message: _message,
+        customerId : selectedAppointment.customerId
+      };
+      const dialog = this._dialog
+        .open(MessageSendComponent, {
+          minWidth: '1000px',
+          disableClose: true,
+          data: model,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            // this.getApponitmentList();
+          }
+        });
+    }
+
 
   }
 

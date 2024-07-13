@@ -11,7 +11,14 @@ import { SmsParametersDto } from '../../settings/smsparameters/models/smsParamet
 import { SmsTemplateService } from 'app/core/services/definition/SmsTemplate/smstemplate.service';
 import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 import { SmsTemplateListDto } from '../../definition/smstemplate/models/smstemplatelistDto';
+import { MessageService } from 'app/core/services/message/message.service';
 
+enum MessageType {
+  Sms = 1,
+  Whatsapp = 2,
+  Mail = 3,
+  MobileApp = 4
+}
 
 @Component({
   selector: 'app-message-send',
@@ -27,6 +34,8 @@ export class MessageSendComponent implements OnInit {
   messageType: SmsType;
   templatelist: SmsTemplateListDto[] = [];
   isFixMessage: boolean;
+  message: string;
+  customerId: string;
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -34,10 +43,13 @@ export class MessageSendComponent implements OnInit {
     private _translocoService: TranslocoService,
     private _parametersService: ParametersService,
     private _smstemplateService: SmsTemplateService,
+    private _messageService: MessageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.messageType = data.messageType;
     this.isFixMessage = data.isFixMessage;
+    this.message = data.message;
+    this.customerId = data.customerId;
   }
 
   ngOnInit() {
@@ -67,6 +79,9 @@ export class MessageSendComponent implements OnInit {
         if (this.smsparameters.length > 0) {
           this.sendmessage.get('enableSMS')?.setValue(true);
         }
+        if (this.isFixMessage && this.message.length > 0) {
+          this.sendmessage.get('templatecontent')?.setValue(this.message);
+        }
       }
     });
 
@@ -83,13 +98,60 @@ export class MessageSendComponent implements OnInit {
   sendMessage(): void {
 
     const sweetAlertDto = new SweetAlertDto(
-      "Mesaj Gönderilecektir. Emin Misiniz ?",
-      this.translate('sweetalert.areYouSureDelete'),
+      "Mesaj Gönderilecektir",
+      this.translate('sweetalert.areYouSure'),
       SweetalertType.warning
     );
     GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
       (swalResponse) => {
         if (swalResponse.isConfirmed) {
+
+          const selectedTypes: MessageType[] = [];
+          const formValue = this.sendmessage.value;
+
+          if (formValue.enableSMS) {
+            selectedTypes.push(MessageType.Sms);
+          }
+          if (formValue.enableAppNotification) {
+            selectedTypes.push(MessageType.MobileApp);
+          }
+          if (formValue.enableEmail) {
+            selectedTypes.push(MessageType.Mail);
+          }
+          if (formValue.enableWhatsapp) {
+            selectedTypes.push(MessageType.Whatsapp);
+          }
+
+          if (selectedTypes.length === 0) {
+            alert('Lütfen en az bir bildirim seçeneği seçiniz.');
+          } else if (this.sendmessage.invalid) {
+            alert('Lütfen gerekli tüm alanları doldurun.');
+          } else {
+
+            var model = {
+              type: selectedTypes,
+              content: this.getFormValueByName('templatecontent'),
+              customerId: this.customerId
+            }
+            this._messageService
+              .multiAutoSendMessage(model)
+              .subscribe((response) => {
+                if (response.isSuccessful) {
+                  const sweetAlertDto2 = new SweetAlertDto(
+                    this.translate('sweetalert.success'),
+                    this.translate('sweetalert.transactionSuccessful'),
+                    SweetalertType.success
+                  );
+                  GeneralService.sweetAlert(sweetAlertDto2);
+                  this._dialogRef.close({
+                    status: true,
+                  });
+                } else {
+                  console.error('işlem başarısız.');
+                }
+              });
+          }
+
         }
       });
 
@@ -114,7 +176,9 @@ export class MessageSendComponent implements OnInit {
     this.templatelist = response.data;
   }
 
-
+  getFormValueByName(formName: string): any {
+    return this.sendmessage.get(formName).value;
+  }
 
 
 

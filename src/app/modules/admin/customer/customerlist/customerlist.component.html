@@ -139,7 +139,7 @@
                   <mat-icon>colorize</mat-icon>
                   <span>Aşı Takvimi</span>
                 </button>
-                <button mat-menu-item [disabled]="element.balance == 0">
+                <button mat-menu-item [disabled]="element.balance == 0" (click)="sendMessage(element.id)">
                   <mat-icon>message</mat-icon>
                   <span>Borç Hatırlatma</span>
                 </button>

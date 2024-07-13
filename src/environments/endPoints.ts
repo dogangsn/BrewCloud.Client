@@ -278,5 +278,8 @@ export const endPoints = {
         getPrintTemplateFilterByType: 'vet/Definition/GetPrintTemplateFilterByType',
         deletePrintTemplate: 'vet/Definition/DeletePrintTemplate',
         updatePrintTemplate: 'vet/Definition/UpdatePrintTemplate'
+    },
+    message : {
+        multiAutoSendMessage : 'vet/Message/MultiAutoSendMessage'
     }
 }

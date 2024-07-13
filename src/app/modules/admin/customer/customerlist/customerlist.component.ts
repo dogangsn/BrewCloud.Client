@@ -21,6 +21,8 @@ import { PayChartComponent } from '../customerdetails/dialogs/pay-chart/pay-char
 import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 import { PrintTemplateSelectedComponent } from '../../commonscreen/print-template-selected/print-template-selected.component';
 import { PrintType } from '../../definition/printtemplate/models/printType.enum';
+import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
+import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
 
 @Component({
     selector: 'customerslist',
@@ -263,6 +265,57 @@ export class CustomersListComponent implements OnInit {
         );
     }
 
+    public sendMessage = (id: string) => {
+
+        let messageTemplate: string = `
+        Sayın {0},
+        
+        Size, henüz ödenmemiş {1} TL borcunuz olduğunu hatırlatmak isteriz. Ödemenizi en kısa sürede yapmanızı rica ederiz.
+        
+        Ödeme yaptıysanız, bu mesajı dikkate almayınız.
+        
+        Teşekkür eder, iyi günler dileriz.
+        
+        Saygılarımızla,
+        `;
+
+        function createReminderMessage(customerName: string, amount: number): string {
+            return messageTemplate
+                .replace('{0}', customerName)
+                .replace('{1}', amount.toString());
+        }
+
+        const _customer = this.customerlist.find(x => x.id === id);
+        if (_customer) {
+
+
+            let customerName: string = _customer.firstName + " " + _customer.lastName;
+            let amount: number = _customer.balance;
+
+            let _message = createReminderMessage(customerName, amount);
+
+            const model = {
+                messageType: SmsType.Customer,
+                isFixMessage: true,
+                message: _message,
+                customerId: _customer.id
+            };
+            const dialog = this._dialog
+                .open(MessageSendComponent, {
+                    minWidth: '1000px',
+                    disableClose: true,
+                    data: model,
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                        // this.getApponitmentList();
+                    }
+                });
+        }
+
+
+    }
 
 }
 
