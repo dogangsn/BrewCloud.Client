@@ -116,7 +116,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
         this.translate('sweetalert.error'),
         this.translate('sweetalert.transactionFailed'),
         SweetalertType.error
-      );
+      );  
       GeneralService.sweetAlert(sweetAlertDto);
     }
   }
