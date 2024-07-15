@@ -114,12 +114,12 @@
                   <div class="content-between flex">
                     <mat-form-field class="flex-auto gt-xs:pl-3 w-full">
                       <mat-label>Aşı Tipi</mat-label>
-                      <mat-select [placeholder]="'Randevu Tipi'" name="doctor"
+                      <mat-select [placeholder]="'Aşı Tipi'" name="selectedVaccineId" [formControlName]="'selectedVaccineId'"
                         (selectionChange)="onVaccineTypeChange($event, item.id)">
-                        <mat-option *ngFor="let item of vaccine" [value]="item.id">{{item.vaccineName}}</mat-option>
+                        <mat-option *ngFor="let vaccineItem of vaccine" [value]="vaccineItem.id">{{vaccineItem.vaccineName}}</mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'"
+                    <mat-checkbox class="mb-2" [checked]="item.isComplated" [color]="'primary'"
                       (change)="onCheckboxChange($event, item.id)">
                       Yapıldı
                     </mat-checkbox>
