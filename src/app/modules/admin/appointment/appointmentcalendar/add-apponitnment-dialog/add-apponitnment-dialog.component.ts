@@ -64,6 +64,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
     selectedCustomerId: any;
     selectedPatientId: any;
     selectedVaccine: UntypedFormGroup;
+    selectedVaccineId: any;
 
     morning8 = new Date();
     evening8 = new Date();
@@ -95,11 +96,19 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 this.patientList = data.patinetlist;
             }
         }
-        this.selectedAppointment = data.selectedAppointment;
-        this.selectedCustomerId = data.customerId;
-        this.selectedPatientId = data.patientId;
-        this.visibleCustomer = data.visibleCustomer;
-        this.isVaccine = data.isVaccine;
+        if (data.selectedAppointment != null) {
+            this.selectedAppointment = data.selectedAppointment;
+            this.selectedCustomerId = data.customerId;
+            this.selectedPatientId = data.patientId;
+            this.visibleCustomer = data.visibleCustomer;
+            this.isVaccine = data.isVaccine;
+            if (this.selectedAppointment.appointmentType===1) {
+                this.selectedVaccineId = data.selectedAppointment.vaccineItems[0].id;                
+            }
+        }else{
+            this.visibleCustomer = true;
+        }
+       
         this.morning8.setHours(8, 0, 0, 0);
         this.evening8.setHours(20, 0, 0, 0);
         this._parameterService.getparameterList().subscribe((response) => {
@@ -147,13 +156,21 @@ export class AddApponitnmentDialogComponent implements OnInit {
             }
         });
 
-        this.appointmentAdd = this._formBuilder.group({
+        this.appointmentAdd = this._formBuilder.group(this.selectedAppointment && this.selectedAppointment.appointmentType === 1 ? {
             doctorId: ['00000000-0000-0000-0000-000000000000'],
             appointmentType: [2, Validators.required],
             customerId: [''],
             patientId: [''],
             note: [''],
-            status: [1]
+            status: [1],
+            selectedVaccineId: ['']
+        } : {
+            doctorId: ['00000000-0000-0000-0000-000000000000'],
+            appointmentType: [2, Validators.required],
+            customerId: [''],
+            patientId: [''],
+            note: [''],
+            status: [1],
         });
 
         if (!this.selectedAppointment) {
@@ -212,10 +229,10 @@ export class AddApponitnmentDialogComponent implements OnInit {
         if (response.data) {
             this.appointmentTypes = response.data;
             if (this.isVaccine) {
-                this.appointmentTypes = this.appointmentTypes.filter(type => type.type === 1);  
+                this.appointmentTypes = this.appointmentTypes.filter(type => type.type === 1);
                 if (this.appointmentTypes.length > 0) {
                     this.appointmentAdd.get('appointmentType').setValue(this.appointmentTypes[0].type);
-                }          
+                }
             }
         }
     }
@@ -449,22 +466,36 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     fillFormData(selectedAppointments: AppointmentDto) {
 
-        if (this.selectedAppointment !== null) {
-            this.appointmentAdd.setValue({
-                doctorId: selectedAppointments.doctorId,
-                appointmentType: selectedAppointments.appointmentType,
-                customerId: selectedAppointments.customerId,
-                note: selectedAppointments.note,
-                status: selectedAppointments.status,
-                patientId: selectedAppointments.patientsId
-            });
+        if (this.selectedAppointment !== null && this.selectedAppointment !== undefined) {
+            if (this.selectedAppointment.appointmentType === 1) {
+                this.appointmentAdd.setValue({
+                    doctorId: selectedAppointments.doctorId,
+                    appointmentType: selectedAppointments.appointmentType,
+                    customerId: selectedAppointments.customerId,
+                    note: selectedAppointments.note,
+                    status: selectedAppointments.status,
+                    patientId: selectedAppointments.patientsId,
+                    selectedVaccineId: this.selectedVaccineId ? "00000000-0000-0000-0000-000000000000" : this.selectedVaccineId
+                });
+            }else{
+                this.appointmentAdd.setValue({
+                    doctorId: selectedAppointments.doctorId,
+                    appointmentType: selectedAppointments.appointmentType,
+                    customerId: selectedAppointments.customerId,
+                    note: selectedAppointments.note,
+                    status: selectedAppointments.status,
+                    patientId: selectedAppointments.patientsId
+                });
+            }
+            if (selectedAppointments.appointmentType == 1 && selectedAppointments.vaccineItems.length > 0) {
+                this.selectedVaccineId = selectedAppointments.vaccineItems[0].productId;
+                this.appointmentAdd.get('selectedVaccineId').setValue(this.selectedVaccineId);
+              }
             this.selectedAppointmentType = selectedAppointments.appointmentType;
             this.selectedPatientId = selectedAppointments.patientsId;
             this.now = selectedAppointments.date;
             this.selectedStatus = selectedAppointments.status;
-            if (selectedAppointments.appointmentType == 1) {
-                this.addVaccineList = selectedAppointments.vaccineItems;
-            }
+          
 
             if (this.selectedPatientId != null) {
                 this.handleCustomerChange(this.selectedCustomerId)
