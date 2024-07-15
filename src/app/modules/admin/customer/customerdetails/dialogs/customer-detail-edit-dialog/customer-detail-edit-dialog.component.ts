@@ -22,6 +22,8 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   customergroupList: CustomerGroupListDto[] = [];
   selectedValue: string;
 
+  stylesheet = document.styleSheets[0];
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
@@ -53,8 +55,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("data -------> ", this.data)
-
+    (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
     this.customerEditForm.patchValue({
       firstname:this.data.customerDetailForm.firstname,
       lastname:this.data.customerDetailForm.lastname,
@@ -126,6 +127,11 @@ export class CustomerDetailEditDialogComponent implements OnInit {
 
   closeDialog(): void {
     this._dialogRef.close({ status: null });
+    for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+      if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+          (this.stylesheet as CSSStyleSheet).deleteRule(index);
+      }
+  }
   }
 
   
