@@ -28,13 +28,7 @@ export class CreateeditSmstemplateComponent implements OnInit {
 
   printTypes = Object.values(SmsType).filter(value => typeof value === 'number') as SmsType[];
 
-  availableOptions = [
-    { name: 'Misafir Adı', selected: false, value: '[[customername]]' },
-    { name: 'Tarih', selected: false, value: '[[Date]]' },
-    { name: 'Hasta', selected: false, value: '[[patient]]' },
-    { name: 'Firma Adı', selected: false, value: '[[company]]' },
-    { name: 'Randevu Tipi', selected: false, value: '[[appointtpe]]' },
-  ];
+  availableOptions = [];
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -200,31 +194,20 @@ export class CreateeditSmstemplateComponent implements OnInit {
 
   updateAvailableOptions(selectedPrintType: SmsType): void {
     switch (selectedPrintType) {
-      case SmsType.Customer:
+      case SmsType.AppointmentReminder:
+        this.availableOptions = [
+          { name: 'Müşteri Adı Soyadı / Hasta Adı', selected: false, value: '[[customername]]' },
+          { name: 'Tarih', selected: false, value: '[[date]]' },  
+        ];
+        break;
+      case SmsType.PaymentReminder:
         this.availableOptions = [
           { name: 'Müşteri Adı', selected: false, value: '[[customername]]' },
           { name: 'Müşteri Soyadı', selected: false, value: '[[customerlast]]' },
-          { name: 'Tarih', selected: false, value: '[[date]]' },
-          { name: 'Telefon', selected: false, value: '[[phone]]' },
-          { name: 'VKN/TCKN', selected: false, value: '[[taxnumber]]' },
           { name: 'Toplam Borç', selected: false, value: '[[totalbalance]]' },
         ];
         break;
-      case SmsType.Patient:
-        this.availableOptions = [
-          { name: 'Hasta Adı', selected: false, value: '[[patientname]]' },
-          { name: 'Hasta Cinsiyet', selected: false, value: '[[patientsex]]' },
-          { name: 'Hasta Türü', selected: false, value: '[[patienttype]]' },
-          { name: 'Hasta Yaşı', selected: false, value: '[[patientage]]' },
-          { name: 'Tarih', selected: false, value: '[[Date]]' },
-        ];
-        break;
-      case SmsType.Accomodation:
-          this.availableOptions = [
-            { name: 'Giriş Tarihi', selected: false, value: '[[checkindate]]' },
-            { name: 'Çıkış Tarihi', selected: false, value: '[[checkoutdate]]' },
-          ];
-          break;
+
          
       default:
         this.availableOptions = [];

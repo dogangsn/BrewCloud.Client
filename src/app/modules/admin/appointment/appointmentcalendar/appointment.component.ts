@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Injectable } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Injectable, ChangeDetectorRef } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { from, Observable, Subject, takeUntil, zip } from 'rxjs';
 import {
@@ -51,6 +51,7 @@ export class AppointmentComponent implements OnInit {
         private _appointmentService: AppointmentService,
         private signalRService: AppSignalRService,
         private _usersService: UsersService,
+        private cdr: ChangeDetectorRef
     ) {
         //this.appointmentsData = appointments;
     }
@@ -225,8 +226,30 @@ export class AppointmentComponent implements OnInit {
     }
 
     hubListener(): void {
-        this.hubConnection.on('viewCountUpdate', (model: any) => {
+
+        
+        this.hubConnection.on('refreshappointmentcalendar', (model: any) => {
             console.log(model);
+            if (model.appointments.length > 0) {
+                model.appointments.forEach((element) => {
+
+                    const index = this.appointmentsData.findIndex(x => x.id === element.id);
+                    if (index !== -1) {
+                        this.appointmentsData[index] = element;
+                    } else {
+                        this.appointmentsData.push(element);
+                    }
+            
+                    this.appointmentsData = this.appointmentsData.map(appointment => {
+                        return {
+                            ...appointment,
+                            color: this.getRandomColor()
+                        }
+                    });
+
+                });
+                this.cdr.detectChanges();
+            }
 
         });
     }
@@ -236,6 +259,7 @@ export class AppointmentComponent implements OnInit {
 }
 
 export class Appointment {
+    id: string;
     text: string;
     startDate: Date;
     endDate: Date;

@@ -59,7 +59,6 @@ export class DailyappointmentComponent implements OnInit {
       });
   }
 
-
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
@@ -212,19 +211,16 @@ Teşekkürler,
     const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
     if (selectedAppointment) {
 
-     
       let customerName =  selectedAppointment.customerPatientName;
       let appointmentDate = this.formatDate(selectedAppointment.date.toString());
-      
       let _message = formatMessage(messageTemplate, customerName, appointmentDate);
       
-
-
       const model = {
-        messageType: SmsType.Appointment,
+        messageType: SmsType.AppointmentReminder,
         isFixMessage: true,
-        message: _message,
-        customerId : selectedAppointment.customerId
+        customerId : selectedAppointment.customerId,
+        customername: customerName,
+        date : appointmentDate
       };
       const dialog = this._dialog
         .open(MessageSendComponent, {

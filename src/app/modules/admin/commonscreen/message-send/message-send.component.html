@@ -37,9 +37,18 @@
             <mat-slide-toggle formControlName="enableWhatsapp">Whatsapp</mat-slide-toggle>
           </div>
 
+          <div class="flex float : left gt-xs:flex-row">
+            <mat-form-field class="flex-auto gt-xs:pl-3">
+              <mat-label>Şablon</mat-label>
+              <mat-select [formControlName]="'templateid'" name="templateid" (selectionChange)="handletemplate($event)">
+                <mat-option *ngFor="let item of templatelist" [value]="item.id">{{item.templateName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
           <mat-form-field class="flex-auto">
             <mat-label>Şablon Metni</mat-label>
-            <textarea #textareaElement matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3"
+            <textarea #textareaElement matInput cdkTextareaAutosize [cdkAutosizeMinRows]="3" disabled="true"
               [formControlName]="'templatecontent'"></textarea>
           </mat-form-field>
 

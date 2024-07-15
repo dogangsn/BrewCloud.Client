@@ -37,6 +37,11 @@ export class MessageSendComponent implements OnInit {
   message: string;
   customerId: string;
 
+  customername: string;
+  patientname: string;
+  date: string;
+  amount: number;
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
@@ -47,9 +52,22 @@ export class MessageSendComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.messageType = data.messageType;
-    this.isFixMessage = data.isFixMessage;
-    this.message = data.message;
     this.customerId = data.customerId;
+    this.isFixMessage = data.isFixMessage;
+    if (data.message) {
+      this.message = data.message;
+    }
+    if (data.customername) {
+      this.customername = data.customername;
+    }
+    if (data.date) {
+      this.date = data.date;
+    }
+    if(data.amount){
+      this.amount = data.amount;
+    }
+
+
   }
 
   ngOnInit() {
@@ -59,7 +77,7 @@ export class MessageSendComponent implements OnInit {
       enableAppNotification: false,
       enableEmail: false,
       enableWhatsapp: false,
-      templatecontent: ['', Validators.required]
+      templatecontent: [{ value: '', disabled: true }, Validators.required]
     })
 
     zip(
@@ -96,6 +114,18 @@ export class MessageSendComponent implements OnInit {
   }
 
   sendMessage(): void {
+
+    if (this.sendmessage.invalid) {
+      this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
+      return;
+    }
+
+    const templatemessage = this.getFormValueByName('templatecontent');
+    if(templatemessage.length == 0){
+      this.showSweetAlert('error', 'Şablon Seçimi Yapınız.');
+      return;
+    }
+
 
     const sweetAlertDto = new SweetAlertDto(
       "Mesaj Gönderilecektir",
@@ -181,5 +211,51 @@ export class MessageSendComponent implements OnInit {
   }
 
 
+  handletemplate(event: any) {
+    let messageTemplate;
+    let item = this.templatelist.find(x => x.id == event.value);
+    if (item) {
+      messageTemplate = item.templateContent.toString();
+      let _message;
+      if (item.smsType == SmsType.AppointmentReminder) {
+        _message = createReminderMessage(this.customername, this.date);
+      }
+      if (item.smsType == SmsType.PaymentReminder) {
+        _message = createPaymentReminderMessage(this.customername, this.amount);
+      }
+      this.sendmessage.get('templatecontent')?.setValue(_message);
+    }
+    function createReminderMessage(customerName: string, date: string): string {
+      return messageTemplate
+        .replace('[[customername]]', customerName)
+        .replace('[[date]]', date.toString());
+    }
+    function createPaymentReminderMessage(customerName: string, amount: number): string {
+      return messageTemplate
+        .replace('[[customername]]', customerName)
+        .replace('[[totalbalance]]', amount.toString());
+    }
+
+  }
+
+  
+  showSweetAlert(type: string, text: string): void {
+    if (type === 'success') {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.success'),
+            this.translate(text),
+            SweetalertType.success
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    } else {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.error'),
+            this.translate(text),
+            SweetalertType.error
+        );
+        GeneralService.sweetAlert(sweetAlertDto);
+    }
+}
+ 
 
 }
