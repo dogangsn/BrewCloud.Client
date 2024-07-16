@@ -130,6 +130,11 @@
                             <div class="mat-elevation-z8 border">
                                 <table mat-table [dataSource]="upcomingdataSource">
 
+                                    <ng-container matColumnDef="date">
+                                        <th mat-header-cell *matHeaderCellDef> Tarih </th>
+                                        <td mat-cell *matCellDef="let element"> {{ formatDate(element.date) }} </td>
+                                      </ng-container>
+
                                     <ng-container matColumnDef="customerPatientName">
                                         <th mat-header-cell *matHeaderCellDef> Hasta Sahibi Adı Soyadı </th>
                                         <td mat-cell *matCellDef="let element"> {{element.customerPatientName}} </td>
@@ -164,7 +169,7 @@
                                           </button>
                                     
                                           <mat-menu #menu="matMenu">
-                                            <button mat-menu-item >
+                                            <button mat-menu-item (click)="upcomingsendMessage(element.id)">
                                               <mat-icon>send</mat-icon>
                                               <span>Hatırlatma Gönder</span>
                                             </button>
@@ -207,6 +212,11 @@
 
                             <div class="mat-elevation-z8 border">
                                 <table mat-table [dataSource]="pastdataSource">
+
+                                    <ng-container matColumnDef="date">
+                                        <th mat-header-cell *matHeaderCellDef> Tarih </th>
+                                        <td mat-cell *matCellDef="let element"> {{ formatDate(element.date) }} </td>
+                                      </ng-container>
 
                                     <ng-container matColumnDef="customerPatientName">
                                         <th mat-header-cell *matHeaderCellDef> Hasta Sahibi Adı Soyadı </th>
