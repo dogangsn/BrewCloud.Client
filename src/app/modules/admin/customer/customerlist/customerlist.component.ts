@@ -119,6 +119,7 @@ export class CustomersListComponent implements OnInit {
             }
         );
     }
+    
     public redirectToPrint = (id: string) => {
 
         // const pmsrpt1090 = new customerlistRptParameter()
@@ -154,6 +155,7 @@ export class CustomersListComponent implements OnInit {
 
 
     }
+
     showSweetAlert(type: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
@@ -179,7 +181,6 @@ export class CustomersListComponent implements OnInit {
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
-
 
     redirectToPatientList = (id: string) => {
         const _customer = this.customerlist.find(x => x.id === id);
@@ -267,23 +268,23 @@ export class CustomersListComponent implements OnInit {
 
     public sendMessage = (id: string) => {
 
-        let messageTemplate: string = `
-        Sayın {0},
+        // let messageTemplate: string = `
+        // Sayın {0},
         
-        Size, henüz ödenmemiş {1} TL borcunuz olduğunu hatırlatmak isteriz. Ödemenizi en kısa sürede yapmanızı rica ederiz.
+        // Size, henüz ödenmemiş {1} TL borcunuz olduğunu hatırlatmak isteriz. Ödemenizi en kısa sürede yapmanızı rica ederiz.
         
-        Ödeme yaptıysanız, bu mesajı dikkate almayınız.
+        // Ödeme yaptıysanız, bu mesajı dikkate almayınız.
         
-        Teşekkür eder, iyi günler dileriz.
+        // Teşekkür eder, iyi günler dileriz.
         
-        Saygılarımızla,
-        `;
+        // Saygılarımızla,
+        // `;
 
-        function createReminderMessage(customerName: string, amount: number): string {
-            return messageTemplate
-                .replace('{0}', customerName)
-                .replace('{1}', amount.toString());
-        }
+        // function createReminderMessage(customerName: string, amount: number): string {
+        //     return messageTemplate
+        //         .replace('{0}', customerName)
+        //         .replace('{1}', amount.toString());
+        // }
 
         const _customer = this.customerlist.find(x => x.id === id);
         if (_customer) {
@@ -292,13 +293,15 @@ export class CustomersListComponent implements OnInit {
             let customerName: string = _customer.firstName + " " + _customer.lastName;
             let amount: number = _customer.balance;
 
-            let _message = createReminderMessage(customerName, amount);
+            // let _message = createReminderMessage(customerName, amount);
 
             const model = {
-                messageType: SmsType.Customer,
+                messageType: SmsType.PaymentReminder,
                 isFixMessage: true,
-                message: _message,
-                customerId: _customer.id
+                customerId: _customer.id,
+                customername: customerName,
+                amount : amount
+                // message: _message,
             };
             const dialog = this._dialog
                 .open(MessageSendComponent, {

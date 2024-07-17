@@ -1,15 +1,11 @@
 export enum SmsType {
-    Customer = 1,
-    Patient = 2,
-    Accomodation = 3,
-    Appointment = 4
-  }
+  AppointmentReminder = 1,
+  PaymentReminder = 2
+}
 
 
-  export const SmsTypeDisplay: { [key in SmsType]: string } = {
-    [SmsType.Customer]: 'Müşteri',
-    [SmsType.Patient]: 'Hasta',
-    [SmsType.Accomodation]: 'Konaklama',
-    [SmsType.Appointment] : 'Randevu' 
- 
-  };
+export const SmsTypeDisplay: { [key in SmsType]: string } = {
+  [SmsType.AppointmentReminder]: 'Randevu Hatırlatma',
+  [SmsType.PaymentReminder]: 'Borç Hatırlatma',
+
+};

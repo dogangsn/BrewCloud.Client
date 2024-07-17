@@ -13,6 +13,9 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { LogViewComponent } from '../commonscreen/log-view/log-view.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MessageSendComponent } from '../commonscreen/message-send/message-send.component';
+import { SmsType } from '../definition/smstemplate/models/smsType.enum';
+import { DailyAppointmentListDto } from '../appointment/dailyappointment/models/dailyappointmentlistdto';
 
 @Component({
     selector: 'dashboards',
@@ -25,6 +28,7 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     loader = true;
 
     displayedColumns: string[] = [
+        'date',
         'customerPatientName',
         'services',
         'statusName',
@@ -33,8 +37,8 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     @ViewChild('paginator') paginator: MatPaginator;
 
 
-    _list: any[] = [];
-    _listpast: any[] = [];
+    _list: DailyAppointmentListDto[] = [];;
+    _listpast: DailyAppointmentListDto[] = [];;
     upcomingdataSource = new MatTableDataSource<any>(this._list);
     pastdataSource = new MatTableDataSource<any>(this._listpast)
 
@@ -448,5 +452,49 @@ export class DashboardsComponent implements OnInit, OnDestroy {
         );
     }
 
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
+
+    public upcomingsendMessage = (id: string) => {
+
+       
     
+        const selectedAppointment = this._list.find((item) => item.id == id);
+        if (selectedAppointment) {
+    
+          let customerName =  selectedAppointment.customerPatientName;
+          let appointmentDate = this.formatDate(selectedAppointment.date.toString()); 
+          
+          const model = {
+            messageType: SmsType.AppointmentReminder,
+            isFixMessage: true,
+            customerId : selectedAppointment.customerId,
+            customername: customerName,
+            date : appointmentDate
+          };
+          const dialog = this._dialog
+            .open(MessageSendComponent, {
+              minWidth: '1000px',
+              disableClose: true,
+              data: model,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+              if (response.status) {
+                // this.getApponitmentList();
+              }
+            });
+        }
+    
+    
+      }
+
 }

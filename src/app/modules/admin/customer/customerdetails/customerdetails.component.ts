@@ -55,6 +55,7 @@ export class CustomerDetailsComponent implements OnInit {
     totalVisitCount: number;
     totalEarnings: number;
     totalCollection: number;
+    totalMessageCount: number;
 
     loader = true;
 
@@ -186,6 +187,7 @@ export class CustomerDetailsComponent implements OnInit {
                 this.totalVisitCount = response.data.totalData.totalVisitCount;
                 this.totalEarnings = response.data.totalData.totalEarnings;
                 this.totalCollection = response.data.totalData.totalCollection;
+                this.totalMessageCount = response.data.totalData.totalMessageCount;
                 this.customerDetailForm.patchValue({
                     email: this.customerDetail.email,
                     phonenumber: this.customerDetail.phonenumber,
