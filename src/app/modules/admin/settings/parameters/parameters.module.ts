@@ -23,6 +23,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const root: Route[] = [
     {
@@ -63,8 +64,7 @@ const root: Route[] = [
         ReactiveFormsModule,
         FuseCardModule,
         MatMenuModule,
-        FormsModule,
-        MatTableModule,
+        FormsModule, 
         CommonModule,
         MatIconModule,
         MatFormFieldModule,
@@ -93,7 +93,8 @@ const root: Route[] = [
         MatSlideToggleModule,
         MatTooltipModule,
         SharedModule,
-        MatDialogModule,
+        MatDialogModule, 
+        MatTabsModule,
         RouterModule.forChild(root)
     ],
     declarations: [

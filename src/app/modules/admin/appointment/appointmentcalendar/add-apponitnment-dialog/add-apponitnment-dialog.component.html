@@ -144,7 +144,7 @@
             <div class="dx-field mt-1 flex-wrap w-full h-full">
               <mat-label class="font-medium text-base text-gray-700 mb-1">Randevu Tarihi</mat-label>
               <div class="dx-field w-full h-full">
-                <dx-date-box class="w-full h-full bg-transparent border" [value]="now" type="datetime" [min]="now"
+                <dx-date-box class="w-full h-full bg-transparent border" [value]="now" type="datetime" [min]="now" [interval]="20"
                   [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)"
                   [pickerOptions]="TimeIntervals">
                 </dx-date-box>
