@@ -102,7 +102,8 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div *ngIf="selectedAppointmentType === 1  || isVaccine" class="flex items-center my-4 sm:my-0 justify-end mr-7">
+          <div *ngIf="selectedAppointmentType === 1  || isVaccine"
+            class="flex items-center my-4 sm:my-0 justify-end mr-7">
             <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'" (click)="addVaccine()">
               Ekle
             </button>
@@ -114,9 +115,11 @@
                   <div class="content-between flex">
                     <mat-form-field class="flex-auto gt-xs:pl-3 w-full">
                       <mat-label>Aşı Tipi</mat-label>
-                      <mat-select [placeholder]="'Aşı Tipi'" name="selectedVaccineId" [formControlName]="'selectedVaccineId'"
+                      <mat-select [placeholder]="'Aşı Tipi'" name="selectedVaccineId"
+                        [formControlName]="'selectedVaccineId'"
                         (selectionChange)="onVaccineTypeChange($event, item.id)">
-                        <mat-option *ngFor="let vaccineItem of vaccine" [value]="vaccineItem.id">{{vaccineItem.vaccineName}}</mat-option>
+                        <mat-option *ngFor="let vaccineItem of vaccine"
+                          [value]="vaccineItem.id">{{vaccineItem.vaccineName}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                     <mat-checkbox class="mb-2" [checked]="item.isComplated" [color]="'primary'"
@@ -125,8 +128,8 @@
                     </mat-checkbox>
                   </div>
                   <div class="dx-field w-full ">
-                    <dx-date-box class="w-full bg-transparent border" [value]="now" type="datetime" [min]="now"
-                      [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                    <dx-date-box class="w-full bg-transparent border" [value]="now"  [type]="dateType"  [min]="now"
+                      [stylingMode]="stylingMode" [inputAttr]="{ 'aria-label': 'Date And Time' }"
                       (onValueChanged)="handleValueChangeList($event, item.id)">
                     </dx-date-box>
                   </div>
@@ -144,9 +147,18 @@
             <div class="dx-field mt-1 flex-wrap w-full h-full">
               <mat-label class="font-medium text-base text-gray-700 mb-1">Randevu Tarihi</mat-label>
               <div class="dx-field w-full h-full">
-                <dx-date-box class="w-full h-full bg-transparent border" [value]="now" type="datetime" [min]="now" [interval]="20"
-                  [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)"
-                  [pickerOptions]="TimeIntervals">
+                <dx-date-box class="w-full h-full bg-transparent border" [value]="now" [type]="dateType" [min]="now"
+                  [stylingMode]="stylingMode" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                  (onValueChanged)="handleValueChange($event)" [pickerOptions]="TimeIntervals">
+                </dx-date-box>
+              </div>
+            </div>
+            
+            <div *ngIf="datetimestatus === 1" class="dx-field mt-1 flex-wrap w-full h-full ml-3">
+              <mat-label class="font-medium text-base text-gray-700 mb-1">Randevu Saati</mat-label>
+              <div class="dx-field w-full h-full">
+                <dx-date-box class="w-full h-full bg-transparent border" [min]="morning8" [max]="evening8" type="time" [interval]="appointmentinterval"
+                  [inputAttr]="{ 'aria-label': 'Time' }"  (onValueChanged)="handleTimeValueChange($event)">
                 </dx-date-box>
               </div>
             </div>

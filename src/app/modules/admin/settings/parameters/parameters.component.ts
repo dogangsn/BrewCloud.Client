@@ -16,6 +16,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { casingDefinitionListDto } from '../../definition/casingdefinition/models/casingDefinitionListDto';
 import { CasingDefinitionService } from 'app/core/services/definition/CasingDefinition/casingdefinition.service';
 import { SmsParametersDto } from '../smsparameters/models/smsParameterDto';
+import { SmsIntegrationType } from './models/smsCompany.enum';
 // import { MatDialogRef } from '@angular/material/dialog';
 // import { }
 @Component({
@@ -68,7 +69,8 @@ export class ParametersComponent implements OnInit {
     smsparameters: SmsParametersDto[] = []
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    states: string[] = ['Analog', 'Dijital (Dakika Tanımlaması Yapılması)' ];
+    mapsmsintegrationyype: { name: string; id: number }[] = [];
+    shouldShowAppointmentInterval = false;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -81,6 +83,12 @@ export class ParametersComponent implements OnInit {
     { }
 
     ngOnInit() {
+
+        for (var n in SmsIntegrationType) {
+            if (typeof SmsIntegrationType[n] === 'number') {
+                this.mapsmsintegrationyype.push({ id: <any>SmsIntegrationType[n], name: n });
+            }
+        }
 
 
 
@@ -124,7 +132,13 @@ export class ParametersComponent implements OnInit {
             appointmentBeginDate: [''],
             appointmentEndDate: [''],
             isExaminationAmuntZero: [false],
-            datetimestatus : [0]
+            datetimestatus: [0],
+            appointmentinterval: [0],
+            appointmentSeansDuration : [0]
+        });
+
+        this.parameters.get('datetimestatus')?.valueChanges.subscribe(value => {
+            this.shouldShowAppointmentInterval = value === 1;
         });
 
     }
@@ -227,7 +241,9 @@ export class ParametersComponent implements OnInit {
                 appointmentBeginDate: getparam[0].appointmentBeginDate,
                 appointmentEndDate: getparam[0].appointmentEndDate,
                 isExaminationAmuntZero: getparam[0].isExaminationAmuntZero,
-                datetimestatus : 0
+                datetimestatus: getparam[0].datetimestatus,
+                appointmentinterval: getparam[0].appointmentinterval,
+                appointmentSeansDuration : getparam[0].appointmentSeansDuration
             });
             this.selectedDays.setValue(daysfill);
         }
@@ -318,7 +334,10 @@ export class ParametersComponent implements OnInit {
             this.getFormValueByName('isFirstInspection'),
             this.getFormValueByName('appointmentBeginDate'),
             this.getFormValueByName('appointmentEndDate'),
-            this.getFormValueByName('isExaminationAmuntZero')
+            this.getFormValueByName('isExaminationAmuntZero'),
+            this.getFormValueByName('datetimestatus'),
+            this.getFormValueByName('appointmentinterval'),
+            this.getFormValueByName('appointmentSeansDuration'),
         );
 
         this.selectedDays.value.forEach((x) => {
@@ -385,6 +404,15 @@ export class ParametersComponent implements OnInit {
 
     setProducesResponse(response: any): void {
         this.smsparameters = response.data;
+    }
+
+    getEnumStringValue(value: number): string {
+        switch (value) {
+            case SmsIntegrationType.MutluCELL:
+                return "MutluCELL";
+            default:
+                return "Bilinmeyen";
+        }
     }
 
 }

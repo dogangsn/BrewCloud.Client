@@ -56,6 +56,10 @@ export class AppointmentService {
     getAppointmentListByPatientId(model: any) : Observable<any> {
         return this._httpService.post(endPoints.appointments.getAppointmentListByPatientId, model);
     }
+ 
+    appointmentDateCheckControl(model: any): Observable<any> {
+        return this._httpService.post(endPoints.appointments.appointmentDateCheckControl, model);
+    }
 
 
 }

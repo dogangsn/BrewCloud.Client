@@ -18,4 +18,7 @@ export class parametersListDto {
     appointmentBeginDate: string;
     appointmentEndDate: string;
     isExaminationAmuntZero : boolean;
+    datetimestatus: number;
+    appointmentinterval: number;
+    appointmentSeansDuration : number;
 }

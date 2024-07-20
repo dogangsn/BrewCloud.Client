@@ -178,6 +178,7 @@ export const endPoints = {
         getAppointmentDailyList: 'vet/Appointment/GetAppointmentDailyList',
         updateAppointmentStatus: 'vet/Appointment/UpdateAppointmentStatus',
         getAppointmentListByPatientId: 'vet/Appointment/GetAppointmentListByPatientId',
+        appointmentDateCheckControl  : 'vet/Appointment/AppointmentDateCheckControl'
     },
     title: {
         titleDefinationList: 'account/settings/GetTitleDefination',

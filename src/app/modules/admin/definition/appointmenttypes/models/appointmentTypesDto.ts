@@ -5,4 +5,5 @@ export class AppointmentTypesDto{
     isDefaultPrice: boolean = false;
     price: number;
     taxisId: string;
+    colors: string;
 }

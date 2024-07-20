@@ -41,7 +41,7 @@ export class AppointmentComponent implements OnInit {
     users: any;
 
     destroy$: Subject<boolean> = new Subject<boolean>();
-
+    resourcesData: any[] = [];
 
     constructor(
         private _dialog: MatDialog,
@@ -106,13 +106,18 @@ export class AppointmentComponent implements OnInit {
         const model = {
             appointmentType: 0
         }
+        const colors = ['#FF5733',  '#3357FF', '#FF33A1', '#A133FF'];
         this._appointmentService.getAppointmentslist(model).subscribe((response) => {
-            this.appointmentsData = response.data.map(appointment => {
+            this.appointmentsData = response.data.map((appointment,index) => {
                 return {
                     ...appointment,
-                    color: this.getRandomColor()
+                    colorId: index % colors.length + 1 
                 };
             });
+            this.resourcesData = colors.map((color, index) => ({
+                id: index + 1,
+                color: color
+              }));
             console.log(this.appointmentsData);
 
             this.loader = false;
@@ -264,5 +269,5 @@ export class Appointment {
     startDate: Date;
     endDate: Date;
     allDay?: boolean;
-    color: string;
+    colorId?: number;
 }

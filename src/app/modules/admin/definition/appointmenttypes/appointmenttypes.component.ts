@@ -18,7 +18,7 @@ import { LogViewComponent } from '../../commonscreen/log-view/log-view.component
 })
 export class AppointmenttypesComponent implements OnInit {
 
-  displayedColumns: string[] = ['remark', 'actions'];
+  displayedColumns: string[] = ['colors', 'remark', 'actions'];
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;

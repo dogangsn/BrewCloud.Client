@@ -26,13 +26,21 @@
                                     [color]="'primary'">
                                     Aktif
                                 </mat-checkbox>
-
                             </div>
                         </div> -->
                         <div class="col-sm-12 mt-2 common-width">
                             <mat-form-field style="width:100%">
                                 <mat-label>Randevu Tipi</mat-label>
                                 <input matInput [formControlName]="'remark'">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-sm-12 mt-2 common-width">
+                            <mat-form-field>
+                                <mat-label>Randevu Takvimi Rengi</mat-label>
+                                <input matInput [ngxMatColorPicker]="picker" [formControlName]="'colors'">
+                                <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+                                <ngx-mat-color-picker #picker ></ngx-mat-color-picker>
                             </mat-form-field>
                         </div>
 
@@ -81,7 +89,7 @@
                     </button>
                     <!-- Save as draft -->
                     <!-- Send -->
-                    <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
+                    <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"
                         (click)="addOrUpdateStore()" [disabled]="buttonDisabled">
                         Kaydet
                     </button>
