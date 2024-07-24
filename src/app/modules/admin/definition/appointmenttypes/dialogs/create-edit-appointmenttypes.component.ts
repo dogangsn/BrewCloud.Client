@@ -91,6 +91,11 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
     const formValue = this.appointmentType.value;
     const color = formValue.colors;
 
+    if(color === null || color === undefined || color === ""){
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Randevu Rengi Seçimi Zorunludur.');
+      return;
+    }
 
     const item = new CreateAppointmentTypesCommand(
       this.getFormValueByName('price'),
@@ -103,16 +108,19 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
     this._appointmenttypesService.createAppointmentTypes(item).subscribe(
       (response) => {
         if (response.isSuccessful) {
-          this.showSweetAlert('success');
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
           this._dialogRef.close({
             status: true,
           });
         } else {
-          this.showSweetAlert('error');
+          this.buttonDisabled = false;
+          this.showSweetAlert('error', 'sweetalert.transactionFailed');
         }
       },
       (err) => {
         console.log(err);
+        this.buttonDisabled = false;
+        this.showSweetAlert('error', err.toString());
       }
     );
 
@@ -122,6 +130,12 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
 
     const formValue = this.appointmentType.value;
     const color = formValue.colors;
+
+    if(color === null || color === undefined || color === ""){
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Randevu Rengi Seçimi Zorunludur.');
+      return;
+    }
 
     const item = new UpdateAppointmentTypesCommand(
       this.selectedappointmenttypes.id,
@@ -135,16 +149,19 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
     this._appointmenttypesService.updateAppointmentTypes(item).subscribe(
       (response) => {
         if (response.isSuccessful) {
-          this.showSweetAlert('success');
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
           this._dialogRef.close({
             status: true,
           });
         } else {
-          this.showSweetAlert('error');
+          this.buttonDisabled = false;
+          this.showSweetAlert('error', 'sweetalert.transactionFailed');
         }
       },
       (err) => {
         console.log(err);
+        this.buttonDisabled = false;
+        this.showSweetAlert('error', err.toString());
       }
     );
 
@@ -160,18 +177,18 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
     return this.appointmentType.get(formName).value;
   }
 
-  showSweetAlert(type: string): void {
+  showSweetAlert(type: string, message : string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.success'),
-        this.translate('sweetalert.transactionSuccessful'),
+        this.translate(message),
         SweetalertType.success
       );
       GeneralService.sweetAlert(sweetAlertDto);
     } else {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.error'),
-        this.translate('sweetalert.transactionFailed'),
+        this.translate(message),
         SweetalertType.error
       );
       GeneralService.sweetAlert(sweetAlertDto);

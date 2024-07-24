@@ -8,13 +8,16 @@ import { ActionResponse } from 'app/core/models/bases/ActionResponse';
 })
 
 export class ReportService {
-    
+
     constructor(private _httpService: HttpService) { }
-    createFilter(model: any): Observable<ActionResponse<any>>{
-        debugger;
-        return this._httpService.post(endPoints.reports.createFilter,model);
+
+    createFilter(model: any): Observable<ActionResponse<any>> {
+        return this._httpService.post(endPoints.reports.createFilter, model);
     }
 
+    getAppointmentDashboard(): Observable<any> {
+        return this._httpService.getRequest(endPoints.reports.getAppointmentDashboard);
+    }
 
 
 

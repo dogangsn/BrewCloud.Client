@@ -217,6 +217,7 @@ export const endPoints = {
     },
     reports: {
         createFilter: 'vet/Reports/CreateReportFilter',
+        getAppointmentDashboard : 'vet/Reports/GetAppointmentDashboard',
     },
     vaccine: {
         vaccineList: 'vet/Vaccine/VaccineList',
