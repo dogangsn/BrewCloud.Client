@@ -188,20 +188,33 @@ export class ReportappointmentComponent implements OnInit, OnDestroy {
       needsTriage: 6,
       series: {
         newIssues: [
-                  this.dashboards.monthlyAppointmentCounts[0],
-                  this.dashboards.monthlyAppointmentCounts[1],
-                  this.dashboards.monthlyAppointmentCounts[2],
-                  this.dashboards.monthlyAppointmentCounts[3],
-                  this.dashboards.monthlyAppointmentCounts[4],
-                  this.dashboards.monthlyAppointmentCounts[5],
-                  this.dashboards.monthlyAppointmentCounts[6],
-                  this.dashboards.monthlyAppointmentCounts[7],
-                  this.dashboards.monthlyAppointmentCounts[8],
-                  this.dashboards.monthlyAppointmentCounts[9],
-                  this.dashboards.monthlyAppointmentCounts[10],
-                  this.dashboards.monthlyAppointmentCounts[11]
+          this.dashboards.monthlyAppointmentCounts[0],
+          this.dashboards.monthlyAppointmentCounts[1],
+          this.dashboards.monthlyAppointmentCounts[2],
+          this.dashboards.monthlyAppointmentCounts[3],
+          this.dashboards.monthlyAppointmentCounts[4],
+          this.dashboards.monthlyAppointmentCounts[5],
+          this.dashboards.monthlyAppointmentCounts[6],
+          this.dashboards.monthlyAppointmentCounts[7],
+          this.dashboards.monthlyAppointmentCounts[8],
+          this.dashboards.monthlyAppointmentCounts[9],
+          this.dashboards.monthlyAppointmentCounts[10],
+          this.dashboards.monthlyAppointmentCounts[11]
         ],
-        closedIssues: [11, 10, 8, 11, 8, 10, 17, 43, 34, 20, 25, 22]
+        closedIssues: [
+          this.dashboards.monthlyAppointmentCompletedCounts[0],
+          this.dashboards.monthlyAppointmentCompletedCounts[1],
+          this.dashboards.monthlyAppointmentCompletedCounts[2],
+          this.dashboards.monthlyAppointmentCompletedCounts[3],
+          this.dashboards.monthlyAppointmentCompletedCounts[4],
+          this.dashboards.monthlyAppointmentCompletedCounts[5],
+          this.dashboards.monthlyAppointmentCompletedCounts[6],
+          this.dashboards.monthlyAppointmentCompletedCounts[7],
+          this.dashboards.monthlyAppointmentCompletedCounts[8],
+          this.dashboards.monthlyAppointmentCompletedCounts[9],
+          this.dashboards.monthlyAppointmentCompletedCounts[10],
+          this.dashboards.monthlyAppointmentCompletedCounts[11]
+        ]
       }
     };
 

@@ -40,6 +40,13 @@ export class PaymentmethodsComponent implements OnInit {
         this._paymentmethodsService.getPaymentMethodsList().subscribe((response) => {
             this.payments = response.data;
             console.log(this.payments);
+
+            
+            this.dataSource = new MatTableDataSource<PaymentMethodsDto>(
+                this.payments
+              );
+              this.dataSource.paginator = this.paginator;
+
         });
     }
 

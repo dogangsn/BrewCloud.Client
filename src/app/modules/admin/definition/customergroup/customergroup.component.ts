@@ -26,6 +26,7 @@ export class CustomergroupComponent implements OnInit {
     );
     isUpdateButtonActive: boolean;
 
+
     constructor(
         private _dialog: MatDialog,
         private _customergroup: CustomerGroupService,
@@ -44,6 +45,11 @@ export class CustomergroupComponent implements OnInit {
             .subscribe((response) => {
                 this.customergroup = response.data;
                 console.log(this.customergroup);
+
+                this.dataSource = new MatTableDataSource<CustomerGroupListDto>(
+                    this.customergroup
+                  );
+                  this.dataSource.paginator = this.paginator;
             });
     }
 

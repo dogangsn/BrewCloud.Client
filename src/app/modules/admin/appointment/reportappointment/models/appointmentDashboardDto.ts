@@ -4,4 +4,5 @@ export class AppointmentDashboardDto {
     totalAppointmentYear?: number;
     totalCompletedAppointments?: number;
     monthlyAppointmentCounts?: number[];
+    monthlyAppointmentCompletedCounts? : number[];
 }

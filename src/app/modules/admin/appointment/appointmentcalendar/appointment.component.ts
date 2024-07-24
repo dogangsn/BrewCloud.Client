@@ -22,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 import * as signalR from '@microsoft/signalR';
 import { AppSignalRService } from 'app/core/services/signalR/appSignalRService.service';
-import { UserService } from 'app/core/user/user.service'; 
+import { UserService } from 'app/core/user/user.service';
 import { UsersService } from 'app/core/services/settings/users/users.service';
 
 @Component({
@@ -87,9 +87,9 @@ export class AppointmentComponent implements OnInit {
         //       this.receivedMessage = message;
         //     });
         //   });
-   
+
     }
- 
+
 
     getUserInfo(): Observable<any> {
         return this._usersService.getActiveUser();
@@ -106,19 +106,35 @@ export class AppointmentComponent implements OnInit {
         const model = {
             appointmentType: 0
         }
-        const colors = ['#FF5733',  '#3357FF', '#FF33A1', '#A133FF'];
+        // const colors = ['#FF5733',  '#3357FF', '#FF33A1', '#A133FF'];
         this._appointmentService.getAppointmentslist(model).subscribe((response) => {
-            this.appointmentsData = response.data.map((appointment,index) => {
-                return {
-                    ...appointment,
-                    colorId: index % colors.length + 1 
-                };
-            });
-            this.resourcesData = colors.map((color, index) => ({
+            
+            // Benzersiz renkleri elde edin ve eşsiz ID'ler oluşturun
+            const uniqueColors = Array.from(new Set(response.data.map((appointment) => appointment.colors)));
+            this.resourcesData = uniqueColors.map((color, index) => ({
                 id: index + 1,
                 color: color
-              }));
+            }));
+
+            // Renkleri bir sözlük olarak saklayarak kolay erişim sağlayın
+            const colorIdMap = this.resourcesData.reduce((acc, resource) => {
+                acc[resource.color] = resource.id;
+                return acc;
+            }, {} as Record<string, number>);
+
+            // Randevulara colorId ve renkleri ekleyin
+            this.appointmentsData = response.data.map((appointment) => {
+                const colorId = colorIdMap[appointment.colors] || 1; // Eşleşen colorId bulunamazsa varsayılan ID'yi kullan
+                return {
+                    ...appointment,
+                    colorId: colorId,
+                    colors: appointment.colors // Renk alanını atama
+                };
+            });
+
+
             console.log(this.appointmentsData);
+            console.log(this.resourcesData);
 
             this.loader = false;
         });
@@ -232,7 +248,7 @@ export class AppointmentComponent implements OnInit {
 
     hubListener(): void {
 
-        
+
         this.hubConnection.on('refreshappointmentcalendar', (model: any) => {
             console.log(model);
             if (model.appointments.length > 0) {
@@ -244,7 +260,7 @@ export class AppointmentComponent implements OnInit {
                     } else {
                         this.appointmentsData.push(element);
                     }
-            
+
                     this.appointmentsData = this.appointmentsData.map(appointment => {
                         return {
                             ...appointment,
@@ -269,5 +285,6 @@ export class Appointment {
     startDate: Date;
     endDate: Date;
     allDay?: boolean;
+    colors: string;
     colorId?: number;
 }

@@ -16,11 +16,11 @@ import { LogViewComponent } from '../../commonscreen/log-view/log-view.component
     templateUrl: './unitdefinition.component.html',
     styleUrls: ['./unitdefinition.component.scss'],
 })
-export class UnitComponent implements OnInit, AfterViewInit {
+export class UnitComponent implements OnInit {
     displayedColumns: string[] = ['unitCode', 'unitName', 'actions'];
+    @ViewChild('paginator') paginator: MatPaginator;
 
     isUpdateButtonActive: boolean;
-    @ViewChild('paginator') paginator: MatPaginator;
     units: unitdefinitionListDto[] = [];
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
     loader = true;
@@ -30,10 +30,10 @@ export class UnitComponent implements OnInit, AfterViewInit {
         private _dialog: MatDialog,
         private _unitsservice: UnitsService,
         private _translocoService: TranslocoService,
-    ) {}
+    ) { }
 
     ngOnInit() {
-      this.UnitsList();
+        this.UnitsList();
     }
 
     ngAfterViewInit() {
@@ -51,6 +51,12 @@ export class UnitComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            
             this.loader = false;
         });
     }
@@ -124,7 +130,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
         );
     };
 
-    
+
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
