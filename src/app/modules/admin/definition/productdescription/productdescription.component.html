@@ -30,6 +30,10 @@
                   [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
               Yeni Tedarikçiden Alış
           </button>-->
+          <button mat-stroked-button (click)="getProductList()">
+            <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+            Yenile
+          </button>
       <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
         Yeni Ürün Ekle

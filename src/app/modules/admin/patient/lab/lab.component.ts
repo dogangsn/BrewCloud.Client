@@ -41,4 +41,8 @@ export class LabComponent implements OnInit {
             console.log(this.customerlist);
         });
     }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 }

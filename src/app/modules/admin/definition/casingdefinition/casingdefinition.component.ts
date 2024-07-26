@@ -46,6 +46,12 @@ export class CasingdefinitionComponent {
         this._casingdefinitionService.getCasingDefinitionList().subscribe((response) => {
             this.casingcards = response.data;
             console.log(this.casingcards);
+
+            this.dataSource = new MatTableDataSource<casingDefinitionListDto>(
+                this.casingcards
+              );
+              this.dataSource.paginator = this.paginator;
+
         });
     }
     addPanelOpen(): void {

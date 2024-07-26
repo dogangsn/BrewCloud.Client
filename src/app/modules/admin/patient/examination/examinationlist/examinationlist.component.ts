@@ -230,4 +230,8 @@ export class ExaminationlistComponent implements OnInit {
         };
         return new Date(date).toLocaleString('tr-TR', options);
       }
+
+      applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 }

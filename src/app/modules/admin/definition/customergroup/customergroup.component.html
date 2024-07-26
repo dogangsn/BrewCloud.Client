@@ -31,7 +31,10 @@
                 Yeni Tedarikçiden Alış
             </button> 
             </button> -->
-
+            <button mat-stroked-button (click)="CustomerGroupList()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+                Yenile
+              </button>
             <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Yeni Grup EKle
@@ -44,7 +47,7 @@
         <!-- CONTENT GOES HERE -->
 
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="customergroup">
+            <table mat-table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="code">
                     <th mat-header-cell *matHeaderCellDef> Müşteri Grubu Kodu </th>
@@ -82,7 +85,7 @@
 
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10"  showFirstLastButtons
                 aria-label="Select page of periodic elements">
             </mat-paginator>
 

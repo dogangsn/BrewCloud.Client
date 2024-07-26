@@ -44,6 +44,12 @@ export class ProductcategoryComponent implements OnInit {
             .subscribe((response) => {
                 this.productcategories = response.data;
                 console.log(this.productcategories);
+
+                this.dataSource = new MatTableDataSource<ProductCategoriesListDto>(
+                    this.productcategories
+                  );
+                  this.dataSource.paginator = this.paginator;
+
             });
     }
 

@@ -130,7 +130,7 @@ export class CreateEditSalesComponent implements OnInit {
     }
 
     updateSaleCollection(): void {
-
+        
     }
 
     paymentsList() {

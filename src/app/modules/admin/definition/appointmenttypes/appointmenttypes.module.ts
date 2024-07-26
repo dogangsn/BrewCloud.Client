@@ -22,7 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CreateEditAppointmenttypesComponent } from './dialogs/create-edit-appointmenttypes.component';
-
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 
 const routes: Routes = [
   {
@@ -75,8 +75,12 @@ const routes: Routes = [
     MatTooltipModule,
     SharedModule,
     MatDialogModule,
+    NgxMatColorPickerModule,
     RouterModule.forChild(routes)
   ],
+  providers: [
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
+   ],
   declarations: [AppointmenttypesComponent, CreateEditAppointmenttypesComponent]
 })
 

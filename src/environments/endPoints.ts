@@ -179,6 +179,7 @@ export const endPoints = {
         getAppointmentDailyList: 'vet/Appointment/GetAppointmentDailyList',
         updateAppointmentStatus: 'vet/Appointment/UpdateAppointmentStatus',
         getAppointmentListByPatientId: 'vet/Appointment/GetAppointmentListByPatientId',
+        appointmentDateCheckControl  : 'vet/Appointment/AppointmentDateCheckControl'
     },
     title: {
         titleDefinationList: 'account/settings/GetTitleDefination',
@@ -217,6 +218,7 @@ export const endPoints = {
     },
     reports: {
         createFilter: 'vet/Reports/CreateReportFilter',
+        getAppointmentDashboard : 'vet/Reports/GetAppointmentDashboard',
     },
     vaccine: {
         vaccineList: 'vet/Vaccine/VaccineList',

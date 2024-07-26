@@ -44,7 +44,7 @@
       <dx-scheduler [dataSource]="appointmentsData" [views]="['day', 'week', 'workWeek', 'month']" currentView="month"
         [currentDate]="currentDate" [startDayHour]="8" [height]="900"
         (onAppointmentDeleted)="onAppointmentDeleted($event)">
-        <dxi-resource [dataSource]="appointmentsData" [useColorAsDefault]="true">
+        <dxi-resource fieldExpr="colorId" [dataSource]="resourcesData" useColorAsDefault="true" colorExpr="colors">
         </dxi-resource>
         <dxo-editing #editingOptions [allowAdding]="false" [allowUpdating]="false"></dxo-editing>
       </dx-scheduler>

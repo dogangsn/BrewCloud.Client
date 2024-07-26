@@ -41,30 +41,7 @@
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                 <div class="-ml-2">
-                    <!-- Attach file -->
-                    <button mat-icon-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
-                    </button>
-                    <!-- Insert link -->
-                    <button mat-icon-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:link'"></mat-icon>
-                    </button>
-                    <!-- Insert emoji -->
-                    <button mat-icon-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
-                    </button>
-                    <!-- Insert image -->
-                    <button mat-icon-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
-                    </button>
+                 
                 </div>
     
                 <div class="flex items-center mt-4 sm:mt-0">
@@ -74,11 +51,9 @@
                         mat-stroked-button
                         (click)="closeDialog()">
                         Vazgeç
-                    </button>
-                    <!-- Save as draft -->
-                    <!-- Send -->
+                    </button> 
                     <button
-                        class="order-first sm:order-last"
+                        class="order-first sm:order-last ml-3"
                         mat-flat-button
                         [color]="'primary'"
                         (click)="addOrUpdateCustomergroup()"  [disabled]="buttonDisabled" >
