@@ -19,6 +19,7 @@ export const endPoints = {
         createUsers: 'account/settings/CreateUser',
         updateUsers: 'account/settings/UpdateUser',
         getRolsSettings: 'account/settings/GetRoleSettingList',
+        getUserRolsSettings: 'account/settings/GetUserRoleSettingList',
         createRols: 'account/settings/CreateRoleSetting',
         updateRols: 'account/settings/UpdateRoleSetting',
         deleteRols: 'account/settings/DeleteRoleSetting',

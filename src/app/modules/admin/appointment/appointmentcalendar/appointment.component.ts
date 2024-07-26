@@ -22,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
 import * as signalR from '@microsoft/signalR';
 import { AppSignalRService } from 'app/core/services/signalR/appSignalRService.service';
-import { UserService } from 'app/core/user/user.service'; 
+import { UserService } from 'app/core/user/user.service';
 import { UsersService } from 'app/core/services/settings/users/users.service';
 
 @Component({
@@ -39,7 +39,8 @@ export class AppointmentComponent implements OnInit {
     receivedMessage: string;
     userId: string;
     users: any;
-
+    action: any;
+    appointmentCalendar:any
     destroy$: Subject<boolean> = new Subject<boolean>();
 
 
@@ -53,6 +54,22 @@ export class AppointmentComponent implements OnInit {
         private _usersService: UsersService,
         private cdr: ChangeDetectorRef
     ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'appointmentcalendar');
+        });
+    
+        if (appointment) {
+            this.appointmentCalendar = appointment.roleSettingDetails.find((detail: any) => detail.target === 'appointmentcalendar');
+        } else {
+            this.appointmentCalendar = null;
+        }
+        
+        console.log(this.appointmentCalendar);
         //this.appointmentsData = appointments;
     }
 
@@ -87,9 +104,9 @@ export class AppointmentComponent implements OnInit {
         //       this.receivedMessage = message;
         //     });
         //   });
-   
+
     }
- 
+
 
     getUserInfo(): Observable<any> {
         return this._usersService.getActiveUser();
@@ -227,7 +244,7 @@ export class AppointmentComponent implements OnInit {
 
     hubListener(): void {
 
-        
+
         this.hubConnection.on('refreshappointmentcalendar', (model: any) => {
             console.log(model);
             if (model.appointments.length > 0) {
@@ -239,7 +256,7 @@ export class AppointmentComponent implements OnInit {
                     } else {
                         this.appointmentsData.push(element);
                     }
-            
+
                     this.appointmentsData = this.appointmentsData.map(appointment => {
                         return {
                             ...appointment,

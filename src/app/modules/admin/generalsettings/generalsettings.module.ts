@@ -35,6 +35,7 @@ import { TitleComponent } from './title/title.component';
 import { CreateEditTitleComponent } from './title/dialogs/create-edit-title';
 import { MailingComponent } from './mailing/mailing.component';
 import { CreateEditSmstSettingComponent } from './mailing/dialogs/create-edit-smtpmailsettings';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const root: Route[] = [
     {
@@ -106,6 +107,7 @@ const root: Route[] = [
         SharedModule,
         MatDialogModule,
         MatTreeModule,
+        MatTabsModule,
         RouterModule.forChild(root),
     ],
     declarations: [
