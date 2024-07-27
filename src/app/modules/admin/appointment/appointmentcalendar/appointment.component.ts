@@ -125,30 +125,26 @@ export class AppointmentComponent implements OnInit {
         }
         // const colors = ['#FF5733',  '#3357FF', '#FF33A1', '#A133FF'];
         this._appointmentService.getAppointmentslist(model).subscribe((response) => {
-            
-            // Benzersiz renkleri elde edin ve eşsiz ID'ler oluşturun
+             
             const uniqueColors = Array.from(new Set(response.data.map((appointment) => appointment.colors)));
             this.resourcesData = uniqueColors.map((color, index) => ({
                 id: index + 1,
                 color: color
             }));
-
-            // Renkleri bir sözlük olarak saklayarak kolay erişim sağlayın
+ 
             const colorIdMap = this.resourcesData.reduce((acc, resource) => {
                 acc[resource.color] = resource.id;
                 return acc;
             }, {} as Record<string, number>);
-
-            // Randevulara colorId ve renkleri ekleyin
+ 
             this.appointmentsData = response.data.map((appointment) => {
-                const colorId = colorIdMap[appointment.colors] || 1; // Eşleşen colorId bulunamazsa varsayılan ID'yi kullan
+                const colorId = colorIdMap[appointment.colors] || 1;  
                 return {
                     ...appointment,
                     colorId: colorId,
-                    colors: appointment.colors // Renk alanını atama
+                    colors: appointment.colors 
                 };
             });
-
 
             console.log(this.appointmentsData);
             console.log(this.resourcesData);

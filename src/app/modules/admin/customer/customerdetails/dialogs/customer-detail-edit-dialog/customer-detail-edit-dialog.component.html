@@ -71,7 +71,6 @@
                   <mat-option [value]="true">Evet</mat-option>
                   <mat-option [value]="false">Hayır</mat-option>
                 </mat-select>
-                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
               <mat-form-field class="flex-auto gt-xs:pr-3">
                 <mat-label>E-Mail Bildirimi</mat-label>
@@ -80,7 +79,6 @@
                   <mat-option [value]="true">Evet</mat-option>
                   <mat-option [value]="false">Hayır</mat-option>
                 </mat-select>
-                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -96,30 +94,28 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <!-- <mat-form-field>
-                <mat-label>Müşteri Grubu</mat-label>
-                <input matInput [formControlName]="'customerGroup'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-              </mat-form-field> -->
               <mat-form-field >
                 <mat-label>Müşteri Grubu</mat-label>
-                <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
+                <mat-select [placeholder]="'Müşteri Grubu'" [formControlName]="'customerGroup'" name="customergroup">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let customergroup of customergroupList"
-                        [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                        [value]="customergroup.id">{{customergroup.name}}</mat-option>
                 </mat-select>
-                <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
             </mat-form-field>
-            </div>
-            <div class="col-md-12">
-              <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"
-              (click)="updateCustomerDetail()">
-              Kaydet
-          </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </mat-dialog-content>
+</div>
+
+<div class="flex items-center mt-4 sm:mt-0 justify-end mr-7">
+  <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+    Vazgeç
+  </button>
+  <button [disabled]="buttonDisabled" class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"
+    (click)="updateCustomerDetail()">
+    Kaydet
+  </button>
 </div>

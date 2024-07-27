@@ -14,6 +14,7 @@ export class PatientDetailsDto {
     specialNote: string;
     animalBreed : number;
     isVaccineCalendarCreate :boolean;
+    animalColorId: number;
 
     constructor(
         id: string,

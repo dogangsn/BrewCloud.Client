@@ -54,7 +54,7 @@
                 <button mat-menu-item (click)="openGetCollection()">
                     <mat-icon class="icon-size-5 mr-2" [svgIcon]="'calendar_today'"></mat-icon>
                     Randevu Tahsilatı Al</button>
-                <button mat-menu-item  (click)="openBalanceCollection()"  *ngIf="(totalEarnings - totalCollection) > 0">
+                <button mat-menu-item (click)="openBalanceCollection()" *ngIf="(totalEarnings - totalCollection) > 0">
                     <mat-icon class="icon-size-5 mr-2" [svgIcon]="'warning'"></mat-icon>
                     {{ totalEarnings - totalCollection }} ₺ Bakiye
                 </button>
@@ -70,7 +70,7 @@
                 <button mat-menu-item (click)="smstransactions()">
                     <mat-icon class="icon-size-5 mr-2" [svgIcon]="'textsms'"></mat-icon>
                     SMS Gönder</button>
-                <button mat-menu-item><i class="fab fa-whatsapp"></i>  Whatsapp Mesaj Gönder</button>
+                <button mat-menu-item><i class="fab fa-whatsapp"></i> Whatsapp Mesaj Gönder</button>
             </mat-menu>
 
         </div>
@@ -267,10 +267,11 @@
                                 <div class="flex float:left gt-xs:flex-row">
                                     <mat-form-field class="flex-auto gt-xs:pr-3">
                                         <mat-label>Müşteri Grubu</mat-label>
-                                        <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup" disabled="true" >
+                                        <mat-select [placeholder]="'Müşteri Grubu'" [formControlName]="'customerGroup'"
+                                            name="customergroup" disabled="true">
                                             <mat-option>None</mat-option>
                                             <mat-option *ngFor="let customergroup of customergroupList"
-                                                [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                                                [value]="customergroup.id">{{customergroup.name}}</mat-option>
                                         </mat-select>
                                         <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
                                     </mat-form-field>
@@ -313,59 +314,60 @@
 
                     <div class="w-full md:w-6/12 lg:w-6/12 p-2">
                         <div class="flex flex-wrap gap-4 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
-                            style="justify-content: space-between;">
-                            <fuse-card class="flex flex-col max-w-80 w-full p-6 pb-4 filter-article"
-                                *ngFor="let patient of patientDetails">
-                                <div class="flex items-center">
-                                    <img class="w-20 rounded-lg object-cover" src="assets/images/avatars/noimage.jpg"
-                                        alt="Card cover image">
-                                    <div class="flex flex-col ml-6">
-                                        <div class="text-2xl font-semibold leading-tight">Hasta Adı</div>
-                                        <div class="text-secondary font-medium text-md">{{patient.name}}</div>
-                                    </div>
-                                </div>
-
-
-                                <div class="container" style="margin-top: 1rem; padding: 0;">
-                                    <div class="row">
-                                        <div class="col-md-6"
-                                            style="border-right: 1px solid rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)); display: flex; flex-direction: column; align-items: center; position: relative;">
-                                            <div style="font-weight: 600;">
-                                                Çip Numarası
-                                            </div>
-                                            <div
-                                                style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
-                                                {{patient.chipNumber}}
-                                            </div>
-                                            <div
-                                                style="content: ''; position: absolute; height: 100%; width: 1px; background-color: black; right: 0;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6"
-                                            style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative;">
-                                            <div style="font-weight: 600;">
-                                                Hasta Tipi
-                                            </div>
-                                            <div
-                                                style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
-                                                {{patient.animalTypeName}}
-                                            </div>
+                            style="justify-content: space-between;    display: flex !important;flex-wrap: wrap !important;">
+                            <div class="col-6 col-md-12" *ngFor="let patient of patientDetails">
+                                <fuse-card class="flex flex-col  w-full p-6 pb-4 filter-article">
+                                    <div class="flex items-center">
+                                        <img class="w-20 rounded-lg object-cover"
+                                            src="assets/images/avatars/noimage.jpg" alt="Card cover image">
+                                        <div class="flex flex-col ml-6">
+                                            <div class="text-2xl font-semibold leading-tight">Hasta Adı</div>
+                                            <div class="text-secondary font-medium text-md">{{patient.name}}</div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="flex flex-wrap mt-3 -mx-3" style="justify-content: space-between;">
-                                    <a class="px-3" mat-button [color]="'warn'" [routerLink]="['./']"
-                                        (click)="redirectToDeletePatient(patient.recId)">
-                                        Sil
-                                    </a>
 
-                                    <a class="px-3" mat-button [color]="'primary'" [routerLink]="['./']"
-                                        (click)="redirectToUpdatePatient(patient.recId)">
-                                        Düzenle
-                                    </a>
-                                </div>
-                            </fuse-card>
+                                    <div class="container" style="margin-top: 1rem; padding: 0;">
+                                        <div class="row">
+                                            <div class="col-md-6"
+                                                style="border-right: 1px solid rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)); display: flex; flex-direction: column; align-items: center; position: relative;">
+                                                <div style="font-weight: 600;">
+                                                    Çip Numarası
+                                                </div>
+                                                <div
+                                                    style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
+                                                    {{patient.chipNumber}}
+                                                </div>
+                                                <div
+                                                    style="content: ''; position: absolute; height: 100%; width: 1px; background-color: black; right: 0;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"
+                                                style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative;">
+                                                <div style="font-weight: 600;">
+                                                    Hasta Tipi
+                                                </div>
+                                                <div
+                                                    style="font-weight: 500; font-size: 0.8rem; color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity)) !important;">
+                                                    {{patient.animalTypeName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-wrap mt-3 -mx-3" style="justify-content: space-between;">
+                                        <a class="px-3" mat-button [color]="'warn'" [routerLink]="['./']"
+                                            (click)="redirectToDeletePatient(patient.recId)">
+                                            Sil
+                                        </a>
+
+                                        <a class="px-3" mat-button [color]="'primary'" [routerLink]="['./']"
+                                            (click)="redirectToUpdatePatient(patient.recId)">
+                                            Düzenle
+                                        </a>
+                                    </div>
+                                </fuse-card>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'; 
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { GeneralService } from 'app/core/services/general/general.service';
@@ -21,7 +21,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
 
   customergroupList: CustomerGroupListDto[] = [];
   selectedValue: string;
-
+  buttonDisabled: boolean = false;
   stylesheet = document.styleSheets[0];
 
   constructor(
@@ -30,9 +30,9 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
     private _customergroup: CustomerGroupService,
-    
+
     @Inject(MAT_DIALOG_DATA) public data: any
-    
+
   ) {
 
     this.getCustomerGroupList();
@@ -57,8 +57,8 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   ngOnInit() {
     (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
     this.customerEditForm.patchValue({
-      firstname:this.data.customerDetailForm.firstname,
-      lastname:this.data.customerDetailForm.lastname,
+      firstname: this.data.customerDetailForm.firstname,
+      lastname: this.data.customerDetailForm.lastname,
       email: this.data.customerDetailForm.email,
       phonenumber: this.data.customerDetailForm.phonenumber,
       phonenumber2: this.data.customerDetailForm.phonenumber,
@@ -78,11 +78,13 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   }
 
   updateCustomerDetail(): void {
+    this.buttonDisabled = true;
+
+
     this.updateCustomerDetailDto = this.customerEditForm.value;
     this.updateCustomerDetailDto.id = this.data.customerId;
     this.updateCustomerDetailDto.firstname = this.data.firstname;
     this.updateCustomerDetailDto.lastname = this.data.lastname;
-    // this.updateCustomerDetailDto.lastname = this.data.value.lastname;
     this.updateCustomerDetailDto.taxoffice = this.data.taxoffice;
 
     const model = {
@@ -93,15 +95,18 @@ export class CustomerDetailEditDialogComponent implements OnInit {
         console.log(response);
         this.showSweetAlert('success');
         this._dialogRef.close({ status: true });
+      } else {
+        this.buttonDisabled = false;
+        this.showSweetAlert('error');
       }
     });
   }
 
   getCustomerGroupList() {
     this._customergroup.getcustomerGroupList().subscribe((response) => {
-        this.customergroupList = response.data;
+      this.customergroupList = response.data;
     });
-}
+  }
 
   showSweetAlert(type: string): void {
     if (type === 'success') {
@@ -116,7 +121,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
         this.translate('sweetalert.error'),
         this.translate('sweetalert.transactionFailed'),
         SweetalertType.error
-      );  
+      );
       GeneralService.sweetAlert(sweetAlertDto);
     }
   }
@@ -129,10 +134,10 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     this._dialogRef.close({ status: null });
     for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
       if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
-          (this.stylesheet as CSSStyleSheet).deleteRule(index);
+        (this.stylesheet as CSSStyleSheet).deleteRule(index);
       }
-  }
+    }
   }
 
-  
+
 }
