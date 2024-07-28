@@ -12,6 +12,8 @@ import { AccommodationsService } from 'app/core/services/pethotels/accommodation
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { EditorStyle, LabelMode } from 'devextreme/common';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
 
 @Component({
   selector: 'app-create-edit-accommodations',
@@ -20,6 +22,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 })
 export class CreateEditAccommodationsComponent implements OnInit {
 
+  stylingMode: EditorStyle = 'outlined';
+  labelMode: LabelMode = 'static';
   selectedaccommodation: any;
   buttonDisabled = false;
   accommodation: FormGroup;
@@ -35,6 +39,7 @@ export class CreateEditAccommodationsComponent implements OnInit {
   states: string[] = ['Pansiyon', 'Hospitalizasyon'];
 
   selectedtabItem: number = 0;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -49,8 +54,27 @@ export class CreateEditAccommodationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCustomerList();
-    this.getRoomList();
+
+    zip(
+      this.getCustomerList(),
+      this.getRoomList(),
+
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (value) => {
+        this.setCustomerList(value[0]),
+        this.setRoomList(value[1])
+      },
+      error: (e) => {
+        console.log(e);
+      },
+      complete: () => {
+
+        this.fillFormData(this.selectedaccommodation);
+      }
+    });
+
 
     this.accommodation = this._formBuilder.group({
       customerId: [''],
@@ -60,19 +84,28 @@ export class CreateEditAccommodationsComponent implements OnInit {
       remark: ['']
     });
 
-    this.fillFormData(this.selectedaccommodation);
   }
 
-  getCustomerList() {
-    this._customerService.getcustomerlist().subscribe((response) => {
+
+
+  getCustomerList(): Observable<any> {
+    return this._customerService.getcustomerlist();
+  }
+
+  setCustomerList(response: any): void {
+    if (response.data) {
       this.customers = response.data;
-    });
+    }
   }
 
-  getRoomList() {
-    this._accommodationrooms.getRoomList().subscribe((response) => {
+  getRoomList(): Observable<any> {
+    return this._accommodationrooms.getRoomList();
+  }
+
+  setRoomList(response: any): void {
+    if (response.data) {
       this.rooms = response.data;
-    });
+    }
   }
 
 
@@ -81,8 +114,10 @@ export class CreateEditAccommodationsComponent implements OnInit {
     if (this.selectedaccommodation !== null) {
       this.accommodation.setValue({
         customerId: selectedAccomodation.customerId,
-        patientId: selectedAccomodation.patientId,
-        roomId: selectedAccomodation.roomId
+        patientId: selectedAccomodation.patientsId,
+        roomId: selectedAccomodation.roomId,
+        selectedState : selectedAccomodation.accomodation,
+        remark : selectedAccomodation.remark
       });
     }
   }

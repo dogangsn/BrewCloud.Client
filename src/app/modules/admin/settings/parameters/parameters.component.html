@@ -57,8 +57,8 @@
                             <mat-form-field class="w-full">
                                 <mat-select [formControlName]="'smsCompany'" [placeholder]="''" #securityToggle name=""
                                     (selectionChange)="onSmsCompanySelectionChange($event)">
-                                    <mat-option *ngFor="let item of smsparameters"
-                                            [value]="item.id">{{ getEnumStringValue(item.smsIntegrationType) }}</mat-option>
+                                    <mat-option *ngFor="let item of smsparameters" [value]="item.id">{{
+                                        getEnumStringValue(item.smsIntegrationType) }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -250,8 +250,7 @@
                     <div class="flex-auto items-center justify-between cursor-pointer">
                         <div class="leading-6 font-medium">Randevu Seans Süresi</div>
                         <mat-form-field>
-                            <input class="ml-2" type="number" matInput
-                                [formControlName]="'appointmentSeansDuration'">
+                            <input class="ml-2" type="number" matInput [formControlName]="'appointmentSeansDuration'">
                         </mat-form-field>
                     </div>
 
@@ -259,23 +258,43 @@
                     <div class="flex-auto items-center justify-between cursor-pointer">
                         <label class="font-semibold text-gray-700 mb-1">Sistem Tarih Girişleri</label>
                         <div>
-                            <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-wrap" [formControlName]="'datetimestatus'">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-wrap"
+                                [formControlName]="'datetimestatus'">
                                 <mat-radio-button class="mr-2" [value]="0">
-                                  Analog
+                                    Analog
                                 </mat-radio-button>
                                 <mat-radio-button class="mr-2" [value]="1">
-                                  Dijital (Dakika Tanımlaması Yapılması)
+                                    Dijital (Dakika Tanımlaması Yapılması)
                                 </mat-radio-button>
-                              </mat-radio-group>
+                            </mat-radio-group>
                         </div>
                     </div>
 
-                    <div *ngIf="shouldShowAppointmentInterval" class="flex-auto items-center justify-between cursor-pointer">
+                    <div *ngIf="shouldShowAppointmentInterval"
+                        class="flex-auto items-center justify-between cursor-pointer">
                         <div class="leading-6 font-medium">Randevu Saat Aralıkları</div>
                         <mat-form-field>
-                            <input class="ml-2" type="number" matInput
-                                [formControlName]="'appointmentinterval'">
+                            <input class="ml-2" type="number" matInput [formControlName]="'appointmentinterval'">
                         </mat-form-field>
+                    </div>
+
+                </mat-tab>
+
+                <mat-tab label="Pet Otel">
+
+                    <div class="flex-auto items-center justify-between cursor-pointer">
+                        <label class="font-semibold text-gray-700 mb-1">Tarih Girişleri</label>
+                        <div>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-wrap"
+                                [formControlName]="'datetimestatus'">
+                                <mat-radio-button class="mr-2" [value]="0">
+                                    Tarih
+                                </mat-radio-button>
+                                <mat-radio-button class="mr-2" [value]="1">
+                                    Tarih / Saat
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
                     </div>
 
                 </mat-tab>

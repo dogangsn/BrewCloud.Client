@@ -24,7 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CreateEditAccommodationsComponent } from './dialog/create-edit-accommodations.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
-import { DxCheckBoxModule, DxDateBoxModule } from 'devextreme-angular';
+import { DxCheckBoxModule, DxDateBoxModule, DxDateRangeBoxModule } from 'devextreme-angular';
 import { AccommodationexitComponent } from './dialog/accommodationexit/accommodationexit.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -84,6 +84,7 @@ const root: Route[] = [
     DxDateBoxModule,
     DxCheckBoxModule,
     DragDropModule,
+    DxDateRangeBoxModule,
     RouterModule.forChild(root)
   ],
   declarations: [AccommodationsComponent, CreateEditAccommodationsComponent, AccommodationexitComponent]

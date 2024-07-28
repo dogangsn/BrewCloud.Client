@@ -86,7 +86,7 @@ export class PaymentmethodsComponent implements OnInit {
         }
     };
 
-    public redirectToDelete = (id: string) => {
+    public redirectToDelete = (id: number) => {
         const sweetAlertDto = new SweetAlertDto(
             this.translate('sweetalert.areYouSure'),
             this.translate('sweetalert.areYouSureDelete'),
@@ -96,7 +96,7 @@ export class PaymentmethodsComponent implements OnInit {
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
                     const model = {
-                        id: id,
+                        recId: id,
                     };
                     this._paymentmethodsService
                         .deletedPaymentMethods(model)
