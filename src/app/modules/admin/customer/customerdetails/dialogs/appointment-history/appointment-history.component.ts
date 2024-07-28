@@ -30,6 +30,8 @@ export class AppointmentHistoryComponent implements OnInit {
     selectedCustomerId: any;
     appointmentList: AppointmentDto[] = [];
     dataSource = new MatTableDataSource<AppointmentDto>(this.appointmentList);
+    isPatientDetail : boolean = false;
+    selectedPatientId : any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -39,7 +41,9 @@ export class AppointmentHistoryComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _dialog: MatDialog,
     ) {
-        this.selectedCustomerId = data;
+        this.selectedCustomerId = data.customerId;
+        this.selectedPatientId = data.selectedPatientId;
+        this.isPatientDetail = data.isPatientDetail;
     }
 
     ngOnInit() {
@@ -49,7 +53,8 @@ export class AppointmentHistoryComponent implements OnInit {
     getAppointmentsByIdList() {
 
         const model = {
-            CustomerId: this.selectedCustomerId.customerId
+            CustomerId: this.selectedCustomerId,
+            PatientId: this.selectedCustomerId.isPatientDetail ? '00000000-0000-0000-0000-000000000000' : this.selectedPatientId
         }
         this._appointmentService.getAppointmentsByIdList(model).subscribe((response) => {
             this.appointmentList = response.data;

@@ -275,7 +275,7 @@ export class CustomerDetailsComponent implements OnInit {
             }
             const dialog = this._dialog
                 .open(AddApponitnmentDialogComponent, {
-                    maxWidth: '100vw !important',
+                    minWidth: '1000px',
                     disableClose: true,
                     data: model
                 })
@@ -293,6 +293,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
+            isPatientDetail: false,
+            selectedPatientId : '00000000-0000-0000-0000-000000000000',
             visibleCustomer: false,
         }
         console.log(model);

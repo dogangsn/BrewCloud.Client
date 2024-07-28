@@ -9,6 +9,8 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AppointmentHistoryComponent } from '../../dialogs/appointment-history/appointment-history.component';
 
 @Component({
   selector: 'app-patient-tab',
@@ -31,6 +33,7 @@ export class PatientTabComponent implements OnInit {
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
     private router: Router,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -106,34 +109,58 @@ export class PatientTabComponent implements OnInit {
 
   public redirectToDeletePatient = (id: string) => {
     const sweetAlertDto = new SweetAlertDto(
-        this.translate('sweetalert.areYouSure'),
-        this.translate('sweetalert.areYouSureDelete'),
-        SweetalertType.warning
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
     );
     GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-        (swalResponse) => {
-            if (swalResponse.isConfirmed) {
-                const model = {
-                    id: id,
-                };
-                this._customerService
-                    .deletePatients(model)
-                    .subscribe((response) => {
-                        if (response.isSuccessful) {
-                            this.getPatients();
-                            const sweetAlertDto2 = new SweetAlertDto(
-                                this.translate('sweetalert.success'),
-                                this.translate('sweetalert.transactionSuccessful'),
-                                SweetalertType.success
-                            );
-                            GeneralService.sweetAlert(sweetAlertDto2);
-                        } else {
-                            console.error('Silme işlemi başarısız.');
-                        }
-                    });
-            }
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const model = {
+            id: id,
+          };
+          this._customerService
+            .deletePatients(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getPatients();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate('sweetalert.transactionSuccessful'),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                console.error('Silme işlemi başarısız.');
+              }
+            });
         }
+      }
     );
-}
+  }
+
+  public openAppointmentHistory = (id : string) => {
+
+      const model = {
+          customerId: this.receivedCustomerId,
+          isPatientDetail: true,
+          selectedPatientId : id,
+          visibleCustomer: false,
+      }
+      console.log(model);
+      const dialog = this._dialog
+          .open(AppointmentHistoryComponent, {
+              maxWidth: '100vw !important',
+              disableClose: true,
+              data: model
+          })
+          .afterClosed()
+          .subscribe((response) => {
+              if (response.status) {
+              
+              }
+          });
+  
+  }
 
 }
