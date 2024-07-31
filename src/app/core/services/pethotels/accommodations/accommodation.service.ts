@@ -5,6 +5,7 @@ import { CreateVaccineCommand } from "app/modules/admin/definition/vaccinelist/m
 import { CreateRoomCommand } from "app/modules/admin/pethotels/accommodationrooms/models/createRoomCommand";
 import { CreateAccommodationExit } from "app/modules/admin/pethotels/accommodations/models/createAccommodationExit";
 import { CreateAccomodationCommand } from "app/modules/admin/pethotels/accommodations/models/createAccomodationCommand";
+import { UpdateAccomodationCommand } from "app/modules/admin/pethotels/accommodations/models/updateAccomodationCommand";
 import { endPoints } from "environments/endPoints";
 import { Observable } from "rxjs";
 
@@ -23,9 +24,9 @@ export class AccommodationsService {
         return this._httpService.post(endPoints.pethotels.createAccommodation, model);
     }
 
-    // updateRoom(model: any): Observable<any> {
-    //     return this._httpService.post(endPoints.pethotels.updateRoom, model);
-    // }
+    updateAccommodation(model: UpdateAccomodationCommand): Observable<any> {
+        return this._httpService.post(endPoints.pethotels.updateAccomodation, model);
+    }
 
     deleteAccomodation(model: any): Observable<any> {
         return this._httpService.post(endPoints.pethotels.deleteAccomodation, model);

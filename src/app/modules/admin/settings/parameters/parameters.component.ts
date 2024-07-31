@@ -338,6 +338,7 @@ export class ParametersComponent implements OnInit {
             this.getFormValueByName('datetimestatus'),
             this.getFormValueByName('appointmentinterval'),
             this.getFormValueByName('appointmentSeansDuration'),
+            this.getFormValueByName('petHotelsDateTimeFormat'),
         );
 
         this.selectedDays.value.forEach((x) => {

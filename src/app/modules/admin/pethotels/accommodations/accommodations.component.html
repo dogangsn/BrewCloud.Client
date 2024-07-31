@@ -40,7 +40,7 @@
         <ng-container matColumnDef="warning">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <mat-icon *ngIf="formatDate(element.checkoutDate) < formatDate(now)" color="warn" matTooltip="Çıkış Tarihi Geçmiş">warning</mat-icon>
+            <mat-icon *ngIf="stringFormatDate(element.checkoutDate) < now" color="warn" matTooltip="Çıkış Tarihi Geçmiş">warning</mat-icon>
           </td>
         </ng-container>
 

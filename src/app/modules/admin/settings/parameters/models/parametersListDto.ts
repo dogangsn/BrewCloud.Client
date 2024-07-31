@@ -21,4 +21,5 @@ export class parametersListDto {
     datetimestatus: number;
     appointmentinterval: number;
     appointmentSeansDuration : number;
+    petHotelsDateTimeFormat: number;
 }

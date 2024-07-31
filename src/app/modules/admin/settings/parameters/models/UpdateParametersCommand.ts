@@ -21,6 +21,7 @@ export class UpdateParametersCommand {
     datetimestatus: number;
     appointmentinterval : number;
     appointmentSeansDuration: number;
+    petHotelsDateTimeFormat: number;
 
     constructor(
         id: string,
@@ -44,7 +45,8 @@ export class UpdateParametersCommand {
         isExaminationAmuntZero: boolean,
         datetimestatus: number,
         appointmentinterval : number,
-        appointmentSeansDuration : number
+        appointmentSeansDuration : number,
+        petHotelsDateTimeFormat: number
         ) {
         this.id = id;
         this.appointmentReminderDuration = appointmentReminderDuration;
@@ -68,5 +70,6 @@ export class UpdateParametersCommand {
         this.datetimestatus = datetimestatus;
         this.appointmentinterval = appointmentinterval;
         this.appointmentSeansDuration = appointmentSeansDuration;
+        this.petHotelsDateTimeFormat = petHotelsDateTimeFormat;
     }
 }

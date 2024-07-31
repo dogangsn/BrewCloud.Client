@@ -66,10 +66,15 @@ mat-dialog-title
                   </mat-select>
                 </mat-form-field>
                 <div class="flex-auto gt-xs:pl-3">
-                  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                  <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
                     [formControlName]="'selectedState'">
                     <mat-radio-button class="example-radio-button" *ngFor="let state of states" [value]="state">
                       {{ state }}
+                    </mat-radio-button>
+                  </mat-radio-group> -->
+                  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [formControlName]="'selectedState'">
+                    <mat-radio-button class="example-radio-button" *ngFor="let state of states" [value]="state.key">
+                      {{ state.value }}
                     </mat-radio-button>
                   </mat-radio-group>
                 </div>
@@ -101,13 +106,13 @@ mat-dialog-title
               <div class="flex float : left gt-md:flex-row">
                 <div class="flex-auto gt-xs:pl-3">
                   <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                  <dx-date-box [value]="selectedCheckinDate" type="datetime"   [inputAttr]="{ 'aria-label': 'Date And Time' }"
                     (onValueChanged)="handleValueChange($event)">
                   </dx-date-box>
                 </div>
                 <div class="ml-5  flex-auto gt-xs:pl-3">
                   <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                  <dx-date-box [value]="selectedCheckOutDate" type="datetime"   [inputAttr]="{ 'aria-label': 'Date And Time' }"
                     (onValueChanged)="handleValueCheckOutChange($event)">
                   </dx-date-box>
                 </div>
@@ -122,7 +127,7 @@ mat-dialog-title
 
           </mat-tab>
 
-          <mat-tab label="Misafir">
+          <mat-tab label="Misafir" [disabled]="!isGuestTabEnabled()" >
 
             <div class="row">
 
@@ -202,7 +207,6 @@ mat-dialog-title
 
 
           </mat-tab>
-
 
         </mat-tab-group>
 
