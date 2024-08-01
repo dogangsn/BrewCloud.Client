@@ -23,6 +23,8 @@ import { parametersListDto } from 'app/modules/admin/settings/parameters/models/
   templateUrl: './create-edit-accommodations.component.html',
   styleUrls: ['./create-edit-accommodations.component.css']
 })
+
+
 export class CreateEditAccommodationsComponent implements OnInit {
 
   stylingMode: EditorStyle = 'outlined';
@@ -39,12 +41,17 @@ export class CreateEditAccommodationsComponent implements OnInit {
   selectedCheckinDate: Date = new Date();
   selectedCheckOutDate: Date = new Date();
 
+  msInDay = 1000 * 60 * 60 * 24;
+  currentValue: [Date, Date] = [
+    new Date(this.now.getTime() - this.msInDay * 3),
+    new Date(this.now.getTime() + this.msInDay * 3),
+  ];
+
   // states: string[] = ['Pansiyon', 'Hospitalizasyon'];
 
   selectedtabItem: number = 0;
   destroy$: Subject<boolean> = new Subject<boolean>();
   parameters: parametersListDto[] = [];
-
   isDateFormat: number;
 
   states: { key: number, value: string }[] = [
@@ -207,6 +214,18 @@ export class CreateEditAccommodationsComponent implements OnInit {
 
   addAccomodation(): void {
 
+    if (this.isDateFormat == 0) {
+      const updatedDateCheckinDate = new Date(this.selectedCheckinDate);
+      updatedDateCheckinDate.setHours(0, 0, 0, 0);
+      this.selectedCheckinDate = updatedDateCheckinDate;
+
+      const updatedDateCheckoutDate = new Date(this.selectedCheckOutDate);
+      updatedDateCheckoutDate.setHours(0, 0, 0, 0);
+      this.selectedCheckOutDate = updatedDateCheckoutDate;
+    }
+
+
+
     const item = new CreateAccomodationCommand(
       this.selectedtabItem,
       this.getFormValueByName('roomId'),
@@ -237,6 +256,17 @@ export class CreateEditAccommodationsComponent implements OnInit {
   }
 
   updateaAccomodation(): void {
+
+    if (this.isDateFormat == 0) {
+      const updatedDateCheckinDate = new Date(this.selectedCheckinDate);
+      updatedDateCheckinDate.setHours(0, 0, 0, 0);
+      this.selectedCheckinDate = updatedDateCheckinDate;
+
+      const updatedDateCheckoutDate = new Date(this.selectedCheckOutDate);
+      updatedDateCheckoutDate.setHours(0, 0, 0, 0);
+      this.selectedCheckOutDate = updatedDateCheckoutDate;
+    }
+
 
     const item = new UpdateAccomodationCommand(
       this.selectedaccommodation.id,
@@ -295,6 +325,11 @@ export class CreateEditAccommodationsComponent implements OnInit {
     const customerId = this.accommodation.get('customerId')?.value;
     const _customer = customerId === '00000000-0000-0000-0000-000000000000' ? true : false;
     return this.selectedaccommodation && _customer;
+  }
+
+  currentValueChanged({ value: [startDate, endDate] }) {
+    this.selectedCheckinDate = startDate;
+    this.selectedCheckOutDate = endDate;
   }
 
 

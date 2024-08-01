@@ -134,7 +134,8 @@ export class ParametersComponent implements OnInit {
             isExaminationAmuntZero: [false],
             datetimestatus: [0],
             appointmentinterval: [0],
-            appointmentSeansDuration : [0]
+            appointmentSeansDuration : [0],
+            petHotelsDateTimeFormat: [0]
         });
 
         this.parameters.get('datetimestatus')?.valueChanges.subscribe(value => {
@@ -243,7 +244,8 @@ export class ParametersComponent implements OnInit {
                 isExaminationAmuntZero: getparam[0].isExaminationAmuntZero,
                 datetimestatus: getparam[0].datetimestatus,
                 appointmentinterval: getparam[0].appointmentinterval,
-                appointmentSeansDuration : getparam[0].appointmentSeansDuration
+                appointmentSeansDuration : getparam[0].appointmentSeansDuration,
+                petHotelsDateTimeFormat: getparam[0].petHotelsDateTimeFormat
             });
             this.selectedDays.setValue(daysfill);
         }
