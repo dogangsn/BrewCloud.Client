@@ -44,6 +44,12 @@
   <!-- Main -->
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
     <!-- CONTENT GOES HERE -->
+
+    
+    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)" *ngIf="!loader">
+      <mat-chip-option *ngFor="let option of options" [value]="option.type" [selected]="option.selected">{{option.name}}</mat-chip-option>
+    </mat-chip-listbox>
+    
     <div role="status" class="animate-pulse" *ngIf="loader">
       <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
     </div>
