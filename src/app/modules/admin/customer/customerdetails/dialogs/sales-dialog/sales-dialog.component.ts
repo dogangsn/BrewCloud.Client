@@ -55,8 +55,8 @@ export class SalesDialogComponent implements OnInit {
   @Output() salesAdded = new EventEmitter<any>();
 
   buttonDisabled = false;
-  displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
-  dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' }];
+  displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'taxTotal', 'actions'];
+  dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0 }];
 
   products: ProductDescriptionsDto[] = [];
   taxisList: TaxesDto[] = [];
@@ -130,7 +130,7 @@ export class SalesDialogComponent implements OnInit {
   }
 
   addRow() {
-    const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' };
+    const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0 };
     this.dataSource = [...this.dataSource, newRow];
   }
 
@@ -145,22 +145,56 @@ export class SalesDialogComponent implements OnInit {
   calculateTotal(element: SalesDto): number {
     const price = element.quantity * element.unitPrice;
     const discount = element.discount || 0;
-    const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-    return price - discount + price * vatRate;
+    let totalPrice = price - discount;
+
+    let calcvat = 0;
+    if (element.vat !== "Yok") {
+      const price = element.quantity * element.unitPrice;
+      const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio; //element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
+      const inculeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+      if (price > 0 && vatRate > 0) {
+        if (inculeKDV) {
+          let basePrice = price / (1 + (vatRate / 100))
+          calcvat = price - basePrice;
+          totalPrice = totalPrice - calcvat;
+        } else {
+          calcvat = (price * vatRate) / 100
+          totalPrice = totalPrice + calcvat;
+        }
+      }
+    }
+    element.netPrice = totalPrice;
+
+    return totalPrice;
   }
 
   calculateSubtotal(): number {
-    return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.unitPrice - (element.discount || 0)), 0);
+    return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.netPrice - (element.discount || 0)), 0);
   }
 
   calculateVat(): number {
     return this.dataSource.reduce((acc, element) => {
-      const price = element.quantity * element.unitPrice;
-      const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-      return acc + (price * vatRate);
+      if (element.vat !== "Yok") {
+        const price = element.quantity * element.unitPrice;
+        const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio;
+        const includeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+        let calcvat = 0;
+        if (price > 0 && vatRate > 0) {
+          if (includeKDV) {
+            const basePrice = price / (1 + (vatRate / 100));
+            calcvat = price - basePrice;
+          } else {
+            calcvat = (price * vatRate) / 100;
+          }
+        }
+        return acc + calcvat;
+      }
+      return acc;
     }, 0);
   }
-
+  
   calculateTotalAmount(): number {
     return this.calculateSubtotal() + this.calculateVat();
   }

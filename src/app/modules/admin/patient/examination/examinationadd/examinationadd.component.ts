@@ -339,7 +339,7 @@ export class ExaminationaddComponent implements OnInit {
     }
 
     addRow() {
-        const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' };
+        const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0 };
         this.dataSource = [...this.dataSource, newRow];
     }
 

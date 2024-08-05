@@ -243,7 +243,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.phoneNumber2 = this.getFormValueByName('phoneNumber2');
         this.customers.eMail = this.getFormValueByName('eMail');
         this.customers.taxOffice = this.getFormValueByName('taxOffice');
-        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo');
+        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo').toString();;
         this.customers.note = this.getFormValueByName('note');
         this.customers.discountRate = this.getFormValueByName('discountRate');
         this.customers.province = this.getFormValueByName('province');

@@ -56,6 +56,7 @@ import { CreateEditCustomerpatientsComponent } from '../customerdetails/dialogs/
 import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
 import { MatCardModule } from '@angular/material/card';
 import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccine/createvaccine.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -136,6 +137,7 @@ const root: Route[] = [
         MatChipsModule,
         MatBadgeModule,
         MatCardModule,
+        DragDropModule,
         RouterModule.forChild(root),
     ],
     declarations: [

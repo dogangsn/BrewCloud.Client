@@ -22,4 +22,5 @@ export class ProductDescriptionsDto{
     storeId: string;
     taxisId: string;
     stockCount: number;
+    unitName: string;
 }

@@ -276,9 +276,14 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
 
     public openStockTrackingEntry = (id: string, entryexittype: number) => {
 
+        const selectedProduct = this.productdescription.find(
+            (product) => product.id === id
+        );
+
         const data = {
             productid: id,
             entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit),
+            supplierId : (selectedProduct.supplierId == undefined || selectedProduct.supplierId == null ? '00000000-0000-0000-0000-000000000000' : selectedProduct.supplierId),
             data: null
         }
 
