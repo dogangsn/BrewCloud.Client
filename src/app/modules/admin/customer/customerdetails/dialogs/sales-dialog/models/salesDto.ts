@@ -7,4 +7,5 @@ export interface SalesDto {
     discount: number;
     vat: string;
     netPrice : number;
+    netVat: number;
 }

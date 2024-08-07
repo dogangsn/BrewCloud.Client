@@ -358,7 +358,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             takeUntil(this.destroy$)
         ).subscribe({
             next: (value) => {
-                this.setAppointmentControlDate([0])
+                this.setAppointmentControlDate(value[0])
             },
             error: (e) => {
                 console.log(e);
@@ -667,7 +667,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
 
     setAppointmentControlDate(response: any): void {
         if(!response.data) {
-            this._isSaveControl = false;
+            this._isSaveControl =  response.data;
          }
     }
 

@@ -111,7 +111,7 @@
 
             <ng-container matColumnDef="taxTotal">
               <th mat-header-cell *matHeaderCellDef> Kdv Tutar </th>
-              <td mat-cell *matCellDef="let element" class="mt-0"> {{calculateVat(element) | currency:'TRY' }} </td>
+              <td mat-cell *matCellDef="let element" [(ngModel)]="element.netVat"  class="mt-0"> {{calculateVatRow(element) | currency:'TRY' }} </td>
             </ng-container>
 
             <!-- Silme Kolonu -->

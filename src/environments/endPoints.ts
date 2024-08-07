@@ -285,5 +285,8 @@ export const endPoints = {
     },
     message : {
         multiAutoSendMessage : 'vet/Message/MultiAutoSendMessage'
+    },
+    accounting : {
+        isSaleProductControl : 'vet/Accounting/IsSaleProductControl'
     }
 }
