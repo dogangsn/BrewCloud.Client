@@ -1,4 +1,13 @@
-<h1 mat-dialog-title class="mat-dialog-title">
+<h1 mat-dialog-title class="mat-dialog-title" mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle>
+  <button class="dialog-close-button">
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path
+        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+      </path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </button>
   <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
     <span class="material-icons"> highlight_off </span>
   </button>
@@ -35,16 +44,28 @@
                 <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
               </mat-form-field>
               <mat-form-field>
-                <mat-label>İl</mat-label>
+                <!-- <mat-label>İl</mat-label>
                 <input matInput [formControlName]="'city'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                <mat-label>İl</mat-label>
+                <mat-select [formControlName]="'city'" [placeholder]="'İl'"  name="province" (selectionChange)="handleCityChange($event)">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let item of cities" 
+                        [value]="item.name">{{item.name}}</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <mat-label>İlçe</mat-label>
+                <!-- <mat-label>İlçe</mat-label>
                 <input matInput [formControlName]="'district'" />
-                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                <mat-label>İlçe</mat-label>
+                <mat-select [formControlName]="'district'" [placeholder]="'İl'"  name="province">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let item of district"
+                        [value]="item">{{item}}</mat-option>
+                </mat-select>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Vergi Dairesi</mat-label>

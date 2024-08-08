@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { AccommodationsService } from 'app/core/services/pethotels/accommodations/accommodation.service';
+import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
 import { CustomerDataService } from 'app/modules/admin/customer/customerdetails/services/customer-data.service';
 import { AccommodationexitComponent } from 'app/modules/admin/pethotels/accommodations/dialog/accommodationexit/accommodationexit.component';
 import { CreateEditAccommodationsComponent } from 'app/modules/admin/pethotels/accommodations/dialog/create-edit-accommodations.component';
@@ -108,7 +109,7 @@ export class PatientAccommodationTabComponent implements OnInit {
     );
   };
 
-  public redirectToUpdate = (id: string) => {
+  public updateAccomodation = (id: string) => {
     this.isUpdateButtonActive = true;
     const selectedroom = this.accommodations.find((x) => x.id === id);
     if (selectedroom) {
@@ -130,19 +131,36 @@ export class PatientAccommodationTabComponent implements OnInit {
 
   public reservationlogout = (id: string) => {
 
-    this.isUpdateButtonActive = false;
-    const dialog = this._dialog
-      .open(AccommodationexitComponent, {
+    const selectedroom = this.accommodations.find((x) => x.id === id);
+    if (selectedroom) {
+
+      this.isUpdateButtonActive = false;
+      const dialog = this._dialog
+        .open(AccommodationexitComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedroom,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            this.getAccommodationsList();
+          }
+        });
+
+    }
+
+  }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
         maxWidth: '100vw !important',
         disableClose: true,
-        data: null,
-      })
-      .afterClosed()
-      .subscribe((response) => {
-        if (response.status) {
-          this.getAccommodationsList();
-        }
-      });
+        data: { masterId: id },
+      }
+    );
 
   }
 

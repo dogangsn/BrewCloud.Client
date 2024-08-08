@@ -9,6 +9,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CustomerGroupListDto } from 'app/modules/admin/definition/customergroup/models/customerGroupListDto';
 import { CustomerGroupService } from 'app/core/services/definition/customergroup/customergroup.service';
 import { CustomerDetailDto } from '../../../models/CustomerDetailDto';
+import { CityService } from 'app/core/services/assetsService/cityService.service';
 
 @Component({
   selector: 'app-customer-detail-edit-dialog',
@@ -24,13 +25,16 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   buttonDisabled: boolean = false;
   stylesheet = document.styleSheets[0];
 
+  cities: any[] = [];
+  district: any[] = [];
+
   constructor(
     private _dialogRef: MatDialogRef<any>,
     private _formBuilder: FormBuilder,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
     private _customergroup: CustomerGroupService,
-
+    private _cityService: CityService,
     @Inject(MAT_DIALOG_DATA) public data: any
 
   ) {
@@ -55,6 +59,15 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    debugger;
+
+    this._cityService.getCities().subscribe(data => {
+      this.cities = data;
+      this.district = this.cities.filter(x => x.name === this.data.customerDetailForm.city)[0].districts;
+    });
+
+
     (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
     this.customerEditForm.patchValue({
       firstname: this.data.customerDetailForm.firstname,
@@ -74,6 +87,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       customerGroup: this.data.customerDetailForm.customerGroup,
       recordDate: this.data.customerDetailForm.recordDate,
     });
+    this.handleCityChange(this.data.customerDetailForm.city);
 
   }
 
@@ -136,6 +150,15 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
         (this.stylesheet as CSSStyleSheet).deleteRule(index);
       }
+    }
+  }
+
+  handleCityChange(event: any) {
+    let city = this.cities.filter(x => x.name === event.value);
+    if (city.length > 0) {
+      this.district = city[0].districts;
+    } else {
+      this.district = [];
     }
   }
 

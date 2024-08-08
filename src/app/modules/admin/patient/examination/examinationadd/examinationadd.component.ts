@@ -65,19 +65,21 @@ export class ExaminationaddComponent implements OnInit {
     symptomsString: string;
     selectedState: string;
     states: string[] = ['Aktif', 'Tamamlandı', 'Bekliyor'];
-    loader=true;
-    shortcut : Shortcut;
+    loader = true;
+    shortcut: Shortcut;
 
     addEnabled: boolean = true;
     visibleCustomer: boolean;
     private _dialogRef: any;
 
-    displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
+    displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'taxTotal', 'actions'];
     dataSource: SalesDto[] = [];
     products: ProductDescriptionsDto[] = [];
     taxisList: TaxesDto[] = [];
     destroy$: Subject<boolean> = new Subject<boolean>();
     isPrice: boolean = false;
+
+    formGroup: FormGroup;
 
     constructor(
         private _customerService: CustomerService,
@@ -117,8 +119,8 @@ export class ExaminationaddComponent implements OnInit {
             },
             complete: () => {
                 //this.fillFormData(this.selectedsales);
-                
-                this.loader=false;
+
+                this.loader = false;
             }
         });
 
@@ -135,6 +137,11 @@ export class ExaminationaddComponent implements OnInit {
             isPrice: [false],
             price: [0]
         });
+
+        this.formGroup = this._formBuilder.group({
+            date: new FormControl(new Date()),
+            remark: ['']
+          });
     }
 
     getCustomerList() {
@@ -148,6 +155,7 @@ export class ExaminationaddComponent implements OnInit {
             this.allSymptoms = response.data;
         });
     }
+
     getPatientList() {
         this._customerService
             .getPatientsByCustomerId(this.customers[0].id)
@@ -220,20 +228,21 @@ export class ExaminationaddComponent implements OnInit {
 
     addToShortCuts() {
         this.shortcut = {
-            id: '',  
+            id: '',
             label: '',
             icon: '',
             link: '',
             useRouter: true
         };
-    
+
         this.shortcut.description = "Yeni Muayene Ekle";
         this.shortcut.label = "Yeni Muayene Ekle";
         this.shortcut.icon = "heroicons_outline:plus";
         this.shortcut.link = "/examinationadd";
-    
+
         this._shortcutsService.create(this.shortcut).subscribe();
     }
+    
     closeDialog(): void {
         this._dialogRef.close({ status: null });
     }
@@ -280,8 +289,8 @@ export class ExaminationaddComponent implements OnInit {
         if (value) {
             this.symptoms.push(value);
         }
-        
-        
+
+
 
         this.symptomCtrl.setValue(null);
     }
@@ -339,7 +348,7 @@ export class ExaminationaddComponent implements OnInit {
     }
 
     addRow() {
-        const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0, netVat : 0 };
+        const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0, netVat: 0 };
         this.dataSource = [...this.dataSource, newRow];
     }
 
@@ -347,22 +356,80 @@ export class ExaminationaddComponent implements OnInit {
         this.dataSource = this.dataSource.filter(e => e !== element);
     }
 
+
     calculateTotal(element: SalesDto): number {
         const price = element.quantity * element.unitPrice;
         const discount = element.discount || 0;
-        const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-        return price - discount + price * vatRate;
+        let totalPrice = price - discount;
+
+        let calcvat = 0;
+        if (element.vat !== "Yok") {
+            const price = element.quantity * element.unitPrice;
+            const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio; //element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
+            const inculeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+            if (price > 0 && vatRate > 0) {
+                if (inculeKDV) {
+                    let basePrice = price / (1 + (vatRate / 100))
+                    calcvat = price - basePrice;
+                    totalPrice = totalPrice - calcvat;
+                } else {
+                    calcvat = (price * vatRate) / 100
+                    totalPrice = totalPrice;
+                }
+            }
+        }
+        element.netPrice = totalPrice;
+
+        return totalPrice;
     }
 
     calculateSubtotal(): number {
-        return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.unitPrice - (element.discount || 0)), 0);
+        return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.netPrice - (element.discount || 0)), 0);
+    }
+
+    calculateVatRow(element: SalesDto): number {
+        if (element.vat !== "Yok") {
+            const price = element.quantity * element.unitPrice;
+            const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio;
+            const includeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+            let calcvat = 0;
+            if (price > 0 && vatRate > 0) {
+                if (includeKDV) {
+                    const basePrice = price / (1 + (vatRate / 100));
+                    calcvat = price - basePrice;
+                } else {
+                    calcvat = (price * vatRate) / 100;
+                }
+            }
+            element.netVat = calcvat;
+
+            return calcvat;
+        }
     }
 
     calculateVat(): number {
         return this.dataSource.reduce((acc, element) => {
-            const price = element.quantity * element.unitPrice;
-            const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-            return acc + (price * vatRate);
+            if (element.vat !== "Yok") {
+                const price = element.quantity * element.unitPrice;
+                const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio;
+                const includeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+                let calcvat = 0;
+                if (price > 0 && vatRate > 0) {
+                    if (includeKDV) {
+                        const basePrice = price / (1 + (vatRate / 100));
+                        calcvat = price - basePrice;
+                    } else {
+                        calcvat = (price * vatRate) / 100;
+                    }
+                }
+                element.netVat = calcvat;
+
+                return acc + calcvat;
+            }
+            return acc;
         }, 0);
     }
 
@@ -396,6 +463,7 @@ export class ExaminationaddComponent implements OnInit {
         element.unitPrice = selectedProduct ? selectedProduct.sellingPrice : null;
         element.vat = selectedProduct ? selectedProduct.taxisId : null;
     }
+
 
     togglePriceInput(checked: boolean) {
         if (checked) {
