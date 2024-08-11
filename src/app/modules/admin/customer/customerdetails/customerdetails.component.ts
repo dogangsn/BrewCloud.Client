@@ -530,8 +530,8 @@ export class CustomerDetailsComponent implements OnInit {
 
     onTabChange(event: any) {
         this._eventService.dialogClosed.emit(true);
-        if (event === 5) {
-
+        if (event === 6) {
+            
         }
     }
 

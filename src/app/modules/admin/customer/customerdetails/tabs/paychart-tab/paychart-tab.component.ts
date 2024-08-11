@@ -87,7 +87,7 @@ export class PayChartTabComponent implements OnInit {
             const model = {
                 customerId: this.customerId,
                 saleOwnerId: item.saleBuyId,
-                amount: 0,
+                amount: item.credit,
                 data : item
               }
               console.log(model);

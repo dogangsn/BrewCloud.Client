@@ -150,6 +150,7 @@ export class SalesTabComponent implements OnInit {
         customerId: this.receivedCustomerId,
         saleOwnerId: item.saleOwnerId,
         amount: item.rameiningBalance,
+        collectionId: item.collectionId,
         data: null
       }
       console.log(model);

@@ -409,7 +409,7 @@ export class SalesDialogComponent implements OnInit {
                 .afterClosed()
                 .subscribe((response) => {
                   if (response.status) {
-                  }
+                    this.eventService.dialogClosed.emit(true);                  }
                 });
             }
           } else {
