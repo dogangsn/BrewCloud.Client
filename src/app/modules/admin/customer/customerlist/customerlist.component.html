@@ -131,7 +131,7 @@
                   <mat-icon>view_headline</mat-icon>
                   <span>Ödemeler</span>
                 </button>
-                <button mat-menu-item [disabled]="element.balance == 0">
+                <button mat-menu-item [disabled]="element.balance == 0"  (click)="openBalanceCollection(element.id)">
                   <mat-icon>payment</mat-icon>
                   <span>Ödeme Ekle</span>
                 </button>

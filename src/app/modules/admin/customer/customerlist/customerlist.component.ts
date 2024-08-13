@@ -23,6 +23,7 @@ import { PrintTemplateSelectedComponent } from '../../commonscreen/print-templat
 import { PrintType } from '../../definition/printtemplate/models/printType.enum';
 import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
+import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
 
 @Component({
     selector: 'customerslist',
@@ -320,5 +321,48 @@ export class CustomersListComponent implements OnInit {
 
     }
 
+    public openBalanceCollection = (ids: any) => {
+
+        let customerlist: any[] = [];
+
+        const _customer = this.customerlist.find(x => x.id === ids);
+        if(_customer)
+        {
+            let customer: Customer = {
+                name: _customer.firstName + ' ' + _customer.lastName,
+                id :ids,
+                balance: _customer.balance
+            };
+            customerlist.push(customer);
+    
+            const model = {
+                customerId: ids,
+                customerlist: customerlist,
+            }
+
+            const dialog = this._dialog
+                .open(BalacecollectionComponent, {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) {
+                        this.getCustomerList();
+                    }
+                });
+
+        }
+
+        
+    }
+
+}
+
+interface Customer {
+    name: string;
+    id: number;
+    balance: number;
 }
 
