@@ -68,7 +68,8 @@ export class SalesDialogComponent implements OnInit {
   formGroup: FormGroup;
   selectedCustomerId: any;
   stockcontrolmessage: string;
-
+  discountedTotalAmount: number = 0;
+  
   constructor(
     private _formBuilder: FormBuilder,
     private _dialogRef: MatDialogRef<any>,
@@ -426,6 +427,15 @@ export class SalesDialogComponent implements OnInit {
       );
     this.salesAdded.emit();
   }
+
+  
+  applyDiscount() {
+    const subtotal = this.calculateSubtotal();
+    const vat = this.calculateVat();
+    const totalAmount = subtotal + vat;
+    const discountAmount = totalAmount * 0.25;
+    this.discountedTotalAmount =  discountAmount;
+}
 
 
 }

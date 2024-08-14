@@ -74,12 +74,15 @@ export class ExaminationaddComponent implements OnInit {
 
     displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'taxTotal', 'actions'];
     dataSource: SalesDto[] = [];
+
     products: ProductDescriptionsDto[] = [];
     taxisList: TaxesDto[] = [];
     destroy$: Subject<boolean> = new Subject<boolean>();
     isPrice: boolean = false;
 
     formGroup: FormGroup;
+
+    discountedTotalAmount: number = 0;
 
     constructor(
         private _customerService: CustomerService,
@@ -135,13 +138,11 @@ export class ExaminationaddComponent implements OnInit {
             treatmentDescription: [''],
             selectedState: [this.states[0]],
             isPrice: [false],
-            price: [0]
+            price: [0],
+            remark : ['']
         });
 
-        this.formGroup = this._formBuilder.group({
-            date: new FormControl(new Date()),
-            remark: ['']
-          });
+       
     }
 
     getCustomerList() {
@@ -471,6 +472,14 @@ export class ExaminationaddComponent implements OnInit {
         } else {
             this.isPrice = false;
         }
+    }
+
+    applyDiscount() {
+        const subtotal = this.calculateSubtotal();
+        const vat = this.calculateVat();
+        const totalAmount = subtotal + vat;
+        const discountAmount = totalAmount * 0.25;
+        this.discountedTotalAmount =  discountAmount;
     }
 
 

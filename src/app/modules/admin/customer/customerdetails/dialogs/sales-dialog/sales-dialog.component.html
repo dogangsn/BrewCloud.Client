@@ -150,10 +150,11 @@
               <div>
                 <p class="text-end">Ara toplam: {{calculateSubtotal() | currency:'TRY'}}</p>
                 <p class="text-end">KDV: {{calculateVat() | currency:'TRY'}}</p>
-                <p class="text-end">Toplam: {{calculateTotalAmount() | currency:'TRY'}}</p>
+                <p class="text-end">İndirim: {{discountedTotalAmount | currency:'TRY'}}</p>
+                <p class="text-end">Toplam: {{calculateTotalAmount() - discountedTotalAmount | currency:'TRY'}}</p>
               </div>
               <div class="w-full flex justify-end mt-2">
-                <button mat-button color="primary" class="">
+                <button mat-button color="primary" class="" (click)="applyDiscount()">
                   + Sokak hayvanı indirimi (%25)
                 </button>
               </div>
