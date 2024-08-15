@@ -15,18 +15,19 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
     parse: {
-      dateInput: 'DD/MM/YYYY',
+        dateInput: 'DD/MM/YYYY',
     },
     display: {
-      dateInput: 'DD/MM/YYYY',
-      monthYearLabel: 'DDD MMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'DDD MMMM YYYY',
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'DDD MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'DDD MMMM YYYY',
     },
-  };
+};
 @Component({
     selector: 'app-cashtransactions',
     templateUrl: './cashtransactions.component.html',
@@ -68,25 +69,46 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
 
     payments: PaymentMethodsDto[] = [];
 
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _paymentmethodsService: PaymentMethodservice,
         private _translocoService: TranslocoService,
         private _formBuilder: FormBuilder,
         private _salebuyservice: SaleBuyService,
-    ) {}
+    ) {
+
+        this.formGroup = this._formBuilder.group({
+            begindate: new FormControl(this.calculateEndDate()), // Bugünün tarihi
+            endDate: new FormControl(new Date()), // Yedi gün önceki tarih
+            paymenttype: ['all'],
+        });
+
+
+    }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
     }
 
     ngOnInit() {
-        this.paymentsList();
 
-        this.formGroup = this._formBuilder.group({
-            begindate: new FormControl(this.calculateEndDate()), // Bugünün tarihi
-            endDate: new FormControl(new Date()), // Yedi gün önceki tarih
-            paymenttype : ['all'],
-          });
+
+        zip(
+            this.paymentsList(),
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                this.setpaymentList(value[0])
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+                this.getRecordFilter();
+            }
+        });
     }
 
     calculateEndDate(): Date {
@@ -94,17 +116,9 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         const sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
         return sevenDaysAgo;
-      }
-
-    paymentsList() {
-        this._paymentmethodsService
-            .getPaymentMethodsList()
-            .subscribe((response) => {
-                this.payments = response.data;
-                console.log(this.payments);
-
-            });
     }
+
+
 
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
@@ -140,22 +154,22 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
                         id: id,
                     };
                     this._salebuyservice
-                    .deletedSaleBuy(model)
-                    .subscribe((response) => {
-                        if (response.isSuccessful) {
-                            this.getRecordFilter();
-                            const sweetAlertDto2 = new SweetAlertDto(
-                                this.translate('sweetalert.success'),
-                                this.translate(
-                                    'sweetalert.transactionSuccessful'
-                                ),
-                                SweetalertType.success
-                            );
-                            GeneralService.sweetAlert(sweetAlertDto2);
-                        } else {
-                            console.error('Silme işlemi başarısız.');
-                        }
-                    });
+                        .deletedSaleBuy(model)
+                        .subscribe((response) => {
+                            if (response.isSuccessful) {
+                                this.getRecordFilter();
+                                const sweetAlertDto2 = new SweetAlertDto(
+                                    this.translate('sweetalert.success'),
+                                    this.translate(
+                                        'sweetalert.transactionSuccessful'
+                                    ),
+                                    SweetalertType.success
+                                );
+                                GeneralService.sweetAlert(sweetAlertDto2);
+                            } else {
+                                console.error('Silme işlemi başarısız.');
+                            }
+                        });
                 }
             }
         );
@@ -184,12 +198,12 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
     }
 
     getRecordFilter() {
-       
+
         var paymentypeId = this.getFormValueByName("paymenttype");
         debugger;
 
         const model = {
-            paymentType : (paymentypeId == 'all' ? 0 : paymentypeId),
+            paymentType: (paymentypeId == 'all' ? 0 : paymentypeId),
             beginDate: this.getFormValueByName("begindate"),
             endDate: this.getFormValueByName("endDate")
         }
@@ -197,9 +211,9 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
             this.salebuyLists = response.data;
             console.log(this.salebuyLists);
 
-            
+
             this.dataSource = new MatTableDataSource<SaleBuyListDto>(this.salebuyLists);
-    
+
             this.dataSource.paginator = this.paginator;
             console.log(this.payments);
         });
@@ -220,5 +234,17 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         };
         return new Date(date).toLocaleString('tr-TR', options);
     }
+
+    paymentsList(): Observable<any> {
+        return this._paymentmethodsService.getPaymentMethodsList();
+
+    }
+
+    setpaymentList(response: any): void {
+        if (response.data) {
+            this.payments = response.data;
+        }
+    }
+
 
 }

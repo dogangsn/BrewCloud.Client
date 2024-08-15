@@ -146,7 +146,10 @@ export class ExaminationaddComponent implements OnInit {
     }
 
     getCustomerList() {
-        this._customerService.getcustomerlist().subscribe((response) => {
+        let model = {
+            IsArchive : false
+        }
+        this._customerService.getcustomerlist(model).subscribe((response) => {
             this.customers = response.data;
         });
     }

@@ -1,4 +1,5 @@
 export class customersListDto {
+    recId: string;
     id:string;
     firstName:string;
     lastName: string;

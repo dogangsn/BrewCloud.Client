@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
@@ -24,6 +24,7 @@ import { PrintType } from '../../definition/printtemplate/models/printType.enum'
 import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
 import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
+import { FarmsListDto } from '../models/farmsListDto';
 
 @Component({
     selector: 'customerslist',
@@ -31,7 +32,7 @@ import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecoll
     encapsulation: ViewEncapsulation.None,
 })
 export class CustomersListComponent implements OnInit {
-    displayedColumns: string[] = ['firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'balance', 'actions'];
+    displayedColumns: string[] = ['recId', 'firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'balance', 'actions'];
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -40,6 +41,10 @@ export class CustomersListComponent implements OnInit {
     loader = true;
     petCount = 3;
     items = Array(13);
+    //archiveData: customersListDto[] = [];
+    farmscustomerlist: FarmsListDto[] = [];
+
+    @Output() archiveData = new EventEmitter<any>();
 
     constructor(private _customerListService: CustomerService,
         private _dialog: MatDialog,
@@ -49,21 +54,30 @@ export class CustomersListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getCustomerList();
+        this.getCustomerList(false);
     }
 
-    getCustomerList() {
-        this._customerListService.getcustomerlist().subscribe((response) => {
-            this.customerlist = response.data;
-            this.dataSource = new MatTableDataSource<customersListDto>(
-                this.customerlist
-            );
-            // this.dataSource.paginator = this.paginator;
-            setTimeout(() => {
-                if (this.dataSource) {
-                    this.dataSource.paginator = this.paginator;
-                }
-            }, 0);
+    getCustomerList(archive: boolean) {
+
+        let model = {
+            IsArchive: archive
+        }
+        this._customerListService.getcustomerlist(model).subscribe((response) => {
+            if (!archive) {
+                this.customerlist = response.data;
+                this.dataSource = new MatTableDataSource<customersListDto>(
+                    this.customerlist
+                );
+                setTimeout(() => {
+                    if (this.dataSource) {
+                        this.dataSource.paginator = this.paginator;
+                    }
+                }, 0);
+            }
+            else {
+                this.archiveData = response.data;
+            }
+
             this.loader = false;
         });
     }
@@ -79,7 +93,7 @@ export class CustomersListComponent implements OnInit {
             .afterClosed()
             .subscribe((response) => {
                 if (response.status) {
-                    this.getCustomerList();
+                    this.getCustomerList(false);
                 }
             });
     }
@@ -105,7 +119,7 @@ export class CustomersListComponent implements OnInit {
                         .deleteCustomers(model)
                         .subscribe((response) => {
                             if (response.isSuccessful) {
-                                this.getCustomerList();
+                                this.getCustomerList(false);
                                 const sweetAlertDto2 = new SweetAlertDto(
                                     this.translate('sweetalert.success'),
                                     this.translate('sweetalert.transactionSuccessful'),
@@ -120,7 +134,7 @@ export class CustomersListComponent implements OnInit {
             }
         );
     }
-    
+
     public redirectToPrint = (id: string) => {
 
         // const pmsrpt1090 = new customerlistRptParameter()
@@ -244,7 +258,7 @@ export class CustomersListComponent implements OnInit {
                 (response) => {
                     if (response.isSuccessful) {
                         this.showSweetAlert('success');
-                        this.getCustomerList();
+                        this.getCustomerList(false);
                     } else {
                         this.showSweetAlert('error');
                     }
@@ -271,13 +285,13 @@ export class CustomersListComponent implements OnInit {
 
         // let messageTemplate: string = `
         // Sayın {0},
-        
+
         // Size, henüz ödenmemiş {1} TL borcunuz olduğunu hatırlatmak isteriz. Ödemenizi en kısa sürede yapmanızı rica ederiz.
-        
+
         // Ödeme yaptıysanız, bu mesajı dikkate almayınız.
-        
+
         // Teşekkür eder, iyi günler dileriz.
-        
+
         // Saygılarımızla,
         // `;
 
@@ -301,7 +315,7 @@ export class CustomersListComponent implements OnInit {
                 isFixMessage: true,
                 customerId: _customer.id,
                 customername: customerName,
-                amount : amount
+                amount: amount
                 // message: _message,
             };
             const dialog = this._dialog
@@ -326,15 +340,14 @@ export class CustomersListComponent implements OnInit {
         let customerlist: any[] = [];
 
         const _customer = this.customerlist.find(x => x.id === ids);
-        if(_customer)
-        {
+        if (_customer) {
             let customer: Customer = {
                 name: _customer.firstName + ' ' + _customer.lastName,
-                id :ids,
+                id: ids,
                 balance: _customer.balance
             };
             customerlist.push(customer);
-    
+
             const model = {
                 customerId: ids,
                 customerlist: customerlist,
@@ -349,11 +362,30 @@ export class CustomersListComponent implements OnInit {
                 .afterClosed()
                 .subscribe((response) => {
                     if (response.status) {
-                        this.getCustomerList();
+                        this.getCustomerList(false);
                     }
                 });
         }
     }
+
+    getFarmsList() {
+        this._customerListService.getFarmCustomersList().subscribe((response) => {
+            this.getFarmsList = response.data;
+        });
+    }
+
+    onTabChange(event: any) {
+        if (event === 1) {
+            this.getFarmsList();
+        }
+        else if (event === 2) {
+            this.getCustomerList(true);
+        }
+        else {
+            this.getCustomerList(false);
+        }
+    }
+
 
 }
 

@@ -226,7 +226,10 @@ export class AddApponitnmentDialogComponent implements OnInit {
     }
 
     getCustomerList(): Observable<any> {
-        return this._customerService.getcustomerlist();
+        let model = {
+            IsArchive : false
+        }
+        return this._customerService.getcustomerlist(model);
     }
 
     setCustomerList(response: any): void {

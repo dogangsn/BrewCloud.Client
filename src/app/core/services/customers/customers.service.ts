@@ -12,8 +12,8 @@ import { Observable } from "rxjs";
 export class CustomerService {
     constructor(private _httpService: HttpService) { }
 
-    getcustomerlist() : Observable<any>{    
-        return this._httpService.getRequest(endPoints.customers.customerslist);
+    getcustomerlist(model: any) : Observable<any>{    
+        return this._httpService.post(endPoints.customers.customerslist, model);
     }
 
     createCustomers(model: any): Observable<any> {
@@ -114,4 +114,9 @@ export class CustomerService {
     updateCustomerArchive(model: any): Observable<any> {
         return this._httpService.post(endPoints.customers.updateCustomerArchive, model);
     }
+
+    getFarmCustomersList() : Observable<any> {
+        return this._httpService.getRequest(endPoints.customers.getFarmCustomersList);
+    }
+
 }

@@ -57,6 +57,8 @@ import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecoll
 import { MatCardModule } from '@angular/material/card';
 import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccine/createvaccine.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CustomersArchiveListComponent } from './customerarchivelist/customerarchivelist.component';
+import { FarmCustomersComponent } from './farmcustomerlist/farmcustomerlist.component';
 
 
 
@@ -166,7 +168,9 @@ const root: Route[] = [
         CreateEditSalesComponent,
         CreateEditCustomerpatientsComponent,
         BalacecollectionComponent,
-        CreatevaccineComponent
+        CreatevaccineComponent,
+        CustomersArchiveListComponent,
+        FarmCustomersComponent
         //  DxReportViewerComponent
     ]
 

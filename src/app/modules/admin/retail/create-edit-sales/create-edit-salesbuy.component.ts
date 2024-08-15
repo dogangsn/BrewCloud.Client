@@ -22,18 +22,21 @@ import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
+import { TaxesDto } from '../../definition/taxes/models/taxesDto';
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
     parse: {
-      dateInput: 'DD/MM/YYYY',
+        dateInput: 'DD/MM/YYYY',
     },
     display: {
-      dateInput: 'DD/MM/YYYY',
-      monthYearLabel: 'DDD MMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'DDD MMMM YYYY',
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'DDD MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'DDD MMMM YYYY',
     },
-  };
+};
 @Component({
     selector: 'app-create-edit-salesbuy',
     templateUrl: './create-edit-salesbuy.component.html',
@@ -57,11 +60,17 @@ export class CreateEditSalesBuyComponent implements OnInit {
     productdescription: ProductDescriptionsDto[] = [];
     supplierscards: suppliersListDto[] = [];
     payments: PaymentMethodsDto[] = [];
+    taxisList: TaxesDto[] = [];
 
     visibleCustomer: boolean;
     salebuyType: number;
     isSupplier: boolean;
     buttonDisabled = false;
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
+    unitPrice : number;
+    vatId : string;
+
     constructor(
         private _dialogRef: MatDialogRef<any>,
         private _formBuilder: FormBuilder,
@@ -71,6 +80,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         private _productdescriptionService: ProductDescriptionService,
         private _suppliersService: SuppliersService,
         private _paymentmethodsService: PaymentMethodservice,
+        private _taxisService: TaxisService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.visibleCustomer = data.visibleCustomer;
@@ -78,10 +88,30 @@ export class CreateEditSalesBuyComponent implements OnInit {
         this.selectedsalebuy = data.selectedsalebuy;
         this.isSupplier = data.isSupplier;
     }
-    ngOnInit() {
-        this.getCustomerList();
-        this.getProductList();
-        this.paymentsList();
+
+    ngOnInit() { 
+
+        zip(
+            this.getTaxisList(),
+            this.getProductList(),
+            this.paymentsList(),
+            this.getCustomerList()
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                this.setTaxis(value[0]),
+                this.setProductList(value[1]),
+                this.setPaymentList(value[2]),
+                this.setCustomerList(value[3])
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+                this.fillFormData(this.selectedsalebuy);
+            }
+        });
 
         if (this.isSupplier) {
             this.getSuppliers();
@@ -101,42 +131,58 @@ export class CreateEditSalesBuyComponent implements OnInit {
             amount: [1],
         });
 
-        this.fillFormData(this.selectedsalebuy);
+
     }
 
     fillFormData(selectedSale: SaleBuyListDto) {
-        debugger;
         if (this.selectedsalebuy !== null) {
             this.salebuy.setValue({
                 date: selectedSale.date,
                 invoiceNo: selectedSale.invoiceNo,
-                supplierId: selectedSale.supplierName,
-                productId : selectedSale.customerName,
-                paymentType : selectedSale.paymentName,
-                
+                supplierId: selectedSale.supplierId,
+                productId: selectedSale.productId,
+                paymentType: selectedSale.paymentType,
+                customerId: selectedSale.customerId,
+                remark: selectedSale.remark,
+                amount: selectedSale.amount
             });
         }
     }
-    
 
-    getCustomerList() {
-        this._customerListService.getcustomerlist().subscribe((response) => {
-            this.customerlist = response.data;
-            console.log(this.customerlist);
-        });
+    getCustomerList(): Observable<any> {
+        let model = {
+            IsArchive : false
+        }
+        return this._customerListService.getcustomerlist(model);
     }
 
-    getProductList() {
+    setCustomerList(response: any): void {
+        if (response.data) {
+            this.customerlist = response.data;
+        }
+    }
 
-            const model = {
-                ProductType: 1,
-            };
-            this._productdescriptionService
-                .getProductDescriptionFilters(model)
-                .subscribe((response) => {
-                    this.productdescription = response.data;
-    
-                });
+    getProductList(): Observable<any> {
+        const model = {
+            ProductType: 1,
+        };
+        return this._productdescriptionService.getProductDescriptionFilters(model);
+    }
+
+    setProductList(response: any): void {
+        if (response.data) {
+            this.productdescription = response.data;
+        }
+    }
+
+    getTaxisList(): Observable<any> {
+        return this._taxisService.getTaxisList();
+    }
+
+    setTaxis(response: any): void {
+        if (response.data) {
+            this.taxisList = response.data;
+        }
     }
 
     getSuppliers() {
@@ -146,13 +192,15 @@ export class CreateEditSalesBuyComponent implements OnInit {
         });
     }
 
-    paymentsList() {
-        this._paymentmethodsService
-            .getPaymentMethodsList()
-            .subscribe((response) => {
-                this.payments = response.data;
-                console.log(this.payments);
-            });
+    paymentsList() : Observable<any> {
+        return this._paymentmethodsService
+            .getPaymentMethodsList();
+    }
+
+    setPaymentList(response:any) {
+        if (response.data) {
+            this.payments = response.data;
+        }
     }
 
     closeDialog(): void {
@@ -291,4 +339,13 @@ export class CreateEditSalesBuyComponent implements OnInit {
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    onProductSelectionChange(element: any): void {
+        const selectedProduct = this.productdescription.find(product => product.id === element.value);
+        if (selectedProduct) {
+            this.unitPrice = selectedProduct ? selectedProduct.sellingPrice : null;
+            this.vatId = selectedProduct ? selectedProduct.taxisId : null;
+        }
+    }
+
 }

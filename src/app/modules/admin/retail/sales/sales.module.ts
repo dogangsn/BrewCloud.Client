@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const root: Route[] = [
     {
@@ -78,6 +79,7 @@ const root: Route[] = [
         MatDatepickerModule, 
         MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
         MatSelectFilterModule ,
+        DragDropModule,
         RouterModule.forChild(root)
     ],
     declarations: [

@@ -80,17 +80,17 @@ export class ExaminationlistComponent implements OnInit {
     }
 
     addPanelOpen(): void {
-        const dialog = this._dialog
-            .open(ExaminationAddDialogComponent, {
-                maxWidth: '100vw !important',
-                data: null,
-            })
-            .afterClosed()
-            .subscribe((response) => {
-                if (response.status) {
-                    this.getExaminationList();
-                }
-            });
+        // const dialog = this._dialog
+        //     .open(ExaminationAddDialogComponent, {
+        //         maxWidth: '100vw !important',
+        //         data: null,
+        //     })
+        //     .afterClosed()
+        //     .subscribe((response) => {
+        //         if (response.status) {
+        //             this.getExaminationList();
+        //         }
+        //     });
     }
 
     translate(key: string): any {

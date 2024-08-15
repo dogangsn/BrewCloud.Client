@@ -21,9 +21,10 @@ export class SalesComponent implements OnInit, AfterViewInit {
         'invoiceNo',
         'customerName',
         'paymentName',
+        'productName',
         'netPrice',
         'kdv',
-        'discount',
+        // 'discount',
         'total',
         'actions',
     ];
@@ -124,7 +125,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
         if (selectedSaleBuy) {
             const model = {
                 selectedsalebuy: selectedSaleBuy,
-                visibleCustomer: true,
+                visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true ,
                 salebuyType: 1, //satis
                 isSupplier: false,
             };

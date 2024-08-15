@@ -52,7 +52,8 @@ export const endPoints = {
         getSalesById: 'vet/Accounting/GetSalesById',
         balanceCollection: 'vet/Accounting/CreateBalanceSaleCollection',
         updatePatient: 'vet/Customers/UpdatePatient',
-        updateCustomerArchive: 'vet/Customers/UpdateCustomerArchive'
+        updateCustomerArchive: 'vet/Customers/UpdateCustomerArchive',
+        getFarmCustomersList: 'vet/Customers/GetFarmCustomersList'
     },
     examinations: {
         examinationlist: 'vet/Patient/GetExaminations',
