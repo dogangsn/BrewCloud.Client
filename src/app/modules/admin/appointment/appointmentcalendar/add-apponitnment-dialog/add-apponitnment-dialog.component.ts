@@ -109,6 +109,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
                 this.patientList = data.patinetlist;
             }
         }
+        
         if (data.selectedAppointment != null) {
             this.selectedAppointment = data.selectedAppointment;
             this.selectedCustomerId = data.customerId;
@@ -117,7 +118,11 @@ export class AddApponitnmentDialogComponent implements OnInit {
             if (this.selectedAppointment.appointmentType === 1) {
                 this.selectedVaccineId = data.selectedAppointment.vaccineItems[0].id;
             }
-        } else {
+        }else if(data!==undefined || data!==null)
+        {
+            this.selectedCustomerId = data.customerId;
+        }
+         else {
             this.visibleCustomer = true;
         }
         this.isVaccine = (data.isVaccine === null || data.isVaccine === undefined ? false : data.isVaccine);
