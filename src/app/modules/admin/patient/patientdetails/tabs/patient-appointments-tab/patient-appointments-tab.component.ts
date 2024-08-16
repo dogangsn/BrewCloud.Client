@@ -8,6 +8,9 @@ import { DailyAppointmentListDto } from 'app/modules/admin/appointment/dailyappo
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { CustomerDataService } from 'app/modules/admin/customer/customerdetails/services/customer-data.service';
+import { AddApponitnmentDialogComponent } from 'app/modules/admin/appointment/appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AppointmentDto } from 'app/modules/admin/appointment/appointmentcalendar/models/appointmentDto';
 
 @Component({
   selector: 'app-patient-appointments-tab',
@@ -20,19 +23,24 @@ export class PatientAppointmentsTabComponent implements OnInit {
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
   
+  selAppointment:AppointmentDto;
+  appointmentsData: AppointmentDto[]=[];
   dailyappointment: DailyAppointmentListDto[] = [];
-  dataSource = new MatTableDataSource<DailyAppointmentListDto>(this.dailyappointment);
+  dataSource = new MatTableDataSource<AppointmentDto>(this.appointmentsData);
   loader = true;
   receivedPatientId: string;
+  receivedCustomerId: string;
 
   constructor(
     private _appointmentService: AppointmentService,
     private _translocoService: TranslocoService,
-    private _customerDataService: CustomerDataService
+    private _customerDataService: CustomerDataService,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
     this.receivedPatientId = this._customerDataService.getPatientId();
+    this.receivedCustomerId = this._customerDataService.getCustomerId();
     this.getAppointmentDailyList();
   }
 
@@ -43,9 +51,9 @@ export class PatientAppointmentsTabComponent implements OnInit {
     this._appointmentService
       .getAppointmentListByPatientId(model)
       .subscribe((response) => {
-        this.dailyappointment = response.data;
-        this.dataSource = new MatTableDataSource<DailyAppointmentListDto>(
-          this.dailyappointment
+        this.appointmentsData = response.data;
+        this.dataSource = new MatTableDataSource<AppointmentDto>(
+          this.appointmentsData
         );
         this.dataSource.paginator = this.paginator;
 
@@ -59,27 +67,56 @@ export class PatientAppointmentsTabComponent implements OnInit {
   }
 
   public redirectToUpdate = (id: string) => {
-    // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
-    // if (selectedAppointment) {
-    //     const model = {
-    //         visibleCustomer: false,
-    //         selectedAppointment: selectedAppointment,
-    //         customerId: this.selectedCustomerId
-    //     };
-    //     const dialogRef = this._dialog.open(
-    //         EditAppointmentComponent,
-    //         {
-    //             maxWidth: '100vw !important',
-    //             disableClose: true,
-    //             data: model
-    //         }
-    //     );
-    //     dialogRef.afterClosed().subscribe((response) => {
-    //         if (response.status) {
-    //             this.getAppointmentDailyList();
-    //         }
-    //     });
-    // }
+    this.selAppointment = this.appointmentsData.find((item) => item.id == id);
+    this.selAppointment.customerId = this.receivedCustomerId;
+    this.selAppointment.patientsId = this.receivedPatientId;
+
+    if (this.selAppointment) {
+      const model = {
+        visibleCustomer: true,
+        selectedAppointment: this.selAppointment,
+        customerId: this.selAppointment.customerId
+      };
+      const dialogRef = this._dialog.open(
+        AddApponitnmentDialogComponent,
+        {
+          minWidth: '1000px',
+          disableClose: true,
+          data: model
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAppointmentDailyList();
+        }
+      });
+    }
+
+    // // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    // // if (selectedAppointment) {
+
+    // //     const model = {
+    // //         visibleCustomer: false,
+    // //         selectedAppointment: selectedAppointment,
+    // //         customerId:  selectedAppointment.customerId
+    // //     };
+
+    // //     const dialogRef = this._dialog.open(
+    // //         EditAppointmentComponent,
+    // //         {
+    // //             maxWidth: '100vw !important',
+    // //             disableClose: true,
+    // //             data: model
+    // //         }
+    // //     );
+    // //     dialogRef.afterClosed().subscribe((response) => {
+    // //         if (response.status) {
+    // //             this.getAppointmentDailyList();
+    // //         }
+    // //     });
+    // // }
+
+
   }
 
   public redirectToDelete = (id: string) => {

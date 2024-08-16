@@ -118,7 +118,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             if (this.selectedAppointment.appointmentType === 1) {
                 this.selectedVaccineId = data.selectedAppointment.vaccineItems[0].id;
             }
-        }else if(data!==undefined || data!==null)
+        }else if(data!==undefined && data!==null && data.customerId !== undefined)
         {
             this.selectedCustomerId = data.customerId;
         }
