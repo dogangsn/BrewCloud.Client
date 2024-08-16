@@ -2,9 +2,11 @@
 
 
 <!-- Products list -->
- 
+  <div role="status" class="animate-pulse" *ngIf="loader">
+    <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+  </div>
 <div> 
-<ng-container>
+<ng-container *ngIf="!loader">
     <ng-container *ngIf="(productsList) as products">
         <!-- <ng-container #noProducts> -->
 

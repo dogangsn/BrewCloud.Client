@@ -62,6 +62,8 @@ export class DemandsComponent implements OnInit, OnDestroy,AfterViewInit  {
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
   @ViewChild(MatSort) private _sort: MatSort;
   isLoading: boolean = false;
+  loader=true;
+  items = Array(13);
   CreateDemandCom = CreateDemandProductsCommand;
   constructor(
     private demandProductsService: DemandProductsService,
@@ -122,6 +124,7 @@ export class DemandsComponent implements OnInit, OnDestroy,AfterViewInit  {
       // Unsubscribe from all subscriptions
       this._unsubscribeAll.next(null);
       this._unsubscribeAll.complete();
+      
   }
 
   onTabChange(index: MatTabChangeEvent): void {

@@ -89,6 +89,8 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
     public remmemberselected;
     private quantityAdet;
     seclest : UntypedFormGroup;
+    loader=true;
+    items = Array(13);
 
     constructor(
         private demandProductsService: DemandProductsService,
@@ -198,6 +200,7 @@ export class Demand1Component implements OnInit, OnDestroy,AfterViewInit {
         this.demandProductsService.getDemandProductsList()
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe((response) => {
+            this.loader=false;
             debugger;
             if (response && response.data) {
                 this.productsList = response.data;
