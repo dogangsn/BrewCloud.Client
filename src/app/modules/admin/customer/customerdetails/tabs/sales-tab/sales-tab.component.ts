@@ -222,7 +222,7 @@ export class SalesTabComponent implements OnInit {
             const dialogRef = this._dialog.open(
               SalesDialogComponent,
               {
-                maxWidth: '100vw !important',
+                minWidth: '800px',
                 disableClose: true,
                 data: model
               }
