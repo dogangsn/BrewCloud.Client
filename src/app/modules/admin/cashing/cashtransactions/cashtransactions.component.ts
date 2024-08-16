@@ -68,7 +68,8 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
     isUpdateButtonActive: boolean;
 
     payments: PaymentMethodsDto[] = [];
-
+    action:any;
+    cashtransactionsAct:any;
     destroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
@@ -77,6 +78,21 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         private _formBuilder: FormBuilder,
         private _salebuyservice: SaleBuyService,
     ) {
+
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const cashtransactionAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
+        });
+    
+        if (cashtransactionAct) {
+            this.cashtransactionsAct = cashtransactionAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
+        } else {
+            this.cashtransactionsAct = null;
+        }
 
         this.formGroup = this._formBuilder.group({
             begindate: new FormControl(this.calculateEndDate()), // Bugünün tarihi

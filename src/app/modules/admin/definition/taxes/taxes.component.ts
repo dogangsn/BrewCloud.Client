@@ -24,12 +24,29 @@ export class TaxesComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   taxisList: TaxesDto[] = [];
   dataSource = new MatTableDataSource<TaxesDto>(this.taxisList);
+  action:any;
+  taxesAction:any;
 
   constructor(
     private _dialog: MatDialog,
     private _translocoService: TranslocoService,
     private _taxisService: TaxisService
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'taxes');
+        });
+    
+        if (appointment) {
+            this.taxesAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'taxes');
+        } else {
+            this.taxesAction = null;
+        }
+  }
 
   ngOnInit() {
     this.getTaxisList();

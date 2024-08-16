@@ -27,13 +27,30 @@ export class PatientlistComponent implements OnInit {
     dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
     loader: boolean = true;
     items = Array(13);
+    action:any;
+    patientlistAction:any;
 
     constructor(
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _patientService: PatientListService,
         private router: Router,
-    ) { }
+    ) { 
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const patient = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'patientslist');
+        });
+    
+        if (patient) {
+            this.patientlistAction = patient.roleSettingDetails.find((detail: any) => detail.target === 'patientslist');
+        } else {
+            this.patientlistAction = null;
+        }
+    }
 
     ngOnInit() {
         this.patientOwnerList();

@@ -27,6 +27,8 @@ export class PatientTabComponent implements OnInit {
   patientList: PatientDetailsDto[] = [];
   dataSource = new MatTableDataSource<PatientDetailsDto>(this.patientList);
   loader = true;
+  action:any;
+  patientTabAction:any
 
   constructor(
     private _customerDataService: CustomerDataService,
@@ -34,7 +36,22 @@ export class PatientTabComponent implements OnInit {
     private _translocoService: TranslocoService,
     private router: Router,
     private _dialog: MatDialog,
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const patientAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+        });
+    
+        if (patientAct) {
+            this.patientTabAction = patientAct.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+        } else {
+            this.patientTabAction = null;
+        }
+  }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();

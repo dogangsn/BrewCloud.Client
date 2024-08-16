@@ -29,7 +29,7 @@
           </button> 
           </button> -->
 
-          <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+          <button *ngIf="patientlistAction?.action !== 'Okuma'" class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
               <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
               Yeni Hasta EKle
           </button>
@@ -86,7 +86,7 @@
                             <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                                 <mat-icon class="mat-18">search</mat-icon>
                             </button>
-                            <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                            <button *ngIf="patientlistAction?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                                 <mat-icon class="mat-18">delete</mat-icon>
                             </button>
                         </td>

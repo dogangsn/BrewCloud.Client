@@ -28,6 +28,8 @@ export class AccommodationsTabComponent implements OnInit {
   accommodations: AccomodationListDto[] = [];
   dataSource = new MatTableDataSource<AccomodationListDto>(this.accommodations);
   receivedCustomerId: string;
+  action:any;
+  accomodationsAction:any;
 
   constructor(
     private _customerDataService: CustomerDataService,
@@ -35,7 +37,22 @@ export class AccommodationsTabComponent implements OnInit {
     private _accommodationrooms: AccommodationsService,
     private _translocoService: TranslocoService,
     private _dialog: MatDialog,
-  ) { }
+  ) {
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+        this.action = JSON.parse(actions);
+    }
+
+    const customer = this.action.find((item: any) => {
+        return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+    });
+
+    if (customer) {
+        this.accomodationsAction = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+    } else {
+        this.accomodationsAction = null;
+    }
+   }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();

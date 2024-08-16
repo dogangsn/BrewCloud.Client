@@ -29,12 +29,29 @@ export class DailyappointmentComponent implements OnInit {
   dailyappointment: DailyAppointmentListDto[] = [];
   dataSource = new MatTableDataSource<DailyAppointmentListDto>(this.dailyappointment);
   loader = true;
+  action: any;
+  dailyAppointment:any
 
   constructor(
     private _appointmentService: AppointmentService,
     private _translocoService: TranslocoService,
     private _dialog: MatDialog,
-  ) { }
+  ) {
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'dailyappointment');
+        });
+    
+        if (appointment) {
+            this.dailyAppointment = appointment.roleSettingDetails.find((detail: any) => detail.target === 'dailyappointment');
+        } else {
+            this.dailyAppointment = null;
+        }
+   }
 
   ngOnInit() {
     this.getAppointmentDailyList();

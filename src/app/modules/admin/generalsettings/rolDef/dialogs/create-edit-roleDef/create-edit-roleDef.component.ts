@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -22,6 +22,9 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SelectedActionsDto } from '../../models/SelectedActionsDto';
+import { RoleSettingDto } from '../../models/RoleSettingDto';
+import { RoleSettingsDto } from '../../models/RoleSettingWithDetailDto';
+import { UpdateRoleSettingCommand } from '../../models/UpdateRoleSettingCommand';
 
 interface FoodNode {
     title: string;
@@ -45,20 +48,20 @@ interface ExampleFlatNode {
 })
 export class CreateEditRoleDefComponent implements OnInit {
     private _defaultNavigation: any[] = defaultNavigation;
+
     selectedrole: string;
     roles: FormGroup;
     selectedItems: string[] = [];
     selectedItemsTitle: string[] = [];
-
     rolesAction: any[];
-
     loader = true;
     allNodesChecked: boolean = false; 
     selectedNodes: any[] = [];
-
     selectedNodeActions: { [nodeId: string]: string } = {};
     defaultRole: string;
-    
+    isUpdate: boolean;
+    updateRole:any[];
+    selectedRoleDto : RoleSettingsDto;
 
     private _transformer = (node: FoodNode, level: number) => {
         return {
@@ -97,9 +100,13 @@ export class CreateEditRoleDefComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _translocoService: TranslocoService,
         private _rolsSettings : RolsService,
+        private cdr: ChangeDetectorRef,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.dataSource.data = this._defaultNavigation;
+        if (data) {
+            this.isUpdate = true;
+        }
         console.log(defaultNavigation);
 
  
@@ -107,6 +114,11 @@ export class CreateEditRoleDefComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.isUpdate) {
+            this.getRoleDef(this.data.id);
+        } else {
+            this.loader = false;
+        }
 
         this.rolesAction = [
             {
@@ -130,12 +142,26 @@ export class CreateEditRoleDefComponent implements OnInit {
 
         
 
-        this.loader = false;
+        
 
     }
 
+    getRoleDef(id:string): void {
+        const model = {
+            Id:id
+        };
+        this._rolsSettings.getRoleSettingByIdQuery(model).subscribe((response)=>{
+            if (response.isSuccessful) {
+                this.selectedRoleDto = response.data;
+                this.loader = false;
+                this.fillFormData(this.selectedRoleDto);
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
     addOrUpdateRole(): void {
-        this.selectedrole ? this.updateRols() : this.addRols();
+        this.isUpdate ? this.updateRols() : this.addRols();
     }
 
     addRols(): void {
@@ -205,6 +231,45 @@ export class CreateEditRoleDefComponent implements OnInit {
 
     updateRols(): void {
 
+        const rolsItem = new UpdateRoleSettingCommand();
+        rolsItem.rolecode = this.getFormValueByName("rolecode");
+        rolsItem.mainpage = this.getFormValueByName("mainpage");
+        rolsItem.installdevice = true;
+        rolsItem.roleOwnerId = this.selectedRoleDto[0].id;
+        
+    
+        rolsItem.SelectedNavigations = [];
+        rolsItem.SelectedActions=[];
+        this.selectedNodes.forEach((node) => {
+            const selectedNavDto = new SelectedActionsDto(
+              node.id, 
+              this.selectedNodeActions[node.id] || null
+            );
+            rolsItem.SelectedActions.push(selectedNavDto);
+          });
+
+        this.selectedItems.forEach((nav) => {
+            const selectedNavDto  = new SelectedNavigationDto(nav, null);
+            rolsItem.SelectedNavigations.push(selectedNavDto);
+        });
+
+        this._rolsSettings.updateRols(rolsItem).subscribe(
+            (response) => {
+                debugger;
+
+                if (response.isSuccessful) {
+                    this.showSweetAlert('success');
+                    this._dialogRef.close({
+                        status: true,
+                    });
+                } else {
+                    this.showSweetAlert('error');
+                }
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     closeDialog(): void {
@@ -298,5 +363,72 @@ export class CreateEditRoleDefComponent implements OnInit {
         this.selectedNodeActions[nodeId] = action;
       }
 
+      updateTreeView(roleSettingDetails: any[]) {
+        // Reset all nodes
+          // Reset all nodes
+  this.treeControl.dataNodes.forEach(node => {
+    node.checked = false;
+  });
+
+  // Check nodes based on roleSettingDetails
+  roleSettingDetails.forEach(detail => {
+    const node = this.treeControl.dataNodes.find(n => n.id === detail.target);
+    if (node) {
+      node.checked = true;
+      this.selectedNodes.push(node);
+      this.selectedItems.push(node.id);
+      this.selectedItemsTitle.push(node.title);
+
+      // Set action for the node
+      if (detail.action) {
+        this.selectAction(node.id, detail.action);
+      }
+    }
+  });
+
+  // Update parent nodes
+  this.updateParentNodes();
+
+  // Expand all nodes to show the checked state
+  this.treeControl.expandAll();
+
+  // Force change detection
+  this.treeControl.dataNodes = [...this.treeControl.dataNodes];
+    }
+    
+    updateParentNodes() {
+        this.treeControl.dataNodes.forEach(node => {
+            if (node.expandable) {
+                const allChildrenChecked = this.areAllChildrenChecked(node);
+                node.checked = allChildrenChecked;
+            }
+        });
+    }
+    
+    areAllChildrenChecked(node: ExampleFlatNode): boolean {
+        const descendants = this.treeControl.getDescendants(node);
+        return descendants.every(child => child.checked);
+    }
+
+    fillFormData(selectedRoledef: RoleSettingsDto) {
+        if (selectedRoledef) {
+          const roleData = selectedRoledef[0];
+      
+          // Set form values
+          this.roles.patchValue({
+            rolecode: roleData.rolecode,
+            mainpage: roleData.dashboardPath,
+            role: roleData.roleSettingDetails[0]?.role || this.defaultRole
+          });
+      
+          // Update tree view
+          this.updateTreeView(roleData.roleSettingDetails);
+      
+          // Force change detection
+          setTimeout(() => {
+            this.treeControl.dataNodes = [...this.treeControl.dataNodes];
+          });
+        }
+      }
 
 }

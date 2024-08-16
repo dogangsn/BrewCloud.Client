@@ -31,6 +31,8 @@ export class BuyingComponent implements OnInit, AfterViewInit {
     ];
     loader = true;
     items = Array(13);
+    action:any;
+    buyingListAct:any;
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -45,7 +47,22 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _salebuyservice: SaleBuyService,
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const buyingAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
+        });
+    
+        if (buyingAct) {
+            this.buyingListAct = buyingAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
+        } else {
+            this.buyingListAct = null;
+        }
+    }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;

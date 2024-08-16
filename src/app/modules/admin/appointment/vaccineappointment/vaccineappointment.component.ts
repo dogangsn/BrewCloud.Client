@@ -18,6 +18,9 @@ export class VaccineappointmentComponent implements OnInit {
 
   currentDate: Date = new Date();
   loader = true;
+  action : any;
+  vaccineappointmentListAct : any;
+
   constructor(
     private _dialog: MatDialog,
     private _translocoService: TranslocoService,
@@ -25,7 +28,22 @@ export class VaccineappointmentComponent implements OnInit {
     private route: ActivatedRoute,
     private _appointmentService: AppointmentService,
     private _vaccineAppointmentService: VaccineCalendarService
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const vaccineappointmentact = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
+        });
+    
+        if (vaccineappointmentact) {
+            this.vaccineappointmentListAct = vaccineappointmentact.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
+        } else {
+            this.vaccineappointmentListAct = null;
+        }
+  }
 
   ngOnInit() {
     this.getApponitmentList();

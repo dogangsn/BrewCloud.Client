@@ -41,12 +41,29 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
     producttype:number;
+    action :any;
+    vaccinedefinitionsAction :any;
 
     constructor(
         private _dialog: MatDialog,
         private _productdescriptionService: ProductDescriptionService,
         private _translocoService: TranslocoService, 
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccinedefinition');
+        });
+    
+        if (appointment) {
+            this.vaccinedefinitionsAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'vaccinedefinition');
+        } else {
+            this.vaccinedefinitionsAction = null;
+        }
+    }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;

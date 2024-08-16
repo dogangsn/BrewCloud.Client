@@ -34,6 +34,8 @@ export class ExaminationTabComponent implements OnInit {
   receivedCustomerId: string;
   loader = true;
   isUpdateButtonActive: boolean = false;
+  action:any;
+  examinationTabAction:any;
 
   examinationList: ExaminationListDto[] = [];
   dataSource = new MatTableDataSource<ExaminationListDto>(
@@ -45,7 +47,22 @@ export class ExaminationTabComponent implements OnInit {
     private _customerDataService: CustomerDataService,
     private _translocoService: TranslocoService,
     private _dialog: MatDialog,
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const examinationAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+        });
+    
+        if (examinationAct) {
+            this.examinationTabAction = examinationAct.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+        } else {
+            this.examinationTabAction = null;
+        }
+  }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();

@@ -25,12 +25,29 @@ export class UnitComponent implements OnInit {
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
     loader = true;
     items = Array(13);
+    action:any;
+    unitdefinitionsAction:any;
 
     constructor(
         private _dialog: MatDialog,
         private _unitsservice: UnitsService,
         private _translocoService: TranslocoService,
-    ) { }
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'unitdefinition');
+        });
+    
+        if (appointment) {
+            this.unitdefinitionsAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'unitdefinition');
+        } else {
+            this.unitdefinitionsAction = null;
+        }
+     }
 
     ngOnInit() {
         this.UnitsList();

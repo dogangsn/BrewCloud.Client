@@ -40,7 +40,7 @@ export class AppointmentComponent implements OnInit {
     userId: string;
     users: any;
     action: any;
-    appointmentCalendar:any
+    appointmentCalendarAct:any
     destroy$: Subject<boolean> = new Subject<boolean>();
     resourcesData: any[] = [];
 
@@ -59,17 +59,17 @@ export class AppointmentComponent implements OnInit {
             this.action = JSON.parse(actions);
         }
 
-        const appointment = this.action.find((item: any) => {
+        const appointmentAct = this.action.find((item: any) => {
             return item.roleSettingDetails.some((detail: any) => detail.target === 'appointmentcalendar');
         });
     
-        if (appointment) {
-            this.appointmentCalendar = appointment.roleSettingDetails.find((detail: any) => detail.target === 'appointmentcalendar');
+        if (appointmentAct) {
+            this.appointmentCalendarAct = appointmentAct.roleSettingDetails.find((detail: any) => detail.target === 'appointmentcalendar');
         } else {
-            this.appointmentCalendar = null;
+            this.appointmentCalendarAct = null;
         }
         
-        console.log(this.appointmentCalendar);
+        console.log(this.appointmentCalendarAct);
         //this.appointmentsData = appointments;
     }
 

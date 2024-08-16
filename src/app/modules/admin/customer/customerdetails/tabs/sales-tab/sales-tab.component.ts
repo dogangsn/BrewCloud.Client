@@ -32,6 +32,8 @@ export class SalesTabComponent implements OnInit {
   receivedCustomerId: string;
   salesCustomerLis: SalesCustomerListDto[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  action:any;
+  salesActions:any;
 
   salesOwnerByIdList: getSalesOwnerByIdList;
 
@@ -49,6 +51,21 @@ export class SalesTabComponent implements OnInit {
         this.refreshSalesTab();
       }
     });
+
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+        this.action = JSON.parse(actions);
+    }
+
+    const customer = this.action.find((item: any) => {
+        return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+    });
+
+    if (customer) {
+        this.salesActions = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+    } else {
+        this.salesActions = null;
+    }
 
   }
 

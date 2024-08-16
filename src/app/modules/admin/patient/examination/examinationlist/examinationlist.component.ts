@@ -41,6 +41,8 @@ export class ExaminationlistComponent implements OnInit {
         'symptoms',
         'actions',
     ];
+    action:any;
+    examinationListAct:any;
 
     @ViewChild('paginator') paginator: MatPaginator;
     isUpdateButtonActive: boolean = false;
@@ -49,7 +51,22 @@ export class ExaminationlistComponent implements OnInit {
         private _examinationService: ExaminationService,
         private _dialog: MatDialog,
         private _translocoService: TranslocoService
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const examinationact = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'examination');
+        });
+    
+        if (examinationact) {
+            this.examinationListAct = examinationact.roleSettingDetails.find((detail: any) => detail.target === 'examination');
+        } else {
+            this.examinationListAct = null;
+        }
+    }
 
     ngOnInit() {
         this.getExaminationList();

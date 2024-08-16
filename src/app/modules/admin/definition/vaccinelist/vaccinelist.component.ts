@@ -30,6 +30,8 @@ export class VaccinelistComponent implements OnInit {
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
   loader=true;
   items = Array(13);
+  action :any;
+  vaccineListAction :any;
 
   options = [
     { name: 'Köpek', selected: false, type:1 },
@@ -46,6 +48,20 @@ export class VaccinelistComponent implements OnInit {
     private _translocoService: TranslocoService,
   ) {
 
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+        this.action = JSON.parse(actions);
+    }
+
+    const vaccineAct = this.action.find((item: any) => {
+        return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccinelist');
+    });
+
+    if (vaccineAct) {
+        this.vaccineListAction = vaccineAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccinelist');
+    } else {
+        this.vaccineListAction = null;
+    }
   }
 
   ngOnInit() {

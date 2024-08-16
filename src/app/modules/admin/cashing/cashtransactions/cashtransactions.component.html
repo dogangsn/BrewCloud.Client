@@ -23,7 +23,7 @@
             <div class="font-medium tracking-tight text-secondary">Kasa'da yapılan işlemler</div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div *ngIf="cashtransactionsAct?.action !== 'Okuma'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button mat-stroked-button>
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 Kasa Para Girişi Yap
@@ -137,7 +137,7 @@
                         <!-- <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                                 <mat-icon aria-label="Edit">edit</mat-icon>
                             </button> -->
-                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                        <button *ngIf="cashtransactionsAct?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                             <mat-icon class="mat-18">delete</mat-icon>
                         </button>
                     </td>

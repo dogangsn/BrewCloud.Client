@@ -43,7 +43,8 @@ export class CustomersListComponent implements OnInit {
     items = Array(13);
     //archiveData: customersListDto[] = [];
     farmscustomerlist: FarmsListDto[] = [];
-
+    action:any;
+    customerListAct:any;
     @Output() archiveData = new EventEmitter<any>();
 
     constructor(private _customerListService: CustomerService,
@@ -51,7 +52,22 @@ export class CustomersListComponent implements OnInit {
         private _translocoService: TranslocoService,
         private router: Router, private route: ActivatedRoute,
         private customerDetailsService: CustomerDetailsService
-    ) { }
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const customerAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
+        });
+    
+        if (customerAct) {
+            this.customerListAct = customerAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
+        } else {
+            this.customerListAct = null;
+        }
+     }
 
     ngOnInit() {
         this.getCustomerList(false);

@@ -31,11 +31,11 @@
                   [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
               Yeni Tedarikçiden Alış
           </button> -->
-            <button class="ml-3" mat-flat-button (click)="createBuyingOrder()">
+            <button *ngIf="buyingListAct?.action !== 'Okuma'" class="ml-3" mat-flat-button (click)="createBuyingOrder()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Kayıtlı Siparişten Alış
             </button>
-            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="createSupplierSales()">
+            <button *ngIf="buyingListAct?.action !== 'Okuma'" class="ml-3" mat-flat-button [color]="'primary'" (click)="createSupplierSales()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Kayıtlı Tedarikçiden Alış
             </button>
@@ -97,10 +97,10 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> İşlemler </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                        <button *ngIf="buyingListAct?.action !== 'Okuma'" mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                             <mat-icon aria-label="Edit">edit</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                        <button *ngIf="buyingListAct?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                             <mat-icon class="mat-18">delete</mat-icon>
                         </button>
                         <button mat-icon-button color="accent" (click)="redirectToPrint(element.id)">

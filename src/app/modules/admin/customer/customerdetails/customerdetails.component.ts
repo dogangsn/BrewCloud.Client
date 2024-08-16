@@ -58,6 +58,8 @@ export class CustomerDetailsComponent implements OnInit {
     totalMessageCount: number;
 
     loader = true;
+    action :any;
+    customerdetailAction :any;
 
     constructor(
         private route: ActivatedRoute,
@@ -69,7 +71,23 @@ export class CustomerDetailsComponent implements OnInit {
         private _customerDataService: CustomerDataService,
         private _eventService: EventService,
         private _customergroup: CustomerGroupService,
-    ) { }
+    ) { 
+
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const customer = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+        });
+    
+        if (customer) {
+            this.customerdetailAction = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+        } else {
+            this.customerdetailAction = null;
+        }
+    }
 
     ngOnInit() {
 
