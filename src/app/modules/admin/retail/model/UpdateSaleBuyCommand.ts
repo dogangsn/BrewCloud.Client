@@ -1,5 +1,6 @@
 export class UpdateSaleBuyCommand { 
     id: string;
+    ownerId : string;
     customerId: string;
     date: string;
     productId: string;
@@ -9,9 +10,10 @@ export class UpdateSaleBuyCommand {
     invoiceNo: string;
     paymentType: number;
     amount: number;
-
-    constructor(id:string, customerId: string, date: string, productId:string, remark: string, type:number, supplierId:string, invoiceNo:string, paymentType: number, amount: number){
+    demandsGuidId: string;
+    constructor(id:string, ownerId: string, customerId: string, date: string, productId:string, remark: string, type:number, supplierId:string, invoiceNo:string, paymentType: number, amount: number, demandsGuidId: string){
         this.id = id;
+        this.ownerId = ownerId;
         this.customerId = customerId;
         this.date = date;
         this.productId = productId;
@@ -21,5 +23,6 @@ export class UpdateSaleBuyCommand {
         this.invoiceNo = invoiceNo;
         this.paymentType = paymentType;
         this.amount = amount;
+        this.demandsGuidId = demandsGuidId;
     }
 }

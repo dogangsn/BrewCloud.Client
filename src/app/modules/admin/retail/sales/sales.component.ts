@@ -10,6 +10,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
     selector: 'sales',
@@ -22,13 +23,14 @@ export class SalesComponent implements OnInit, AfterViewInit {
         'customerName',
         'paymentName',
         'productName',
+        'amount',
         'netPrice',
         'kdv',
         // 'discount',
         'total',
         'actions',
     ];
-    loader=true;
+    loader = true;
     items = Array(13);
     action:any;
     salintgListAct:any;
@@ -142,7 +144,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
         if (selectedSaleBuy) {
             const model = {
                 selectedsalebuy: selectedSaleBuy,
-                visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true ,
+                visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true,
                 salebuyType: 1, //satis
                 isSupplier: false,
             };
@@ -171,26 +173,33 @@ export class SalesComponent implements OnInit, AfterViewInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const model = {
-                        id: id,
-                    };
-                    this._salebuyservice
-                        .deletedSaleBuy(model)
-                        .subscribe((response) => {
-                            if (response.isSuccessful) {
-                                this.getSaleBuy();
-                                const sweetAlertDto2 = new SweetAlertDto(
-                                    this.translate('sweetalert.success'),
-                                    this.translate(
-                                        'sweetalert.transactionSuccessful'
-                                    ),
-                                    SweetalertType.success
-                                );
-                                GeneralService.sweetAlert(sweetAlertDto2);
-                            } else {
-                                console.error('Silme işlemi başarısız.');
-                            }
-                        });
+
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if(selectedSaleBuy) {
+                        const model = {
+                            id: id,
+                            allSaleDeleted : false,
+                            ownerId: selectedSaleBuy.ownerId,
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+                    }
+                   
                 }
             }
         );
@@ -227,5 +236,59 @@ export class SalesComponent implements OnInit, AfterViewInit {
         return new Date(date).toLocaleString('tr-TR', options);
     }
 
-    public redirectToPrint = (id: string) => {};
+    public redirectToPrint = (id: string) => { };
+
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
+
+    public AllDeleted = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if(selectedSaleBuy) {
+                        const model = {
+                            ownerId: selectedSaleBuy.ownerId,
+                            allSaleDeleted : true
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+
+
+                    }
+
+                 
+                }
+            }
+        );
+    };
 }

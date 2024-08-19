@@ -25,6 +25,8 @@ import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
 import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
 import { FarmsListDto } from '../models/farmsListDto';
+import { CustomersArchiveListComponent } from './customerarchivelist/customerarchivelist.component';
+import { FarmCustomersComponent } from './farmcustomerlist/farmcustomerlist.component';
 
 @Component({
     selector: 'customerslist',
@@ -32,6 +34,9 @@ import { FarmsListDto } from '../models/farmsListDto';
     encapsulation: ViewEncapsulation.None,
 })
 export class CustomersListComponent implements OnInit {
+    @ViewChild('customersArchiveListComponent') customersArchiveListComponent: CustomersArchiveListComponent;
+    @ViewChild('farmCustomersComponent') farmCustomersComponent: FarmCustomersComponent;
+
     displayedColumns: string[] = ['recId', 'firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'balance', 'actions'];
 
     @ViewChild('paginator') paginator: MatPaginator;
@@ -90,8 +95,9 @@ export class CustomersListComponent implements OnInit {
                     }
                 }, 0);
             }
-            else {
+            else { 
                 this.archiveData = response.data;
+                this.customersArchiveListComponent.load(this.archiveData);
             }
 
             this.loader = false;
@@ -386,7 +392,8 @@ export class CustomersListComponent implements OnInit {
 
     getFarmsList() {
         this._customerListService.getFarmCustomersList().subscribe((response) => {
-            this.getFarmsList = response.data;
+            this.farmscustomerlist = response.data;
+            this.farmCustomersComponent.load(this.farmscustomerlist);
         });
     }
 

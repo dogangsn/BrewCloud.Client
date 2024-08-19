@@ -72,7 +72,8 @@
 
               <ng-container matColumnDef="recId">
                 <th mat-header-cell *matHeaderCellDef> Id</th>
-                <td mat-cell *matCellDef="let element" [ngStyle]="{'font-weight': 'bold', 'text-decoration': 'underline'}"> {{element.recId}} </td>
+                <td mat-cell *matCellDef="let element"
+                  [ngStyle]="{'font-weight': 'bold', 'text-decoration': 'underline'}"> {{element.recId}} </td>
               </ng-container>
 
               <!-- Position Column -->
@@ -181,11 +182,11 @@
         </mat-tab>
 
         <mat-tab label="Çiftlikler">
-          <farmcustomerlist [data]="farmData"></farmcustomerlist>
+          <farmcustomerlist #farmCustomersComponent [data]="farmData"></farmcustomerlist>
         </mat-tab>
 
         <mat-tab label="Arşiv">
-          <customersarchivelist  [data]="archiveData"></customersarchivelist>
+          <customersarchivelist #customersArchiveListComponent [data]="archiveData"></customersarchivelist>
         </mat-tab>
 
 

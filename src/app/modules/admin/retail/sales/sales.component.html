@@ -25,6 +25,10 @@
         </div>
         <!-- Actions -->
         <div *ngIf="salintgListAct?.action !== 'Okuma'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button mat-stroked-button (click)="getSaleBuy()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+                Yenile
+              </button>
             <button mat-stroked-button (click)="createsales()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 Parakende Satış
@@ -70,6 +74,11 @@
                     <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>Adet</th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="netPrice">
                     <th mat-header-cell *matHeaderCellDef>Net Tutar</th>
                     <td mat-cell *matCellDef="let element"> {{element.netPrice | number:'1.2-2'}} </td>
@@ -105,13 +114,28 @@
                         <button mat-icon-button color="accent" (click)="redirectToPrint(element.id)">
                             <mat-icon aria-label="Print">print</mat-icon>
                         </button>
+
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="AllDeleted(element.id)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Tüm Satışı Sil</span>
+                            </button>
+                            <button mat-menu-item (click)="logView(element.id)">
+                                <mat-icon>history</mat-icon>
+                                <span>İşlem Geçmişi</span>
+                            </button>
+                        </mat-menu>
                     </td>
+                    
 
                 </ng-container>
 
             </table>
 
-            <mat-paginator *ngIf="!loader" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+            <mat-paginator *ngIf="!loader" [pageSizeOptions]="[5, 10, 20]"   [pageSize]="20" showFirstLastButtons #paginator
                 aria-label="Select page of periodic elements">
             </mat-paginator>
 

@@ -3,28 +3,25 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslocoService } from '@ngneat/transloco';
-import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
-import { GeneralService } from 'app/core/services/general/general.service';
-import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { ActivatedRoute, Router } from '@angular/router';
-import { formatDate } from '@angular/common';
+import { TranslocoService } from '@ngneat/transloco'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { customersListDto } from '../../models/customersListDto';
 import { CustomerDetailsService } from '../service/customerdetailservice';
+import { FarmsListDto } from '../../models/farmsListDto';
 
 @Component({
     selector: 'farmcustomerlist',
     templateUrl: './farmcustomerlist.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class FarmCustomersComponent implements AfterViewInit {
+export class FarmCustomersComponent  {
 
     @Input() farmData: any;
 
-    displayedColumns: string[] = ['recId', 'firstName', 'lastName', 'phoneNumber', 'phoneNumber2', 'eMail', 'note', 'balance', 'actions'];
+    displayedColumns: string[] = ['farmName', 'farmContact', 'farmRelationship', 'actions'];
     @ViewChild('paginator') paginator: MatPaginator;
-    customerlist: customersListDto[] = [];
-    dataSource = new MatTableDataSource<customersListDto>(this.customerlist);
+    customerlist: FarmsListDto[] = [];
+    dataSource = new MatTableDataSource<FarmsListDto>(this.customerlist);
 
 
     constructor(private _customerListService: CustomerService,
@@ -34,16 +31,23 @@ export class FarmCustomersComponent implements AfterViewInit {
         private customerDetailsService: CustomerDetailsService) {
  
     }
-    ngAfterViewInit(): void {
-        this.customerlist = this.farmData;
-        this.dataSource = new MatTableDataSource<customersListDto>(
-            this.customerlist
-        ); 
-    }
+    // ngAfterViewInit(): void {
+    //     this.customerlist = this.farmData;
+    //     this.dataSource = new MatTableDataSource<customersListDto>(
+    //         this.customerlist
+    //     ); 
+    // }
  
-
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    load(data: any): void {
+        debugger
+        this.customerlist = data;
+        this.dataSource = new MatTableDataSource<FarmsListDto>(
+            this.customerlist
+        );
     }
 }
 

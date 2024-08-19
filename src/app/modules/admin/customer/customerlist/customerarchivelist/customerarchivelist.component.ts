@@ -17,7 +17,7 @@ import { CustomerDetailsService } from '../service/customerdetailservice';
     templateUrl: './customerarchivelist.component.html',
     encapsulation: ViewEncapsulation.None,
 })
-export class CustomersArchiveListComponent implements AfterViewInit {
+export class CustomersArchiveListComponent {
 
     @Input() archiveData: any;
 
@@ -32,18 +32,26 @@ export class CustomersArchiveListComponent implements AfterViewInit {
         private _translocoService: TranslocoService,
         private router: Router, private route: ActivatedRoute,
         private customerDetailsService: CustomerDetailsService) {
- 
+
     }
-    ngAfterViewInit(): void {
-        this.customerlist = this.archiveData;
-        this.dataSource = new MatTableDataSource<customersListDto>(
-            this.customerlist
-        ); 
-    }
- 
+    // ngAfterViewInit(): void {
+    //     this.customerlist = this.archiveData;
+    //     this.dataSource = new MatTableDataSource<customersListDto>(
+    //         this.customerlist
+    //     ); 
+    // }
+
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    load(data: any): void {
+        debugger
+        this.customerlist = data;
+        this.dataSource = new MatTableDataSource<customersListDto>(
+            this.customerlist
+        );
     }
 }
 

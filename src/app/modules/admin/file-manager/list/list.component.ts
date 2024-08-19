@@ -63,7 +63,7 @@ export class FileManagerListComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-          // this.getAppointmentTypeList();
+         this.getDocuments();
         }
       });
   }

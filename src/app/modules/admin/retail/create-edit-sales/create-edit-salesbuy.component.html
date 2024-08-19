@@ -136,9 +136,9 @@
                     <div class="w-full items-end mt-3 justify-end">
                         <div class=" justify-end">
                             <div>
-                                <p class="text-end">Ara toplam: {{ 0 | currency:'TRY'}}</p>
-                                <p class="text-end">KDV: {{ 0 | currency:'TRY'}}</p>
-                                <p class="text-end">Toplam: {{ 0 | currency:'TRY'}}</p>
+                                <p class="text-end">Ara toplam: {{ calculateSubtotal()  | currency:'TRY'}}</p>
+                                <p class="text-end">KDV: {{ calculateVat() | currency:'TRY'}}</p>
+                                <p class="text-end">Toplam: {{ calculateTotalAmount() | currency:'TRY'}}</p>
                             </div>
     
                         </div>

@@ -68,8 +68,10 @@ export class CreateEditSalesBuyComponent implements OnInit {
     buttonDisabled = false;
     destroy$: Subject<boolean> = new Subject<boolean>();
 
-    unitPrice : number;
-    vatId : string;
+    unitPrice: number;
+    vatId: string;
+    productId: string;
+    netPrice: number;
 
     constructor(
         private _dialogRef: MatDialogRef<any>,
@@ -89,7 +91,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         this.isSupplier = data.isSupplier;
     }
 
-    ngOnInit() { 
+    ngOnInit() {
 
         zip(
             this.getTaxisList(),
@@ -101,9 +103,9 @@ export class CreateEditSalesBuyComponent implements OnInit {
         ).subscribe({
             next: (value) => {
                 this.setTaxis(value[0]),
-                this.setProductList(value[1]),
-                this.setPaymentList(value[2]),
-                this.setCustomerList(value[3])
+                    this.setProductList(value[1]),
+                    this.setPaymentList(value[2]),
+                    this.setCustomerList(value[3])
             },
             error: (e) => {
                 console.log(e);
@@ -146,12 +148,21 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 remark: selectedSale.remark,
                 amount: selectedSale.amount
             });
+
+
+            const selectedProduct = this.productdescription.find(product => product.id === selectedSale.productId);
+            if (selectedProduct) {
+                this.productId = selectedProduct ? selectedProduct.id : null;
+                this.unitPrice = selectedProduct ? selectedProduct.sellingPrice : null;
+                this.vatId = selectedProduct ? selectedProduct.taxisId : null;
+            }
+
         }
     }
 
     getCustomerList(): Observable<any> {
         let model = {
-            IsArchive : false
+            IsArchive: false
         }
         return this._customerListService.getcustomerlist(model);
     }
@@ -192,12 +203,12 @@ export class CreateEditSalesBuyComponent implements OnInit {
         });
     }
 
-    paymentsList() : Observable<any> {
+    paymentsList(): Observable<any> {
         return this._paymentmethodsService
             .getPaymentMethodsList();
     }
 
-    setPaymentList(response:any) {
+    setPaymentList(response: any) {
         if (response.data) {
             this.payments = response.data;
         }
@@ -283,6 +294,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
 
             const saleBuyItem = new UpdateSaleBuyCommand(
                 this.selectedsalebuy.id,
+                this.selectedsalebuy.ownerId,
                 this.getFormValueByName('customerId'),
                 this.getFormValueByName('date'),
                 this.getFormValueByName('productId'),
@@ -291,7 +303,8 @@ export class CreateEditSalesBuyComponent implements OnInit {
                 this.getFormValueByName('supplierId'),
                 this.getFormValueByName('invoiceNo'),
                 this.getFormValueByName('paymentType'),
-                this.getFormValueByName('amount')
+                this.getFormValueByName('amount'),
+                '00000000-0000-0000-0000-000000000000'
             );
 
             this._salebuyservice.updateSaleBuy(saleBuyItem).subscribe(
@@ -343,9 +356,68 @@ export class CreateEditSalesBuyComponent implements OnInit {
     onProductSelectionChange(element: any): void {
         const selectedProduct = this.productdescription.find(product => product.id === element.value);
         if (selectedProduct) {
+            this.productId = selectedProduct ? selectedProduct.id : null;
             this.unitPrice = selectedProduct ? selectedProduct.sellingPrice : null;
             this.vatId = selectedProduct ? selectedProduct.taxisId : null;
+
         }
+    }
+
+    calculateTotal(): number {
+        const quantity = parseFloat(this.getFormValueByName('amount'));
+        let totalPrice = quantity * this.unitPrice;
+        let calcvat = 0;
+        if (this.productId !== undefined && this.productId.length > 0) {
+            const price = quantity * this.unitPrice;
+            const vatRate = this.taxisList.find(x => x.id === this.vatId).taxRatio;
+            const inculeKDV = this.productdescription.find(x => x.id === this.productId).sellingIncludeKDV;
+            if (price > 0 && vatRate > 0) {
+                if (inculeKDV) {
+                    let basePrice = price / (1 + (vatRate / 100))
+                    calcvat = price - basePrice;
+                    totalPrice = totalPrice - calcvat;
+                } else {
+                    calcvat = (price * vatRate) / 100
+                    totalPrice = totalPrice;
+                }
+            }
+        }
+        return totalPrice;
+    }
+
+    calculateSubtotal(): number {
+        let acc = 0;
+        if (this.productId !== undefined && this.productId.length > 0) {
+            if (this.unitPrice > 0) {
+                const quantity = parseFloat(this.getFormValueByName('amount'));
+                acc = quantity * this.calculateTotal();
+            }
+        }
+        return acc;
+    }
+
+    calculateVat(): number {
+        let calcvat = 0;
+        if (this.productId !== undefined && this.productId.length > 0) {
+            const quantity = parseFloat(this.getFormValueByName('amount'));
+            const price = quantity * this.unitPrice;
+            const vatRate = this.taxisList.find(x => x.id === this.vatId).taxRatio;
+            const includeKDV = this.productdescription.find(x => x.id === this.productId).sellingIncludeKDV;
+
+            if (price > 0 && vatRate > 0) {
+                if (includeKDV) {
+                    const basePrice = price / (1 + (vatRate / 100));
+                    calcvat = price - basePrice;
+                } else {
+                    calcvat = (price * vatRate) / 100;
+                }
+            }
+        }
+        return calcvat;
+    }
+
+    calculateTotalAmount(): number {
+        return this.calculateSubtotal() + this.calculateVat();
     }
 
 }

@@ -10,6 +10,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 
 @Component({
@@ -22,10 +23,12 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         'date',
         'invoiceNo',
         'supplierName',
-        'payment',
+        'payment', 
+        'productName',
+        'amount',
         'netPrice',
         'kdv',
-        'discount',
+        // 'discount',
         'total',
         'actions',
     ];
@@ -72,10 +75,10 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         this.getSaleBuy();
     }
 
-    getSaleBuy() : void {
+    getSaleBuy(): void {
 
         const model = {
-            type : 2
+            type: 2
         };
         this._salebuyservice.getBuySaleList(model).subscribe((response) => {
             this.salebuyList = response.data;
@@ -192,24 +195,33 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const model = {
-                        id: id,
-                    };
-                    this._salebuyservice
-                        .deletedSaleBuy(model)
-                        .subscribe((response) => {
-                            if (response.isSuccessful) {
-                                this.getSaleBuy();
-                                const sweetAlertDto2 = new SweetAlertDto(
-                                    this.translate('sweetalert.success'),
-                                    this.translate('sweetalert.transactionSuccessful'),
-                                    SweetalertType.success
-                                );
-                                GeneralService.sweetAlert(sweetAlertDto2);
-                            } else {
-                                console.error('Silme işlemi başarısız.');
-                            }
-                        });
+
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if (selectedSaleBuy) {
+                        const model = {
+                            id: id,
+                            allSaleDeleted: false,
+                            ownerId: selectedSaleBuy.ownerId,
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+                    }
+
                 }
             }
         );
@@ -245,5 +257,59 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         };
         return new Date(date).toLocaleString('tr-TR', options);
     }
+
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
+
+    public AllDeleted = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if (selectedSaleBuy) {
+                        const model = {
+                            ownerId: selectedSaleBuy.ownerId,
+                            allSaleDeleted: true
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+
+
+                    }
+
+
+                }
+            }
+        );
+    };
 
 }
