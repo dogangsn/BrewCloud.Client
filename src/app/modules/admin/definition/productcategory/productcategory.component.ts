@@ -70,7 +70,7 @@ export class ProductcategoryComponent implements OnInit {
     }
 
     public redirectToUpdate = (id: string) => {
-
+debugger
         this.isUpdateButtonActive = true;
         const selectedStore = this.productcategories.find((productcat) => productcat.id === id);
         if (selectedStore) {
