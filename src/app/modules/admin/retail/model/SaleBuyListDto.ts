@@ -10,6 +10,7 @@ export class SaleBuyListDto {
     total: number;
     discount: number;
     netPrice: number;
+    price: number;
     kdv: number;
     customerId: string;
     supplierId: string;

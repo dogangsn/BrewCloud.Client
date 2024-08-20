@@ -103,6 +103,16 @@
                     <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="customerName">
+                    <th mat-header-cell *matHeaderCellDef>Müşteri</th>
+                    <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="productName">
+                    <th mat-header-cell *matHeaderCellDef>Ürün/Adet</th>
+                    <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="payment">
                     <th mat-header-cell *matHeaderCellDef> Ödeme Yöntemi </th>
                     <td mat-cell *matCellDef="let element"> {{element.paymentName}} </td>

@@ -23,7 +23,7 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         'date',
         'invoiceNo',
         'supplierName',
-        'payment', 
+        'payment',
         'productName',
         'amount',
         'netPrice',
@@ -34,8 +34,8 @@ export class BuyingComponent implements OnInit, AfterViewInit {
     ];
     loader = true;
     items = Array(13);
-    action:any;
-    buyingListAct:any;
+    action: any;
+    buyingListAct: any;
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -59,7 +59,7 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         const buyingAct = this.action.find((item: any) => {
             return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
         });
-    
+
         if (buyingAct) {
             this.buyingListAct = buyingAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
         } else {
@@ -167,23 +167,28 @@ export class BuyingComponent implements OnInit, AfterViewInit {
 
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
-        // const selectedStore = this.storeList.find((store) => store.id === id);
-        // if (selectedStore) {
-        //     const dialogRef = this._dialog.open(
-        //         CreateEditStoreDialogComponent,
-        //         {
-        //             maxWidth: '100vw !important',
-        //             disableClose: true,
-        //             data: selectedStore
-        //         }
-        //     );
-
-        //     dialogRef.afterClosed().subscribe((response) => {
-        //         if (response.status) {
-        //             this.getStoreList();
-        //         }
-        //     });
-        // }
+        const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+        if (selectedSaleBuy) {
+            const model = {
+                selectedsalebuy: selectedSaleBuy,
+                visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true,
+                salebuyType: 2, 
+                isSupplier: false,
+            };
+            const dialogRef = this._dialog.open(
+                CreateEditSalesBuyComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getSaleBuy();
+                }
+            });
+        }
     };
 
     public redirectToDelete = (id: string) => {

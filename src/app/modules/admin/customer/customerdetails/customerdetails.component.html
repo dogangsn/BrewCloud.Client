@@ -27,12 +27,13 @@
         </div>
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                . . .
+                {{this.recid}}
             </h2>
         </div>
     </div>
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-        <div *ngIf="customerdetailAction?.action !== 'Okuma'" class="flex flex-wrap gap-2 shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div *ngIf="customerdetailAction?.action !== 'Okuma'"
+            class="flex flex-wrap gap-2 shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <button mat-flat-button [color]="'primary'" (click)="openSaleCustomers()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 &nbsp;Satış
@@ -323,8 +324,14 @@
                             <div class="col-6 col-md-12" *ngFor="let patient of patientDetails">
                                 <fuse-card class="flex flex-col  w-full p-6 pb-4 filter-article">
                                     <div class="flex items-center">
-                                        <img *ngIf="patient.animalType==1" src="../../../../../assets/images/illustrasyonlar/kopkeillustra.jpg" alt="Kedi Illustration" class="w-20 h-20 rounded-full my-auto mx-auto min-w-20">
-                                        <img *ngIf="patient.animalType==2" src="../../../../../assets/images/illustrasyonlar/kediillustra.jpg" alt="Kedi Illustration" class="w-20 h-20 rounded-full my-auto mx-auto min-w-20">
+                                        <img *ngIf="patient.animalType==1"
+                                            src="../../../../../assets/images/illustrasyonlar/kopkeillustra.jpg"
+                                            alt="Kedi Illustration"
+                                            class="w-20 h-20 rounded-full my-auto mx-auto min-w-20">
+                                        <img *ngIf="patient.animalType==2"
+                                            src="../../../../../assets/images/illustrasyonlar/kediillustra.jpg"
+                                            alt="Kedi Illustration"
+                                            class="w-20 h-20 rounded-full my-auto mx-auto min-w-20">
                                         <div class="flex flex-col ml-6">
                                             <div class="text-2xl font-semibold leading-tight">Hasta Adı</div>
                                             <div class="text-secondary font-medium text-md">{{patient.name}}</div>

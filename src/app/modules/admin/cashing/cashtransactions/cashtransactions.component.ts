@@ -52,6 +52,8 @@ export class CashtransactionsComponent implements OnInit, AfterViewInit {
         'type',
         'invoiceNo',
         'supplierName',
+        'customerName',
+        'productName',
         'payment',
         'netPrice',
         'kdv',

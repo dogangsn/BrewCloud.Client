@@ -69,7 +69,7 @@ export class SalesDialogComponent implements OnInit {
   selectedCustomerId: any;
   stockcontrolmessage: string;
   discountedTotalAmount: number = 0;
-  
+
   constructor(
     private _formBuilder: FormBuilder,
     private _dialogRef: MatDialogRef<any>,
@@ -253,6 +253,7 @@ export class SalesDialogComponent implements OnInit {
   setProductList(response: any): void {
     if (response.data) {
       this.products = response.data;
+      this.products = this.products.filter(x => x.active === true);
     }
   }
 
@@ -305,17 +306,16 @@ export class SalesDialogComponent implements OnInit {
             this.translate('sweetalert.areYouSure'),
             this.stockcontrolmessage,
             SweetalertType.warning
-        );
-        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+          );
+          GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
-                if (swalResponse.isConfirmed)
-                {
-                  this.addNoControlSale(isCollection);
-                }else {
-                  this.buttonDisabled = false;
-                }
+              if (swalResponse.isConfirmed) {
+                this.addNoControlSale(isCollection);
+              } else {
+                this.buttonDisabled = false;
               }
-            )
+            }
+          )
         } else {
           this.addNoControlSale(isCollection);
         }
@@ -410,7 +410,8 @@ export class SalesDialogComponent implements OnInit {
                 .afterClosed()
                 .subscribe((response) => {
                   if (response.status) {
-                    this.eventService.dialogClosed.emit(true);                  }
+                    this.eventService.dialogClosed.emit(true);
+                  }
                 });
             }
           } else {
@@ -428,14 +429,14 @@ export class SalesDialogComponent implements OnInit {
     this.salesAdded.emit();
   }
 
-  
+
   applyDiscount() {
     const subtotal = this.calculateSubtotal();
     const vat = this.calculateVat();
     const totalAmount = subtotal + vat;
     const discountAmount = totalAmount * 0.25;
-    this.discountedTotalAmount =  discountAmount;
-}
+    this.discountedTotalAmount = discountAmount;
+  }
 
 
 }

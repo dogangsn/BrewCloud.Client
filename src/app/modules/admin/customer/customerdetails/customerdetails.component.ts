@@ -60,6 +60,7 @@ export class CustomerDetailsComponent implements OnInit {
     loader = true;
     action :any;
     customerdetailAction :any;
+    recid:string;
 
     constructor(
         private route: ActivatedRoute,
@@ -201,6 +202,7 @@ export class CustomerDetailsComponent implements OnInit {
                 this.lastname = this.customerDetail.lastname;
                 this.phonenumber = this.customerDetail.phonenumber;
                 this.email = this.customerDetail.email;
+                this.recid = this.customerDetail.recid;
                 this.totalSaleBuyCount = response.data.totalData.totalSaleBuyCount;
                 this.totalVisitCount = response.data.totalData.totalVisitCount;
                 this.totalEarnings = response.data.totalData.totalEarnings;

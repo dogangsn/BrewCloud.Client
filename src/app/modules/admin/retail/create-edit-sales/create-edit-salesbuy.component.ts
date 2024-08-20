@@ -183,6 +183,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
     setProductList(response: any): void {
         if (response.data) {
             this.productdescription = response.data;
+            this.productdescription = this.productdescription.filter(x=>x.active === true);
         }
     }
 

@@ -17,9 +17,19 @@
 <div class="modalForm">
     <mat-dialog-content>
         <div class="modal-header">
-            <h5 class="modal-title">
+            <!-- <h5 class="modal-title">
                 <span *ngIf="selectedsalebuy">Satış Güncelle</span>
                 <span *ngIf="!selectedsalebuy">Satış Ekle</span>
+            </h5> -->
+            <h5 class="modal-title">
+                <span *ngIf="salebuyType === 1">
+                    <span *ngIf="selectedsalebuy">Satış Güncelle</span>
+                    <span *ngIf="!selectedsalebuy">Satış Ekle</span>
+                </span>
+                <span *ngIf="salebuyType === 2">
+                    <span *ngIf="selectedsalebuy">Alış Güncelle</span>
+                    <span *ngIf="!selectedsalebuy">Alış Ekle</span>
+                </span>
             </h5>
         </div>
 
