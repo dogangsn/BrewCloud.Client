@@ -60,7 +60,7 @@ export class VaccineAppointmentDoneComponent implements OnInit, OnDestroy {
           this.setVaccineAppointment(value[0]);
         },
         complete: () => {
-          this.loader = false;
+          // this.loader = false;
           this._changeDetectorRef.detectChanges();
         },
         error: (e) => {
@@ -231,5 +231,6 @@ export class VaccineAppointmentDoneComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.complete();
     this.removeFixedPositionRule();
+    
   }
 }
