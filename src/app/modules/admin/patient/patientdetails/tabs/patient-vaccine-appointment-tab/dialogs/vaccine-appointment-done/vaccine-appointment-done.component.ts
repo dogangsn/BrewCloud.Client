@@ -22,14 +22,14 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './vaccine-appointment-done.component.html',
   styleUrls: ['./vaccine-appointment-done.component.css']
 })
-export class VaccineAppointmentDoneComponent implements OnInit {
+export class VaccineAppointmentDoneComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   vaccineAppointmentForm: FormGroup;
   vaccineAppointment: CreateVaccineListDto;
   createVaccineExamination: CreateVetVaccineCalendarDto;
   patient: PatientDetailsDto;
   customer: CustomerDetailDto;
-  vaccine: VaccineListDto;
+  vaccine: VaccineListDto[];
   stylesheet = document.styleSheets[0];
   loader = true;
 
@@ -40,23 +40,18 @@ export class VaccineAppointmentDoneComponent implements OnInit {
     private _patientService: PatientListService,
     private _vaccineCalendarService: VaccineCalendarService,
     private _customerService: CustomerService,
-    private _vaccineService: VaccineService,
+    private _vaccineService: VaccineService,    
     private _translocoService: TranslocoService,
+    private _changeDetectorRef: ChangeDetectorRef
   ) {
     this.vaccineAppointment = data;
   }
 
   ngOnInit() {
-
     (this.stylesheet as CSSStyleSheet).insertRule('body.light, body .light { position: fixed;}', 0);
 
-    this.vaccineAppointmentForm = this._formBuilder.group({
-      patientName: [''],
-      vaccineName: [''],
-      vaccineDate: [''],
-      doneDate: [''],
-      nextVaccinationDate: [''],
-    });
+    this.initForm();
+    this.setupFormListeners();
 
     zip(this.getVaccineAppointment())
       .pipe(takeUntil(this.destroy$))
@@ -64,15 +59,41 @@ export class VaccineAppointmentDoneComponent implements OnInit {
         next: (value) => {
           this.setVaccineAppointment(value[0]);
         },
-        complete() {
+        complete: () => {
           this.loader = false;
+          this._changeDetectorRef.detectChanges();
         },
         error: (e) => {
           console.log(e);
+          this.loader = false;
+          this._changeDetectorRef.detectChanges();
         },
       });
   }
 
+  initForm() {
+    this.vaccineAppointmentForm = this._formBuilder.group({
+      patientName: [''],
+      vaccineName: [''],
+      vaccineDate: [''],
+      doneDate: [''],
+      createNextAppointment: [true],
+      nextVaccinationDate: [{ value: '', disabled: false }],
+    });
+  }
+
+  setupFormListeners() {
+    this.vaccineAppointmentForm.get('createNextAppointment').valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => {
+        if (value) {
+          this.vaccineAppointmentForm.get('nextVaccinationDate').enable();
+        } else {
+          this.vaccineAppointmentForm.get('nextVaccinationDate').disable();
+        }
+        this._changeDetectorRef.detectChanges();
+      });
+  }
 
   getVaccineAppointment(): Observable<any> {
     const model = {
@@ -96,6 +117,7 @@ export class VaccineAppointmentDoneComponent implements OnInit {
     };
     this._patientService.getPatientFindById(model).subscribe((response) => {
       this.patient = response.data;
+      this._changeDetectorRef.detectChanges();
     });
   }
 
@@ -115,34 +137,32 @@ export class VaccineAppointmentDoneComponent implements OnInit {
     };
     this._vaccineService.getVaccineList(model).subscribe((response) => {
       this.vaccine = response.data;
+      this._changeDetectorRef.detectChanges();
     });
   }
 
   closeDialog(): void {
     this._dialogRef.close({ status: null });
-    for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
-      if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
-          (this.stylesheet as CSSStyleSheet).deleteRule(index);
-      }
-  }
+    this.removeFixedPositionRule();
   }
 
   fillFormData() {
-
     const nextVaccinationDate = new Date();
-    if (this.vaccine[0].timeDone>0) {
+    if (this.vaccine && this.vaccine.length > 0 && this.vaccine[0].timeDone > 0) {
       nextVaccinationDate.setDate(nextVaccinationDate.getDate() + this.vaccine[0].timeDone);
     }
 
-    this.vaccineAppointmentForm.setValue({
+    this.vaccineAppointmentForm.patchValue({
       patientName: this.patient.name,
       vaccineName: this.vaccineAppointment.vaccineName,
       vaccineDate: this.vaccineAppointment.vaccineDate,
       doneDate: new Date(),
+      createNextAppointment: true,
       nextVaccinationDate: nextVaccinationDate
     });
 
     this.loader = false;
+    this._changeDetectorRef.detectChanges();
   }
 
   getFormValueByName(formName: string): any {
@@ -150,12 +170,12 @@ export class VaccineAppointmentDoneComponent implements OnInit {
   }
 
   saveVaccineAppointment() {
-
     const model = {
       Id: this.vaccineAppointment.id,
       VaccinationDate: this.getFormValueByName('vaccineDate'),
-      NextVaccinationDate: this.getFormValueByName('nextVaccinationDate')
-    }
+      NextVaccinationDate: this.getFormValueByName('createNextAppointment') ? this.getFormValueByName('nextVaccinationDate') : null,
+      CreateNextAppointment: this.getFormValueByName('createNextAppointment') 
+    };
 
     this._vaccineCalendarService.updateVaccineExamination(model).subscribe(
       (response) => {
@@ -164,21 +184,18 @@ export class VaccineAppointmentDoneComponent implements OnInit {
           this._dialogRef.close({
             status: true,
           });
-          for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
-            if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
-                (this.stylesheet as CSSStyleSheet).deleteRule(index);
-            }
-        }
+          this.removeFixedPositionRule();
         } else {
           this.showSweetAlert('error');
         }
       },
       (err) => {
         console.log(err);
+        this.showSweetAlert('error');
       }
     );
-
   }
+
   showSweetAlert(type: string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
@@ -196,10 +213,23 @@ export class VaccineAppointmentDoneComponent implements OnInit {
       GeneralService.sweetAlert(sweetAlertDto);
     }
   }
+
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
 
-  
+  removeFixedPositionRule() {
+    for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+      if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+        (this.stylesheet as CSSStyleSheet).deleteRule(index);
+        break;
+      }
+    }
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+    this.removeFixedPositionRule();
+  }
 }
