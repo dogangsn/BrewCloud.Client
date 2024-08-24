@@ -6,15 +6,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { FileManagerService } from 'app/core/services/file-manager/file-manager.service';
 import { Items, Item } from '../models/file-manager.types';
 import { FileUploadDialogComponent } from '../file-upload-dialog/file-upload-dialog.component';
+import { RefreshService } from '../services/RefreshService';
 
 
 @Component({
-    selector       : 'file-manager-list',
-    templateUrl    : './list.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'file-manager-list',
+  templateUrl: './list.component.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileManagerListComponent implements OnInit {
+
+
 
   drawerMode: 'side' | 'over';
   @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
@@ -31,10 +34,15 @@ export class FileManagerListComponent implements OnInit {
     private _router: Router,
     private _dialog: MatDialog,
     private _fileManagerService: FileManagerService,
+    private refreshService: RefreshService
   ) { }
 
   ngOnInit() {
     this.getDocuments();
+
+    this.refreshService.refreshList$.subscribe(() => {
+      this.getDocuments();
+    });
   }
 
   getDocuments() {
@@ -63,7 +71,7 @@ export class FileManagerListComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-         this.getDocuments();
+          this.getDocuments();
         }
       });
   }

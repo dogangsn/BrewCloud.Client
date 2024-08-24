@@ -390,8 +390,7 @@ export class CreateEditSalesBuyComponent implements OnInit {
         let acc = 0;
         if (this.productId !== undefined && this.productId.length > 0) {
             if (this.unitPrice > 0) {
-                const quantity = parseFloat(this.getFormValueByName('amount'));
-                acc = quantity * this.calculateTotal();
+                acc = this.calculateTotal();
             }
         }
         return acc;

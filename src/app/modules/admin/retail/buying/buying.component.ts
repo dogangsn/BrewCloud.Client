@@ -173,7 +173,7 @@ export class BuyingComponent implements OnInit, AfterViewInit {
                 selectedsalebuy: selectedSaleBuy,
                 visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true,
                 salebuyType: 2, 
-                isSupplier: false,
+                isSupplier: true,
             };
             const dialogRef = this._dialog.open(
                 CreateEditSalesBuyComponent,

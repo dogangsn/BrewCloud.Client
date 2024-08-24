@@ -277,7 +277,8 @@ export const endPoints = {
         createFileManager: 'vet/FileManager/CreateFileManager',
         deleteFileManager: 'vet/FileManager/DeleteFileManager',
         updateFileManager: '',
-        getItemById: 'vet/FileManager/GetFileManagerForById'
+        getItemById: 'vet/FileManager/GetFileManagerForById',
+        downloadFileManager: 'vet/FileManager/DownloadFileManager'
     },
     printtemplate: {
         getPrintTemplateList: 'vet/Definition/GetPrintTemplateList',

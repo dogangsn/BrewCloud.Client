@@ -51,4 +51,8 @@ export class FileManagerService {
             );
     }
 
+    downloadFileManager(model: any) : Observable<any> {
+        return this._httpService.post(endPoints.filemanager.downloadFileManager, model);
+    }
+
 }

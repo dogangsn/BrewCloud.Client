@@ -142,7 +142,19 @@
             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
               <mat-icon>more_vert</mat-icon>
             </button>
-            <mat-menu *ngIf="examinationListAct?.action !== 'Okuma'" #menu="matMenu">
+            <mat-menu #menu="matMenu">
+
+              <button mat-menu-item *ngIf="examinationListAct?.action !== 'Okuma'" [matMenuTriggerFor]="vertebrates" >
+                <mat-icon>refresh</mat-icon>
+                <span>Durumu Değiştir</span>
+              </button>
+              <button mat-menu-item *ngIf="examinationListAct?.action !== 'Okuma'" (click)="logView(element.id)">
+                <mat-icon>history</mat-icon>
+                <span>İşlem Geçmişi</span>
+              </button>
+             
+            </mat-menu>
+            <mat-menu #vertebrates="matMenu">
               <button mat-menu-item (click)="redirectToUpdateStatus(element.id,'Aktif')">
                 <mat-icon class="!text-green-600">circle</mat-icon>
                 <span>Aktif</span>
@@ -156,6 +168,7 @@
                 <span>Tamamlandı</span>
               </button>
             </mat-menu>
+
           </td>
         </ng-container>
 

@@ -132,7 +132,8 @@
                                                             class="absolute left-0 bottom-0 px-1.5 rounded text-sm font-semibold leading-5 text-white"
                                                             [class.bg-red-600]="file.type === 'PDF'"
                                                             [class.bg-blue-600]="file.type === 'DOC'"
-                                                            [class.bg-green-600]="file.type === 'XLS'"
+                                                            [class.bg-green-600]="file.type === 'XLS'" 
+                                                            [class.bg-green-600]="file.type === 'xls'"
                                                             [class.bg-gray-600]="file.type === 'TXT'"
                                                             [class.bg-amber-600]="file.type === 'JPG'">
                                                             {{file.type.toUpperCase()}}

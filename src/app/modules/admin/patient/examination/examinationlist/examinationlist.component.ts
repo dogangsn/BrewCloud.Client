@@ -14,6 +14,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { ExaminationListDto } from '../model/ExaminationListDto';
 import { ExaminationDto } from '../model/ExaminationDto';
+import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
 
 
 @Component({
@@ -251,4 +252,16 @@ export class ExaminationlistComponent implements OnInit {
       applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+          LogViewComponent,
+          {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+          }
+        );
+    
+      }
 }
