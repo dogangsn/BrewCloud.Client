@@ -19,4 +19,5 @@ export class SaleBuyListDto {
     productId: string;
     productName : string;
     paymentType: number;
+    isPaymentCollected: boolean;
 }

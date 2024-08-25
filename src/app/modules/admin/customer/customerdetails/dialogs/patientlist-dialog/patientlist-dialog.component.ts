@@ -101,13 +101,20 @@ export class PatientlistDialogComponent implements OnInit {
     if (response.data) {
       this.patientList = response.data;
     }
+
     this.dataSource = new MatTableDataSource<PatientDetails>(
       this.patientList
     );
-    this.dataSource.paginator = this.paginator;
 
+    setTimeout(() => {
+      if (this.dataSource) {
+        this.dataSource.paginator = this.paginator;
+      }
+    }, 0);
+ 
     this.loader = false;
   }
+
   public redirectToUpdate = (id: string) => {
     console.log(id);
     this.router.navigate(['/patientslist/patientdetails/', id]);

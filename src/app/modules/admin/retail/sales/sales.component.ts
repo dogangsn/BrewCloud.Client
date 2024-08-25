@@ -11,6 +11,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { BalacecollectionComponent } from '../../customer/customerdetails/dialogs/balacecollection/balacecollection.component';
 
 @Component({
     selector: 'sales',
@@ -28,6 +29,7 @@ export class SalesComponent implements OnInit, AfterViewInit {
         'kdv',
         // 'discount',
         'total',
+        'isPaymentCollected',
         'actions',
     ];
     loader = true;
@@ -291,4 +293,43 @@ export class SalesComponent implements OnInit, AfterViewInit {
             }
         );
     };
+
+    public openBalanceCollection = (ids: any) => {
+
+        let customerlist: any[] = [];
+        const _sale = this.salebuyList.find(x => x.id === ids);
+        if (_sale) {
+            let customer: Customer = {
+                name: _sale.customerName,
+                id: ids,
+                balance: _sale.total
+            };
+            customerlist.push(customer);
+
+            const model = {
+                customerId: ids,
+                customerlist: customerlist,
+            }
+            const dialog = this._dialog
+                .open(BalacecollectionComponent, {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                    if (response.status) { 
+                        
+                    }
+                });
+        }
+    }
 }
+
+
+interface Customer {
+    name: string;
+    id: number;
+    balance: number;
+}
+

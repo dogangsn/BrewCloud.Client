@@ -59,6 +59,7 @@ import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccin
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CustomersArchiveListComponent } from './customerarchivelist/customerarchivelist.component';
 import { FarmCustomersComponent } from './farmcustomerlist/farmcustomerlist.component';
+import { ExaminationCollectionComponent } from '../customerdetails/dialogs/collection/examination-collection/examination-collection.component';
 
 
 
@@ -170,7 +171,8 @@ const root: Route[] = [
         BalacecollectionComponent,
         CreatevaccineComponent,
         CustomersArchiveListComponent,
-        FarmCustomersComponent
+        FarmCustomersComponent,
+        ExaminationCollectionComponent
         //  DxReportViewerComponent
     ]
 

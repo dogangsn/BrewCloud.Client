@@ -13,6 +13,7 @@ import { ExaminationAddDialogComponent } from 'app/modules/admin/patient/examina
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
+import { ExaminationCollectionComponent } from '../../dialogs/collection/examination-collection/examination-collection.component';
 
 @Component({
   selector: 'app-examination-tab',
@@ -260,6 +261,16 @@ export class ExaminationTabComponent implements OnInit {
 
   }
 
+  public examinationCollectionDetails = (id: string) => {
+    const dialogRef = this._dialog.open(
+      ExaminationCollectionComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { examinationId: id },
+      }
+    );
+  }
 
 
 }

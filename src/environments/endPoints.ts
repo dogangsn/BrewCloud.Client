@@ -65,6 +65,7 @@ export const endPoints = {
         updateExamination: 'vet/Patient/UpdateExamination',
         updateExaminationStatus: 'vet/Patient/UpdateExaminationStatus',
         getExaminationlistByPatient: 'vet/Patient/getExaminationlistByPatientId',
+        getExaminationsBySaleList: 'vet/Patient/GetExaminationsBySaleList'
     },
 
     productdescription: {
