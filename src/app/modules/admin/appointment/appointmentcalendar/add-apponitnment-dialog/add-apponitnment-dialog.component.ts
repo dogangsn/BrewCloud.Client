@@ -477,13 +477,34 @@ export class AddApponitnmentDialogComponent implements OnInit {
     validateControl(): boolean {
 
         debugger;
-        if (this.lastSelectedValue <= this.morning8 || this.lastSelectedValue.getHours() > this.evening8.getHours()) {
-            this.showSweetAlert(
-                'error',
-                'Randevu saatleri uygun değil!'
-            );
-            return true;
+
+        if(this.addVaccineList.length > 0) {
+            let _control = false;
+            this.addVaccineList.forEach(x => {
+                if(x.date <= this.morning8 || x.date.getHours() > this.evening8.getHours()) {
+                    _control = true;
+                }
+            });
+            if(_control) {
+                this.showSweetAlert(
+                    'error',
+                    'Randevu saatleri uygun değil!'
+                );
+                return true;
+            }
+        }else{
+            if (this.lastSelectedValue <= this.morning8 || this.lastSelectedValue.getHours() > this.evening8.getHours()) {
+                this.showSweetAlert(
+                    'error',
+                    'Randevu saatleri uygun değil!'
+                );
+                return true;
+            }
         }
+
+
+
+     
         return false;
     }
 
