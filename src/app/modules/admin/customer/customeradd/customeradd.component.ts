@@ -363,6 +363,8 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
         if (this.fillSelectedInvoice()) {
+            this.saveOpenedPatient();
+            
             const model = {
                 createcustomers: this.customers,
                 IsCreateVaccine: true
