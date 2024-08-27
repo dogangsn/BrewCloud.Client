@@ -20,7 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentService } from 'app/core/services/appointment/appointment.service';
-import * as signalR from '@microsoft/signalR';
+import * as signalR from '@microsoft/signalr';
 import { AppSignalRService } from 'app/core/services/signalR/appSignalRService.service';
 import { UserService } from 'app/core/user/user.service';
 import { UsersService } from 'app/core/services/settings/users/users.service';
