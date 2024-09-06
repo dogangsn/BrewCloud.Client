@@ -97,7 +97,7 @@
                     <mat-label>İlçe</mat-label>
                     <!-- <input matInput [formControlName]="'district'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
-                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province">
+                    <mat-select [formControlName]="'district'" [placeholder]="'İlçe'"  name="district">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let item of district"
                             [value]="item">{{item}}</mat-option>
@@ -120,10 +120,10 @@
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Müşteri Grubu</mat-label>
-                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
+                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" [formControlName]="'customergroup'" name="customergroup">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let customergroup of customergroupList"
-                            [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                            [value]="customergroup.id">{{customergroup.name}}</mat-option>
                     </mat-select>
                     <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
                 </mat-form-field>

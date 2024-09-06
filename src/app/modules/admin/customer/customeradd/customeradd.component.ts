@@ -165,6 +165,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             province: [''],
             district: [''],
             longAdress: [''],
+            customergroup : ['']
         });
 
         //
@@ -251,6 +252,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.longAdress = this.getFormValueByName('longAdress');
         this.customers.isPhone = this.getFormValueByName('isPhone');
         this.customers.isEmail = this.getFormValueByName('isEmail');
+        this.customers.customerGroup = this.getFormValueByName('customergroup')
         this.customers.PatientDetails = this.patients;
 
         return true;

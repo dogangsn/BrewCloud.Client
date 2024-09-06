@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, Input, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
@@ -41,8 +41,8 @@ export class CustomerDetailEditDialogComponent implements OnInit {
 
     this.getCustomerGroupList();
     this.customerEditForm = this._formBuilder.group({
-      email: [''],
-      phonenumber: [''],
+      email: ['', [Validators.email]],
+      phonenumber: ['', [Validators.required]],
       phonenumber2: [''],
       city: [''],
       district: [''],
@@ -74,7 +74,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       lastname: this.data.customerDetailForm.lastname,
       email: this.data.customerDetailForm.email,
       phonenumber: this.data.customerDetailForm.phonenumber,
-      phonenumber2: this.data.customerDetailForm.phonenumber,
+      phonenumber2: this.data.customerDetailForm.phoneNumber2,
       city: this.data.customerDetailForm.city,
       district: this.data.customerDetailForm.district,
       taxoffice: this.data.customerDetailForm.taxoffice,
@@ -94,6 +94,12 @@ export class CustomerDetailEditDialogComponent implements OnInit {
   updateCustomerDetail(): void {
     this.buttonDisabled = true;
 
+    if (this.customerEditForm.invalid) {
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
+      return;
+    }
+
 
     this.updateCustomerDetailDto = this.customerEditForm.value;
     this.updateCustomerDetailDto.id = this.data.customerId;
@@ -104,14 +110,23 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     const model = {
       customerDetailsDto: this.updateCustomerDetailDto
     }
+
+    if (!this.phoneNumberValidator(this.updateCustomerDetailDto.phonenumber)) {
+      this.showSweetAlert(
+        'error',
+        'Telefon Numarası Alan Kodu Hatalı. Kontrol Ediniz.'
+      );
+      return;
+    }
+
     this._customerService.updateCustomerById(model.customerDetailsDto).subscribe((response) => {
       if (response.isSuccessful) {
         console.log(response);
-        this.showSweetAlert('success');
+        this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
         this._dialogRef.close({ status: true });
       } else {
         this.buttonDisabled = false;
-        this.showSweetAlert('error');
+        this.showSweetAlert('error', response.errors[0]);
       }
     });
   }
@@ -122,18 +137,19 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     });
   }
 
-  showSweetAlert(type: string): void {
+
+  showSweetAlert(type: string, text: string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.success'),
-        this.translate('sweetalert.transactionSuccessful'),
+        this.translate(text),
         SweetalertType.success
       );
       GeneralService.sweetAlert(sweetAlertDto);
     } else {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.error'),
-        this.translate('sweetalert.transactionFailed'),
+        this.translate(text),
         SweetalertType.error
       );
       GeneralService.sweetAlert(sweetAlertDto);
@@ -162,5 +178,65 @@ export class CustomerDetailEditDialogComponent implements OnInit {
     }
   }
 
+  phoneNumberValidator(phoneNumber: any): boolean {
+
+    const phoneNumberPattern = /^\(\d{3}\) \d{3}-\d{4}$/; // İstenen telefon numarası formatı
+    const validAreaCodes = [
+      '(505)',
+      '(506)',
+      '(507)',
+      '(551)',
+      '(552)',
+      '(553)',
+      '(554)',
+      '(555)',
+      '(556)',
+      '(557)',
+      '(558)',
+      '(559)',
+      '(501)',
+      '(502)',
+      '(503)',
+      '(504)',
+      '(540)',
+      '(541)',
+      '(542)',
+      '(543)',
+      '(544)',
+      '(545)',
+      '(546)',
+      '(547)',
+      '(548)',
+      '(549)',
+      '(530)',
+      '(531)',
+      '(532)',
+      '(533)',
+      '(534)',
+      '(535)',
+      '(536)',
+      '(537)',
+      '(538)',
+      '(539)',
+      '(501)',
+      '(502)',
+      '(503)',
+      '(504)',
+      '(505)',
+      '(506)',
+      '(507)',
+    ];
+
+    // if (!phoneNumberPattern.test(phoneNumber)) {
+    //     return { invalidPhoneNumber: { value: phoneNumber } };
+    // }
+
+    const inputAreaCode = phoneNumber.substring(0, 5); // Telefon numarasından alan kodunu al
+
+    if (!validAreaCodes.includes(inputAreaCode)) {
+      return false; // Geçersiz alan kodu hatası
+    }
+    return true;
+  }
 
 }
