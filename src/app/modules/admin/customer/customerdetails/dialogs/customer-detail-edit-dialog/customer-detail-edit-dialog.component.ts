@@ -44,7 +44,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       email: ['', [Validators.email]],
       phonenumber: ['', [Validators.required]],
       phonenumber2: [''],
-      city: [''],
+      province: [''],
       district: [''],
       taxoffice: [''],
       vkntcno: [''],
@@ -54,7 +54,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       address: [''],
       customerdiscount: [''],
       customerGroup: [''],
-      recordDate: [''],
+      recordDate: ['']
     });
   }
 
@@ -75,7 +75,7 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       email: this.data.customerDetailForm.email,
       phonenumber: this.data.customerDetailForm.phonenumber,
       phonenumber2: this.data.customerDetailForm.phoneNumber2,
-      city: this.data.customerDetailForm.city,
+      province: this.data.customerDetailForm.city,
       district: this.data.customerDetailForm.district,
       taxoffice: this.data.customerDetailForm.taxoffice,
       vkntcno: this.data.customerDetailForm.vkntcno,
@@ -86,8 +86,9 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       customerdiscount: this.data.customerDetailForm.customerdiscount,
       customerGroup: this.data.customerDetailForm.customerGroup,
       recordDate: this.data.customerDetailForm.recordDate,
+      adress : this.data.customerDetailForm.adress
     });
-    this.handleCityChange(this.data.customerDetailForm.city);
+    this.handleCityChange(this.data.customerDetailForm.province);
 
   }
 
@@ -99,13 +100,14 @@ export class CustomerDetailEditDialogComponent implements OnInit {
       this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
       return;
     }
-
+    console.log( this.customerEditForm.value);
 
     this.updateCustomerDetailDto = this.customerEditForm.value;
     this.updateCustomerDetailDto.id = this.data.customerId;
     this.updateCustomerDetailDto.firstname = this.data.firstname;
     this.updateCustomerDetailDto.lastname = this.data.lastname;
     this.updateCustomerDetailDto.taxoffice = this.data.taxoffice;
+    this.updateCustomerDetailDto.longadress = this.customerEditForm.value.address;
 
     const model = {
       customerDetailsDto: this.updateCustomerDetailDto
