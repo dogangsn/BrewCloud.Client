@@ -66,6 +66,7 @@ export class demandTransList{
     reserved:number;
     barcode:string;
     ownerId:string;
+    taxisId: string;
     constructor(
         id: string ,
         productId:string,
@@ -76,7 +77,8 @@ export class demandTransList{
         isActive:number,
         reserved:number,
         barcode:string,
-        ownerId:string
+        ownerId:string,
+        taxisId: string
         ) {
         this.id = id;
         this.productId = productId;
@@ -88,6 +90,7 @@ export class demandTransList{
         this.reserved = reserved;
         this.barcode = barcode;
         this.ownerId = ownerId;
+        this.taxisId = taxisId;
 
     }
 

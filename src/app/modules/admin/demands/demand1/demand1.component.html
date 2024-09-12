@@ -228,10 +228,32 @@
                                 <input matInput [formControlName]="'unitPrice'" readonly='true'>
                             </mat-form-field>
                             <mat-form-field class="w-full">
-                                <mat-label>Kdv Tutar</mat-label>
-                                <span matSuffix>₺</span>
-                                <input matInput [formControlName]="'amount'" readonly='true'>
+                                <mat-label>KDV (%)</mat-label>
+                                <input 
+                                    matInput 
+                                    [value]="getTaxRatio()" 
+                                    readonly>
+                                <input 
+                                    type="hidden" 
+                                    formControlName="taxisId">
                             </mat-form-field>
+                            <!-- <mat-form-field class="w-full">
+                                <mat-label>KDV (%)</mat-label>
+                                <input matInput [formControlName]="'taxisId'" [value]="taxisList.find(item => item.id === selectedProductForm.get('taxisId')?.value)?.taxRatio || '0'" readonly='true'
+                         
+                                >
+
+                             <mat-select [formControlName]="'taxisId'" [placeholder]="'KDV (%)'" name="taxisList" >
+                                <mat-option  *ngFor="let item of taxisList"
+                                    [value]="item.id">{{item.taxRatio}}</mat-option>
+                            </mat-select> -->
+
+
+                                <!-- <mat-label>Kdv</mat-label>
+                                 <span matSuffix>₺</span> 
+                                <input matInput [formControlName]="'taxisId'" readonly='true'> 
+                            </mat-form-field> -->
+                            
                         </div>
 
                         <!-- Weight & Tags -->

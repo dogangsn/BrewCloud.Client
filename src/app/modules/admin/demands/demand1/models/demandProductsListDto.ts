@@ -9,6 +9,7 @@ export class demandProductsListDto {
     reserved:number;
     barcode:string;
     selected: boolean;
+    taxisId:string;
     
 }
 
