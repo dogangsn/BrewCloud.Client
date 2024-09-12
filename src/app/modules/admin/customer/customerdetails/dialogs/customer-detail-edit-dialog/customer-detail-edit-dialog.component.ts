@@ -131,6 +131,11 @@ export class CustomerDetailEditDialogComponent implements OnInit {
         this.showSweetAlert('error', response.errors[0]);
       }
     });
+    for (let index = 0; index < this.stylesheet.cssRules.length; index++) {
+      if (this.stylesheet.cssRules[index].cssText === 'body.light, body .light { position: fixed; }') {
+        (this.stylesheet as CSSStyleSheet).deleteRule(index);
+      }
+    }
   }
 
   getCustomerGroupList() {
