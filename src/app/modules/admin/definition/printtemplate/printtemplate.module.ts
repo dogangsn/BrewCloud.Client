@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { CreateeditPrinttemplateComponent } from './dialog/createedit-printtemplate.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { PreviewDialogComponent } from './PreviewDialog/PreviewDialog.component';
 
 const root: Route[] = [
   {
@@ -78,7 +79,7 @@ const root: Route[] = [
     MatChipsModule,
     RouterModule.forChild(root)
   ],
-  declarations: [PrinttemplateComponent, CreateeditPrinttemplateComponent],
+  declarations: [PrinttemplateComponent, CreateeditPrinttemplateComponent, PreviewDialogComponent],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }
   ],

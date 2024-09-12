@@ -9,6 +9,10 @@
     -moz-box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.1);
 }
 
+.mat-mdc-form-field.mat-form-field-appearance-fill {
+    width: 100% !important;
+}
+
 // .icon-filltest {
 //     fill: rgb(214, 21, 21) !important; /* Varsayılan renk */
 //   }
@@ -232,9 +236,9 @@ a {
     font-size: 14px !important;
 }
 
-.modalForm .mat-form-field {
-    width: 100% !important;
-}
+// .modalForm .mat-form-field {
+//     width: 100% !important;
+// }
 
 .contractForm .multiselect-dropdown .dropdown-list {
     position: fixed !important;

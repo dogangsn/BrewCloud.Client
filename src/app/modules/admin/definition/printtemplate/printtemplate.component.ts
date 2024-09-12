@@ -127,15 +127,19 @@ export class PrinttemplateComponent implements OnInit {
     );
   }
 
-  openPreview() {
-    const dialogRef = this._dialog.open(PreviewDialogComponent, {
-      width: '80vw',
-      //data: { content: this.printtemplate.get('templatecontent')?.value }
-    });
+  openPreview = (id: string) => {
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Preview dialog closed');
-    });
+    const selecteditem = this.printtemplate.find((store) => store.id === id);
+    if(selecteditem) {
+      const dialogRef = this._dialog.open(PreviewDialogComponent, {
+        maxWidth: '100vw !important',
+        data: { content: selecteditem.htmlContent }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Preview dialog closed');
+      });
+    }
   }
 
 
