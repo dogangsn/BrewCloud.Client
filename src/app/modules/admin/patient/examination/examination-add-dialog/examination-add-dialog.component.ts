@@ -419,7 +419,6 @@ export class ExaminationAddDialogComponent implements OnInit {
                 .split(',')
                 .map((symptom) => symptom.trim());
             const statusText = this.states[this.examination.status];
-debugger
             this.examinationForm.setValue({
                 customerId: this.examination.customerId,
                 patientId: this.examination.patientId,

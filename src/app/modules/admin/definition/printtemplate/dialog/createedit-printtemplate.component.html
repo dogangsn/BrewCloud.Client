@@ -14,7 +14,7 @@
             </h5>
         </div>
 
-        <div class="modal-body mbody-accommodationrooms">
+        <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
             <div class="container-fluid" [formGroup]="printtemplate">
 
                 <div class="row">
@@ -48,9 +48,11 @@
                 <div class="row">
                     <div class="col-sm-12 mt-2 common-width">
 
-                        <editor #editor apiKey="iktfbuknhfrkmngbmlyooj1857f25w3xhwmpcot5ocvaqu1t" id="basic-example"
-                            [init]="tinymceOptions" [formControlName]="'templatecontent'"></editor>
-
+                        <!-- <editor  [init]="tinymceOptions"  #editor apiKey="iktfbuknhfrkmngbmlyooj1857f25w3xhwmpcot5ocvaqu1t" id="basic-example"
+                           [formControlName]="'templatecontent'"></editor> -->
+                           <editor [init]="tinymceOptions" id="basic-example" [formControlName]="'templatecontent'"
+                           (ngModelChange)="setHtmlEditorValue($event)">
+                       </editor>
                     </div>
                 </div>
             </div>

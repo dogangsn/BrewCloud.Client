@@ -10,6 +10,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { PreviewDialogComponent } from './PreviewDialog/PreviewDialog.component';
 
 @Component({
   selector: 'app-printtemplate',
@@ -117,14 +118,25 @@ export class PrinttemplateComponent implements OnInit {
 
   public logView = (id: string) => {
     const dialogRef = this._dialog.open(
-        LogViewComponent,
-        {
-            maxWidth: '100vw !important',
-            disableClose: true,
-            data: { masterId: id },
-        }
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
     );
-}
+  }
+
+  openPreview() {
+    const dialogRef = this._dialog.open(PreviewDialogComponent, {
+      width: '80vw',
+      //data: { content: this.printtemplate.get('templatecontent')?.value }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Preview dialog closed');
+    });
+  }
 
 
 }

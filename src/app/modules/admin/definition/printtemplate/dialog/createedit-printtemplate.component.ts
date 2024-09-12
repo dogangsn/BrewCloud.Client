@@ -32,6 +32,7 @@ export class CreateeditPrinttemplateComponent implements OnInit {
 
   availableOptions: { name: string, selected: boolean, value: string }[] = [];
 
+  htmlEditorValue: any;
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -198,6 +199,10 @@ export class CreateeditPrinttemplateComponent implements OnInit {
 
   translate(key: string): any {
     return this._translocoService.translate(key);
+  }
+
+  async setHtmlEditorValue(event: any): Promise<void> {
+    this.htmlEditorValue = event;
   }
 
 
