@@ -69,7 +69,7 @@
             </button>
             <mat-menu #menu="matMenu">
 
-              <button mat-menu-item color="primary"><mat-icon>visibility</mat-icon>Ön İzleme</button>
+              <button mat-menu-item color="primary" (click)="openPreview(element.id)"><mat-icon>visibility</mat-icon>Ön İzleme</button>
               <button mat-menu-item (click)="logView(element.id)">
                 <mat-icon>history</mat-icon>
                 <span>İşlem Geçmişi</span>
