@@ -42,4 +42,8 @@ export class ExaminationService {
         return this._httpService.post(endPoints.examinations.deleteExamination, model);
     }
 
+    getExaminationsBySaleList(model: any): Observable<any> {
+        return this._httpService.post(endPoints.examinations.getExaminationsBySaleList, model);
+    }
+
 }

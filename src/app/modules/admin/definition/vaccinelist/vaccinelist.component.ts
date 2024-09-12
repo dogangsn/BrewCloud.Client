@@ -13,6 +13,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatChipListboxChange } from '@angular/material/chips';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-vaccinelist',
@@ -27,11 +28,15 @@ export class VaccinelistComponent implements OnInit {
   vaccine: VaccineListDto[] = [];
   dataSource = new MatTableDataSource<VaccineListDto>(this.vaccine);
   animalTypesList: VetVetAnimalsTypeListDto[] = [];
+  loader = true;
+  items = Array(13);
+  action: any;
+  vaccineListAction: any;
 
   options = [
-    { name: 'Köpek', selected: false, type:1 },
-    { name: 'Kedi', selected: false, type:2 },
-    { name: 'Tümü', selected: true, type:0 }
+    { name: 'Köpek', selected: false, type: 1 },
+    { name: 'Kedi', selected: false, type: 2 },
+    { name: 'Tümü', selected: true, type: 0 }
   ];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -43,6 +48,20 @@ export class VaccinelistComponent implements OnInit {
     private _translocoService: TranslocoService,
   ) {
 
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+      this.action = JSON.parse(actions);
+    }
+
+    const vaccineAct = this.action.find((item: any) => {
+      return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccinelist');
+    });
+
+    if (vaccineAct) {
+      this.vaccineListAction = vaccineAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccinelist');
+    } else {
+      this.vaccineListAction = null;
+    }
   }
 
   ngOnInit() {
@@ -60,6 +79,7 @@ export class VaccinelistComponent implements OnInit {
       },
       complete: () => {
         this.getVaccineList();
+        this.loader = false;
       }
     });
 
@@ -68,7 +88,7 @@ export class VaccinelistComponent implements OnInit {
   getVaccineList() {
 
     const model = {
-      AnimalType : 0
+      AnimalType: 0
     };
 
 
@@ -226,13 +246,11 @@ export class VaccinelistComponent implements OnInit {
 
   onChipsSelectionChange(event: MatChipListboxChange): void {
     const selectedValue = event.value;
-    debugger
     console.log('Selected value:', selectedValue);
     this.filterVaccineList(selectedValue);
   }
 
   filterVaccineList(selectedValue: Number): void {
-    debugger
     if (selectedValue === 0) {
       this.dataSource.data = this.vaccine;
     } else {
@@ -241,6 +259,40 @@ export class VaccinelistComponent implements OnInit {
     }
     this.dataSource.paginator = this.paginator; // Reset paginator to the first page after filtering
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filterPredicate = (data: VaccineListDto, filter: string) => {
+        const transformedFilter = filter.trim().toLowerCase();
+
+        const animalTypeText = this.getAnimalTypeText(data.animalType.toString()).toLowerCase();
+        const renewalOptionText = this.getRenewalOptionText(parseInt(data.renewalOption, 10)).toLowerCase();
+        const totalSaleAmountText = this.getTotalSaleAmountText(parseInt(data.totalSaleAmount, 10)).toLowerCase();
+        const vaccineNameText = data.vaccineName.toLowerCase();
+
+        // timeDone değeri number ise string'e çevrilir
+        const timeDoneText = data.timeDone.toString().toLowerCase();
+
+        return animalTypeText.includes(transformedFilter) ||
+               renewalOptionText.includes(transformedFilter) ||
+               totalSaleAmountText.includes(transformedFilter) ||
+               vaccineNameText.includes(transformedFilter) ||
+               timeDoneText.includes(transformedFilter);
+    };
+
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
 
 
 }

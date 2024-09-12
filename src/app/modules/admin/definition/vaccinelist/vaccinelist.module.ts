@@ -24,6 +24,7 @@ import { CreateEditVaccineDialogComponent } from './dialogs/create-edit-vaccine'
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips'; 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 const root: Route[] = [
   {
@@ -80,6 +81,6 @@ const root: Route[] = [
     MatExpansionModule,
     RouterModule.forChild(root)
   ],
-  declarations: [VaccinelistComponent, CreateEditVaccineDialogComponent]
+  declarations: [VaccinelistComponent, CreateEditVaccineDialogComponent ]
 })
 export class VaccinelistModule { }

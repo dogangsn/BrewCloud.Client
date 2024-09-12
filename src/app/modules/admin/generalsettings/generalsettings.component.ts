@@ -15,11 +15,28 @@ export class GeneralsettingsComponent implements OnInit {
     panels: any[] = [];
     selectedPanel: string = 'company';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    action:any;
+    generalsettingsAction:any;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseMediaWatcherService: FuseMediaWatcherService
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'generalsettings');
+        });
+    
+        if (appointment) {
+            this.generalsettingsAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'generalsettings');
+        } else {
+            this.generalsettingsAction = null;
+        }
+    }
 
     ngOnInit() {
         this.panels = [

@@ -21,6 +21,14 @@ export class RolsService {
         return this._httpService.getRequest(endPoints.settings.getRolsSettings);
     }
 
+    getUserRolSettings() : Observable<any> {
+        return this._httpService.getRequest(endPoints.settings.getUserRolsSettings);
+    }
+
+    getRoleSettingByIdQuery(model: any): Observable<any> {
+        return this._httpService.post(endPoints.settings.getRoleSettingById, model);
+    }
+
     updateRols(model: any): Observable<any> {
         return this._httpService.post(endPoints.settings.updateRols, model);
     }

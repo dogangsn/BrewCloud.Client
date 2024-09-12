@@ -163,7 +163,10 @@ export class ExaminationAddDialogComponent implements OnInit {
     }
 
     getCustomerList(): Observable<any> {
-        return this._customerService.getcustomerlist();
+        let model = {
+            IsArchive : false
+        }
+        return this._customerService.getcustomerlist(model);
     }
 
     setCustomerList(response: any): void {
@@ -416,7 +419,6 @@ export class ExaminationAddDialogComponent implements OnInit {
                 .split(',')
                 .map((symptom) => symptom.trim());
             const statusText = this.states[this.examination.status];
-debugger
             this.examinationForm.setValue({
                 customerId: this.examination.customerId,
                 patientId: this.examination.patientId,

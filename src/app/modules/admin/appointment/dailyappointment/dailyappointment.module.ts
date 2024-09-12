@@ -26,6 +26,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list'; 
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -81,8 +84,10 @@ const root: Route[] = [
     MatListModule,
     MatGridListModule ,
     MatTableModule,
+    MatDialogModule,
+    DragDropModule,
     RouterModule.forChild(root),
   ],
-  declarations: [DailyappointmentComponent]
+  declarations: [DailyappointmentComponent, MessageSendComponent]
 })
 export class DailyappointmentModule { }

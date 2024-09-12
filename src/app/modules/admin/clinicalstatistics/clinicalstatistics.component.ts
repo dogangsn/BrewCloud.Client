@@ -913,7 +913,12 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
 
     }
     getCustomerList() {
-        this._customerListService.getcustomerlist().subscribe((response) => {
+
+        let model = {
+            IsArchive : false
+        }
+
+        this._customerListService.getcustomerlist(model).subscribe((response) => {
             this.customerlist = response.data;
             console.log(this.customerlist);
 

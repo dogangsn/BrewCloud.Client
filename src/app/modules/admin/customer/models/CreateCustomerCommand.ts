@@ -17,6 +17,7 @@ export class CreateCustomerCommand {
     isEmail: boolean;
     isPhone: boolean;
     PatientDetails : PatientDetails[];
+    customerGroup : string;
 
 // constructor(
 //     firstName: string,

@@ -58,6 +58,8 @@ export class GeneralService {
             cancelButtonColor: '#DF3B3B',
         });
     }
+
+    
     
     
 }

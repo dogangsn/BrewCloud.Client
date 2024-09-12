@@ -56,8 +56,9 @@ export class CreateeditStockTrackingComponent implements OnInit {
   buttonDisabled = false;
   productid: string;
   entryexittype : StockTrackingType;
-
   isExit: boolean = false;
+  supplierId : string;
+  now: Date = new Date();
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -70,6 +71,7 @@ export class CreateeditStockTrackingComponent implements OnInit {
     this.selectedStockTracking = data.data;
     this.productid = data.productid;
     this.entryexittype = data.entryexittype;
+    this.supplierId = data.supplierId;
     if(this.entryexittype === StockTrackingType.Exit){
       this.isExit = true;
     }
@@ -96,14 +98,13 @@ export class CreateeditStockTrackingComponent implements OnInit {
       piece: [0, [Validators.required]],
       processtypes: [1],
       purchaseprice: [0],
-      supplierId: ['00000000-0000-0000-0000-000000000000'],
-      expirationdate: []
+      supplierId: [this.supplierId == '00000000-0000-0000-0000-000000000000' ? '00000000-0000-0000-0000-000000000000'  : this.supplierId ],
+      expirationdate: [this.now]
     })
 
     this.getSuppliers();
     this.fillFormData(this.selectedStockTracking);
   }
-
 
   fillFormData(selectedStockTracking: any) {
     if (this.selectedStockTracking !== null) {
@@ -116,8 +117,6 @@ export class CreateeditStockTrackingComponent implements OnInit {
         });
     }
 }
-
-
 
   closeDialog(): void {
     this._dialogRef.close({ status: null });
@@ -144,6 +143,13 @@ export class CreateeditStockTrackingComponent implements OnInit {
 
   addOrUpdateStockTracking(): void {
     this.buttonDisabled = true;
+
+    if (!this.checkFormValidity()) {
+      this.showSweetAlert('error', "İlgili Alanları Kontrol Ediniz.");
+      this.buttonDisabled = false;
+      return;
+    }
+
     this.selectedStockTracking
       ? this.updateStockTracking()
       : this.addStockTracking();
@@ -242,6 +248,17 @@ export class CreateeditStockTrackingComponent implements OnInit {
 
   translate(key: string): any {
     return this._translocoService.translate(key);
+  }
+
+  checkFormValidity() {
+    if (this.stocktracking.invalid) {
+      return false;
+    }
+    const formValues = this.stocktracking.value;
+    if (formValues.piece <= 0) {
+      return false;
+    }
+    return true;
   }
 
 

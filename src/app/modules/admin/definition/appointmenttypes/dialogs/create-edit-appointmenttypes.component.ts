@@ -25,6 +25,7 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
   showPriceRatio: boolean = false;
 
   taxisList: TaxesDto[] = [];
+  selectedColor: string = '#FFFFFF';
 
   constructor(
     private _dialogRef: MatDialogRef<any>,
@@ -42,13 +43,14 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
 
     this.appointmentType = this._formBuilder.group({
       remark: ['', Validators.required],
+      colors: ['', Validators.required],
       isDefaultPrice: [false],
       price: [0],
-      taxisId : ['00000000-0000-0000-0000-000000000000']
+      taxisId: ['00000000-0000-0000-0000-000000000000']
     });
     this.fillFormData(this.selectedappointmenttypes);
 
-    
+
   }
 
   fillFormData(selectedappointmentType: AppointmentTypesDto) {
@@ -57,8 +59,9 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
       this.appointmentType.setValue({
         remark: selectedappointmentType.remark,
         isDefaultPrice: selectedappointmentType.isDefaultPrice,
-        price : selectedappointmentType.price,
-        taxisId : selectedappointmentType.taxisId
+        price: selectedappointmentType.price,
+        taxisId: selectedappointmentType.taxisId,
+        colors: selectedappointmentType.colors
       });
       this.togglePriceInput(selectedappointmentType.isDefaultPrice);
     }
@@ -85,32 +88,54 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
 
   addAppointmentType(): void {
 
-      const item = new CreateAppointmentTypesCommand(
-        this.getFormValueByName('price'),
-        this.getFormValueByName('taxisId'),
-        this.getFormValueByName('remark'),
-        this.getFormValueByName('isDefaultPrice'),
-      );
+    const formValue = this.appointmentType.value;
+    const color = formValue.colors;
 
-      this._appointmenttypesService.createAppointmentTypes(item).subscribe(
-        (response) => {
-          if (response.isSuccessful) {
-            this.showSweetAlert('success');
-            this._dialogRef.close({
-              status: true,
-            });
-          } else {
-            this.showSweetAlert('error');
-          }
-        },
-        (err) => {
-          console.log(err);
+    if(color === null || color === undefined || color === ""){
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Randevu Rengi Seçimi Zorunludur.');
+      return;
+    }
+
+    const item = new CreateAppointmentTypesCommand(
+      this.getFormValueByName('price'),
+      this.getFormValueByName('taxisId'),
+      this.getFormValueByName('remark'),
+      this.getFormValueByName('isDefaultPrice'),
+      color.toString(),
+    );
+
+    this._appointmenttypesService.createAppointmentTypes(item).subscribe(
+      (response) => {
+        if (response.isSuccessful) {
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
+          this._dialogRef.close({
+            status: true,
+          });
+        } else {
+          this.buttonDisabled = false;
+          this.showSweetAlert('error', 'sweetalert.transactionFailed');
         }
-      );
+      },
+      (err) => {
+        console.log(err);
+        this.buttonDisabled = false;
+        this.showSweetAlert('error', err.toString());
+      }
+    );
 
   }
 
   updateAppointmentType(): void {
+
+    const formValue = this.appointmentType.value;
+    const color = formValue.colors;
+
+    if(color === null || color === undefined || color === ""){
+      this.buttonDisabled = false;
+      this.showSweetAlert('error', 'Randevu Rengi Seçimi Zorunludur.');
+      return;
+    }
 
     const item = new UpdateAppointmentTypesCommand(
       this.selectedappointmenttypes.id,
@@ -118,21 +143,25 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
       this.getFormValueByName('taxisId'),
       this.getFormValueByName('remark'),
       this.getFormValueByName('isDefaultPrice'),
+      color.toString(),
     );
 
     this._appointmenttypesService.updateAppointmentTypes(item).subscribe(
       (response) => {
         if (response.isSuccessful) {
-          this.showSweetAlert('success');
+          this.showSweetAlert('success', 'sweetalert.transactionSuccessful');
           this._dialogRef.close({
             status: true,
           });
         } else {
-          this.showSweetAlert('error');
+          this.buttonDisabled = false;
+          this.showSweetAlert('error', 'sweetalert.transactionFailed');
         }
       },
       (err) => {
         console.log(err);
+        this.buttonDisabled = false;
+        this.showSweetAlert('error', err.toString());
       }
     );
 
@@ -147,19 +176,19 @@ export class CreateEditAppointmenttypesComponent implements OnInit {
   getFormValueByName(formName: string): any {
     return this.appointmentType.get(formName).value;
   }
-  
-  showSweetAlert(type: string): void {
+
+  showSweetAlert(type: string, message : string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.success'),
-        this.translate('sweetalert.transactionSuccessful'),
+        this.translate(message),
         SweetalertType.success
       );
       GeneralService.sweetAlert(sweetAlertDto);
     } else {
       const sweetAlertDto = new SweetAlertDto(
         this.translate('sweetalert.error'),
-        this.translate('sweetalert.transactionFailed'),
+        this.translate(message),
         SweetalertType.error
       );
       GeneralService.sweetAlert(sweetAlertDto);

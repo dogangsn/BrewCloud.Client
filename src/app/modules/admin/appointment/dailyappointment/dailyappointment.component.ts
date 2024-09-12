@@ -8,6 +8,11 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { AddApponitnmentDialogComponent } from '../appointmentcalendar/add-apponitnment-dialog/add-apponitnment-dialog.component';
+import { EditAppointmentComponent } from '../../customer/customerdetails/dialogs/appointment-history/dialogs/edit-appointment.component';
+import { MessageSendComponent } from '../../commonscreen/message-send/message-send.component';
+import { SmsType } from '../../definition/smstemplate/models/smsType.enum';
 
 @Component({
   selector: 'app-dailyappointment',
@@ -20,16 +25,33 @@ export class DailyappointmentComponent implements OnInit {
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
-  
+
   dailyappointment: DailyAppointmentListDto[] = [];
   dataSource = new MatTableDataSource<DailyAppointmentListDto>(this.dailyappointment);
   loader = true;
+  action: any;
+  dailyAppointment:any
 
   constructor(
     private _appointmentService: AppointmentService,
     private _translocoService: TranslocoService,
+    private _dialog: MatDialog,
+  ) {
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
 
-  ) { }
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'dailyappointment');
+        });
+    
+        if (appointment) {
+            this.dailyAppointment = appointment.roleSettingDetails.find((detail: any) => detail.target === 'dailyappointment');
+        } else {
+            this.dailyAppointment = null;
+        }
+   }
 
   ngOnInit() {
     this.getAppointmentDailyList();
@@ -45,38 +67,67 @@ export class DailyappointmentComponent implements OnInit {
           this.dailyappointment
         );
         this.dataSource.paginator = this.paginator;
-
+        setTimeout(() => {
+          if (this.dataSource) {
+            this.dataSource.paginator = this.paginator;
+          }
+        }, 0)
         this.loader = false;
       });
   }
-
 
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
 
   public redirectToUpdate = (id: string) => {
-    // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
-    // if (selectedAppointment) {
-    //     const model = {
-    //         visibleCustomer: false,
-    //         selectedAppointment: selectedAppointment,
-    //         customerId: this.selectedCustomerId
-    //     };
-    //     const dialogRef = this._dialog.open(
-    //         EditAppointmentComponent,
-    //         {
-    //             maxWidth: '100vw !important',
-    //             disableClose: true,
-    //             data: model
-    //         }
-    //     );
-    //     dialogRef.afterClosed().subscribe((response) => {
-    //         if (response.status) {
-    //             this.getAppointmentDailyList();
-    //         }
-    //     });
-    // }
+    const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    if (selectedAppointment) {
+      const model = {
+        visibleCustomer: true,
+        selectedAppointment: selectedAppointment,
+        customerId: selectedAppointment.customerId
+      };
+      const dialogRef = this._dialog.open(
+        AddApponitnmentDialogComponent,
+        {
+          minWidth: '1000px',
+          disableClose: true,
+          data: model
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAppointmentDailyList();
+        }
+      });
+    }
+
+    // // const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    // // if (selectedAppointment) {
+
+    // //     const model = {
+    // //         visibleCustomer: false,
+    // //         selectedAppointment: selectedAppointment,
+    // //         customerId:  selectedAppointment.customerId
+    // //     };
+
+    // //     const dialogRef = this._dialog.open(
+    // //         EditAppointmentComponent,
+    // //         {
+    // //             maxWidth: '100vw !important',
+    // //             disableClose: true,
+    // //             data: model
+    // //         }
+    // //     );
+    // //     dialogRef.afterClosed().subscribe((response) => {
+    // //         if (response.status) {
+    // //             this.getAppointmentDailyList();
+    // //         }
+    // //     });
+    // // }
+
+
   }
 
   public redirectToDelete = (id: string) => {
@@ -125,7 +176,7 @@ export class DailyappointmentComponent implements OnInit {
   public redirectStatusUpdate = (id: string, status: number) => {
     const model = {
       id: id,
-      status : status
+      status: status
     };
     this._appointmentService
       .updateAppointmentStatus(model)
@@ -143,5 +194,70 @@ export class DailyappointmentComponent implements OnInit {
         }
       });
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
+
+  }
+
+  public sendMessage = (id: string) => {
+
+    let messageTemplate = `
+Merhaba {0},
+
+Bu bir randevu hatırlatma mesajıdır.
+Randevu Tarihi: {1}
+Randevunuzu kaçırmamanız için lütfen bu mesajı dikkate alınız. Herhangi bir sebepten dolayı randevunuza gelemeyecekseniz, lütfen bizi en kısa sürede bilgilendirin.
+
+Teşekkürler,
+`;
+
+    function formatMessage(messageTemplate, ...values) {
+      return messageTemplate.replace(/{(\d+)}/g, (match, number) => {
+        return typeof values[number] !== 'undefined' ? values[number] : match;
+      });
+    }
+
+    const selectedAppointment = this.dailyappointment.find((item) => item.id == id);
+    if (selectedAppointment) {
+
+      let customerName =  selectedAppointment.customerPatientName;
+      let appointmentDate = this.formatDate(selectedAppointment.date.toString());
+      let _message = formatMessage(messageTemplate, customerName, appointmentDate);
+      
+      const model = {
+        messageType: SmsType.AppointmentReminder,
+        isFixMessage: true,
+        customerId : selectedAppointment.customerId,
+        customername: customerName,
+        date : appointmentDate
+      };
+      const dialog = this._dialog
+        .open(MessageSendComponent, {
+          minWidth: '1000px',
+          disableClose: true,
+          data: model,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            // this.getApponitmentList();
+          }
+        });
+    }
+
+
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+}
 
 }

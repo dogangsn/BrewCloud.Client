@@ -38,6 +38,7 @@ export class FileUploadDialogComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', this.file, this.file.name);
       formData.append('fileName', this.file.name);
+      formData.append('size', this.file.size.toString());
 
       this._fileManagerService
         .createFileManager(formData)

@@ -9,6 +9,7 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateEditAppointmenttypesComponent } from './dialogs/create-edit-appointmenttypes.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-appointmenttypes',
@@ -17,7 +18,7 @@ import { CreateEditAppointmenttypesComponent } from './dialogs/create-edit-appoi
 })
 export class AppointmenttypesComponent implements OnInit {
 
-  displayedColumns: string[] = ['remark', 'actions'];
+  displayedColumns: string[] = ['colors', 'remark', 'actions'];
 
   isUpdateButtonActive: boolean;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -65,52 +66,52 @@ export class AppointmenttypesComponent implements OnInit {
     this.isUpdateButtonActive = true;
     const selectedAppointment = this.appointmentTypes.find((x) => x.id === id);
     if (selectedAppointment) {
-        const dialogRef = this._dialog.open(
-          CreateEditAppointmenttypesComponent,
-            {
-                maxWidth: '100vw !important',
-                disableClose: true,
-                data: selectedAppointment
-            }
-        );
-        dialogRef.afterClosed().subscribe((response) => {
-            if (response.status) {
-                this.getAppointmentTypeList();
-            }
-        });
+      const dialogRef = this._dialog.open(
+        CreateEditAppointmenttypesComponent,
+        {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedAppointment
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAppointmentTypeList();
+        }
+      });
     }
   };
 
   public redirectToDelete = (id: string) => {
     const sweetAlertDto = new SweetAlertDto(
-        this.translate('sweetalert.areYouSure'),
-        this.translate('sweetalert.areYouSureDelete'),
-        SweetalertType.warning
+      this.translate('sweetalert.areYouSure'),
+      this.translate('sweetalert.areYouSureDelete'),
+      SweetalertType.warning
     );
     GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
-        (swalResponse) => {
-            if (swalResponse.isConfirmed) {
-                const model = {
-                    id: id,
-                };
-                this._appointmenttypesService
-                    .deleteAppointmentTypes(model)
-                    .subscribe((response) => {
-                        if (response.isSuccessful) {
-                            this.getAppointmentTypeList();
-                            const sweetAlertDto2 = new SweetAlertDto(
-                                this.translate('sweetalert.success'),
-                                this.translate('sweetalert.transactionSuccessful'),
-                                SweetalertType.success
-                            );
-                            GeneralService.sweetAlert(sweetAlertDto2);
-                        } else {
-                            this.showSweetAlert('error', response.errors[0]);
-                            console.log(response.errors[0]);
-                        }
-                    });
-            }
+      (swalResponse) => {
+        if (swalResponse.isConfirmed) {
+          const model = {
+            id: id,
+          };
+          this._appointmenttypesService
+            .deleteAppointmentTypes(model)
+            .subscribe((response) => {
+              if (response.isSuccessful) {
+                this.getAppointmentTypeList();
+                const sweetAlertDto2 = new SweetAlertDto(
+                  this.translate('sweetalert.success'),
+                  this.translate('sweetalert.transactionSuccessful'),
+                  SweetalertType.success
+                );
+                GeneralService.sweetAlert(sweetAlertDto2);
+              } else {
+                this.showSweetAlert('error', response.errors[0]);
+                console.log(response.errors[0]);
+              }
+            });
         }
+      }
     );
   };
 
@@ -134,6 +135,18 @@ export class AppointmenttypesComponent implements OnInit {
 
   translate(key: string): any {
     return this._translocoService.translate(key);
+  }
+
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
   }
 
 }

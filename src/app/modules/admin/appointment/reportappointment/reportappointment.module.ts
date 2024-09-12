@@ -40,7 +40,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle'; 
 
 const root: Route[] = [
   {

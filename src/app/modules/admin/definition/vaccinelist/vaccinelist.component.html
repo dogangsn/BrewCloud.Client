@@ -16,7 +16,7 @@
         </h2>
       </div>
     </div>
-    <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+    <div *ngIf="vaccineListAction?.action !== 'Okuma'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
       <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
         Yeni Aşı Ekle
@@ -24,14 +24,36 @@
     </div>
   </div>
 
+  <!-- Search -->
+
+
+
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
 
-    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)">
+    <mat-chip-listbox aria-label="Fish selection" class="mb-2" (change)="onChipsSelectionChange($event)" *ngIf="!loader">
       <mat-chip-option *ngFor="let option of options" [value]="option.type" [selected]="option.selected">{{option.name}}</mat-chip-option>
     </mat-chip-listbox>
-    
 
-    <div class="mat-elevation-z8">
+    <div role="status" class="animate-pulse flex gap-2 w-full" *ngIf="loader">
+      <div class="h-9 w-16 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+      <div class="h-9 w-14 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+      <div class="h-9 w-22 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+    </div>
+
+    <div class="flex items-center mt-4 mb-4 sm:mt-0 md:mt-4">
+      <div class="flex-auto">
+        <mat-form-field class="fuse-mat-dense fuse-mat-rounded w-full min-w-50" subscriptSizing="dynamic">
+          <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+          <input matInput [autocomplete]="'off'" [placeholder]="'Search'"
+            (keyup)="applyFilter($event.target.value)">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div role="status" class="animate-pulse" *ngIf="loader">
+      <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+    </div>
+    <div class="mat-elevation-z8"  *ngIf="!loader">
       <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="animalType">
@@ -65,12 +87,22 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> İşlemler </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+            <button *ngIf="vaccineListAction?.action !== 'Okuma'" mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
               <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>
+
+            <button *ngIf="vaccineListAction?.action !== 'Okuma'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logView(element.id)">
+                <mat-icon>history</mat-icon>
+                <span>İşlem Geçmişi</span>
+              </button>
+            </mat-menu>
           </td>
 
         </ng-container>

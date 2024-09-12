@@ -13,6 +13,8 @@ import { ProductmovementListComponent } from './dialogs/productmovement-list/pro
 import { StockTrackingListComponent } from './dialogs/stockTracking-list/stockTracking-list.component';
 import { CreateeditStockTrackingComponent } from './dialogs/createedit-stockTracking/createedit-stockTracking.component';
 import { StockTrackingType } from './models/createStockTrackingCommand';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
+import { MatChipListboxChange } from '@angular/material/chips';
 
 @Component({
     selector: 'app-productdescription',
@@ -41,6 +43,14 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
     producttype: number;
+    loader = true;
+    items = Array(13);
+
+    options = [
+        { name: 'Akitf', selected: false, type: 1 },
+        { name: 'Pasif', selected: false, type: 0 },
+        { name: 'Tümü', selected: true, type: 2 }
+    ];
 
     constructor(
         private _dialog: MatDialog,
@@ -67,8 +77,12 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
                 console.log(this.productdescription);
 
                 this.dataSource = new MatTableDataSource<ProductDescriptionsDto>(this.productdescription);
-
-                this.dataSource.paginator = this.paginator;
+                setTimeout(() => {
+                    if (this.dataSource) {
+                        this.dataSource.paginator = this.paginator;
+                    }
+                }, 0);
+                this.loader = false;
             });
     }
 
@@ -215,15 +229,15 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
         console.log("Toggle event captured for element with id:", id);
 
         const item = {
-            Id : id,
-            Active : active
+            Id: id,
+            Active: active
         };
 
         this._productdescriptionService.updateProductActive(item).subscribe(
             (response) => {
-    
+
                 if (response.isSuccessful) {
-                  
+
                 } else {
                     this.showSweetAlert(
                         'error',
@@ -262,10 +276,15 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
 
     public openStockTrackingEntry = (id: string, entryexittype: number) => {
 
+        const selectedProduct = this.productdescription.find(
+            (product) => product.id === id
+        );
+
         const data = {
             productid: id,
             entryexittype: (entryexittype === 1 ? StockTrackingType.Entry : StockTrackingType.Exit),
-            data : null
+            supplierId : (selectedProduct.supplierId == undefined || selectedProduct.supplierId == null ? '00000000-0000-0000-0000-000000000000' : selectedProduct.supplierId),
+            data: null
         }
 
         const dialog = this._dialog
@@ -281,6 +300,34 @@ export class ProductdescriptionComponent implements OnInit, AfterViewInit {
                 }
             });
 
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
+
+    onChipsSelectionChange(event: MatChipListboxChange): void {
+        const selectedValue = event.value;
+        debugger
+        console.log('Selected value:', selectedValue);
+        this.filterVaccineList(selectedValue);
+    }
+
+    filterVaccineList(selectedValue: Number): void {
+        debugger
+        if (selectedValue === 2) {
+            this.dataSource.data = this.productdescription;
+          } else {
+            this.dataSource.data = this.productdescription.filter(product => product.active === (selectedValue === 1));
+          }
+        this.dataSource.paginator = this.paginator; 
     }
 
 }

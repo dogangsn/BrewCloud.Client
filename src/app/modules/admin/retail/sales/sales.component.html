@@ -24,8 +24,12 @@
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-stroked-button (click)="createsales()">
+        <div *ngIf="salintgListAct?.action !== 'Okuma'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button mat-stroked-button (click)="getSaleBuy()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+                Yenile
+              </button>
+            <button class="ml-3" mat-stroked-button (click)="createsales()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                 Parakende Satış
             </button>
@@ -39,8 +43,11 @@
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
         <!-- CONTENT GOES HERE -->
+        <div role="status" class="animate-pulse" *ngIf="loader">
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+          </div>
         <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" *ngIf="!loader">
 
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef> Tarih </th>
@@ -62,9 +69,19 @@
                     <td mat-cell *matCellDef="let element"> {{element.paymentName}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="productName">
+                    <th mat-header-cell *matHeaderCellDef> Ürün </th>
+                    <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>Adet</th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="netPrice">
-                    <th mat-header-cell *matHeaderCellDef>Net Tutar</th>
-                    <td mat-cell *matCellDef="let element"> {{element.netPrice | number:'1.2-2'}} </td>
+                    <th mat-header-cell *matHeaderCellDef>Birim Fiyatr</th>
+                    <td mat-cell *matCellDef="let element"> {{element.price | number:'1.2-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="kdv">
@@ -72,14 +89,24 @@
                     <td mat-cell *matCellDef="let element"> {{element.kdv | number:'1.2-2'}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="discount">
+                <!-- <ng-container matColumnDef="discount">
                     <th mat-header-cell *matHeaderCellDef>İndirim</th>
                     <td mat-cell *matCellDef="let element"> {{element.discount | number:'1.2-2'}} </td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="total">
                     <th mat-header-cell *matHeaderCellDef>Tutar</th>
                     <td mat-cell *matCellDef="let element"> {{element.total | number:'1.2-2'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="isPaymentCollected">
+                    <th mat-header-cell *matHeaderCellDef> Ödeme Alındı </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon *ngIf="element.isPaymentCollected; else inactiveIcon" class="mat-18">check_box</mat-icon>
+                        <ng-template #inactiveIcon>
+                            <mat-icon class="mat-18">check_box_outline_blank</mat-icon>
+                        </ng-template>
+                    </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -88,22 +115,41 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> İşlemler </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                        <button *ngIf="salintgListAct?.action !== 'Okuma'" mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                             <mat-icon aria-label="Edit">edit</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                        <button *ngIf="salintgListAct?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                             <mat-icon class="mat-18">delete</mat-icon>
                         </button>
                         <button mat-icon-button color="accent" (click)="redirectToPrint(element.id)">
                             <mat-icon aria-label="Print">print</mat-icon>
                         </button>
+
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button *ngIf="customerListAct?.action !== 'Okuma'" [disabled]="element.isPaymentCollected == 1"  mat-menu-item (click)="openBalanceCollection(element.id)">
+                                <mat-icon>payment</mat-icon>
+                                <span>Ödeme Ekle</span>
+                              </button>
+                            <button mat-menu-item (click)="AllDeleted(element.id)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Tüm Satışı Sil</span>
+                            </button>
+                            <button mat-menu-item (click)="logView(element.id)">
+                                <mat-icon>history</mat-icon>
+                                <span>İşlem Geçmişi</span>
+                            </button>
+                        </mat-menu>
                     </td>
+                    
 
                 </ng-container>
 
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+            <mat-paginator *ngIf="!loader" [pageSizeOptions]="[5, 10, 20]"   [pageSize]="20" showFirstLastButtons #paginator
                 aria-label="Select page of periodic elements">
             </mat-paginator>
 

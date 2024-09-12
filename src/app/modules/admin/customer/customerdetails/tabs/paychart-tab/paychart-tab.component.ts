@@ -31,6 +31,8 @@ export class PayChartTabComponent implements OnInit {
     customerId: any;
     payChartList: PayChartListDto[] = [];
     dataSource = new MatTableDataSource<any>(this.payChartList);
+    action:any;
+    payChart:any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -39,6 +41,20 @@ export class PayChartTabComponent implements OnInit {
         private _customerDataService: CustomerDataService,
         private _dialog: MatDialog,
     ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const customer = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+        });
+    
+        if (customer) {
+            this.payChart = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+        } else {
+            this.payChart = null;
+        }
     }
 
     ngOnInit() {
@@ -87,7 +103,7 @@ export class PayChartTabComponent implements OnInit {
             const model = {
                 customerId: this.customerId,
                 saleOwnerId: item.saleBuyId,
-                amount: 0,
+                amount: item.credit,
                 data : item
               }
               console.log(model);

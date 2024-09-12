@@ -26,6 +26,8 @@ import { ProductmovementListComponent } from './dialogs/productmovement-list/pro
 import { StockTrackingListComponent } from './dialogs/stockTracking-list/stockTracking-list.component';
 import { CreateeditStockTrackingComponent } from './dialogs/createedit-stockTracking/createedit-stockTracking.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatChipsModule } from '@angular/material/chips';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const root: Route[] = [
     {
@@ -79,6 +81,8 @@ const root: Route[] = [
         MatDialogModule,
         MatSelectFilterModule,
         MatDatepickerModule,
+        MatChipsModule,
+        DragDropModule,
         RouterModule.forChild(root)
     ],
     declarations: [

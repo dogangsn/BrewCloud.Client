@@ -14,6 +14,7 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { ExaminationListDto } from '../model/ExaminationListDto';
 import { ExaminationDto } from '../model/ExaminationDto';
+import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ExaminationlistComponent implements OnInit {
     );
     loader = true;
     examination: ExaminationDto;
+    items = Array(13);
 
     displayedColumns: string[] = [
         'status',
@@ -40,6 +42,8 @@ export class ExaminationlistComponent implements OnInit {
         'symptoms',
         'actions',
     ];
+    action:any;
+    examinationListAct:any;
 
     @ViewChild('paginator') paginator: MatPaginator;
     isUpdateButtonActive: boolean = false;
@@ -48,7 +52,22 @@ export class ExaminationlistComponent implements OnInit {
         private _examinationService: ExaminationService,
         private _dialog: MatDialog,
         private _translocoService: TranslocoService
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const examinationact = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'examination');
+        });
+    
+        if (examinationact) {
+            this.examinationListAct = examinationact.roleSettingDetails.find((detail: any) => detail.target === 'examination');
+        } else {
+            this.examinationListAct = null;
+        }
+    }
 
     ngOnInit() {
         this.getExaminationList();
@@ -69,23 +88,27 @@ export class ExaminationlistComponent implements OnInit {
                 this.examinationList
             );
             this.dataSource.paginator = this.paginator;
-
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
             this.loader = false;
         });
     }
 
     addPanelOpen(): void {
-        const dialog = this._dialog
-            .open(ExaminationAddDialogComponent, {
-                maxWidth: '100vw !important',
-                data: null,
-            })
-            .afterClosed()
-            .subscribe((response) => {
-                if (response.status) {
-                    this.getExaminationList();
-                }
-            });
+        // const dialog = this._dialog
+        //     .open(ExaminationAddDialogComponent, {
+        //         maxWidth: '100vw !important',
+        //         data: null,
+        //     })
+        //     .afterClosed()
+        //     .subscribe((response) => {
+        //         if (response.status) {
+        //             this.getExaminationList();
+        //         }
+        //     });
     }
 
     translate(key: string): any {
@@ -224,5 +247,21 @@ export class ExaminationlistComponent implements OnInit {
           minute: '2-digit',
         };
         return new Date(date).toLocaleString('tr-TR', options);
+      }
+
+      applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+          LogViewComponent,
+          {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+          }
+        );
+    
       }
 }

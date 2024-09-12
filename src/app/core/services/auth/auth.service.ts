@@ -54,13 +54,13 @@ export class AuthService {
         if (navigation.data.length === 0) {
             throw new Error('You do not have a any licance');
         }
-        // this._roleService.getNavigationItems().subscribe(
-        //     (navigationResponse) => {
-        //         const navigation = navigationResponse.data;
-        //         localStorage.setItem('navigation', JSON.stringify(navigation));
-        //     },
-        //     (error) => {}
-        // );
+    }
+
+    async getActionSettings(): Promise<void> {
+        const action = await this._roleService.getUserRolSettings().toPromise();
+
+        debugger;
+        localStorage.setItem('actions', JSON.stringify(action.data));
     }
 
     signIn(credentials: { email: string; password: string; rememberMe: boolean }): Observable<any> {
@@ -81,8 +81,10 @@ export class AuthService {
                     localStorage.removeItem('activeLang');
                     this.accessToken = response.access_token;
                     this._authenticated = true;
+                    debugger;
                     this._userService.user = response.user;
                     await this.getSidebarNavigations();
+                    await this.getActionSettings();
                     return of(response);
                 })
             );

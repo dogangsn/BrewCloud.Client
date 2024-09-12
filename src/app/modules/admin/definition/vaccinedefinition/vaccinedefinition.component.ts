@@ -12,6 +12,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { StockTrackingListComponent } from '../productdescription/dialogs/stockTracking-list/stockTracking-list.component';
 import { StockTrackingType } from '../productdescription/models/createStockTrackingCommand';
 import { CreateeditStockTrackingComponent } from '../productdescription/dialogs/createedit-stockTracking/createedit-stockTracking.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
     selector: 'app-vaccinedefinition',
@@ -29,6 +30,8 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
         'sellingPrice',
         'actions',
     ];
+    loader=true;
+    items = Array(13);
 
     @ViewChild('paginator') paginator: MatPaginator;
     productdescription: ProductDescriptionsDto[] = [];
@@ -38,12 +41,29 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
     isUpdateButtonActive: boolean;
     visibleProductType: boolean;
     producttype:number;
+    action :any;
+    vaccinedefinitionsAction :any;
 
     constructor(
         private _dialog: MatDialog,
         private _productdescriptionService: ProductDescriptionService,
         private _translocoService: TranslocoService, 
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccinedefinition');
+        });
+    
+        if (appointment) {
+            this.vaccinedefinitionsAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'vaccinedefinition');
+        } else {
+            this.vaccinedefinitionsAction = null;
+        }
+    }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
@@ -67,7 +87,12 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
                     this.productdescription
                 );
     
-                this.dataSource.paginator = this.paginator;
+                setTimeout(() => {
+                    if (this.dataSource) {
+                        this.dataSource.paginator = this.paginator;
+                    }
+                }, 0);
+                this.loader = false;
             });
     }
 
@@ -255,5 +280,16 @@ export class VaccinedefinitionComponent implements OnInit, AfterViewInit {
                 }
             });
 
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
     }
 }

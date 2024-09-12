@@ -11,6 +11,9 @@ import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { ExaminationAddDialogComponent } from 'app/modules/admin/patient/examination/examination-add-dialog/examination-add-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
+import { ExaminationCollectionComponent } from '../../dialogs/collection/examination-collection/examination-collection.component';
 
 @Component({
   selector: 'app-examination-tab',
@@ -34,6 +37,8 @@ export class ExaminationTabComponent implements OnInit {
   receivedCustomerId: string;
   loader = true;
   isUpdateButtonActive: boolean = false;
+  action: any;
+  examinationTabAction: any;
 
   examinationList: ExaminationListDto[] = [];
   dataSource = new MatTableDataSource<ExaminationListDto>(
@@ -45,7 +50,23 @@ export class ExaminationTabComponent implements OnInit {
     private _customerDataService: CustomerDataService,
     private _translocoService: TranslocoService,
     private _dialog: MatDialog,
-  ) { }
+    private router: Router,
+  ) {
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+      this.action = JSON.parse(actions);
+    }
+
+    const examinationAct = this.action.find((item: any) => {
+      return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+    });
+
+    if (examinationAct) {
+      this.examinationTabAction = examinationAct.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+    } else {
+      this.examinationTabAction = null;
+    }
+  }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();
@@ -215,6 +236,40 @@ export class ExaminationTabComponent implements OnInit {
 
   translate(key: string): any {
     return this._translocoService.translate(key);
+  }
+
+  public redirectToPatientDetails = (id: string) => {
+
+    const selectedExamination = this.examinationList.find(
+      (x) => x.id === id
+    );
+    if (selectedExamination) {
+      this.router.navigate(['/patientslist/patientdetails/', selectedExamination.patientId]);
+
+    }
+  };
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
+
+  }
+
+  public examinationCollectionDetails = (id: string) => {
+    const dialogRef = this._dialog.open(
+      ExaminationCollectionComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { examinationId: id },
+      }
+    );
   }
 
 

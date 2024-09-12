@@ -38,7 +38,7 @@
                       <div class="col-sm-12 mt-2 common-width">
                           <mat-form-field style="width:100%">
                               <mat-label>KDV Oranı</mat-label>
-                              <input matInput [formControlName]="'taxRatio'">
+                              <input matInput [formControlName]="'taxRatio'" type="number">
                           </mat-form-field>
                       </div>
                   </div>
@@ -58,7 +58,7 @@
                   </button>
                   <!-- Save as draft -->
                   <!-- Send -->
-                  <button class="order-first sm:order-last" mat-flat-button [color]="'primary'"
+                  <button class="order-first sm:order-last ml-3" mat-flat-button [color]="'primary'"
                       (click)="addUpdateTaxes()" [disabled]="buttonDisabled">
                       Kaydet
                   </button>

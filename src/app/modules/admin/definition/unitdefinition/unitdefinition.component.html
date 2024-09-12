@@ -32,8 +32,11 @@
                 Yeni Tedarikçiden Alış
             </button> 
             </button> -->
-
-            <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+            <button mat-stroked-button (click)="UnitsList()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+                Yenile
+              </button>
+            <button *ngIf="unitdefinitionsAction?.action !== 'Okuma'" class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Yeni Birim EKle
             </button>
@@ -43,8 +46,10 @@
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
         <!-- CONTENT GOES HERE -->
-
-        <div class="mat-elevation-z8">
+        <div role="status" class="animate-pulse" *ngIf="loader">
+            <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+          </div>
+        <div class="mat-elevation-z8" *ngIf="!loader">
             <table mat-table [dataSource]="dataSource">
 
                 <!-- Position Column -->
@@ -65,22 +70,29 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> İşlemler </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                        <button *ngIf="unitdefinitionsAction?.action !== 'Okuma'" mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
                             <mat-icon aria-label="Edit">edit</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                        <button *ngIf="unitdefinitionsAction?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
                             <mat-icon class="mat-18">delete</mat-icon>
                         </button>
+                        <button *ngIf="unitdefinitionsAction?.action !== 'Okuma'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="logView(element.id)">
+                              <mat-icon>history</mat-icon>
+                              <span>İşlem Geçmişi</span>
+                            </button>
+                          </mat-menu>
                     </td>
 
                 </ng-container>
                 
             </table>
-
-
-            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons #paginator
             aria-label="Select page of periodic elements">
-        </mat-paginator>
+          </mat-paginator> 
         </div>
 
     </div>

@@ -10,6 +10,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { CreateEditSalesBuyComponent } from '../create-edit-sales/create-edit-salesbuy.component';
 import { SaleBuyService } from 'app/core/services/ratail/salebuy.service';
 import { CreateEditBuyOrderComponent } from '../create-edit-buying-order/create-edit-buying-order.component';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 
 @Component({
@@ -23,12 +24,18 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         'invoiceNo',
         'supplierName',
         'payment',
+        'productName',
+        'amount',
         'netPrice',
         'kdv',
-        'discount',
+        // 'discount',
         'total',
         'actions',
     ];
+    loader = true;
+    items = Array(13);
+    action: any;
+    buyingListAct: any;
 
     @ViewChild('paginator') paginator: MatPaginator;
 
@@ -43,7 +50,22 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         private _dialog: MatDialog,
         private _translocoService: TranslocoService,
         private _salebuyservice: SaleBuyService,
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const buyingAct = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'vaccineappointment');
+        });
+
+        if (buyingAct) {
+            this.buyingListAct = buyingAct.roleSettingDetails.find((detail: any) => detail.target === 'vaccineappointment');
+        } else {
+            this.buyingListAct = null;
+        }
+    }
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
@@ -53,10 +75,10 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         this.getSaleBuy();
     }
 
-    getSaleBuy() : void {
+    getSaleBuy(): void {
 
         const model = {
-            type : 2
+            type: 2
         };
         this._salebuyservice.getBuySaleList(model).subscribe((response) => {
             this.salebuyList = response.data;
@@ -67,6 +89,12 @@ export class BuyingComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            this.loader = false;
             console.log(this.salebuyList);
         });
     }
@@ -139,23 +167,28 @@ export class BuyingComponent implements OnInit, AfterViewInit {
 
     public redirectToUpdate = (id: string) => {
         this.isUpdateButtonActive = true;
-        // const selectedStore = this.storeList.find((store) => store.id === id);
-        // if (selectedStore) {
-        //     const dialogRef = this._dialog.open(
-        //         CreateEditStoreDialogComponent,
-        //         {
-        //             maxWidth: '100vw !important',
-        //             disableClose: true,
-        //             data: selectedStore
-        //         }
-        //     );
-
-        //     dialogRef.afterClosed().subscribe((response) => {
-        //         if (response.status) {
-        //             this.getStoreList();
-        //         }
-        //     });
-        // }
+        const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+        if (selectedSaleBuy) {
+            const model = {
+                selectedsalebuy: selectedSaleBuy,
+                visibleCustomer: selectedSaleBuy.customerId === '00000000-0000-0000-0000-000000000000' ? false : true,
+                salebuyType: 2, 
+                isSupplier: true,
+            };
+            const dialogRef = this._dialog.open(
+                CreateEditSalesBuyComponent,
+                {
+                    maxWidth: '100vw !important',
+                    disableClose: true,
+                    data: model
+                }
+            );
+            dialogRef.afterClosed().subscribe((response) => {
+                if (response.status) {
+                    this.getSaleBuy();
+                }
+            });
+        }
     };
 
     public redirectToDelete = (id: string) => {
@@ -167,24 +200,33 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    const model = {
-                        id: id,
-                    };
-                    this._salebuyservice
-                        .deletedSaleBuy(model)
-                        .subscribe((response) => {
-                            if (response.isSuccessful) {
-                                this.getSaleBuy();
-                                const sweetAlertDto2 = new SweetAlertDto(
-                                    this.translate('sweetalert.success'),
-                                    this.translate('sweetalert.transactionSuccessful'),
-                                    SweetalertType.success
-                                );
-                                GeneralService.sweetAlert(sweetAlertDto2);
-                            } else {
-                                console.error('Silme işlemi başarısız.');
-                            }
-                        });
+
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if (selectedSaleBuy) {
+                        const model = {
+                            id: id,
+                            allSaleDeleted: false,
+                            ownerId: selectedSaleBuy.ownerId,
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+                    }
+
                 }
             }
         );
@@ -220,5 +262,59 @@ export class BuyingComponent implements OnInit, AfterViewInit {
         };
         return new Date(date).toLocaleString('tr-TR', options);
     }
+
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
+
+    public AllDeleted = (id: string) => {
+        const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.translate('sweetalert.areYouSureDelete'),
+            SweetalertType.warning
+        );
+        GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+                if (swalResponse.isConfirmed) {
+                    const selectedSaleBuy = this.salebuyList.find((salebuy) => salebuy.id === id);
+                    if (selectedSaleBuy) {
+                        const model = {
+                            ownerId: selectedSaleBuy.ownerId,
+                            allSaleDeleted: true
+                        };
+                        this._salebuyservice
+                            .deletedSaleBuy(model)
+                            .subscribe((response) => {
+                                if (response.isSuccessful) {
+                                    this.getSaleBuy();
+                                    const sweetAlertDto2 = new SweetAlertDto(
+                                        this.translate('sweetalert.success'),
+                                        this.translate(
+                                            'sweetalert.transactionSuccessful'
+                                        ),
+                                        SweetalertType.success
+                                    );
+                                    GeneralService.sweetAlert(sweetAlertDto2);
+                                } else {
+                                    console.error('Silme işlemi başarısız.');
+                                }
+                            });
+
+
+                    }
+
+
+                }
+            }
+        );
+    };
 
 }

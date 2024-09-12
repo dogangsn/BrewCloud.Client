@@ -9,6 +9,7 @@ import { TaxisService } from 'app/core/services/definition/taxis/taxis.service';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-taxes',
@@ -23,12 +24,29 @@ export class TaxesComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   taxisList: TaxesDto[] = [];
   dataSource = new MatTableDataSource<TaxesDto>(this.taxisList);
+  action:any;
+  taxesAction:any;
 
   constructor(
     private _dialog: MatDialog,
     private _translocoService: TranslocoService,
     private _taxisService: TaxisService
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'taxes');
+        });
+    
+        if (appointment) {
+            this.taxesAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'taxes');
+        } else {
+            this.taxesAction = null;
+        }
+  }
 
   ngOnInit() {
     this.getTaxisList();
@@ -136,6 +154,17 @@ export class TaxesComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+        LogViewComponent,
+        {
+            maxWidth: '100vw !important',
+            disableClose: true,
+            data: { masterId: id },
+        }
+    );
+}
 
 
 }

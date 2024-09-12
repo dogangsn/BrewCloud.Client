@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
 import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
-
+import { HttpService } from 'app/core/auth/Http.service';
+import { endPoints } from "environments/endPoints";
+import { shortcuts } from 'app/mock-api/common/shortcuts/data';
+import { v4 as uuidv4 } from 'uuid';
 @Injectable({
     providedIn: 'root'
 })
@@ -13,7 +16,10 @@ export class ShortcutsService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
+    constructor(
+        private _httpClient: HttpClient,
+        private _httpService: HttpService
+    )
     {
     }
 
@@ -36,9 +42,18 @@ export class ShortcutsService
     /**
      * Get all messages
      */
-    getAll(): Observable<Shortcut[]>
-    {
-        return this._httpClient.get<Shortcut[]>('api/common/shortcuts').pipe(
+    // getAll(): Observable<Shortcut[]>
+    // {
+    //     return this._httpClient.get<Shortcut[]>('api/common/shortcuts').pipe(
+    //         tap((shortcuts) => {
+    //             this._shortcuts.next(shortcuts);
+    //         })
+    //     );
+    // }
+
+    getAll() : Observable<Shortcut[]>{    
+        return this._httpService.getRequest(endPoints.shortCuts.getShortCuts).pipe(
+            map(response => response.data), // Extract the array from the data property
             tap((shortcuts) => {
                 this._shortcuts.next(shortcuts);
             })
@@ -52,9 +67,14 @@ export class ShortcutsService
      */
     create(shortcut: Shortcut): Observable<Shortcut>
     {
+       const guid = uuidv4();
+       shortcut.id=guid;
+        const model = {
+            shortcut:shortcut
+        }
         return this.shortcuts$.pipe(
             take(1),
-            switchMap(shortcuts => this._httpClient.post<Shortcut>('api/common/shortcuts', {shortcut}).pipe(
+            switchMap(shortcuts => this._httpService.post(endPoints.shortCuts.createShortCuts, model).pipe(
                 map((newShortcut) => {
 
                     // Update the shortcuts with the new shortcut
@@ -75,12 +95,13 @@ export class ShortcutsService
      */
     update(id: string, shortcut: Shortcut): Observable<Shortcut>
     {
+        const model = {
+            id:id,
+            shortcut:shortcut
+        }
         return this.shortcuts$.pipe(
             take(1),
-            switchMap(shortcuts => this._httpClient.patch<Shortcut>('api/common/shortcuts', {
-                id,
-                shortcut
-            }).pipe(
+            switchMap(shortcuts => this._httpService.post(endPoints.shortCuts.updateShortCuts, model).pipe(
                 map((updatedShortcut: Shortcut) => {
 
                     // Find the index of the updated shortcut
@@ -106,9 +127,12 @@ export class ShortcutsService
      */
     delete(id: string): Observable<boolean>
     {
+        const model = {
+            id:id
+        };
         return this.shortcuts$.pipe(
             take(1),
-            switchMap(shortcuts => this._httpClient.delete<boolean>('api/common/shortcuts', {params: {id}}).pipe(
+            switchMap(shortcuts => this._httpService.post(endPoints.shortCuts.deleteShortCuts, model).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted shortcut

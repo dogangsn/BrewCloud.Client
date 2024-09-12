@@ -5,6 +5,7 @@ import { FarmsDto } from "./FarmsDto";
 
 export class CustomerDetailDto {
     id: string;
+    recid: string;
     firstname: string;
     lastname: string;
     phonenumber: string;
@@ -28,6 +29,7 @@ export class CustomerDetailDto {
 
     constructor(
         id: string,
+        recid: string,
         firstname: string,
         lastname: string,
         phonenumber: string,
@@ -50,6 +52,7 @@ export class CustomerDetailDto {
         patientDetails: Array<PatientDetailsDto>) {
 
         this.id = id;
+        this.recid = recid;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phonenumber = phonenumber;

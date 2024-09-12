@@ -9,28 +9,48 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 
 @Component({
     selector: 'app-Unit',
     templateUrl: './unitdefinition.component.html',
     styleUrls: ['./unitdefinition.component.scss'],
 })
-export class UnitComponent implements OnInit, AfterViewInit {
+export class UnitComponent implements OnInit {
     displayedColumns: string[] = ['unitCode', 'unitName', 'actions'];
+    @ViewChild('paginator') paginator: MatPaginator;
 
     isUpdateButtonActive: boolean;
-    @ViewChild('paginator') paginator: MatPaginator;
     units: unitdefinitionListDto[] = [];
     dataSource = new MatTableDataSource<unitdefinitionListDto>(this.units);
+    loader = true;
+    items = Array(13);
+    action:any;
+    unitdefinitionsAction:any;
 
     constructor(
         private _dialog: MatDialog,
         private _unitsservice: UnitsService,
         private _translocoService: TranslocoService,
-    ) {}
+    ) {
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+    
+        const appointment = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'unitdefinition');
+        });
+    
+        if (appointment) {
+            this.unitdefinitionsAction = appointment.roleSettingDetails.find((detail: any) => detail.target === 'unitdefinition');
+        } else {
+            this.unitdefinitionsAction = null;
+        }
+     }
 
     ngOnInit() {
-      this.UnitsList();
+        this.UnitsList();
     }
 
     ngAfterViewInit() {
@@ -48,6 +68,13 @@ export class UnitComponent implements OnInit, AfterViewInit {
             );
 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            
+            this.loader = false;
         });
     }
 
@@ -120,7 +147,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
         );
     };
 
-    
+
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
@@ -141,5 +168,16 @@ export class UnitComponent implements OnInit, AfterViewInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
     }
 }

@@ -22,7 +22,11 @@
     </div>
     <!-- Actions -->
     <div class="flex  items-center mt-6 sm:mt-0 sm:ml-4">
-      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
+      <button mat-stroked-button (click)="getApponitmentList()">
+        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+        Yenile
+      </button>
+      <button *ngIf="appointmentCalendarAct?.action !== 'Okuma'" class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
         Randevu Ekle
       </button>
@@ -33,14 +37,14 @@
 
     <div role="status" class="animate-pulse" *ngIf="loader">
       <div class="h-360 bg-gray-200 rounded-sm dark:bg-gray-700 w-full mb-4"></div>
- 
+
     </div>
 
     <div *ngIf="!loader">
       <dx-scheduler [dataSource]="appointmentsData" [views]="['day', 'week', 'workWeek', 'month']" currentView="month"
         [currentDate]="currentDate" [startDayHour]="8" [height]="900"
         (onAppointmentDeleted)="onAppointmentDeleted($event)">
-        <dxi-resource [dataSource]="appointmentsData" [useColorAsDefault]="true">
+        <dxi-resource fieldExpr="colorId" [dataSource]="resourcesData" useColorAsDefault="true" colorExpr="color">
         </dxi-resource>
         <dxo-editing #editingOptions [allowAdding]="false" [allowUpdating]="false"></dxo-editing>
       </dx-scheduler>

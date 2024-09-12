@@ -12,6 +12,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LogViewComponent } from '../../commonscreen/log-view/log-view.component';
 @Component({
     selector: 'app-casingdefinition',
     templateUrl: './casingdefinition.component.html',
@@ -45,6 +46,12 @@ export class CasingdefinitionComponent {
         this._casingdefinitionService.getCasingDefinitionList().subscribe((response) => {
             this.casingcards = response.data;
             console.log(this.casingcards);
+
+            this.dataSource = new MatTableDataSource<casingDefinitionListDto>(
+                this.casingcards
+              );
+              this.dataSource.paginator = this.paginator;
+
         });
     }
     addPanelOpen(): void {
@@ -138,5 +145,16 @@ export class CasingdefinitionComponent {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
     }
 }

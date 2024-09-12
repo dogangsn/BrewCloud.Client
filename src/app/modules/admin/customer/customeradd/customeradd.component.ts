@@ -57,6 +57,9 @@ import { Duration } from 'luxon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateEditAnimalsColorDialogComponent } from './dialog/create-edit-animalscolor';
+import { CityService } from 'app/core/services/assetsService/cityService.service';
+import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
+import { ShortcutsService } from 'app/layout/common/shortcuts/shortcuts.service';
 
 @Component({
     selector: 'customeradd',
@@ -114,7 +117,10 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     selectedValue: string;
     AnimalTypeControl: FormControl = new FormControl();
-
+    cities: any[] = [];
+    district: any[] = [];
+    selectedCityValue: string;
+    shortcut : Shortcut;
     //
 
     constructor(
@@ -127,16 +133,22 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _animalColorDefService: AnimalColorsDefService,
         private router: Router,
         private route: ActivatedRoute,
-        private _dialog: MatDialog
-    ) {}
+        private _dialog: MatDialog,
+        private _cityService: CityService,
+        private _shortcutsService: ShortcutsService
+    ) { }
 
     ngOnInit() {
-        debugger;
+
         this.patients = [];
         this.getCustomerGroupList();
         this.getAnimalColorsDefList();
         this.getAnimalTypesList();
         this.getAnimalBreedsDefList();
+
+        this._cityService.getCities().subscribe(data => {
+            this.cities = data;
+        });
 
         this.accountForm = this._formBuilder.group({
             firstName: ['', [Validators.required]],
@@ -153,6 +165,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             province: [''],
             district: [''],
             longAdress: [''],
+            customergroup : ['']
         });
 
         //
@@ -185,7 +198,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     filterTagsByVendor(selectedVendor: any) {
-        debugger;
+
         console.log(selectedVendor.value);
         const selectedValue = selectedVendor.value;
         // Seçilen vendor'a ait tagleri filtrele
@@ -231,7 +244,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.phoneNumber2 = this.getFormValueByName('phoneNumber2');
         this.customers.eMail = this.getFormValueByName('eMail');
         this.customers.taxOffice = this.getFormValueByName('taxOffice');
-        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo');
+        this.customers.vKNTCNo = this.getFormValueByName('vKNTCNo').toString();;
         this.customers.note = this.getFormValueByName('note');
         this.customers.discountRate = this.getFormValueByName('discountRate');
         this.customers.province = this.getFormValueByName('province');
@@ -239,18 +252,71 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customers.longAdress = this.getFormValueByName('longAdress');
         this.customers.isPhone = this.getFormValueByName('isPhone');
         this.customers.isEmail = this.getFormValueByName('isEmail');
+        this.customers.customerGroup = this.getFormValueByName('customergroup')
         this.customers.PatientDetails = this.patients;
 
         return true;
     }
 
+
+
+    saveOpenedPatient(): void {
+        if (this.selectedPatients) {
+            let selectedProduct = this.patients.find(
+                (product) => product.id === this.selectedPatients.id
+            );
+
+            selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
+            selectedProduct.name =
+                this.selectedPatientDetailsForm.value?.name;
+            selectedProduct.birthDate =
+                this.selectedPatientDetailsForm.value?.birthDate;
+            selectedProduct.chipNumber =
+                this.selectedPatientDetailsForm.value?.chipNumber;
+            selectedProduct.reportNumber =
+                this.selectedPatientDetailsForm.value?.reportNumber;
+            selectedProduct.specialNote =
+                this.selectedPatientDetailsForm.value?.specialNote;
+            selectedProduct.sterilization =
+                this.selectedPatientDetailsForm.value?.sterilization;
+            selectedProduct.sex =
+                this.selectedPatientDetailsForm.value?.sex;
+            selectedProduct.animalType =
+                this.selectedPatientDetailsForm.value?.animalType;
+            selectedProduct.animalBreed =
+                this.selectedPatientDetailsForm.value?.animalBreed;
+            selectedProduct.animalColor =
+                this.selectedPatientDetailsForm.value?.animalColor;
+            selectedProduct.active =
+                this.selectedPatientDetailsForm.value?.active;
+            selectedProduct.thumbnail =
+                this.selectedPatientDetailsForm.value?.thumbnail;
+            selectedProduct.tags =
+                this.selectedPatientDetailsForm.value?.tags;
+            selectedProduct.images =
+                this.selectedPatientDetailsForm.value?.images;
+            this.selectedPatientDetailsForm.reset();
+            this.selectedPatients = null;
+        }
+
+
+
+    }
+
+
+
+
+
+
     addCustomers(): any {
-        debugger;
+
         if (this.accountForm.invalid) {
             this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
             return;
         }
         if (this.fillSelectedInvoice()) {
+            this.saveOpenedPatient();
+
             const model = {
                 createcustomers: this.customers,
                 IsCreateVaccine: false
@@ -281,7 +347,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                             }
                         );
                     } else {
-                        debugger;
+
                         this.showSweetAlert('error', response.errors[0]);
                     }
                 },
@@ -293,12 +359,14 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     addCustomersWithVaccine(): any {
-        debugger;
+
         if (this.accountForm.invalid) {
             this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
             return;
         }
         if (this.fillSelectedInvoice()) {
+            this.saveOpenedPatient();
+            
             const model = {
                 createcustomers: this.customers,
                 IsCreateVaccine: true
@@ -330,7 +398,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                             }
                         );
                     } else {
-                        debugger;
+
                         this.showSweetAlert('error', response.errors[0]);
                     }
                 },
@@ -406,7 +474,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
 
             const newPatient: PatientDetails = {
                 id: newId,
-                recId : '',
+                recId: '',
                 name: '',
                 birthDate: today,
                 chipNumber: '',
@@ -429,7 +497,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         const newId = uuidv4();
         const newPatient: PatientDetails = {
             id: newId,
-            recId:'',
+            recId: '',
             name: '',
             birthDate: today,
             chipNumber: '',
@@ -447,14 +515,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.patients.push(newPatient);
         this.selectedPatients = newPatient;
-        debugger;
+
         this.selectedPatientDetailsForm.patchValue(newPatient);
+        this.filteredTags = [];
+
         //this.tagsEditMode = true;
         //this._changeDetectorRef.markForCheck();
     }
 
     async toggleDetails(patientId: string): Promise<void> {
-        debugger;
+
         console.log('patiendid', patientId);
 
         // if (this.selectedPatients && this.selectedPatients.id === patientId) {
@@ -484,7 +554,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
             (swalResponse) => {
                 if (swalResponse.isConfirmed) {
-                    debugger;
+
                     const index = this.patients.findIndex(
                         (patient) => patient.id === patiendId
                     );
@@ -519,11 +589,31 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
             let selectedProduct = this.patients.find(
                 (product) => product.id === productId
             );
+
             if (!this.selectedPatients) {
                 selectedProduct = this.patients.find(
                     (product) => product.id === productId
                 );
                 this.selectedPatients = selectedProduct;
+
+
+                // selectedProduct.animalType ile eşleşen hayvan türlerini filtreleyin
+                this.filteredTags = this.animalBreedsDef.filter(
+                    (tag) => tag.animaltype == selectedProduct.animalType
+                );
+
+                // selectedProduct.animalBreed ile eşleşen hayvan türünü bulun ve isSelected alanını true yapın
+                const value = this.filteredTags.find(x => x.recId == selectedProduct.animalBreed);
+                if (value) {
+                    value.isSelected = true;
+                }
+
+                // Filtrelenmiş ve güncellenmiş listeyi yeniden gösterin
+                this.filteredTags = [...this.filteredTags];
+
+
+
+
                 this.selectedPatientDetailsForm.patchValue(selectedProduct);
             } else if (this.selectedPatients?.id !== selectedProduct?.id) {
                 selectedProduct = this.patients.find(
@@ -563,6 +653,16 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     (x) => x.id === productId
                 );
                 this.selectedPatients = newPatient;
+
+                this.filteredTags = this.animalBreedsDef.filter(
+                    (tag) => tag.animaltype == this.selectedPatients.animalType
+                );
+
+                // selectedProduct.animalBreed ile eşleşen hayvan türünü bulun ve isSelected alanını true yapın
+                const value = this.filteredTags.find(x => x.recId == this.selectedPatients.animalBreed);
+                if (value) {
+                    value.isSelected = true;
+                }
                 this.selectedPatientDetailsForm.patchValue(newPatient);
             } else if (selectedProduct) {
                 selectedProduct.id = this.selectedPatientDetailsForm.value?.id;
@@ -821,7 +921,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
         tag: VetAnimalBreedsDefDto,
         change: MatCheckboxChange
     ): void {
-        debugger;
+
         if (change.checked) {
             this.filteredTags.forEach((tag) => {
                 tag.isSelected = false;
@@ -877,7 +977,7 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     phoneNumberValidator(phoneNumber: any): boolean {
-        debugger;
+
         const phoneNumberPattern = /^\(\d{3}\) \d{3}-\d{4}$/; // İstenen telefon numarası formatı
         const validAreaCodes = [
             '(505)',
@@ -950,9 +1050,35 @@ export class CustomeraddComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.getAnimalColorsDefList();
                 }
             });
-            
+
     }
 
+    handleCityChange(event: any) {
+        let city = this.cities.filter(x => x.name === event.value);
+        if (city.length > 0) {
+            this.district = city[0].districts;
+        } else {
+            this.district = [];
+        }
+    }
+
+    
+    addToShortCuts() {
+        this.shortcut = {
+            id: '',  
+            label: '',
+            icon: '',
+            link: '',
+            useRouter: true
+        };
+    
+        this.shortcut.description = "Yeni Müşteri Ekle";
+        this.shortcut.label = "Müşteri Ekle";
+        this.shortcut.icon = "heroicons_outline:user-plus";
+        this.shortcut.link = "/customeradd";
+    
+        this._shortcutsService.create(this.shortcut).subscribe();
+    }
 
 
 }

@@ -9,6 +9,10 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { CreateEditAccommodationsComponent } from 'app/modules/admin/pethotels/accommodations/dialog/create-edit-accommodations.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AccommodationexitComponent } from 'app/modules/admin/pethotels/accommodations/dialog/accommodationexit/accommodationexit.component';
+import { LogViewComponent } from 'app/modules/admin/commonscreen/log-view/log-view.component';
 
 @Component({
   selector: 'app-accommodations-tab',
@@ -24,13 +28,31 @@ export class AccommodationsTabComponent implements OnInit {
   accommodations: AccomodationListDto[] = [];
   dataSource = new MatTableDataSource<AccomodationListDto>(this.accommodations);
   receivedCustomerId: string;
+  action:any;
+  accomodationsAction:any;
 
   constructor(
     private _customerDataService: CustomerDataService,
     private _customerService: CustomerService,
     private _accommodationrooms: AccommodationsService,
-    private _translocoService: TranslocoService
-  ) { }
+    private _translocoService: TranslocoService,
+    private _dialog: MatDialog,
+  ) {
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+        this.action = JSON.parse(actions);
+    }
+
+    const customer = this.action.find((item: any) => {
+        return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+    });
+
+    if (customer) {
+        this.accomodationsAction = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+    } else {
+        this.accomodationsAction = null;
+    }
+   }
 
   ngOnInit() {
     this.receivedCustomerId = this._customerDataService.getCustomerId();
@@ -65,7 +87,7 @@ export class AccommodationsTabComponent implements OnInit {
     return new Date(date).toLocaleString('tr-TR', options);
   }
 
-  public redirectToDelete = (id: string) => {
+  public accomodationDelete = (id: string) => {
 
     const selectedaccomotion = this.accommodations.find((x) => x.id === id);
     if (selectedaccomotion) {
@@ -110,6 +132,49 @@ export class AccommodationsTabComponent implements OnInit {
 
   };
 
+  public updateAccomodation = (id: string) => {
+    this.isUpdateButtonActive = true;
+    const selectedroom = this.accommodations.find((x) => x.id === id);
+    if (selectedroom) {
+      const dialogRef = this._dialog.open(
+        CreateEditAccommodationsComponent,
+        {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedroom
+        }
+      );
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response.status) {
+          this.getAccommodationsList();
+        }
+      });
+    }
+  };
+
+  public reservationlogout = (id: string) => {
+
+    const selectedroom = this.accommodations.find((x) => x.id === id);
+    if (selectedroom) {
+
+      this.isUpdateButtonActive = false;
+      const dialog = this._dialog
+        .open(AccommodationexitComponent, {
+          maxWidth: '100vw !important',
+          disableClose: true,
+          data: selectedroom,
+        })
+        .afterClosed()
+        .subscribe((response) => {
+          if (response.status) {
+            this.getAccommodationsList();
+          }
+        });
+
+    }
+
+  }
+
   showSweetAlert(type: string, message: string): void {
     if (type === 'success') {
       const sweetAlertDto = new SweetAlertDto(
@@ -139,6 +204,19 @@ export class AccommodationsTabComponent implements OnInit {
   translate(key: string): any {
     return this._translocoService.translate(key);
   }
+
+  public logView = (id: string) => {
+    const dialogRef = this._dialog.open(
+      LogViewComponent,
+      {
+        maxWidth: '100vw !important',
+        disableClose: true,
+        data: { masterId: id },
+      }
+    );
+
+  }
+
 
 
 }

@@ -90,7 +90,9 @@ export class Demand1Component implements OnInit, OnDestroy, AfterViewInit {
     private _dialogRef: any;
     public remmemberselected;
     private quantityAdet;
-    seclest: UntypedFormGroup;
+    seclest : UntypedFormGroup;
+    loader=true;
+    items = Array(13);
     taxisList: TaxesDto[] = [];
 
     constructor(
@@ -221,6 +223,7 @@ export class Demand1Component implements OnInit, OnDestroy, AfterViewInit {
         this.demandProductsService.getDemandProductsList()
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((response) => {
+                this.loader=false;
                 debugger;
                 if (response && response.data) {
                     this.productsList = response.data;
@@ -229,7 +232,7 @@ export class Demand1Component implements OnInit, OnDestroy, AfterViewInit {
                     // Diğer işlemleri burada gerçekleştirin.
                 }
             });
-
+        
     }
     getProducts() {
         this.productDescriptionService.GetProductDescriptionList()

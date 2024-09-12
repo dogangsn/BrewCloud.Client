@@ -28,13 +28,30 @@ export class VaccineTabComponent implements OnInit {
   vaccineAppointmentList: CreateVaccineListDto[] = [];
   dataSource = new MatTableDataSource<CreateVaccineListDto>(this.vaccineAppointmentList);
   vaccineAppointment: CreateVaccineListDto;
+  action:any;
+  vaccineAction:any;
 
   constructor(
     private _dialog: MatDialog,
     private _translocoService: TranslocoService,
     private _customerDataService: CustomerDataService,
     private _vaccineCalendarService: VaccineCalendarService
-  ) { }
+  ) { 
+    const actions = localStorage.getItem('actions');
+    if (actions) {
+        this.action = JSON.parse(actions);
+    }
+
+    const customer = this.action.find((item: any) => {
+        return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+    });
+
+    if (customer) {
+        this.vaccineAction = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+    } else {
+        this.vaccineAction = null;
+    }
+  }
 
   ngOnInit() {
     this.recievedCustpmerId=this._customerDataService.getCustomerId();

@@ -20,6 +20,7 @@ import { GeneralService } from 'app/core/services/general/general.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CreateEditSalesComponent } from '../collection/create-edit-sales/create-edit-sales.component';
 import { UpdateSaleCommand } from './models/UpdateSaleCommand';
+import { AccountingService } from 'app/core/services/accounting/accounting.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -55,8 +56,8 @@ export class SalesDialogComponent implements OnInit {
   @Output() salesAdded = new EventEmitter<any>();
 
   buttonDisabled = false;
-  displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'actions'];
-  dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' }];
+  displayedColumns: string[] = ['product', 'quantity', 'unitPrice', 'discount', 'vat', 'total', 'taxTotal', 'actions'];
+  dataSource: SalesDto[] = [{ id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0, netVat: 0 }];
 
   products: ProductDescriptionsDto[] = [];
   taxisList: TaxesDto[] = [];
@@ -66,6 +67,8 @@ export class SalesDialogComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   formGroup: FormGroup;
   selectedCustomerId: any;
+  stockcontrolmessage: string;
+  discountedTotalAmount: number = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -74,6 +77,7 @@ export class SalesDialogComponent implements OnInit {
     private _taxisService: TaxisService,
     private _customerService: CustomerService,
     private _translocoService: TranslocoService,
+    private _accountingService: AccountingService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private eventService: EventService,
     private _dialog: MatDialog,
@@ -130,7 +134,7 @@ export class SalesDialogComponent implements OnInit {
   }
 
   addRow() {
-    const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok' };
+    const newRow: SalesDto = { id: uuidv4(), product: '', quantity: 1, unit: 'Adet', unitPrice: 0, discount: 0, vat: 'Yok', netPrice: 0, netVat: 0 };
     this.dataSource = [...this.dataSource, newRow];
   }
 
@@ -145,19 +149,76 @@ export class SalesDialogComponent implements OnInit {
   calculateTotal(element: SalesDto): number {
     const price = element.quantity * element.unitPrice;
     const discount = element.discount || 0;
-    const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-    return price - discount + price * vatRate;
+    let totalPrice = price - discount;
+
+    let calcvat = 0;
+    if (element.vat !== "Yok") {
+      const price = element.quantity * element.unitPrice;
+      const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio; //element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
+      const inculeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+      if (price > 0 && vatRate > 0) {
+        if (inculeKDV) {
+          let basePrice = price / (1 + (vatRate / 100))
+          calcvat = price - basePrice;
+          totalPrice = totalPrice - calcvat;
+        } else {
+          calcvat = (price * vatRate) / 100
+          totalPrice = totalPrice;
+        }
+      }
+    }
+    element.netPrice = totalPrice;
+
+    return totalPrice;
   }
 
   calculateSubtotal(): number {
-    return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.unitPrice - (element.discount || 0)), 0);
+    return this.dataSource.reduce((acc, element) => acc + (element.quantity * element.netPrice - (element.discount || 0)), 0);
+  }
+
+  calculateVatRow(element: SalesDto): number {
+    if (element.vat !== "Yok") {
+      const price = element.quantity * element.unitPrice;
+      const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio;
+      const includeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+      let calcvat = 0;
+      if (price > 0 && vatRate > 0) {
+        if (includeKDV) {
+          const basePrice = price / (1 + (vatRate / 100));
+          calcvat = price - basePrice;
+        } else {
+          calcvat = (price * vatRate) / 100;
+        }
+      }
+      element.netVat = calcvat;
+
+      return calcvat;
+    }
   }
 
   calculateVat(): number {
     return this.dataSource.reduce((acc, element) => {
-      const price = element.quantity * element.unitPrice;
-      const vatRate = element.vat === '8%' ? 0.08 : element.vat === '18%' ? 0.18 : 0;
-      return acc + (price * vatRate);
+      if (element.vat !== "Yok") {
+        const price = element.quantity * element.unitPrice;
+        const vatRate = this.taxisList.find(x => x.id === element.vat).taxRatio;
+        const includeKDV = this.products.find(x => x.id === element.product).sellingIncludeKDV;
+
+        let calcvat = 0;
+        if (price > 0 && vatRate > 0) {
+          if (includeKDV) {
+            const basePrice = price / (1 + (vatRate / 100));
+            calcvat = price - basePrice;
+          } else {
+            calcvat = (price * vatRate) / 100;
+          }
+        }
+        element.netVat = calcvat;
+
+        return acc + calcvat;
+      }
+      return acc;
     }, 0);
   }
 
@@ -190,7 +251,10 @@ export class SalesDialogComponent implements OnInit {
   }
 
   setProductList(response: any): void {
-    this.products = response.data;
+    if (response.data) {
+      this.products = response.data;
+      this.products = this.products.filter(x => x.active === true);
+    }
   }
 
   getFormValueByName(formName: string): any {
@@ -220,60 +284,43 @@ export class SalesDialogComponent implements OnInit {
   }
 
   addSales(isCollection: boolean): void {
-    const model = new CreateSaleCommand();
-    model.trans = this.dataSource;
-    model.remark = this.getFormValueByName('remark');
-    model.date = this.getFormValueByName('date');
-    model.customerId = this.selectedCustomerId;
+    const productGuids = this.dataSource.map(item => item.product);
+    const _model = {
+      productIds: productGuids
+    }
+    zip(
+      this.isStockControl(_model)
+    ).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (value) => {
+        this.setStockControl(value[0])
+      },
+      error: (e) => {
+        console.log(e);
+      },
+      complete: () => {
 
-    this._customerService
-      .saleCommand(model)
-      .subscribe(
-        (response) => {
-          if (response.isSuccessful) {
-            this.showSweetAlert(
-              'success',
-              'sweetalert.transactionSuccessful'
-            );
-            this._dialogRef.close({
-              status: true,
-            });
-
-            if (isCollection) {
-              const modelSale = {
-                customerId: this.selectedCustomerId,
-                saleOwnerId: response.data.id,
-                amount: response.data.amount,
-                data: null
+        if (this.stockcontrolmessage.length > 0) {
+          const sweetAlertDto = new SweetAlertDto(
+            this.translate('sweetalert.areYouSure'),
+            this.stockcontrolmessage,
+            SweetalertType.warning
+          );
+          GeneralService.sweetAlertOfQuestion(sweetAlertDto).then(
+            (swalResponse) => {
+              if (swalResponse.isConfirmed) {
+                this.addNoControlSale(isCollection);
+              } else {
+                this.buttonDisabled = false;
               }
-              this._dialog
-                .open(CreateEditSalesComponent, {
-                  maxWidth: '100vw !important',
-                  disableClose: true,
-                  data: modelSale
-                })
-                .afterClosed()
-                .subscribe((response) => {
-                  if (response.status) {
-                  }
-                });
-
             }
-
-
-          } else {
-            this.showSweetAlert(
-              'error',
-              'sweetalert.transactionFailed'
-            );
-          }
-        },
-        (err) => {
-          console.log(err);
+          )
+        } else {
+          this.addNoControlSale(isCollection);
         }
-      );
-    this.salesAdded.emit();
-
+      }
+    });
   }
 
   updateSales(): void {
@@ -316,6 +363,79 @@ export class SalesDialogComponent implements OnInit {
     this.selectedsales
       ? this.updateSales()
       : this.addSales(true);
+  }
+
+  isStockControl(model: any): Observable<any> {
+    return this._accountingService.isSaleProductControl(model);
+  }
+
+  setStockControl(response: any): void {
+    if (response.data) {
+      this.stockcontrolmessage = response.data;
+    }
+  }
+
+  addNoControlSale(isCollection: boolean): void {
+    const model = new CreateSaleCommand();
+    model.trans = this.dataSource;
+    model.remark = this.getFormValueByName('remark');
+    model.date = this.getFormValueByName('date');
+    model.customerId = this.selectedCustomerId;
+    this._customerService
+      .saleCommand(model)
+      .subscribe(
+        (response) => {
+          if (response.isSuccessful) {
+            this.showSweetAlert(
+              'success',
+              'sweetalert.transactionSuccessful'
+            );
+            this._dialogRef.close({
+              status: true,
+            });
+
+            if (isCollection) {
+              const modelSale = {
+                customerId: this.selectedCustomerId,
+                saleOwnerId: response.data.id,
+                amount: response.data.amount,
+                data: null
+              }
+              this._dialog
+                .open(CreateEditSalesComponent, {
+                  maxWidth: '100vw !important',
+                  disableClose: true,
+                  data: modelSale
+                })
+                .afterClosed()
+                .subscribe((response) => {
+                  if (response.status) {
+                    this.eventService.dialogClosed.emit(true);
+                  }
+                });
+            }
+          } else {
+            this.showSweetAlert(
+              'error',
+              'sweetalert.transactionFailed'
+            );
+          }
+        },
+        (err) => {
+          console.log(err);
+          this.buttonDisabled = false;
+        }
+      );
+    this.salesAdded.emit();
+  }
+
+
+  applyDiscount() {
+    const subtotal = this.calculateSubtotal();
+    const vat = this.calculateVat();
+    const totalAmount = subtotal + vat;
+    const discountAmount = totalAmount * 0.25;
+    this.discountedTotalAmount = discountAmount;
   }
 
 

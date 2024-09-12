@@ -27,4 +27,6 @@ export class TitleService {
     deleteTitle(model: any): Observable<any> {
         return this._httpService.post(endPoints.title.deleteTitle, model);
     }
+
+ 
 }

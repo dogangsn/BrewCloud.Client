@@ -115,6 +115,7 @@ export class CreateEditBuyOrderComponent implements OnInit {
 
         }
     }
+    
     ngOnInit() {
         this.salebuy = this._formBuilder.group({
             date: [new Date()],
@@ -152,12 +153,14 @@ export class CreateEditBuyOrderComponent implements OnInit {
 
 
     }
+
     toggleDetails(demandId: string): void {
         debugger;
         var demand = this.demandcards.find(x => x.id === demandId);
         this.selectedDemand = demand;
         this.cdr.markForCheck();
     }
+
     getDemandProducts() {
 
         const demandProductItem = new demandTransList(
@@ -190,6 +193,7 @@ export class CreateEditBuyOrderComponent implements OnInit {
             });
 
     }
+
     getDemands() {
 
         this.demandProductsService.getDemandComplateList()
@@ -205,8 +209,12 @@ export class CreateEditBuyOrderComponent implements OnInit {
         });
 
     }
+
     getCustomerList() {
-        this._customerListService.getcustomerlist().subscribe((response) => {
+        let model = {
+            IsArchive : false
+        }
+        this._customerListService.getcustomerlist(model).subscribe((response) => {
             this.customerlist = response.data;
             console.log(this.customerlist);
         });

@@ -8,4 +8,5 @@ export class ExaminationListDto {
     symptoms: string;
     complaintStory: string;
     treatmentDescription: string;
+    patientId : string;
 }

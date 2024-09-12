@@ -31,6 +31,9 @@ export class UsersService {
             model
         );
     }
-
+    
+    getActiveUser() : Observable<any> {
+        return this._httpService.getRequest(endPoints.settings.getActiveUser);
+    }
 
 }

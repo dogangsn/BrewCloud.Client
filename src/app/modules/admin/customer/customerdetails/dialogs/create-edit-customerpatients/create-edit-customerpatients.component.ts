@@ -112,7 +112,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
       sex: [1],
       animalType: [0],
       animalBreed: [],
-      animalColor: [''],
+      animalColor: [0],
       reportNumber: [''],
       specialNote: [''],
       sterilization: [],
@@ -132,7 +132,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
         sex: selectedpatient.sex,
         animalType: selectedpatient.animalType,
         animalBreed: selectedpatient.animalBreed,
-        animalColor: selectedpatient.animalColor,
+        animalColor: selectedpatient.animalColorId,
         reportNumber: selectedpatient.reportNumber,
         specialNote: selectedpatient.specialNote,
         sterilization: selectedpatient.sterilization
@@ -143,7 +143,7 @@ export class CreateEditCustomerpatientsComponent implements OnInit {
 
   filterTagsByVendor(selectedVendor: any) {
 
-    const selectedValue = selectedVendor.value;
+    const selectedValue = this.selectedpatients ? selectedVendor : selectedVendor.value;
     this.filteredAnimalBreed = this.animalBreedsDef.filter(
       (tag) => tag.animaltype == selectedValue
     );

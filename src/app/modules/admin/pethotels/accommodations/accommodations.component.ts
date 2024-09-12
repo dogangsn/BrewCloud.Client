@@ -47,6 +47,7 @@ export class AccommodationsComponent implements OnInit {
         this.accommodations
       );
       this.dataSource.paginator = this.paginator;
+      console.log(this.now);
     });
   }
 
@@ -174,4 +175,11 @@ export class AccommodationsComponent implements OnInit {
     };
     return new Date(date).toLocaleString('tr-TR', options);
   }
+
+
+
+  stringFormatDate(date: string): Date {
+    return new Date(date);
+  }
+
 }

@@ -7,7 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { parametersListDto } from './models/parametersListDto';
 import { ParametersService } from 'app/core/services/settings/parameters.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, zip } from 'rxjs';
 import { UpdateParametersCommand } from './models/UpdateParametersCommand';
 import { GeneralService } from 'app/core/services/general/general.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
@@ -15,6 +15,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { TranslocoService } from '@ngneat/transloco';
 import { casingDefinitionListDto } from '../../definition/casingdefinition/models/casingDefinitionListDto';
 import { CasingDefinitionService } from 'app/core/services/definition/CasingDefinition/casingdefinition.service';
+import { SmsParametersDto } from '../smsparameters/models/smsParameterDto';
+import { SmsIntegrationType } from './models/smsCompany.enum';
 // import { MatDialogRef } from '@angular/material/dialog';
 // import { }
 @Component({
@@ -52,7 +54,7 @@ export class ParametersComponent implements OnInit {
         '22:00',
         '23:00',
         '24:00',
-        ]
+    ]
     selectedDays = new FormControl([]);
     allselectcheck: string = 'Tümünü Seç';
     checkAllSelect: boolean = false;
@@ -62,7 +64,13 @@ export class ParametersComponent implements OnInit {
     updateid: string = '';
     casingcards: casingDefinitionListDto[] = [];
     selectedCasingId: any = '';
-    loader=true;
+    loader = true;
+
+    smsparameters: SmsParametersDto[] = []
+    destroy$: Subject<boolean> = new Subject<boolean>();
+
+    mapsmsintegrationyype: { name: string; id: number }[] = [];
+    shouldShowAppointmentInterval = false;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -75,9 +83,35 @@ export class ParametersComponent implements OnInit {
     { }
 
     ngOnInit() {
-        debugger;
+
+        for (var n in SmsIntegrationType) {
+            if (typeof SmsIntegrationType[n] === 'number') {
+                this.mapsmsintegrationyype.push({ id: <any>SmsIntegrationType[n], name: n });
+            }
+        }
+
+
+
         this.getCasingDefinition();
         this.getParametersList();
+
+        zip(
+            this.getSmsParametersList(),
+        ).pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                this.setProducesResponse(value[0])
+            },
+            error: (e) => {
+                console.log(e);
+            },
+            complete: () => {
+
+            }
+        });
+
+
         this.parameters = this._formBuilder.group({
             id: [''],
             appointmentReminderDuration: [0], // Randevi Hatırlatma Süresi // number
@@ -97,10 +131,19 @@ export class ParametersComponent implements OnInit {
             isFirstInspection: [false],
             appointmentBeginDate: [''],
             appointmentEndDate: [''],
-            isExaminationAmuntZero: [false]
+            isExaminationAmuntZero: [false],
+            datetimestatus: [0],
+            appointmentinterval: [0],
+            appointmentSeansDuration : [0],
+            petHotelsDateTimeFormat: [0]
+        });
+
+        this.parameters.get('datetimestatus')?.valueChanges.subscribe(value => {
+            this.shouldShowAppointmentInterval = value === 1;
         });
 
     }
+
     ngAfterViewInit() {
         debugger;
         //   this._casingdefinitionService.getCasingDefinitionList().subscribe((response) => {
@@ -152,6 +195,7 @@ export class ParametersComponent implements OnInit {
                 console.log(this.casingcards);
             });
     }
+
     getParametersList() {
         this._parametersService
             .getparameterList()
@@ -167,12 +211,13 @@ export class ParametersComponent implements OnInit {
                 }
             });
     }
+
     fillFormData(getparam: parametersListDto[]) {
-        const daysfill = getparam[0].days.split(',').slice(0, -1); 
-        if (getparam[0].appointmentBeginDate=="") {
-            getparam[0].appointmentBeginDate="10:00";
-            getparam[0].appointmentEndDate="19:00";
-        }       
+        const daysfill = getparam[0].days.split(',').slice(0, -1);
+        if (getparam[0].appointmentBeginDate == "") {
+            getparam[0].appointmentBeginDate = "10:00";
+            getparam[0].appointmentEndDate = "19:00";
+        }
         if (this.getParameters !== null) {
             this.parameters.setValue({
                 id: getparam[0].id,
@@ -196,15 +241,21 @@ export class ParametersComponent implements OnInit {
                 isFirstInspection: getparam[0].isFirstInspection,
                 appointmentBeginDate: getparam[0].appointmentBeginDate,
                 appointmentEndDate: getparam[0].appointmentEndDate,
-                isExaminationAmuntZero: getparam[0].isExaminationAmuntZero
+                isExaminationAmuntZero: getparam[0].isExaminationAmuntZero,
+                datetimestatus: getparam[0].datetimestatus,
+                appointmentinterval: getparam[0].appointmentinterval,
+                appointmentSeansDuration : getparam[0].appointmentSeansDuration,
+                petHotelsDateTimeFormat: getparam[0].petHotelsDateTimeFormat
             });
             this.selectedDays.setValue(daysfill);
         }
-        this.loader=false;
+        this.loader = false;
     }
+
     filterCustomerId(value: any): void {
         this.selectedCasingId = value;
     }
+
     onSmsCompanySelectionChange(event: any): void {
         // const selectedProductId = event.value; // Seçilen ürünün id değeri
         //  const selectedProducts = this.productdescription.find(product => product.id === selectedProductId);
@@ -227,6 +278,7 @@ export class ParametersComponent implements OnInit {
         //     this.quantityAdet = selectedProducts.id;
         // }
     }
+
     oncashAccountSelectionChange(event: any): void { }
     oncreditCardCashAccountSelectionChange(event: any): void { }
     onbankTransferCashAccountSelectionChange(event: any): void { }
@@ -238,6 +290,7 @@ export class ParametersComponent implements OnInit {
     getFormValueByName(formName: string): any {
         return this.parameters.get(formName).value;
     }
+
     saveParameter() {
         const dtoListId = this.getParameters.length;
         if (dtoListId === 0) {
@@ -283,7 +336,11 @@ export class ParametersComponent implements OnInit {
             this.getFormValueByName('isFirstInspection'),
             this.getFormValueByName('appointmentBeginDate'),
             this.getFormValueByName('appointmentEndDate'),
-            this.getFormValueByName('isExaminationAmuntZero')
+            this.getFormValueByName('isExaminationAmuntZero'),
+            this.getFormValueByName('datetimestatus'),
+            this.getFormValueByName('appointmentinterval'),
+            this.getFormValueByName('appointmentSeansDuration'),
+            this.getFormValueByName('petHotelsDateTimeFormat'),
         );
 
         this.selectedDays.value.forEach((x) => {
@@ -321,6 +378,7 @@ export class ParametersComponent implements OnInit {
             this.selectedDays.setValue(this.days);
         }
     }
+
     showSweetAlert(type: string): void {
         if (type === 'success') {
             const sweetAlertDto = new SweetAlertDto(
@@ -338,7 +396,26 @@ export class ParametersComponent implements OnInit {
             GeneralService.sweetAlert(sweetAlertDto);
         }
     }
+
     translate(key: string): any {
         return this._translocoService.translate(key);
     }
+
+    getSmsParametersList(): Observable<any> {
+        return this._parametersService.getSmsParametersList();
+    }
+
+    setProducesResponse(response: any): void {
+        this.smsparameters = response.data;
+    }
+
+    getEnumStringValue(value: number): string {
+        switch (value) {
+            case SmsIntegrationType.MutluCELL:
+                return "MutluCELL";
+            default:
+                return "Bilinmeyen";
+        }
+    }
+
 }

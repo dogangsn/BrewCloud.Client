@@ -19,6 +19,7 @@ export class LabComponent implements OnInit {
         'note',
         'actions',
     ];
+    loader = true;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     customerlist: customersListDto[] = [];
@@ -36,7 +37,12 @@ export class LabComponent implements OnInit {
     getCustomerLabList() {
         this._labService.getCustomersLabList().subscribe((response) => {
             this.customerlist = response.data;
+            this.loader = false;
             console.log(this.customerlist);
         });
+    }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 }

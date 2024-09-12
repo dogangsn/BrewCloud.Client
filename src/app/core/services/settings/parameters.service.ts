@@ -42,4 +42,9 @@ export class ParametersService {
         return this._httpService.post(endPoints.parameters.getSmsParametersIdBy, model);
     }
 
+    getSmsParametersList() : Observable<any>{
+        return this._httpService.getRequest(endPoints.parameters.getSmsParametersList);
+    }
+
+
 }

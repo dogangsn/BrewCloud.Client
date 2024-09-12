@@ -30,7 +30,10 @@
               Yeni Tedarikçiden Alış
           </button> 
           </button> -->
-
+          <button mat-stroked-button (click)="ProductCategoryList()">
+            <mat-icon class="icon-size-5 mr-2" [svgIcon]="'refresh'"></mat-icon>
+            Yenile
+          </button>
       <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addPanelOpen()">
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
         Yeni Kategori EKle
@@ -43,7 +46,7 @@
 
     <div class="mat-elevation-z8">
 
-      <table mat-table [dataSource]="productcategories">
+      <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="categoryCode">
           <th mat-header-cell *matHeaderCellDef> Kategori Kodu </th>
@@ -67,6 +70,15 @@
             <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logView(element.id)">
+                <mat-icon>history</mat-icon>
+                <span>İşlem Geçmişi</span>
+              </button>
+            </mat-menu>
           </td>
 
         </ng-container>
@@ -74,7 +86,7 @@
 
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10"  showFirstLastButtons aria-label="Select page of periodic elements">
       </mat-paginator>
 
     </div>

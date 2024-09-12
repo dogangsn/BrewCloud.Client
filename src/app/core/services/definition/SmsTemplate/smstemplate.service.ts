@@ -32,5 +32,9 @@ export class SmsTemplateService {
     deleteSmsTemplate(model: any): Observable<any> {
         return this._httpService.post(endPoints.smstemplate.deleteSmsTemplate, model);
     }
+
+    getSmsTemplateIdBy(model: any): Observable<any> {
+        return this._httpService.post(endPoints.smstemplate.getSmsTemplateIdBy, model);
+    }
  
 }

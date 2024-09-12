@@ -25,6 +25,8 @@ export class PatientDetailsComponent implements OnInit {
 
   sex: string[] = ['Dişi', 'Erkek'];
   sexText: string;
+  selectedTabIndex: number = 0; 
+  tab: string
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +42,10 @@ export class PatientDetailsComponent implements OnInit {
       this.selectedPatientId = params['id'];
       console.log('Müşteri ID:', this.selectedPatientId);
     });
+    this.tab = this.route.snapshot.queryParamMap.get('tab');
+    if (this.tab==="vaccine-calendar") {
+      this.selectedTabIndex=3;
+    }
     this._customerDataService.setPatientId(this.selectedPatientId);
     this.getPatientDetail();
   }

@@ -6,4 +6,6 @@ export interface SalesDto {
     unitPrice: number;
     discount: number;
     vat: string;
+    netPrice : number;
+    netVat: number;
 }

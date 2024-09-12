@@ -1,3 +1,4 @@
+import { SelectedActionsDto } from "./SelectedActionsDto";
 import { SelectedNavigationDto } from "./SelectedNavigationDto";
 
 export class CreateRoleSettingCommand {
@@ -5,4 +6,5 @@ export class CreateRoleSettingCommand {
     mainpage: string;
     installdevice: boolean;
     SelectedNavigations: SelectedNavigationDto[];
+    SelectedActions: SelectedActionsDto[];
 }

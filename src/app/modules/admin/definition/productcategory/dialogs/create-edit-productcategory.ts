@@ -28,13 +28,14 @@ export class CreateEditProductCategoriesDialogComponent implements OnInit {
         private _translocoService: TranslocoService,
         @Inject(MAT_DIALOG_DATA) public data: ProductCategoriesListDto
     ) {
+        debugger;
         this.selectedproductcategory = data;
     }
 
     ngOnInit(): void {
         this.productcategory = this._formBuilder.group({
-            name: ['', Validators.required],
-            categoryCode: ['', Validators.required]
+            name: [this.selectedproductcategory.name, Validators.required],
+            categoryCode: [this.selectedproductcategory.categoryCode, Validators.required]
         });
     }
 

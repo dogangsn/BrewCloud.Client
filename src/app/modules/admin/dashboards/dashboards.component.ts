@@ -6,6 +6,16 @@ import { DashboardsDto } from './models/DashboardsDto';
 import { DashboardService } from 'app/core/services/dashboards/dashboards.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AppointmentService } from 'app/core/services/appointment/appointment.service';
+import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
+import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
+import { GeneralService } from 'app/core/services/general/general.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { LogViewComponent } from '../commonscreen/log-view/log-view.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MessageSendComponent } from '../commonscreen/message-send/message-send.component';
+import { SmsType } from '../definition/smstemplate/models/smsType.enum';
+import { DailyAppointmentListDto } from '../appointment/dailyappointment/models/dailyappointmentlistdto';
 
 @Component({
     selector: 'dashboards',
@@ -18,16 +28,17 @@ export class DashboardsComponent implements OnInit, OnDestroy {
     loader = true;
 
     displayedColumns: string[] = [
+        'date',
         'customerPatientName',
         'services',
         'statusName',
-        
+        'actions'
     ];
     @ViewChild('paginator') paginator: MatPaginator;
 
 
-    _list: any[] = [];
-    _listpast: any[] = [];
+    _list: DailyAppointmentListDto[] = [];;
+    _listpast: DailyAppointmentListDto[] = [];;
     upcomingdataSource = new MatTableDataSource<any>(this._list);
     pastdataSource = new MatTableDataSource<any>(this._listpast)
 
@@ -45,7 +56,10 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
     constructor(
         private _projectService: ProjectService,
-        private _dashboardService: DashboardService
+        private _dashboardService: DashboardService,
+        private _appointmentService: AppointmentService,
+        private _translocoService: TranslocoService,
+        private _dialog: MatDialog,
     ) { }
 
     ngOnDestroy(): void {
@@ -85,17 +99,17 @@ export class DashboardsComponent implements OnInit, OnDestroy {
 
     getStatusClass(status: number): string {
         switch (status) {
-          case 1:
-            return 'status-1';
-          case 2:
-          case 4:
-            return 'status-2';
-          case 3:
-            return 'status-3';
-          default:
-            return '';
+            case 1:
+                return 'status-1';
+            case 2:
+            case 4:
+                return 'status-2';
+            case 3:
+                return 'status-3';
+            default:
+                return '';
         }
-      }
+    }
 
     private _prepareChartData(): void {
         // Github issues
@@ -399,4 +413,88 @@ export class DashboardsComponent implements OnInit, OnDestroy {
             },
         };
     }
+
+    translate(key: string): any {
+        return this._translocoService.translate(key);
+    }
+
+    public redirectStatusUpdate = (id: string, status: number) => {
+        const model = {
+            id: id,
+            status: status
+        };
+        this._appointmentService
+            .updateAppointmentStatus(model)
+            .subscribe((response) => {
+                if (response.isSuccessful) {
+                    this.getDashboards();
+                    const sweetAlertDto2 = new SweetAlertDto(
+                        this.translate('sweetalert.success'),
+                        this.translate('sweetalert.transactionSuccessful'),
+                        SweetalertType.success
+                    );
+                    GeneralService.sweetAlert(sweetAlertDto2);
+                } else {
+                    console.error('Silme işlemi başarısız.');
+                }
+            });
+    }
+
+
+    public logView = (id: string) => {
+        const dialogRef = this._dialog.open(
+            LogViewComponent,
+            {
+                maxWidth: '100vw !important',
+                disableClose: true,
+                data: { masterId: id },
+            }
+        );
+    }
+
+    formatDate(date: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        return new Date(date).toLocaleString('tr-TR', options);
+    }
+
+    public upcomingsendMessage = (id: string) => {
+
+       
+    
+        const selectedAppointment = this._list.find((item) => item.id == id);
+        if (selectedAppointment) {
+    
+          let customerName =  selectedAppointment.customerPatientName;
+          let appointmentDate = this.formatDate(selectedAppointment.date.toString()); 
+          
+          const model = {
+            messageType: SmsType.AppointmentReminder,
+            isFixMessage: true,
+            customerId : selectedAppointment.customerId,
+            customername: customerName,
+            date : appointmentDate
+          };
+          const dialog = this._dialog
+            .open(MessageSendComponent, {
+              minWidth: '1000px',
+              disableClose: true,
+              data: model,
+            })
+            .afterClosed()
+            .subscribe((response) => {
+              if (response.status) {
+                // this.getApponitmentList();
+              }
+            });
+        }
+    
+    
+      }
+
 }

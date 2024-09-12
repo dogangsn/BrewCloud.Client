@@ -1,5 +1,6 @@
 export class SaleBuyListDto {
     id: string;
+    ownerId : string;
     date: string;
     invoiceNo: string;
     supplierName: string;
@@ -9,7 +10,14 @@ export class SaleBuyListDto {
     total: number;
     discount: number;
     netPrice: number;
+    price: number;
     kdv: number;
-    customerid: string;
-    supplierid: string;
+    customerId: string;
+    supplierId: string;
+    remark: string;
+    amount : number;
+    productId: string;
+    productName : string;
+    paymentType: number;
+    isPaymentCollected: boolean;
 }

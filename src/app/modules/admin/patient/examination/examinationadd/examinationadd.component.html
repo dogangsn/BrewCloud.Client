@@ -22,29 +22,53 @@
         <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
         Kaydet
       </button>
+      <button class="ml-3" mat-flat-button (click)="addToShortCuts()">
+        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:bookmark'"
+          aria-label="Example icon button with a bookmark icon"></mat-icon>
+      </button>
     </div>
   </div>
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
-    <div [formGroup]="examinationForm">
+
+    <div role="status" class="animate-pulse mb-15" *ngIf="loader">
+      <div class="w-full">
+        <div class="h-13 w-2/5 bg-gray-200 rounded-sm dark:bg-gray-700 mb-11"></div>
+        <div class="flex gap-2 mb-11">
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+        </div>
+        <div class="flex gap-2 mb-11">
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+        </div>
+        <div class="flex items-center mb-11 mt-3 gap-2">
+          <div class="h-13 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+        </div>
+        <div class="flex items-center mb-4 mt-3 gap-2">
+          <div class="h-18 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+          <div class="h-18 w-full bg-gray-200 rounded-sm dark:bg-gray-700"></div>
+        </div>
+      </div>
+    </div>
+    <div [formGroup]="examinationForm" *ngIf="!loader">
       <div class="flex flex-col sm:flex-row mb-2">
         <div class="flex flex-col mb-4 sm:mb-0">
           <label class="font-semibold text-gray-700 mb-1">Muayene Tarihi</label>
           <div>
-            <dx-date-box 
-              [value]="now" 
-              type="datetime" 
-              [min]="now" 
-              [inputAttr]="{ 'aria-label': 'Date And Time' }" 
+            <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
               (onValueChanged)="handleValueChange($event)">
             </dx-date-box>
           </div>
         </div>
-      
+
         <div class="flex-auto sm:ml-3">
           <label class="font-semibold text-gray-700 mb-1">Muayene Durumu</label>
           <div>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-wrap" [formControlName]="'selectedState'">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-wrap"
+              [formControlName]="'selectedState'">
               <mat-radio-button class="mr-2" *ngFor="let state of states" [value]="state">
                 {{ state }}
               </mat-radio-button>
@@ -136,25 +160,27 @@
 
       <div class="flex flex-col gt-sm:flex-row">
         <div class="flex flex-col">
-          <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'" (change)="togglePriceInput($event.checked)" [formControlName]="'isPrice'">
+          <mat-checkbox class="mb-2" [checked]="false" [color]="'primary'" (change)="togglePriceInput($event.checked)"
+            [formControlName]="'isPrice'">
             Muayene Ücreti İşlensin
           </mat-checkbox>
         </div>
       </div>
-  
-      <div *ngIf="isPrice"  class="flex float : left gt-md:flex-row">
+
+      <div *ngIf="isPrice" class="flex float : left gt-md:flex-row">
         <mat-form-field class="flex-auto gt-xs:pl-3">
           <mat-label>Fiyat</mat-label>
-          <input matInput [formControlName]="'price'" placeholder="Fiyat girin" type="number" >
+          <input matInput [formControlName]="'price'" placeholder="Fiyat girin" type="number">
         </mat-form-field>
       </div>
-      
+
+
+
+
     </div>
 
-  
-
     <mat-accordion>
-      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel #myPanel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
           <mat-panel-title>Yapılan İşlemler & Kullanılan
             Malzemeler</mat-panel-title>
@@ -220,8 +246,15 @@
 
             <!-- Toplam Tutar Kolonu -->
             <ng-container matColumnDef="total">
-              <th mat-header-cell *matHeaderCellDef> Toplam Tutar </th>
-              <td mat-cell *matCellDef="let element" class="mt-0"> {{calculateTotal(element) | currency:'TRY' }} </td>
+              <th mat-header-cell *matHeaderCellDef> Birim Fiyat </th>
+              <td mat-cell *matCellDef="let element" [(ngModel)]="element.netprice" class="mt-0">
+                {{calculateTotal(element) | currency:'TRY' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="taxTotal">
+              <th mat-header-cell *matHeaderCellDef> Kdv Tutar </th>
+              <td mat-cell *matCellDef="let element" [(ngModel)]="element.netVat" class="mt-0">
+                {{calculateVatRow(element) | currency:'TRY' }} </td>
             </ng-container>
 
             <!-- Silme Kolonu -->
@@ -260,10 +293,10 @@
               <div>
                 <p class="text-end">Ara toplam: {{calculateSubtotal() | currency:'TRY'}}</p>
                 <p class="text-end">KDV: {{calculateVat() | currency:'TRY'}}</p>
-                <p class="text-end">Toplam: {{calculateTotalAmount() | currency:'TRY'}}</p>
+                <p class="text-end">Toplam: {{calculateTotalAmount() - discountedTotalAmount | currency:'TRY'}}</p>
               </div>
               <div class="w-full flex justify-end mt-2">
-                <button mat-button color="primary" class="">
+                <button mat-button color="primary" class="" (click)="applyDiscount()">
                   + Sokak hayvanı indirimi (%25)
                 </button>
               </div>
@@ -272,5 +305,10 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+
+
+
+
+
   </div>
 </div>

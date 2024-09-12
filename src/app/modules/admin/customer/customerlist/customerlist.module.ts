@@ -56,6 +56,10 @@ import { CreateEditCustomerpatientsComponent } from '../customerdetails/dialogs/
 import { BalacecollectionComponent } from '../customerdetails/dialogs/balacecollection/balacecollection.component';
 import { MatCardModule } from '@angular/material/card';
 import { CreatevaccineComponent } from '../../patient/createvaccine/createvaccine/createvaccine.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CustomersArchiveListComponent } from './customerarchivelist/customerarchivelist.component';
+import { FarmCustomersComponent } from './farmcustomerlist/farmcustomerlist.component';
+import { ExaminationCollectionComponent } from '../customerdetails/dialogs/collection/examination-collection/examination-collection.component';
 
 
 
@@ -136,6 +140,7 @@ const root: Route[] = [
         MatChipsModule,
         MatBadgeModule,
         MatCardModule,
+        DragDropModule,
         RouterModule.forChild(root),
     ],
     declarations: [
@@ -164,7 +169,10 @@ const root: Route[] = [
         CreateEditSalesComponent,
         CreateEditCustomerpatientsComponent,
         BalacecollectionComponent,
-        CreatevaccineComponent
+        CreatevaccineComponent,
+        CustomersArchiveListComponent,
+        FarmCustomersComponent,
+        ExaminationCollectionComponent
         //  DxReportViewerComponent
     ]
 

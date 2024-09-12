@@ -175,7 +175,7 @@ export class FarmclientaddComponent implements OnInit {
                         phonenumber: this.horizontalStepperForm.get('step2.phoneNumber').value,
                         email: this.horizontalStepperForm.get('step2.email').value,
                         note: this.horizontalStepperForm.get('step2.note').value,
-            
+                        recid : '',
                         phonenumber2: '',
                         taxoffice: '',
                         vkntcno: '',

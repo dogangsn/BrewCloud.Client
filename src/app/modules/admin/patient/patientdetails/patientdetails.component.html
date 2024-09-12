@@ -22,7 +22,7 @@
         </h2>
       </div>
       <div class="font-medium tracking-tight text-secondary">
-        5530154968
+        {{customer.phonenumber}}
       </div>
     </div>
   </div>
@@ -115,6 +115,7 @@
       </div>
     </div>
     <mat-tab-group *ngIf="!loader" class="sm:px-2 mt-3"  [animationDuration]="'0'"
+            [selectedIndex]="selectedTabIndex"
             (selectedIndexChange)="onTabChange($event)">
             <mat-tab label="Müşteri Hastaları">
               <app-customer-patients-tab></app-customer-patients-tab>

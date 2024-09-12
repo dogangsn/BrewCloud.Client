@@ -40,6 +40,7 @@ import { DxCheckBoxModule, DxSchedulerModule, DxSelectBoxModule } from 'devextre
 import { DxDateBoxModule } from 'devextreme-angular';
 import {MatCardModule} from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const root: Route[] = [
     {
@@ -74,14 +75,14 @@ const root: Route[] = [
         MatNativeDateModule,
         MatProgressBarModule,
         MatPaginatorModule,
-        MatCheckboxModule,
-        MatSelectModule,
+        MatCheckboxModule, 
         DxDateBoxModule,
         DxSchedulerModule,
         MatCardModule,
         DxDateBoxModule,
         DxCheckBoxModule,
-        DragDropModule
+        DragDropModule,
+        MatAutocompleteModule
     ],
     declarations: [AppointmentComponent, AddApponitnmentDialogComponent],
 })

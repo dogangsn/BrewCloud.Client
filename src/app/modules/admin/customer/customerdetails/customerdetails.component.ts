@@ -55,8 +55,12 @@ export class CustomerDetailsComponent implements OnInit {
     totalVisitCount: number;
     totalEarnings: number;
     totalCollection: number;
+    totalMessageCount: number;
 
     loader = true;
+    action :any;
+    customerdetailAction :any;
+    recid:string;
 
     constructor(
         private route: ActivatedRoute,
@@ -68,7 +72,23 @@ export class CustomerDetailsComponent implements OnInit {
         private _customerDataService: CustomerDataService,
         private _eventService: EventService,
         private _customergroup: CustomerGroupService,
-    ) { }
+    ) { 
+
+        const actions = localStorage.getItem('actions');
+        if (actions) {
+            this.action = JSON.parse(actions);
+        }
+
+        const customer = this.action.find((item: any) => {
+            return item.roleSettingDetails.some((detail: any) => detail.target === 'customer');
+        });
+    
+        if (customer) {
+            this.customerdetailAction = customer.roleSettingDetails.find((detail: any) => detail.target === 'customer');
+        } else {
+            this.customerdetailAction = null;
+        }
+    }
 
     ngOnInit() {
 
@@ -182,10 +202,12 @@ export class CustomerDetailsComponent implements OnInit {
                 this.lastname = this.customerDetail.lastname;
                 this.phonenumber = this.customerDetail.phonenumber;
                 this.email = this.customerDetail.email;
+                this.recid = this.customerDetail.recid;
                 this.totalSaleBuyCount = response.data.totalData.totalSaleBuyCount;
                 this.totalVisitCount = response.data.totalData.totalVisitCount;
                 this.totalEarnings = response.data.totalData.totalEarnings;
                 this.totalCollection = response.data.totalData.totalCollection;
+                this.totalMessageCount = response.data.totalData.totalMessageCount;
                 this.customerDetailForm.patchValue({
                     email: this.customerDetail.email,
                     phonenumber: this.customerDetail.phonenumber,
@@ -257,7 +279,8 @@ export class CustomerDetailsComponent implements OnInit {
             customerId: this.selectedCustomerId,
             visibleCustomer: false,
             patientId: null,
-            patinetlist: null
+            patinetlist: null,
+            selectedAppointment: null
         }
         const patientModel = {
             id: this.selectedCustomerId
@@ -272,7 +295,7 @@ export class CustomerDetailsComponent implements OnInit {
             }
             const dialog = this._dialog
                 .open(AddApponitnmentDialogComponent, {
-                    maxWidth: '100vw !important',
+                    minWidth: '1000px',
                     disableClose: true,
                     data: model
                 })
@@ -290,6 +313,8 @@ export class CustomerDetailsComponent implements OnInit {
 
         const model = {
             customerId: this.selectedCustomerId,
+            isPatientDetail: false,
+            selectedPatientId : '00000000-0000-0000-0000-000000000000',
             visibleCustomer: false,
         }
         console.log(model);
@@ -525,8 +550,8 @@ export class CustomerDetailsComponent implements OnInit {
 
     onTabChange(event: any) {
         this._eventService.dialogClosed.emit(true);
-        if (event === 5) {
-
+        if (event === 6) {
+            
         }
     }
 

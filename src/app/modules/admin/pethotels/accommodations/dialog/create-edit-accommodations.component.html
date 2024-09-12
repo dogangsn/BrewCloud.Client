@@ -1,17 +1,13 @@
-<h1 mat-dialog-title class="mat-dialog-title"
-mat-dialog-title
-    cdkDrag
-    cdkDragRootElement=".cdk-overlay-pane"
-    cdkDragHandle
->
-<button class="dialog-close-button">
-  <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+<h1 mat-dialog-title class="mat-dialog-title" mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle>
+  <button class="dialog-close-button">
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
       <path
-          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
-      ></path>
+        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+      </path>
       <path d="M0 0h24v24H0z" fill="none"></path>
-  </svg>
-</button>
+    </svg>
+  </button>
   <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
     <span class="material-icons"> highlight_off </span>
   </button>
@@ -66,10 +62,16 @@ mat-dialog-title
                   </mat-select>
                 </mat-form-field>
                 <div class="flex-auto gt-xs:pl-3">
-                  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                  <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
                     [formControlName]="'selectedState'">
                     <mat-radio-button class="example-radio-button" *ngFor="let state of states" [value]="state">
                       {{ state }}
+                    </mat-radio-button>
+                  </mat-radio-group> -->
+                  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                    [formControlName]="'selectedState'">
+                    <mat-radio-button class="example-radio-button" *ngFor="let state of states" [value]="state.key">
+                      {{ state.value }}
                     </mat-radio-button>
                   </mat-radio-group>
                 </div>
@@ -97,21 +99,35 @@ mat-dialog-title
                 </div>
               </div> -->
 
-
-              <div class="flex float : left gt-md:flex-row">
-                <div class="flex-auto gt-xs:pl-3">
-                  <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
-                    (onValueChanged)="handleValueChange($event)">
-                  </dx-date-box>
-                </div>
-                <div class="ml-5  flex-auto gt-xs:pl-3">
-                  <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
-                    (onValueChanged)="handleValueCheckOutChange($event)">
-                  </dx-date-box>
+              <div *ngIf="isDateFormat === 1">
+                <div class="flex float : left gt-md:flex-row">
+                  <div class="flex-auto gt-xs:pl-3">
+                    <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
+                    <dx-date-box [value]="selectedCheckinDate" type="datetime"
+                      [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)">
+                    </dx-date-box>
+                  </div>
+                  <div class="ml-5  flex-auto gt-xs:pl-3">
+                    <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
+                    <dx-date-box [value]="selectedCheckOutDate" type="datetime"
+                      [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                      (onValueChanged)="handleValueCheckOutChange($event)">
+                    </dx-date-box>
+                  </div>
                 </div>
               </div>
+
+              <div *ngIf="isDateFormat === 0">
+
+                <dx-date-range-box [stylingMode]="stylingMode"  
+                [(value)]="currentValue" [labelMode]="labelMode" id="vacation-dates"
+                  startDateLabel="Start Vacation Date" 
+                  endDateLabel="End Vacation Date" (onValueChanged)="currentValueChanged($event)"></dx-date-range-box>
+
+              </div>
+
+
+
 
             </div>
 
@@ -122,7 +138,7 @@ mat-dialog-title
 
           </mat-tab>
 
-          <mat-tab label="Misafir">
+          <mat-tab label="Misafir" [disabled]="!isGuestTabEnabled()">
 
             <div class="row">
 
@@ -167,17 +183,25 @@ mat-dialog-title
               <div class="flex float : left gt-md:flex-row">
                 <div class="flex-auto gt-xs:pl-3">
                   <mat-label class="font-semibold text-gray-700">Giriş Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now"
-                      [inputAttr]="{ 'aria-label': 'Date And Time' }" (onValueChanged)="handleValueChange($event)">
-                    </dx-date-box>
+                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                    (onValueChanged)="handleValueChange($event)">
+                  </dx-date-box>
                 </div>
                 <div class="ml-5  flex-auto gt-xs:pl-3">
                   <mat-label class="font-semibold text-gray-700">Çıkış Tarihi</mat-label>
-                  <dx-date-box [value]="now" type="datetime" [min]="now"
-                  [inputAttr]="{ 'aria-label': 'Date And Time' }"
-                  (onValueChanged)="handleValueCheckOutChange($event)">
-                </dx-date-box>
+                  <dx-date-box [value]="now" type="datetime" [min]="now" [inputAttr]="{ 'aria-label': 'Date And Time' }"
+                    (onValueChanged)="handleValueCheckOutChange($event)">
+                  </dx-date-box>
                 </div>
+                <!-- <dx-date-range-box
+                [stylingMode]="stylingMode"
+                [labelMode]="labelMode"
+                id="vacation-dates"
+                startDate="6/3/2023"
+                startDateLabel="Start Vacation Date"
+                endDate="12/3/2023"
+                endDateLabel="End Vacation Date"
+              ></dx-date-range-box> -->
               </div>
 
             </div>
@@ -193,7 +217,6 @@ mat-dialog-title
 
 
           </mat-tab>
-
 
         </mat-tab-group>
 

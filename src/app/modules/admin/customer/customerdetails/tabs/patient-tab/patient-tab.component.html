@@ -24,14 +24,14 @@
       <td mat-cell *matCellDef="let element"> {{element.animalTypeName }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="actions">
+    <ng-container  matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> İşlemler </th>
       <td mat-cell *matCellDef="let element">
    
-        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+        <button *ngIf="patientTabAction?.action !== 'Okuma'" mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
           <mat-icon class="mat-18">search</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="redirectToDeletePatient(element.id)">
+        <button *ngIf="patientTabAction?.action !== 'Okuma'" mat-icon-button color="warn" (click)="redirectToDeletePatient(element.id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
@@ -39,11 +39,11 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
+          <button mat-menu-item (click)="openAppointmentHistory(element.id)">
             <mat-icon>calendar_today</mat-icon>
             <span>Randevular</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item [disabled]="true">
             <mat-icon>print</mat-icon>
             <span>Aşı Kartı</span>
           </button>
@@ -61,7 +61,7 @@
   </table>
 
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" pageSize="10"  showFirstLastButtons #paginator
     aria-label="Select page of periodic elements">
   </mat-paginator>
 

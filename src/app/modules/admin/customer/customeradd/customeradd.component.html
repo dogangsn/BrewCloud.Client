@@ -37,6 +37,9 @@
                 <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
                 Kaydet
             </button>
+            <button class="ml-3" mat-flat-button (click)="addToShortCuts()">
+                <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:bookmark'" aria-label="Example icon button with a bookmark icon"></mat-icon>
+              </button>
         </div>
     </div>
 
@@ -54,8 +57,8 @@
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
-                    <mat-label>VN/T.C Numarası</mat-label>
-                    <input matInput [formControlName]="'vKNTCNo'">
+                    <mat-label>VKN/T.C Numarası</mat-label>
+                    <input type="number" matInput [formControlName]="'vKNTCNo'">
                     <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
                 </mat-form-field>
             </div>
@@ -82,13 +85,23 @@
             <div class="flex float : left gt-md:flex-row">
                 <mat-form-field class="flex-auto gt-md:pr-3">
                     <mat-label>İl</mat-label>
-                    <input matInput [formControlName]="'province'">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <!-- <input matInput [formControlName]="'province'">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                    <mat-select [formControlName]="'province'" [placeholder]="'İl'"  name="province" (selectionChange)="handleCityChange($event)">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of cities" 
+                            [value]="item.name">{{item.name}}</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-md:pl-3">
                     <mat-label>İlçe</mat-label>
-                    <input matInput [formControlName]="'district'">
-                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                    <!-- <input matInput [formControlName]="'district'">
+                    <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
+                    <mat-select [formControlName]="'district'" [placeholder]="'İlçe'"  name="district">
+                        <mat-option>None</mat-option>
+                        <mat-option *ngFor="let item of district"
+                            [value]="item">{{item}}</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
                     <mat-label>Vergi Dairesi</mat-label>
@@ -107,10 +120,10 @@
             <div class="flex float : left gt-xs:flex-row">
                 <mat-form-field class="flex-auto gt-xs:pr-3">
                     <mat-label>Müşteri Grubu</mat-label>
-                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" name="customergroup">
+                    <mat-select [placeholder]="'Müşteri Grubu'" [(ngModel)]="selectedValue" [formControlName]="'customergroup'" name="customergroup">
                         <mat-option>None</mat-option>
                         <mat-option *ngFor="let customergroup of customergroupList"
-                            [value]="customergroup.name">{{customergroup.name}}</mat-option>
+                            [value]="customergroup.id">{{customergroup.name}}</mat-option>
                     </mat-select>
                     <!-- <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon> -->
                 </mat-form-field>

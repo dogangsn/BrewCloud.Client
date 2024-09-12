@@ -19,11 +19,13 @@ export const endPoints = {
         createUsers: 'account/settings/CreateUser',
         updateUsers: 'account/settings/UpdateUser',
         getRolsSettings: 'account/settings/GetRoleSettingList',
+        getUserRolsSettings: 'account/settings/GetUserRoleSettingList',
+        getRoleSettingById: 'account/settings/GetRoleSettingById',
         createRols: 'account/settings/CreateRoleSetting',
         updateRols: 'account/settings/UpdateRoleSetting',
         deleteRols: 'account/settings/DeleteRoleSetting',
-        getNavigation: 'account/settings/GetNavigation'
-
+        getNavigation: 'account/settings/GetNavigation',
+        getActiveUser: 'account/settings/GetActiveUser'
     },
     customers: {
         customerslist: 'vet/Customers/CustomersList',
@@ -46,11 +48,13 @@ export const endPoints = {
         updateSale: 'vet/Accounting/UpdateSale',
         getSalesCustomerList: 'vet/Customers/GetSalesCustomerList',
         createSaleCollection: 'vet/Accounting/CreateSaleCollection',
+        updateSaleCollection: 'vet/Accounting/UpdateSaleCollection',
         deleteCollection: 'vet/Accounting/DeleteCollection',
         getSalesById: 'vet/Accounting/GetSalesById',
         balanceCollection: 'vet/Accounting/CreateBalanceSaleCollection',
         updatePatient: 'vet/Customers/UpdatePatient',
-        updateCustomerArchive: 'vet/Customers/UpdateCustomerArchive'
+        updateCustomerArchive: 'vet/Customers/UpdateCustomerArchive',
+        getFarmCustomersList: 'vet/Customers/GetFarmCustomersList'
     },
     examinations: {
         examinationlist: 'vet/Patient/GetExaminations',
@@ -61,6 +65,7 @@ export const endPoints = {
         updateExamination: 'vet/Patient/UpdateExamination',
         updateExaminationStatus: 'vet/Patient/UpdateExaminationStatus',
         getExaminationlistByPatient: 'vet/Patient/getExaminationlistByPatientId',
+        getExaminationsBySaleList: 'vet/Patient/GetExaminationsBySaleList'
     },
 
     productdescription: {
@@ -160,7 +165,8 @@ export const endPoints = {
         createsmsparameters: 'vet/Settings/CreateSmsParameters',
         updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
         getSmsParametersIdBy: 'vet/Settings/GetSmsParametersIdBy',
-        getlogs: 'vet/Settings/GetLogs'
+        getlogs: 'vet/Settings/GetLogs',
+        getSmsParametersList : 'vet/Settings/GetSmsParametersList'
     },
     chat: {
         getAllUsers: 'chat/Account/GetAllUsers'
@@ -177,12 +183,14 @@ export const endPoints = {
         getAppointmentDailyList: 'vet/Appointment/GetAppointmentDailyList',
         updateAppointmentStatus: 'vet/Appointment/UpdateAppointmentStatus',
         getAppointmentListByPatientId: 'vet/Appointment/GetAppointmentListByPatientId',
+        appointmentDateCheckControl  : 'vet/Appointment/AppointmentDateCheckControl'
     },
     title: {
         titleDefinationList: 'account/settings/GetTitleDefination',
         createtitle: 'account/settings/CreateTitleDefination',
         updatetitle: 'account/settings/UpdateTitleDefination',
         deleteTitle: 'account/settings/DeleteTileDefination',
+
     },
     mailing: {
         getsmptsettingsList: 'mail/Mailing/GetSmtpSettings',
@@ -214,6 +222,7 @@ export const endPoints = {
     },
     reports: {
         createFilter: 'vet/Reports/CreateReportFilter',
+        getAppointmentDashboard : 'vet/Reports/GetAppointmentDashboard',
     },
     vaccine: {
         vaccineList: 'vet/Vaccine/VaccineList',
@@ -225,7 +234,8 @@ export const endPoints = {
         patientVaccineList: 'vet/VaccineCalendar/PatientVaccineList',
         createVaccineExaminations: 'vet/VaccineCalendar/CreateVaccineExamination',
         deletePatientVaccine: 'vet/VaccineCalendar/DeteleVaccineAppointment',
-        updateVaccineExamination: 'vet/VaccineCalendar/UpdateVaccineExamination'
+        updateVaccineExamination: 'vet/VaccineCalendar/UpdateVaccineExamination',
+        allVaccineAppointmentsList: 'vet/VaccineCalendar/AllVaccineAppointmentsList'
     },
     pethotels: {
         getRoomList: 'vet/PetHotels/getRoomList',
@@ -234,6 +244,7 @@ export const endPoints = {
         deleteRoom: 'vet/PetHotels/DeleteRoom',
         getAccomodationList: 'vet/PetHotels/GetAccomodationList',
         createAccommodation: 'vet/PetHotels/CreateAccomodation',
+        updateAccomodation : 'vet/PetHotels/UpdateAccomodation',
         deleteAccomodation: 'vet/PetHotels/DeleteAccomodation',
         updateCheckOut: 'vet/PetHotels/UpdateCheckOut'
     },
@@ -242,6 +253,12 @@ export const endPoints = {
         getPatientFindById: 'vet/Patient/GetPatientById',
         getWeightControls: 'vet/Patient/GetWeightControls',
         updatePatientsWeight: 'vet/Patient/UpdatePatientsWeight'
+    },
+    shortCuts: {
+        getShortCuts: 'vet/GeneralSettings/GetShortCuts',
+        createShortCuts: 'vet/GeneralSettings/CreateShortCuts',
+        updateShortCuts: 'vet/GeneralSettings/UpdateShortCuts',
+        deleteShortCuts: 'vet/GeneralSettings/DeleteShortCuts'
     },
     stocktracking: {
         getstockTrackingProductFilter: 'vet/Definition/StockTrackingProductFilter',
@@ -254,12 +271,27 @@ export const endPoints = {
         createSmsTemplate: 'vet/Definition/CreateSmsTemplate',
         updateSmsTemplate: 'vet/Definition/UpdateSmsTemplate',
         deleteSmsTemplate: 'vet/Definition/DeleteSmsTemplate',
+        getSmsTemplateIdBy: 'vet/Definition/GetSmsTemplateIdBy'
     },
-    filemanager : {
-        getFileManager : 'vet/FileManager/GetFileManagerList',
-        createFileManager : 'vet/FileManager/CreateFileManager',
-        deleteFileManager : 'vet/FileManager/DeleteFileManager',
-        updateFileManager : '',
-        getItemById : 'vet/FileManager/GetFileManagerForById'
+    filemanager: {
+        getFileManager: 'vet/FileManager/GetFileManagerList',
+        createFileManager: 'vet/FileManager/CreateFileManager',
+        deleteFileManager: 'vet/FileManager/DeleteFileManager',
+        updateFileManager: '',
+        getItemById: 'vet/FileManager/GetFileManagerForById',
+        downloadFileManager: 'vet/FileManager/DownloadFileManager'
+    },
+    printtemplate: {
+        getPrintTemplateList: 'vet/Definition/GetPrintTemplateList',
+        createPrintTemplate: 'vet/Definition/CreatePrintTemplate',
+        getPrintTemplateFilterByType: 'vet/Definition/GetPrintTemplateFilterByType',
+        deletePrintTemplate: 'vet/Definition/DeletePrintTemplate',
+        updatePrintTemplate: 'vet/Definition/UpdatePrintTemplate'
+    },
+    message : {
+        multiAutoSendMessage : 'vet/Message/MultiAutoSendMessage'
+    },
+    accounting : {
+        isSaleProductControl : 'vet/Accounting/IsSaleProductControl'
     }
 }
