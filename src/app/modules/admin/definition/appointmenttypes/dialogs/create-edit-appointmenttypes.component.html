@@ -1,16 +1,19 @@
-<h1 mat-dialog-title class="mat-dialog-title">
-    <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
-        <span class="material-icons"> highlight_off </span>
-    </button>
-</h1>
+<!-- <h1 mat-dialog-title class="mat-dialog-title">
+   
+</h1> -->
 
 <div class="modalForm">
     <mat-dialog-content>
+        
         <div class="modal-header">
+            
             <h5 class="modal-title">
                 <span *ngIf="!selectedappointmenttypes">Kasa Tanımı Ekle</span>
                 <span *ngIf="selectedappointmenttypes">Kasa Tanımı Güncelle</span>
             </h5>
+            <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
+                <span class="material-icons"> highlight_off </span>
+            </button>
         </div>
 
         <div class="modal-body mbody-productcategory">
