@@ -75,6 +75,13 @@ export class GeneralsettingsComponent implements OnInit {
                 description:
                     'Şirket üzerinde Mail Trafiği üzerine SMTP ayarlarının tanımlanması',
             },
+            {
+                id: 'sms',
+                icon: 'heroicons_outline:phone',
+                title: 'SMS Kayıtları',
+                description:
+                    'Gönderilen mesajlar, Kalan Kullanım, Raporlar vs.',
+            },
             // {
             //     id: 'logs',
             //     icon: 'heroicons_outline:user-group',

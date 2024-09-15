@@ -22,10 +22,17 @@
     </div>
     <div class="modal-body mbody-customeradd">
 
-      <div class="col-6 col-md-12" *ngFor="let item of printtemplate">
-        <fuse-card class="flex flex-col  w-full p-6 pb-4 filter-article">
+      <div class="w-full md:w-6/12 lg:w-6/12 p-2">
+        <div class="flex flex-wrap gap-4 flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden"
+          style="justify-content: space-between;    display: flex !important;flex-wrap: wrap !important;">
 
-        </fuse-card>
+          <div class="col-6 col-md-12" *ngFor="let item of printtemplate">
+            <fuse-card class="flex flex-col  w-full p-6 pb-4 filter-article">
+
+            </fuse-card>
+          </div>
+
+        </div>
       </div>
 
     </div>

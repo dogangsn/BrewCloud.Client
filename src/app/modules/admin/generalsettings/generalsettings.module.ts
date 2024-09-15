@@ -36,6 +36,7 @@ import { CreateEditTitleComponent } from './title/dialogs/create-edit-title';
 import { MailingComponent } from './mailing/mailing.component';
 import { CreateEditSmstSettingComponent } from './mailing/dialogs/create-edit-smtpmailsettings';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SmslogComponent } from './smslog/smslog.component';
 
 const root: Route[] = [
     {
@@ -122,7 +123,8 @@ const root: Route[] = [
         TitleComponent,
         CreateEditTitleComponent,
         MailingComponent,
-        CreateEditSmstSettingComponent
+        CreateEditSmstSettingComponent,
+        SmslogComponent
     ],
 })
 export class GeneralSettings {}

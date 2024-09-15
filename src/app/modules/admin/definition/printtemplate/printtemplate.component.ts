@@ -55,6 +55,7 @@ export class PrinttemplateComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
+          this.getPrintTemplateList();
         }
       });
   }
