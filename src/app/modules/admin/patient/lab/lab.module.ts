@@ -25,6 +25,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const root: Route[] = [
     {
@@ -88,6 +89,7 @@ const root: Route[] = [
         MatTooltipModule,
         NgApexchartsModule,
         MatStepperModule,
+        MatTabsModule,
         RouterModule.forChild(root)
     ],
     declarations: [

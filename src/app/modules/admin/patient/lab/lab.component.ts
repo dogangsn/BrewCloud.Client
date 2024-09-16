@@ -45,4 +45,17 @@ export class LabComponent implements OnInit {
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
+
+    
+    onTabChange(event: any) {
+        if (event === 1) {
+            // this.getFarmsList();
+        }
+        else if (event === 2) {
+            // this.getCustomerList(true);
+        }
+        else {
+            // this.getCustomerList(false);
+        }
+    }
 }

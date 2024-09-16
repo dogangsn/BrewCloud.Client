@@ -109,34 +109,61 @@ export class FileManagerDetailsComponent implements OnInit, OnDestroy {
         );
     };
 
+    // public downloadFile = (id: string) => {
+
+    //     var model = {
+    //         id: id,
+    //     };
+    //     this._fileManagerService
+    //         .downloadFileManager(model)
+    //         .subscribe((response) => {
+    //             if (response.isSuccessful) {
+
+    //                 const blob = new Blob([response], { type: response.type });
+    //                 const url = window.URL.createObjectURL(blob);
+    //                 const a = document.createElement('a');
+    //                 a.href = url;
+    //                 a.click();
+    //                 window.URL.revokeObjectURL(url);
+
+    //             } else {
+    //                 this.showSweetAlert(
+    //                     'error',
+    //                     response.errors[0]
+    //                 );
+    //                 console.log(response.errors[0]);
+    //             }
+    //         });
+
+
+    // }
     public downloadFile = (id: string) => {
 
-        var model = {
+        const model = {
             id: id,
         };
+    
         this._fileManagerService
             .downloadFileManager(model)
-            .subscribe((response) => {
-                if (response.isSuccessful) {
-
-                    const blob = new Blob([response], { type: response.type });
+            .subscribe((response: Blob) => { 
+                if (response) { 
+                    const blob = new Blob([response], { type: response.type || 'application/octet-stream' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
+                    a.download = this.item.name;
                     a.click();
                     window.URL.revokeObjectURL(url);
-
                 } else {
                     this.showSweetAlert(
                         'error',
-                        response.errors[0]
+                        'Dosya indirilemedi.'
                     );
-                    console.log(response.errors[0]);
+                    console.log('Dosya indirilemedi.');
                 }
             });
-
-
     }
+    
 
     showSweetAlert(type: string, message: string): void {
         if (type === 'success') {

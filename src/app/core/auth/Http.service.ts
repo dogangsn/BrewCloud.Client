@@ -23,11 +23,13 @@ export class HttpService {
         const fullUrl: string = this.apiAddress + url;
         return this.httpClient
             .post<Promise<any>>(fullUrl, body);
-
     }
-    run<T>(url: string, body: any,options?: object): Observable<ActionResponse<T>> {
+
+
+    
+    run<T>(url: string, body: any,options?: object): Observable<any> {
         const fullUrl: string = this.apiAddress + url;
-        return this.httpClient.post<ActionResponse<T>>(fullUrl, body,options);
+        return this.httpClient.post<Promise<any>>(fullUrl, body,options);
 
     }
     delete(url: string, body: any): Observable<any> {

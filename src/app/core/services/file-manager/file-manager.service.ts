@@ -50,9 +50,12 @@ export class FileManagerService {
                 }),
             );
     }
-
-    downloadFileManager(model: any) : Observable<any> {
-        return this._httpService.post(endPoints.filemanager.downloadFileManager, model);
+    downloadFileManager(model: any): Observable<Blob> {
+        return this._httpService.run(endPoints.filemanager.downloadFileManager, model, {
+            responseType: 'blob' as 'json'  // Burada 'json' ifadesi zorunlu değil, sadece 'blob' olmalı
+        });
     }
+    
+    
 
 }
