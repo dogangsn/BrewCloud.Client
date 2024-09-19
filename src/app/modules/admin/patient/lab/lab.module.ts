@@ -26,12 +26,17 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
+import { LabDetailsComponent } from './labdetails/labdetails.component';
 
 const root: Route[] = [
     {
         path     : '',
         component: LabComponent
-    }
+    },
+    {
+        path: 'labdetails/:id',
+        component: LabDetailsComponent
+      }
 ];
 
 @NgModule({
@@ -93,7 +98,8 @@ const root: Route[] = [
         RouterModule.forChild(root)
     ],
     declarations: [
-        LabComponent
+        LabComponent,
+        LabDetailsComponent
     ]
     
 })

@@ -23,6 +23,8 @@ export class PatientlistComponent implements OnInit {
 
     isUpdateButtonActive: boolean;
     @ViewChild('paginator') paginator: MatPaginator;
+
+
     patientList: PatientOwnerListDto[] = [];
     dataSource = new MatTableDataSource<PatientOwnerListDto>(this.patientList);
     loader: boolean = true;
