@@ -15,9 +15,26 @@ import { PatientListService } from 'app/core/services/patient/patientList/patien
 
 export class LabDetailsComponent implements OnInit {
 
+    animal: Animal = {
+        name: 'Kara',
+        type: 'Kedi',
+        age: 3
+      };
+    
+      customer: Customer = {
+        name: 'Mehmet Yılmaz',
+        phone: '0555 555 55 55',
+        email: 'mehmet@example.com'
+      };
+    
+      documents: Document[] = [
+        { name: 'Kan Testi Sonucu', date: new Date('2024-09-01'), fileUrl: 'path/to/kan-testi.pdf' },
+        { name: 'Röntgen Görüntüsü', date: new Date('2024-08-21'), fileUrl: 'path/to/rontgen.jpg' }
+      ];
 
     constructor(
         private route: ActivatedRoute,
+        private dialog: MatDialog
     ){
 
     }
@@ -27,4 +44,48 @@ export class LabDetailsComponent implements OnInit {
     }
 
 
+    openFileDialog(): void {
+        // const dialogRef = this.dialog.open(FileUploadDialogComponent, {
+        //   width: '400px'
+        // });
+    
+        // dialogRef.afterClosed().subscribe(result => {
+        //   if (result) {
+        //     // Yüklenen dosyayı belgelere ekleme
+        //     this.documents.push({
+        //       name: result.fileName,
+        //       date: new Date(),
+        //       fileUrl: result.fileUrl
+        //     });
+        //   }
+        // });
+      }
+    
+      downloadDocument(document: Document): void {
+        // const link = document.createElement('a');
+        // link.href = document.fileUrl;
+        // link.download = document.name;
+        // link.click();
+      }
+
 }
+
+interface Animal {
+    name: string;
+    type: string;
+    age: number;
+  }
+  
+  interface Customer {
+    name: string;
+    phone: string;
+    email: string;
+  }
+  
+  interface Document {
+    name: string;
+    date: Date;
+    fileUrl: string;
+  }
+   
+  

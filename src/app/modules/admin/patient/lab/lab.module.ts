@@ -27,6 +27,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { LabDetailsComponent } from './labdetails/labdetails.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 const root: Route[] = [
     {
@@ -95,6 +97,8 @@ const root: Route[] = [
         NgApexchartsModule,
         MatStepperModule,
         MatTabsModule,
+        MatCardModule,
+        MatGridListModule, 
         RouterModule.forChild(root)
     ],
     declarations: [
