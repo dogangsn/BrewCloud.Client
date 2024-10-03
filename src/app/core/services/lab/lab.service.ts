@@ -12,8 +12,12 @@ import { Observable } from "rxjs";
 export class LabService {
     constructor(private _httpService: HttpService) { }
 
-    getCustomersLabList() : Observable<any>{    
+    getCustomersLabList(): Observable<any> {
         return this._httpService.getRequest(endPoints.lab.customersLabList);
+    }
+
+    getLabDocumentById(model: any): Observable<any> {
+        return this._httpService.post(endPoints.lab.getLabDocumentByIdQuery, model);
     }
 
 }

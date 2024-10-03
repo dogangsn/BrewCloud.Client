@@ -29,6 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { LabDetailsComponent } from './labdetails/labdetails.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DxHtmlEditorModule } from 'devextreme-angular';
 
 const root: Route[] = [
     {
@@ -99,6 +100,7 @@ const root: Route[] = [
         MatTabsModule,
         MatCardModule,
         MatGridListModule, 
+        DxHtmlEditorModule,
         RouterModule.forChild(root)
     ],
     declarations: [

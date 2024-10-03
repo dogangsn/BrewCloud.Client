@@ -157,7 +157,8 @@ export const endPoints = {
         demandsComplateList: 'vet/Demands/DemandComplatedList'
     },
     lab: {
-        customersLabList: 'vet/lab/CustomersLabList'
+        customersLabList: 'vet/lab/CustomersLabList',
+        getLabDocumentByIdQuery : 'vet/lab/GetLabDocumentById'
     },
     parameters: {
         parametersList: 'vet/Settings/ParametersList',
