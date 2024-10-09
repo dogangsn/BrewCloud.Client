@@ -1245,7 +1245,34 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
 
                         }
                     }
-                    this._analyticsService.data$
+                    
+
+                }
+                else {
+                    this.newTaskDistribution = {
+
+                        overview: {
+                            'this-week': {
+                                'new': 0,
+                                'completed': 0,
+                                'activeVisit': 0
+                            },
+                            'last-week': {
+                                'new': 0,
+                                'completed': 0,
+                                'activeVisit': 0
+                            }
+                        },
+                        labels: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+                        series: {
+                            'this-week': [0, 0, 0, 0, 0, 0, 0],
+                            'last-week': [0, 0, 0, 0, 0, 0, 0]
+                        }
+
+                    }
+                }
+                debugger;
+                this._analyticsService.data$
                         .pipe(takeUntil(this._unsubscribeAll))
                         .subscribe((data) => {
                             // Store the data

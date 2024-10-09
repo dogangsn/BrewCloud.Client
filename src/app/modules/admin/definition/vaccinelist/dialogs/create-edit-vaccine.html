@@ -177,9 +177,21 @@
                                                     <ng-container>
                                                         <ng-container *ngFor="let vaccine of vaccineMedicine; trackBy: trackByFn">
                                                             <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
-                                                                <div class="hidden md:block truncate">
-                                                                    {{vaccine.productId}}
+                                                                <div>
+                                                                    <ng-container *ngFor="let productDescription of productdescription">
+                                                                        <div class="truncate" *ngIf="productDescription.id === vaccine.productId">
+                                                                            {{ productDescription.name }}
+                                                                        </div>
+                                    
+                                                                    </ng-container>
+                                                                    <div class="truncate text-red-500"
+                                                                        *ngIf=" vaccine.productId === '00000000-0000-0000-0000-000000000000'">
+                                                                        ÜRÜN SEÇİNİZ..
+                                                                    </div>
                                                                 </div>
+                                                                <!-- <div class="hidden md:block truncate">
+                                                                    {{vaccine.productId}}
+                                                                </div> -->
                             
                                                                 <div class="truncate">
                                                                     {{vaccine.quantity}}
@@ -189,10 +201,26 @@
                                                                     {{vaccine.salesAmount}}
                                                                 </div>
                         
-                                                                <div class="truncate">
+                                                                <!-- <div class="truncate">
                                                                     {{vaccine.taxisId}}
-                                                                </div>
+                                                                </div> -->
 
+                                                                <div>
+                                                                    <ng-container *ngFor="let item of taxisList">
+                                                                        <div class="truncate" *ngIf="item.id === vaccine.taxisId">
+                                                                            {{ item.taxRatio }}
+                                                                        </div>
+                                    
+                                                                    </ng-container>
+                                                                    
+                                                                </div>
+                                                                <!-- <mat-select [formControlName]="'taxisId'">
+                                                                    <ng-container *ngFor="let item of taxisList">
+                                                                        <mat-option [value]="item.id">
+                                                                            {{item.taxRatio}}
+                                                                        </mat-option>
+                                                                    </ng-container>
+                                                                </mat-select> -->
                                                                 <!-- <div class="truncate">
                                                                     {{vaccine.dosingType}}
                                                                 </div> -->
