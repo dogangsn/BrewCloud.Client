@@ -98,7 +98,7 @@
             </div>
         </div>
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-raised-button color="primary" (click)="openFileDialog()">
+            <button mat-raised-button color="primary" (click)="openFileUpload()">
                 <mat-icon>cloud_upload</mat-icon> Yeni Döküman Yükle
             </button>
         </div>
@@ -114,9 +114,9 @@
                     <mat-card-title>Hayvan Detayı</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <p><strong>Adı:</strong> {{animal.name}}</p>
-                    <p><strong>Türü:</strong> {{animal.type}}</p>
-                    <p><strong>Yaşı:</strong> {{animal.age}} yıl</p>
+                    <p><strong>Adı:</strong> {{labdocumentdto.patientName }}</p>
+                    <p><strong>Türü:</strong> {{labdocumentdto.patientType}}</p>
+                    <p><strong>Irkı:</strong> {{labdocumentdto.patientBreed }} </p>
                 </mat-card-content>
             </mat-card>
 
@@ -126,9 +126,9 @@
                     <mat-card-title>Müşteri Detayı</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <p><strong>Adı:</strong> {{customer.name}}</p>
-                    <p><strong>Telefon:</strong> {{customer.phone}}</p>
-                    <p><strong>Email:</strong> {{customer.email}}</p>
+                    <p><strong>Adı:</strong> {{labdocumentdto.customerName }}</p>
+                    <p><strong>Telefon:</strong> {{labdocumentdto.customerPhone }}</p>
+                    <p><strong>Email:</strong> {{labdocumentdto.customerEmail }}</p>
                 </mat-card-content>
             </mat-card>
         </div>
@@ -141,7 +141,7 @@
                 </mat-card-header>
                 <mat-card-content>
                     <mat-grid-list cols="4" rowHeight="1:1" gutterSize="16px">
-                        <mat-grid-tile *ngFor="let document of documents">
+                        <mat-grid-tile *ngFor="let document of labdocuementlist">
                             <mat-card class="shadow-lg hover:shadow-xl transition-shadow duration-300">
                                 <mat-card-header>
                                     <mat-card-title>{{ document.name }}</mat-card-title>
@@ -155,10 +155,14 @@
                             </mat-card>
                         </mat-grid-tile>
                     </mat-grid-list>
+                    <div *ngIf="labdocuementlist && labdocuementlist.length === 0">
+                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">
+                            Veri bulunamadı.</div>
+                    </div>
                 </mat-card-content>
             </mat-card>
 
-            <mat-card class="shadow-lg col-span-12 sm:col-span-6 flex-auto" >
+            <mat-card class="shadow-lg col-span-12 sm:col-span-6 flex-auto">
                 <dx-html-editor [height]="300" [(valueType)]="editorValueType" [(value)]="valueContent">
                     <dxo-toolbar>
                         <dxi-item name="undo"></dxi-item>
@@ -166,7 +170,9 @@
                         <dxi-item name="separator"></dxi-item>
                         <dxi-item name="size" [acceptedValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"
                             [options]="{ inputAttr: { 'aria-label': 'Font size' } }"></dxi-item>
-                        <dxi-item name="font" [acceptedValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']" [options]="{ inputAttr: { 'aria-label': 'Font family' } }"></dxi-item>
+                        <dxi-item name="font"
+                            [acceptedValues]="['Arial','Courier New','Georgia','Impact','Lucida Console','Tahoma','Times New Roman','Verdana']"
+                            [options]="{ inputAttr: { 'aria-label': 'Font family' } }"></dxi-item>
                         <dxi-item name="separator"></dxi-item>
                         <dxi-item name="bold"></dxi-item>
                         <dxi-item name="italic"></dxi-item>

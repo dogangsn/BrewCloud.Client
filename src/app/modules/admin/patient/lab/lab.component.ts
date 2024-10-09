@@ -8,6 +8,8 @@ import { PatientOwnerListDto } from '../patientlist/models/patientOwnerListDto';
 import { PatientListService } from 'app/core/services/patient/patientList/patientList.service';
 import { CustomerService } from 'app/core/services/customers/customers.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LabuploaddocumentComponent } from './labuploaddocument/labuploaddocument.component';
 
 @Component({
     selector: 'lab',
@@ -47,11 +49,13 @@ export class LabComponent implements OnInit {
 
 
     constructor(
+        
         private _translocoService: TranslocoService,
         private _labService: LabService,
         private _patientService: PatientListService,
         private _customerListService: CustomerService,
         private router: Router,
+        private _dialog: MatDialog,
     ) {}
 
     ngOnInit() {
@@ -123,4 +127,6 @@ export class LabComponent implements OnInit {
         this.router.navigate(['/lab/labdetails/', id]);
     };
  
+    
+
 }

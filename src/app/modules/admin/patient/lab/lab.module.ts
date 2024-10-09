@@ -30,6 +30,7 @@ import { LabDetailsComponent } from './labdetails/labdetails.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DxHtmlEditorModule } from 'devextreme-angular';
+import { LabuploaddocumentComponent } from './labuploaddocument/labuploaddocument.component';
 
 const root: Route[] = [
     {
@@ -105,7 +106,8 @@ const root: Route[] = [
     ],
     declarations: [
         LabComponent,
-        LabDetailsComponent
+        LabDetailsComponent,
+        LabuploaddocumentComponent
     ]
     
 })
