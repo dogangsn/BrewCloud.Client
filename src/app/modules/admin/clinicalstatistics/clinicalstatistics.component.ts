@@ -1513,6 +1513,7 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
     getFormValueByName(formName: string): any {
         return this.clinicalstatics.get(formName).value;
     }
+    //hop
 }
 
 
