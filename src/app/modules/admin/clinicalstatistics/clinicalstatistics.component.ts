@@ -1296,12 +1296,13 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
                     // this.chartGithubIssues.series = this.newGithubIssuesSeries.series;
                     this.cdr.markForCheck();
 
-                }
+                });
 
 
                 // console.log(this.payments);
-            });
-    }
+            }
+        
+    
     getbagelSliceGraphList() {
         this.clinicalStatisticService
             .getBagelSliceGraphList()
@@ -1513,4 +1514,5 @@ export class ClinicalstatisticsComponent implements OnInit, AfterViewInit, OnDes
         return this.clinicalstatics.get(formName).value;
     }
 }
+
 
