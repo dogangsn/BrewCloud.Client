@@ -31,6 +31,22 @@
   </div>
 
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+
+   <div role="status" class="animate-pulse" *ngIf="loader">
+      <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-full mb-4" *ngFor="let _ of items"></div>
+    </div>
+    <div *ngIf="!loader">
+      <div class="flex items-center mt-4 mb-4 sm:mt-0 md:mt-4">
+        <!-- Search -->
+        <div class="flex-auto">
+          <mat-form-field class="fuse-mat-dense fuse-mat-rounded w-full min-w-50" subscriptSizing="dynamic">
+            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input matInput [autocomplete]="'off'" [placeholder]="'Search'" (keyup)="applyFilter($event.target.value)">
+          </mat-form-field>
+        </div>
+      </div>
+   
+
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="roomName">

@@ -23,6 +23,8 @@ export class AccommodationroomsComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   rooms: RoomListDto[] = [];
   dataSource = new MatTableDataSource<RoomListDto>(this.rooms);
+  items = Array(13);
+  loader = true;
 
   constructor(
     private _dialog: MatDialog,
@@ -38,8 +40,14 @@ export class AccommodationroomsComponent implements OnInit {
       this.rooms = response.data;
       this.dataSource = new MatTableDataSource<RoomListDto>(
         this.rooms
-      );
+      ); 
       this.dataSource.paginator = this.paginator;
+      setTimeout(() => {
+          if (this.dataSource) {
+              this.dataSource.paginator = this.paginator;
+          }
+      }, 0);
+      this.loader = false;
     });
   }
 
@@ -54,7 +62,7 @@ export class AccommodationroomsComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-            this.getRoomList();
+          this.getRoomList();
         }
       });
   }
@@ -133,6 +141,9 @@ export class AccommodationroomsComponent implements OnInit {
       });
     }
   };
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 
 }

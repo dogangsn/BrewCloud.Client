@@ -27,12 +27,12 @@ export class SuppliersComponent {
         , 'active'
         , 'actions',];
     suppliers: FormGroup;
-
     @ViewChild('paginator') paginator: MatPaginator;
-
     supplierscards: suppliersListDto[] = [];
     dataSource = new MatTableDataSource<suppliersListDto>(this.supplierscards);
-
+    loader = true;
+    items = Array(13);
+    
     constructor(
         private _dialog: MatDialog,
         private _suppliersService: SuppliersService,
@@ -51,9 +51,14 @@ export class SuppliersComponent {
 
             this.dataSource = new MatTableDataSource<suppliersListDto>(
                 this.supplierscards
-            );
+            ); 
             this.dataSource.paginator = this.paginator;
-
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            this.loader = false;
         });
     }
 
@@ -154,6 +159,10 @@ export class SuppliersComponent {
                 data: { masterId: id },
             }
         );
+    }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 }
 

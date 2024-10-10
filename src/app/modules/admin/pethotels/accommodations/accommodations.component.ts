@@ -25,6 +25,8 @@ export class AccommodationsComponent implements OnInit {
   accommodations: AccomodationListDto[] = [];
   dataSource = new MatTableDataSource<AccomodationListDto>(this.accommodations);
   now: Date = new Date();
+  loader = true;
+  items = Array(13);
 
   constructor(
     private _dialog: MatDialog,
@@ -47,6 +49,12 @@ export class AccommodationsComponent implements OnInit {
         this.accommodations
       );
       this.dataSource.paginator = this.paginator;
+      setTimeout(() => {
+          if (this.dataSource) {
+              this.dataSource.paginator = this.paginator;
+          }
+      }, 0);
+      this.loader = false;
       console.log(this.now);
     });
   }
@@ -181,5 +189,10 @@ export class AccommodationsComponent implements OnInit {
   stringFormatDate(date: string): Date {
     return new Date(date);
   }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  
 
 }

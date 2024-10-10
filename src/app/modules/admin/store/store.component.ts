@@ -27,6 +27,8 @@ export class StoreComponent implements OnInit,AfterViewInit {
     storeList: StoreListDto[] = [];
     dataSource = new MatTableDataSource<StoreListDto>(this.storeList);
     isUpdateButtonActive: boolean;
+    items = Array(13);
+    loader = true;
 
     constructor(
         private _dialog: MatDialog,
@@ -49,8 +51,14 @@ export class StoreComponent implements OnInit,AfterViewInit {
             this.dataSource = new MatTableDataSource<StoreListDto>(
                 this.storeList
             );
-
+ 
             this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+                if (this.dataSource) {
+                    this.dataSource.paginator = this.paginator;
+                }
+            }, 0);
+            this.loader = false;
         });
     }
 
@@ -143,5 +151,9 @@ export class StoreComponent implements OnInit,AfterViewInit {
 
     translate(key: string): any {
         return this._translocoService.translate(key);
+    }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 }
