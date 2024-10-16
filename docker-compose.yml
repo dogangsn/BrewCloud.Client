@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  vetsystemsclient:
-    image: vetsystemsclient
+  brewcloudclient:
+    image: brewcloudclient
     build:
       context: .
       dockerfile: ./Dockerfile
