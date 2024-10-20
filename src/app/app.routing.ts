@@ -433,7 +433,28 @@ export const appRoutes: Route[] = [
                         (m) => m.ExaminationlistModule
                     ),
             },
-
+            {
+                path: 'gymdashboards',
+                loadChildren: () => 
+                    import('app/modules/gym/dashboards/gymdashboards.module').then(
+                        (m) => m.GymdashboardsModule
+                    )
+            },
+            {
+                path: 'subscriptionpackagedef',
+                loadChildren: () => 
+                    import('app/modules/gym/definition/subscriptionpackagedef/subscriptionpackagedef.module').then(
+                        (m) => m.SubscriptionpackagedefModule
+                    )
+            },
+            {
+                path: 'extrapackagedef',
+                loadChildren: () => 
+                    import('app/modules/gym/definition/extrapackagedef/extrapackagedef.module').then(
+                        (m) => m.ExtrapackagedefModule
+                    )
+            },
+            
         ],
     },
 ];
