@@ -354,7 +354,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             this.getFormValueByName('patientId'),
             this.addVaccineList
         );
-        if (this.validateControl()) {
+        if (this.validateControl(item.appointmentType)) {
             this.buttonDisabled = false;
             return;
         }
@@ -451,7 +451,7 @@ export class AddApponitnmentDialogComponent implements OnInit {
             this.getFormValueByName('patientId'),
             this.addVaccineList
         );
-        if (this.validateControl()) {
+        if (this.validateControl(item.appointmentType)) {
             this.buttonDisabled = false;
             return;
         }
@@ -474,11 +474,9 @@ export class AddApponitnmentDialogComponent implements OnInit {
         );
     }
 
-    validateControl(): boolean {
+    validateControl(appointmentType:number): boolean {
 
-        debugger;
-
-        if(this.addVaccineList.length > 0) {
+        if(this.addVaccineList.length > 0 && appointmentType === 1 ) {
             let _control = false;
             this.addVaccineList.forEach(x => {
                 if(x.date <= this.morning8 || x.date.getHours() > this.evening8.getHours()) {
