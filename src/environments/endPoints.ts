@@ -294,5 +294,8 @@ export const endPoints = {
     },
     accounting : {
         isSaleProductControl : 'vet/Accounting/IsSaleProductControl'
+    },
+    member : {
+        createMember : 'gym/Member/CreateGymMember'
     }
 }

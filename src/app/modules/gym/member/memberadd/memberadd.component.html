@@ -1,3 +1,144 @@
-<p>
-  memberadd works!
-</p>
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-12 sm:pb-28 sm:px-10 bg-default dark:bg-transparent">
+    <div class="flex-1 min-w-0">
+      <div>
+        <div class="flex sm:hidden">
+          <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
+            <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
+            <span class="ml-1">Back</span>
+          </a>
+        </div>
+      </div>
+      <!-- Title -->
+      <div class="mt-2">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+          Üye Ekle
+        </h2>
+      </div>
+    </div>
+    <!-- Actions -->
+    <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+      <button class="ml-3" mat-flat-button [color]="'primary'" (click)="addMember()">
+        <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:link'"></mat-icon>
+        Kaydet
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
+    <div [formGroup]="memberForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+      <div class="float : left flex gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Adı</mat-label>
+          <input matInput [formControlName]="'firstName'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+          <mat-label>Soyadı</mat-label>
+          <input matInput [formControlName]="'lastName'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+          <mat-label>T.C Numarası</mat-label>
+          <input matInput [formControlName]="'identityNumber'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:identification'"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex float : left gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Doğum Tarihi</mat-label>
+          <input matInput [matDatepicker]="picker" [formControlName]="'birthDate'">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pr-3">
+          <mat-label>Telefon Numarası</mat-label>
+          <input placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value, 'phone')" matInput
+            [formControlName]="'phone'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pr-3">
+          <mat-label>E-Mail</mat-label>
+          <input matInput [formControlName]="'email'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex float : left gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Semt</mat-label>
+          <input matInput [formControlName]="'district'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'nature'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pr-3">
+          <mat-label>Meslek</mat-label>
+          <input matInput [formControlName]="'job'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'business_center'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+          <mat-label>Kart Numarası</mat-label>
+          <input matInput placeholder="1234 1234 1234 1234" [formControlName]="'cardNumber'" [pattern]="'[0-9]*'"
+            (keypress)="onlyAllowNumbers($event)">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'credit_card'"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex float : left gt-md:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Acil Durum Kişi</mat-label>
+          <input matInput [formControlName]="'emergencyPerson'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'people_outline'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-xs:pl-3">
+          <mat-label>Acil Durum Kişi Telefon</mat-label>
+          <input placeholder="(555) 555-5555" (input)="formatPhoneNumber($event.target.value, 'emergencyPersonPhone')"
+            matInput [formControlName]="'emergencyPersonPhone'">
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'settings_phone'"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="ml-5 flex-auto gt-md:pr-3">
+          <mat-label>Kan Grubu</mat-label>
+          <mat-select [formControlName]="'bloopType'" [placeholder]="'Kan Grubu'" name="bloopType">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let item of bloopTypes" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="float : left flex  gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-md:pr-3 narrow-field">
+          <mat-label>Cinsiyet</mat-label>
+          <mat-select [formControlName]="'gender'" [placeholder]="'Cinsiyet'" name="gender">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let item of genders" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox class="ml-5 mb-2" [checked]="true" [color]="'primary'" [formControlName]="'isMember'">
+          Üye mi?
+        </mat-checkbox>
+        <mat-checkbox class="mb-2" [checked]="true" [color]="'primary'" [formControlName]="'isMaried'">
+          Evli mi?
+        </mat-checkbox>
+      </div>
+
+      <div class="flex float : left gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Adres</mat-label>
+          <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="2" [formControlName]="'address'"></textarea>
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="flex float : left gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Not</mat-label>
+          <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="2" [formControlName]="'note'"></textarea>
+          <mat-icon class="icon-size-5" matSuffix [svgIcon]="'event_note'"></mat-icon>
+        </mat-form-field>
+      </div>
+
+    </div>
