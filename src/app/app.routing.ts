@@ -455,6 +455,14 @@ export const appRoutes: Route[] = [
                     )
             },
             {
+                path: 'gymmemberlist',
+                loadChildren: () => 
+                    import('app/modules/gym/member/memberlist/memberlist.module').then(
+                        (m) => m.MemberlistModule
+                    )
+            },
+            
+            {
                 path: 'gymmemberadd',
                 loadChildren: () =>
                     import('app/modules/gym/member/memberadd/memberadd.module').then(
