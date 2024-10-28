@@ -25,7 +25,11 @@ export const endPoints = {
         updateRols: 'account/settings/UpdateRoleSetting',
         deleteRols: 'account/settings/DeleteRoleSetting',
         getNavigation: 'account/settings/GetNavigation',
-        getActiveUser: 'account/settings/GetActiveUser'
+        getActiveUser: 'account/settings/GetActiveUser',
+        getBranchList: 'account/settings/GetBranchList',
+        createBranch: 'account/settings/CreateBranch',
+        updateBranch: 'account/settings/UpdateBranch',
+        deleteBranch: 'account/settings/DeleteBranch'
     },
     customers: {
         customerslist: 'vet/Customers/CustomersList',
@@ -158,7 +162,7 @@ export const endPoints = {
     },
     lab: {
         customersLabList: 'vet/lab/CustomersLabList',
-        getLabDocumentByIdQuery : 'vet/lab/GetLabDocumentById'
+        getLabDocumentByIdQuery: 'vet/lab/GetLabDocumentById'
     },
     parameters: {
         parametersList: 'vet/Settings/ParametersList',
@@ -167,7 +171,7 @@ export const endPoints = {
         updatesmsparameters: 'vet/Settings/UpdateSmsParameters',
         getSmsParametersIdBy: 'vet/Settings/GetSmsParametersIdBy',
         getlogs: 'vet/Settings/GetLogs',
-        getSmsParametersList : 'vet/Settings/GetSmsParametersList'
+        getSmsParametersList: 'vet/Settings/GetSmsParametersList'
     },
     chat: {
         getAllUsers: 'chat/Account/GetAllUsers'
@@ -184,7 +188,7 @@ export const endPoints = {
         getAppointmentDailyList: 'vet/Appointment/GetAppointmentDailyList',
         updateAppointmentStatus: 'vet/Appointment/UpdateAppointmentStatus',
         getAppointmentListByPatientId: 'vet/Appointment/GetAppointmentListByPatientId',
-        appointmentDateCheckControl  : 'vet/Appointment/AppointmentDateCheckControl'
+        appointmentDateCheckControl: 'vet/Appointment/AppointmentDateCheckControl'
     },
     title: {
         titleDefinationList: 'account/settings/GetTitleDefination',
@@ -223,7 +227,7 @@ export const endPoints = {
     },
     reports: {
         createFilter: 'vet/Reports/CreateReportFilter',
-        getAppointmentDashboard : 'vet/Reports/GetAppointmentDashboard',
+        getAppointmentDashboard: 'vet/Reports/GetAppointmentDashboard',
     },
     vaccine: {
         vaccineList: 'vet/Vaccine/VaccineList',
@@ -245,7 +249,7 @@ export const endPoints = {
         deleteRoom: 'vet/PetHotels/DeleteRoom',
         getAccomodationList: 'vet/PetHotels/GetAccomodationList',
         createAccommodation: 'vet/PetHotels/CreateAccomodation',
-        updateAccomodation : 'vet/PetHotels/UpdateAccomodation',
+        updateAccomodation: 'vet/PetHotels/UpdateAccomodation',
         deleteAccomodation: 'vet/PetHotels/DeleteAccomodation',
         updateCheckOut: 'vet/PetHotels/UpdateCheckOut'
     },
@@ -289,13 +293,13 @@ export const endPoints = {
         deletePrintTemplate: 'vet/Definition/DeletePrintTemplate',
         updatePrintTemplate: 'vet/Definition/UpdatePrintTemplate'
     },
-    message : {
-        multiAutoSendMessage : 'vet/Message/MultiAutoSendMessage'
+    message: {
+        multiAutoSendMessage: 'vet/Message/MultiAutoSendMessage'
     },
-    accounting : {
-        isSaleProductControl : 'vet/Accounting/IsSaleProductControl'
+    accounting: {
+        isSaleProductControl: 'vet/Accounting/IsSaleProductControl'
     },
-    member : {
-        createMember : 'gym/Member/CreateGymMember'
+    member: {
+        createMember: 'gym/Member/CreateGymMember'
     }
 }

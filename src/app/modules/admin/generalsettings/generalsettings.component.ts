@@ -48,6 +48,13 @@ export class GeneralsettingsComponent implements OnInit {
                     'Şirket Bilgileri, Şube işlemleri ve Genel Bilgileri',
             },
             {
+                id: 'branch',
+                icon: 'library_books',
+                title: 'Şube',
+                description:
+                    'Şube Bilgileri, Şube işlemleri ve Genel Bilgileri',
+            },
+            {
                 id: 'authority',
                 icon: 'heroicons_outline:credit-card',
                 title: 'Kullanıcılar',

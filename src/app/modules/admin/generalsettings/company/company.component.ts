@@ -56,7 +56,6 @@ export class SettingsCompanyComponent implements OnInit {
     }
 
     fillFormData(selectedCompany: companyDto) {
-        debugger;
         if (this.selectedCompany !== null) {
             this.companyForm.setValue({
                 companyName: selectedCompany.companyName,
@@ -107,8 +106,6 @@ export class SettingsCompanyComponent implements OnInit {
 
         this._companyService.updateCompany(companyItem).subscribe(
             (response) => {
-                debugger;
-
                 if (response.isSuccessful) {
                     this.showSweetAlert('success');
          
