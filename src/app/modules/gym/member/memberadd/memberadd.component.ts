@@ -9,6 +9,8 @@ import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { Gender } from '../../common/enums/Gender.enum';
 import { BloopType } from '../../common/enums/BloopType.enum';
 import { formatDate } from '@angular/common';
+import { BranchService } from 'app/core/services/generalsettings/branch/branch.service';
+import { BranchDto } from 'app/modules/admin/generalsettings/branch/models/BranchDto';
 
 @Component({
   selector: 'app-memberadd',
@@ -19,15 +21,19 @@ export class MemberaddComponent implements OnInit {
   memberForm: FormGroup;
   genders: any[] = [];
   bloopTypes: any[] = [];
+  branchList: BranchDto[] = [];
   constructor(
     private _formBuilder: UntypedFormBuilder,
     private _translocoService: TranslocoService,
     private _memberService: MemberService,
     private router: Router,
+    private branchService: BranchService,
   ) { }
 
   ngOnInit() {
+    this.getBranchList();
     this.memberForm = this._formBuilder.group({
+      branchId: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       identityNumber: [''],
@@ -62,6 +68,16 @@ export class MemberaddComponent implements OnInit {
     }
   }
 
+  getBranchList(): void {
+    this.branchService.getBranchList().subscribe((response) => {
+      if (response.isSuccessful) {
+        if (response.data) {
+          this.branchList = response.data;
+        }
+      }
+    });
+  }
+
   addMember(): any {
     if (this.memberForm.invalid) {
       this.showSweetAlert('error', 'Zorunlu Alanları Doldurunuz.');
@@ -81,6 +97,7 @@ export class MemberaddComponent implements OnInit {
     }
 
     const model = {
+      branchId: this.getFormValueByName('branchId'),
       firstName: this.getFormValueByName('firstName'),
       lastName: this.getFormValueByName('lastName'),
       phone: this.getFormValueByName('phone'),
@@ -223,7 +240,7 @@ export class MemberaddComponent implements OnInit {
       '(506)',
       '(507)',
     ];
-    
+
     const inputAreaCode = phoneNumber.substring(0, 5); // Telefon numarasından alan kodunu al
 
     if (!validAreaCodes.includes(inputAreaCode)) {
