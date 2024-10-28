@@ -73,6 +73,7 @@ export class MemberaddComponent implements OnInit {
       if (response.isSuccessful) {
         if (response.data) {
           this.branchList = response.data;
+          this.memberForm.get('branchId').setValue(this.branchList[0].id);
         }
       }
     });
