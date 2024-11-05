@@ -301,5 +301,11 @@ export const endPoints = {
     },
     member: {
         createMember: 'gym/Member/CreateGymMember'
+    },
+    gympersonnel: {
+        createGymPersonnel: 'gym/Personnel/CreateGymPersonnel',
+        updateGymPersonnel: 'gym/Personnel/UpdateGymPersonnel',
+        deleteGymPersonnel: 'gym/Personnel/DeleteGymPersonnel',
+        getGymPersonnelList: 'gym/Personnel/GetGymPersonnelList',
     }
 }

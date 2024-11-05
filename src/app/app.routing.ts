@@ -469,6 +469,13 @@ export const appRoutes: Route[] = [
                         (m) => m.MemberaddModule
                     )
             },
+            {
+                path: 'gympersonnellist',
+                loadChildren: () =>
+                    import('app/modules/gym/personnel/personnel.module').then(
+                        (m) => m.PersonnelModule
+                    )
+            },
         ],
     },
 ];
