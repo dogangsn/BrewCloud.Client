@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { PersonnelDto } from '../../models/PersonnelDto';
+import { PersonnelDto } from '../../../models/PersonnelDto';
 import { PersonnelService } from 'app/core/services/gympersonnel/personnel.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';

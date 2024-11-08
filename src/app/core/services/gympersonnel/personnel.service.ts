@@ -24,4 +24,24 @@ export class PersonnelService {
   deleteGymPersonnel(model: any): Observable<any> {
     return this._httpService.post(endPoints.gympersonnel.deleteGymPersonnel, model);
   }
+
+  createGymPersonnelPermission(model: any): Observable<any> {
+    return this._httpService.post(endPoints.gympersonnel.createGymPersonnelPermission, model);
+  }
+
+  updateGymPersonnelPermission(model: any): Observable<any> {
+    return this._httpService.post(endPoints.gympersonnel.updateGymPersonnelPermission, model);
+  }
+
+  deleteGymPersonnelPermission(model: any): Observable<any> {
+    return this._httpService.post(endPoints.gympersonnel.deleteGymPersonnelPermission, model);
+  }
+
+  getGymPersonnelPermissionList(): Observable<any> {
+    return this._httpService.getRequest(endPoints.gympersonnel.getGymPersonnelPermissionList);
+  }
+
+  getPersonnelListLight(): Observable<any> {
+    return this._httpService.getRequest(endPoints.gympersonnel.getPersonnelListLight);
+  }
 }

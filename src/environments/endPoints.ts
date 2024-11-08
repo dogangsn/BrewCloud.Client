@@ -307,5 +307,10 @@ export const endPoints = {
         updateGymPersonnel: 'gym/Personnel/UpdateGymPersonnel',
         deleteGymPersonnel: 'gym/Personnel/DeleteGymPersonnel',
         getGymPersonnelList: 'gym/Personnel/GetGymPersonnelList',
+        createGymPersonnelPermission: 'gym/Personnel/CreateGymPersonnelPermission',
+        updateGymPersonnelPermission: 'gym/Personnel/UpdateGymPersonnelPermission',
+        deleteGymPersonnelPermission: 'gym/Personnel/DeleteGymPersonnelPermission',
+        getGymPersonnelPermissionList: 'gym/Personnel/GetGymPersonnelPermissionList',
+        getPersonnelListLight: 'gym/Personnel/GetGymPersonnelListLight'
     }
 }

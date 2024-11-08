@@ -472,8 +472,15 @@ export const appRoutes: Route[] = [
             {
                 path: 'gympersonnellist',
                 loadChildren: () =>
-                    import('app/modules/gym/personnel/personnel.module').then(
+                    import('app/modules/gym/personnel/personnellist/personnel.module').then(
                         (m) => m.PersonnelModule
+                    )
+            },
+            {
+                path: 'gympersonnelpermission',
+                loadChildren: () =>
+                    import('app/modules/gym/personnel/personnelpermission/personnelpermission.module').then(
+                        (m) => m.PersonnelpermissionModule
                     )
             },
         ],

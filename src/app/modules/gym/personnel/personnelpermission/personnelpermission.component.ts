@@ -1,28 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateEditPersonnelComponent } from './dialogs/create-edit-personnel/create-edit-personnel.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PersonnelDto } from './models/PersonnelDto';
-import { PersonnelService } from 'app/core/services/gympersonnel/personnel.service';
-import { xorBy } from 'lodash';
+import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
+import { PersonnelService } from 'app/core/services/gympersonnel/personnel.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
-import { TranslocoService } from '@ngneat/transloco';
+import { PersonnelPermissionDto } from '../models/PersonnelPermissionDto';
+import { CreateEditPersonnelPermissionComponent } from './dialogs/create-edit-personnel-permission/create-edit-personnel-permission.component';
 
 @Component({
-  selector: 'app-personnel',
-  templateUrl: './personnel.component.html',
-  styleUrls: ['./personnel.component.css']
+  selector: 'app-personnelpermission',
+  templateUrl: './personnelpermission.component.html',
+  styleUrls: ['./personnelpermission.component.css']
 })
-export class PersonnelComponent implements OnInit {
-  personnelList: PersonnelDto[] = [];
+export class PersonnelpermissionComponent implements OnInit {
+  personnelPermissionList: PersonnelPermissionDto[] = [];
   isUpdateButtonActive: boolean;
   displayedColumns: string[] = ['name'
-    , 'surName'
-    , 'phoneNumber'
-    , 'phoneNumber2'
-    , 'email'
-    , 'graduate'
+    , 'permissionTypeName'
+    , 'isApproved'
+    , 'beginDate'
+    , 'endDate'
     , 'actions'
   ];
   constructor(
@@ -32,12 +30,12 @@ export class PersonnelComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getGymPersonnelList();
+    this.getGymPersonnelPermissionList();
   }
 
   addPanelOpen(): void {
     const dialog = this._dialog
-      .open(CreateEditPersonnelComponent, {
+      .open(CreateEditPersonnelPermissionComponent, {
         maxWidth: '100vw !important',
         disableClose: true,
         data: null,
@@ -45,16 +43,16 @@ export class PersonnelComponent implements OnInit {
       .afterClosed()
       .subscribe((response) => {
         if (response.status) {
-          this.getGymPersonnelList();
+          this.getGymPersonnelPermissionList();
         }
       });
   }
 
-  getGymPersonnelList(): void {
-    this.personnelService.getGymPersonnelList().subscribe((response) => {
+  getGymPersonnelPermissionList(): void {
+    this.personnelService.getGymPersonnelPermissionList().subscribe((response) => {
       if (response.isSuccessful) {
         if (response.data) {
-          this.personnelList = response.data;
+          this.personnelPermissionList = response.data;
         }
       }
     });
@@ -62,11 +60,11 @@ export class PersonnelComponent implements OnInit {
 
   public redirectToUpdate = (id: string) => {
     this.isUpdateButtonActive = true;
-    const selectedItem = this.personnelList.find((x) => x.id === id);
+    const selectedItem = this.personnelPermissionList.find((x) => x.id === id);
 
     if (selectedItem) {
       const dialogRef = this._dialog.open(
-        CreateEditPersonnelComponent,
+        CreateEditPersonnelPermissionComponent,
         {
           maxWidth: '100vw !important',
           disableClose: true,
@@ -75,7 +73,7 @@ export class PersonnelComponent implements OnInit {
       );
       dialogRef.afterClosed().subscribe((response) => {
         if (response.status) {
-          this.getGymPersonnelList();
+          this.getGymPersonnelPermissionList();
         }
       });
     }
@@ -83,7 +81,7 @@ export class PersonnelComponent implements OnInit {
 
   public redirectToDelete = (id: string) => {
 
-    const selectedItem = this.personnelList.find((item) => item.id === id);
+    const selectedItem = this.personnelPermissionList.find((item) => item.id === id);
 
     const sweetAlertDto = new SweetAlertDto(
       this.translate('sweetalert.areYouSure'),
@@ -98,10 +96,10 @@ export class PersonnelComponent implements OnInit {
             id: id,
           };
           this.personnelService
-            .deleteGymPersonnel(model)
+            .deleteGymPersonnelPermission(model)
             .subscribe((response) => {
               if (response.isSuccessful) {
-                this.getGymPersonnelList();
+                this.getGymPersonnelPermissionList();
                 const sweetAlertDto2 = new SweetAlertDto(
                   this.translate('sweetalert.success'),
                   this.translate('sweetalert.transactionSuccessful'),
@@ -119,6 +117,15 @@ export class PersonnelComponent implements OnInit {
 
   translate(key: string): any {
     return this._translocoService.translate(key);
+  }
+
+  formatDate(date: string): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    };
+    return new Date(date).toLocaleString('tr-TR', options);
   }
 
 }
