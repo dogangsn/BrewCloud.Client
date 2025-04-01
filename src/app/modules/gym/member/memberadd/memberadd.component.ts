@@ -3,12 +3,12 @@ import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { GeneralService } from 'app/core/services/general/general.service';
-import { MemberService } from 'app/core/services/member/member.service';
 import { SweetalertType } from 'app/modules/bases/enums/sweetalerttype.enum';
 import { SweetAlertDto } from 'app/modules/bases/models/SweetAlertDto';
 import { Gender } from '../../common/enums/Gender.enum';
 import { BloopType } from '../../common/enums/BloopType.enum';
 import { formatDate } from '@angular/common';
+import { MemberService } from 'app/core/services/gym/member/member.service';
 
 @Component({
   selector: 'app-memberadd',

@@ -13,4 +13,10 @@ export class MemberService {
   createMember(model: any): Observable<any> {
     return this._httpService.post(endPoints.member.createMember, model);
   }
+
+  getMemberList():Observable<any> {
+    return this._httpService.getRequest(endPoints.member.getMemberList);
+  }
+
+
 }

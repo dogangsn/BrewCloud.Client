@@ -300,6 +300,7 @@ export const endPoints = {
         isSaleProductControl: 'vet/Accounting/IsSaleProductControl'
     },
     member: {
-        createMember: 'gym/Member/CreateGymMember'
+        createMember: 'gym/Member/CreateGymMember',
+        getMemberList: 'gym/Member/GetMembersList'
     }
 }
