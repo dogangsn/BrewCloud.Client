@@ -1,0 +1,54 @@
+<div class="w-full">
+
+  <div class="flex items-center justify-end">
+    <button class="ml-4" (click)="addPanelOpen()" mat-flat-button type="button" [color]="'primary'">
+      <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+      Personel İzin Ekle
+    </button>
+  </div>
+  <div class="my-10 border-t"></div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="personnelPermissionList">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Personel </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="permissionTypeName">
+        <th mat-header-cell *matHeaderCellDef> İzin Tipi </th>
+        <td mat-cell *matCellDef="let element"> {{element.permissionTypeName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="beginDate">
+        <th mat-header-cell *matHeaderCellDef> Başlangıç Tarihi </th>
+        <td mat-cell *matCellDef="let element"> {{formatDate(element.beginDate)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef> Bitiş Tarihi </th>
+        <td mat-cell *matCellDef="let element"> {{formatDate(element.endDate)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="isApproved">
+        <th mat-header-cell *matHeaderCellDef> Onay </th>
+        <td mat-cell *matCellDef="let element"> {{element.isApproved}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> İşlemler </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons #paginator
+      aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+
+</div>

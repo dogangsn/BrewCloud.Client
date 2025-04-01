@@ -1,0 +1,85 @@
+<h1 mat-dialog-title class="mat-dialog-title">
+  <button class="dialog-close-button" (click)="closeDialog()" [tabIndex]="-1">
+    <span class="material-icons"> highlight_off </span>
+  </button>
+</h1>
+
+
+<div class="modalForm">
+  <mat-dialog-content>
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <span *ngIf="!isUpdate">Personel İzin Ekle</span>
+        <span *ngIf="isUpdate">Personel İzin Güncelle</span>
+      </h5>
+    </div>
+
+    <div class="modal-body mbody-users">
+      <div class="" [formGroup]="personnelPermissionForm">
+
+        <div class="float : left flex gt-xs:flex-row">
+          <mat-checkbox class="flex-auto gt-xs:pl-3" [color]="'primary'" [formControlName]="'isApproved'">
+            Onay
+          </mat-checkbox>
+        </div>
+
+        <div class="float : left flex gt-xs:flex-row">
+          <mat-form-field class="flex-auto gt-md:pr-3">
+            <mat-label>Personel</mat-label>
+            <mat-select [formControlName]="'personnelId'" [placeholder]="'Personel'" name="name" [disabled]="isUpdate">
+              <mat-option *ngFor="let item of personnelList" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="ml-5 flex-auto gt-md:pr-3">
+            <mat-label>İzin Tipi</mat-label>
+            <mat-select [formControlName]="'permissionType'" [placeholder]="'Personel İzin'" name="name">
+              <mat-option *ngFor="let item of personnelPermissionList" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="float : left flex gt-xs:flex-row">
+          <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>Başlangıç Tarihi</mat-label>
+            <input matInput [matDatepicker]="picker" [formControlName]="'beginDate'">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="ml-5 flex-auto gt-xs:pr-3">
+            <mat-label>Bitiş Tarihi</mat-label>
+            <input matInput [matDatepicker]="pickers" [formControlName]="'endDate'">
+            <mat-datepicker-toggle matIconSuffix [for]="pickers"></mat-datepicker-toggle>
+            <mat-datepicker #pickers></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="flex float : left gt-xs:flex-row">
+          <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>Not</mat-label>
+            <textarea matInput cdkTextareaAutosize [cdkAutosizeMinRows]="2" [formControlName]="'note'"></textarea>
+            <mat-icon class="icon-size-5" matSuffix [svgIcon]="'event_note'"></mat-icon>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6" id="common-dialog-buttons">
+      <div class="-ml-2">
+        <button mat-icon-button>
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:id'"></mat-icon>
+        </button>
+      </div>
+
+      <div class="flex items-center mt-4 sm:mt-0">
+        <button class="ml-auto sm:ml-0" mat-stroked-button (click)="closeDialog()">
+          Vazgeç
+        </button>
+        <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="addOrUpdate()">
+          Kaydet
+        </button>
+      </div>
+    </div>
+
+  </mat-dialog-content>
+</div>

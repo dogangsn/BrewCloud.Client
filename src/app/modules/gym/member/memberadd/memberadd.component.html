@@ -31,6 +31,14 @@
   <div class="flex-auto -mt-16 p-6 sm:p-10 rounded-t-2xl shadow bg-card">
     <div [formGroup]="memberForm" class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
       <div class="float : left flex gt-xs:flex-row">
+        <mat-form-field class="flex-auto gt-md:pr-3">
+          <mat-label>Şube</mat-label>
+          <mat-select [formControlName]="'branchId'" [placeholder]="'Şube'" name="name">
+            <mat-option *ngFor="let item of branchList" [value]="item.id">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="float : left flex gt-xs:flex-row">
         <mat-form-field class="flex-auto gt-xs:pr-3">
           <mat-label>Adı</mat-label>
           <input matInput [formControlName]="'firstName'">
