@@ -99,11 +99,11 @@ export class AppointmentComponent implements OnInit {
         //     this.userId = user.id;
         // });
 
-        // this.signalRService.startConnection().subscribe(() => {
-        //     this.signalRService.receiveMessage().subscribe((message) => {
-        //       this.receivedMessage = message;
-        //     });
-        //   });
+        this.signalRService.startConnection().subscribe(() => {
+            this.signalRService.receiveMessage().subscribe((message) => {
+              this.receivedMessage = message;
+            });
+          });
 
     }
 
@@ -115,6 +115,7 @@ export class AppointmentComponent implements OnInit {
     setUser(response: any): void {
         if (response.data) {
             this.users = response.data;
+            this.userId = response.data.id;
         }
     }
 

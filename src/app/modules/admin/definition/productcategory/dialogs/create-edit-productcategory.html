@@ -8,8 +8,8 @@
     <mat-dialog-content>
         <div class="modal-header">
             <h5 class="modal-title">
-                <span *ngIf="selectedproductcategory">Ürün Kategori Ekle</span>
-                <span *ngIf="!selectedproductcategory">Ürün Kategori Güncelle</span>
+                <span *ngIf="!selectedproductcategory">Ürün Kategori Ekle</span>
+                <span *ngIf="selectedproductcategory">Ürün Kategori Güncelle</span>
             </h5>
         </div>
 
@@ -58,7 +58,7 @@
                         class="order-first sm:order-last ml-3"
                         mat-flat-button
                         [color]="'primary'"
-                        (click)="addproductcategories()">
+                        (click)="addOrUpdateproductcategories()">
                         Kaydet
                     </button>
                 </div>
