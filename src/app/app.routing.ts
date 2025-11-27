@@ -456,12 +456,12 @@ export const appRoutes: Route[] = [
             },
             {
                 path: 'gymmemberlist',
-                loadChildren: () => 
+                loadChildren: () =>
                     import('app/modules/gym/member/memberlist/memberlist.module').then(
                         (m) => m.MemberlistModule
                     )
             },
-            
+
             {
                 path: 'gymmemberadd',
                 loadChildren: () =>
@@ -482,6 +482,79 @@ export const appRoutes: Route[] = [
                     import('app/modules/gym/personnel/personnelpermission/personnelpermission.module').then(
                         (m) => m.PersonnelpermissionModule
                     )
+            },
+            {
+                path: 'appointment-management',
+                children: [
+                    {
+                        path: 'my-assistant',
+                        loadChildren: () => import('app/modules/appointment-management/my-assistant/my-assistant.module').then(m => m.MyAssistantModule)
+                    },
+                    {
+                        path: 'appointment-calendar',
+                        loadChildren: () => import('app/modules/appointment-management/appointment-calendar/appointment-calendar.module').then(m => m.AppointmentCalendarModule)
+                    },
+                    {
+                        path: 'pre-interviews',
+                        loadChildren: () => import('app/modules/appointment-management/pre-interviews/pre-interviews.module').then(m => m.PreInterviewsModule)
+                    },
+                    {
+                        path: 'appointments',
+                        loadChildren: () => import('app/modules/appointment-management/appointments/appointments.module').then(m => m.AppointmentsModule)
+                    },
+                    {
+                        path: 'customers',
+                        loadChildren: () => import('app/modules/appointment-management/customers/customers.module').then(m => m.CustomersModule)
+                    },
+                    {
+                        path: 'ad-management',
+                        loadChildren: () => import('app/modules/appointment-management/ad-management/ad-management.module').then(m => m.AdManagementModule)
+                    },
+                    {
+                        path: 'events',
+                        loadChildren: () => import('app/modules/appointment-management/events/events.module').then(m => m.EventsModule)
+                    },
+                    {
+                        path: 'archive-management',
+                        loadChildren: () => import('app/modules/appointment-management/archive-management/archive-management.module').then(m => m.ArchiveManagementModule)
+                    },
+                    {
+                        path: 'session-tracking',
+                        loadChildren: () => import('app/modules/appointment-management/session-tracking/session-tracking.module').then(m => m.SessionTrackingModule)
+                    },
+                    {
+                        path: 'sales-tracking',
+                        loadChildren: () => import('app/modules/appointment-management/sales-tracking/sales-tracking.module').then(m => m.SalesTrackingModule)
+                    },
+                    {
+                        path: 'package-management',
+                        loadChildren: () => import('app/modules/appointment-management/package-management/package-management.module').then(m => m.PackageManagementModule)
+                    },
+                    {
+                        path: 'stock-management',
+                        loadChildren: () => import('app/modules/appointment-management/stock-management/stock-management.module').then(m => m.StockManagementModule)
+                    },
+                    {
+                        path: 'agenda',
+                        loadChildren: () => import('app/modules/appointment-management/agenda/agenda.module').then(m => m.AgendaModule)
+                    },
+                    {
+                        path: 'promissory-note-tracking',
+                        loadChildren: () => import('app/modules/appointment-management/promissory-note-tracking/promissory-note-tracking.module').then(m => m.PromissoryNoteTrackingModule)
+                    },
+                    {
+                        path: 'cash-report',
+                        loadChildren: () => import('app/modules/appointment-management/cash-report/cash-report.module').then(m => m.CashReportModule)
+                    },
+                    {
+                        path: 'sms-management',
+                        loadChildren: () => import('app/modules/appointment-management/sms-management/sms-management.module').then(m => m.SmsManagementModule)
+                    },
+                    {
+                        path: 'settings',
+                        loadChildren: () => import('app/modules/appointment-management/settings/settings.module').then(m => m.SettingsModule)
+                    }
+                ]
             },
         ],
     },

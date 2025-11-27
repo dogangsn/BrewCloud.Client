@@ -1,0 +1,7 @@
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-stock-management',
+    templateUrl: './stock-management.component.html'
+})
+export class StockManagementComponent { }
