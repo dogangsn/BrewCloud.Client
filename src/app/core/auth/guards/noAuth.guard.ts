@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanMatch, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { AuthService } from 'app/core/services/auth/auth.service';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -43,12 +44,14 @@ export class NoAuthGuard implements CanMatch
      *
      * @private
      */
-    private _check(): Observable<boolean>
+    private _check(): Observable<boolean | UrlTree>
     {
         // Check the authentication status and return an observable of
         // "true" or "false" to allow or prevent the access
         return this._authService.check().pipe(
-            switchMap((authenticated) => of(!authenticated))
+            map((authenticated) => authenticated
+                ? this._router.parseUrl('/dashboards')
+                : true)
         );
     }
 }

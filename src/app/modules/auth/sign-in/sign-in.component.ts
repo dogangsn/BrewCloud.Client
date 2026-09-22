@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/services/auth/auth.service';
-import { de } from 'date-fns/locale';
 
 
 @Component({
@@ -46,10 +45,18 @@ export class AuthSignInComponent implements OnInit
      */
     ngOnInit(): void
     {
-        
+        this.signInForm = this._formBuilder.group({
+            email     : ['', [Validators.required, Validators.email]],
+            password  : ['', Validators.required],
+            rememberMe: ['']
+        });
+
             this._authService.signInUsingToken()
             .subscribe(
-                () => {
+                (response) => {
+                    if (!response) {
+                        return;
+                    }
 
                     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
@@ -63,13 +70,6 @@ export class AuthSignInComponent implements OnInit
                     this.signInForm.enable();
                 }
             );
-            
-        // Create the form
-        this.signInForm = this._formBuilder.group({
-            email     : ['', [Validators.required, Validators.email]],
-            password  : ['', Validators.required],
-            rememberMe: ['']
-        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -94,7 +94,6 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
-        debugger;
         this._authService.signIn(this.signInForm.value)
             .subscribe(
                 () => {

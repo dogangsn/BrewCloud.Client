@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanMatch, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { AuthService } from 'app/core/services/auth/auth.service';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -39,22 +39,10 @@ export class AuthGuard implements CanMatch
      * @param route
      * @param state
      */
-       canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean
+       canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree>
        {
-   
-   
-           const redirectUrl = state.url === 'auth/sign-out' ? '/' : state.url;
-           console.log(redirectUrl);
-   
-           const logged = this._authService.isLoggedIn();
-           if (!logged) {
-               this._router.navigate(['auth/sign-in'], {queryParams: {redirectUrl}});
-               return false;
-             }
-   
-             return true;
-   
-          // return this._check(redirectUrl);
+           const redirectURL = state.url === 'auth/sign-out' ? '/' : state.url;
+           return this._check(redirectURL);
        }
    
        /**
@@ -65,8 +53,8 @@ export class AuthGuard implements CanMatch
         */
        canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
        {
-           const redirectUrl = state.url === 'auth/sign-out' ? '/' : state.url;
-           return this._check(redirectUrl);
+           const redirectURL = state.url === 'auth/sign-out' ? '/' : state.url;
+           return this._check(redirectURL);
        }
  
 
@@ -101,12 +89,11 @@ export class AuthGuard implements CanMatch
     //         })
     //     );
     // }
-    private _check(redirectURL: string): Observable<boolean>
+    private _check(redirectURL: string): Observable<boolean | UrlTree>
     {
         const logged = this._authService.isLoggedIn();
         if (!logged) {
-            this._router.navigate(['auth/sign-in'], {queryParams: {redirectURL}});
-            return of(false);
+            return of(this._router.createUrlTree(['auth/sign-in'], {queryParams: {redirectURL}}));
           }
 
           return of(true);

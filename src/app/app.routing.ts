@@ -26,6 +26,7 @@ export const appRoutes: Route[] = [
     // Auth routes for guests
     {
         path: 'auth',
+        canMatch: [NoAuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'empty',

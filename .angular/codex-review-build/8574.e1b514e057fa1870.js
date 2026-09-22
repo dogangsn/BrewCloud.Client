@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfuse=self.webpackChunkfuse||[]).push([[8574],{68574:(d,a,s)=>{s.r(a),s.d(a,{GymdashboardsModule:()=>o});var n=s(36895),u=s(94650);let o=(()=>{class t{static#s=this.\u0275fac=function(c){return new(c||t)};static#t=this.\u0275mod=u.oAB({type:t});static#a=this.\u0275inj=u.cJS({imports:[n.ez]})}return t})()}}]);
