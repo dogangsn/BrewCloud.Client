@@ -4,5 +4,6 @@ export const environment = {
     // apiUrl: 'https://brewcloud.xyz:5000/services/',
     appName: 'brewcloud',
     env: 'dev',
-    IsApiConnect : true
+    IsApiConnect : true,
+    EnableVirtualLogin: false
 };

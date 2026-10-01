@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
+import { map, Observable, of, ReplaySubject, switchMap, take, tap } from 'rxjs';
 import { Shortcut } from 'app/layout/common/shortcuts/shortcuts.types';
 import { HttpService } from 'app/core/auth/Http.service';
 import { endPoints } from "environments/endPoints";
+import { environment } from 'environments/environment';
 import { shortcuts } from 'app/mock-api/common/shortcuts/data';
 import { v4 as uuidv4 } from 'uuid';
 @Injectable({
@@ -52,6 +53,11 @@ export class ShortcutsService
     // }
 
     getAll() : Observable<Shortcut[]>{    
+        if (environment.EnableVirtualLogin) {
+            this._shortcuts.next(shortcuts);
+            return of(shortcuts);
+        }
+
         return this._httpService.getRequest(endPoints.shortCuts.getShortCuts).pipe(
             map(response => response.data), // Extract the array from the data property
             tap((shortcuts) => {

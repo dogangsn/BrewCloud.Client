@@ -67,6 +67,24 @@ export class AuthService {
         if (this._authenticated) {
             return throwError('User is already logged in.');
         }
+
+        if (environment.EnableVirtualLogin) {
+            const email = credentials.email.trim();
+            const virtualUser = {
+                id: 'virtual-user',
+                name: email.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()),
+                email,
+                status: 'online'
+            };
+            const accessToken = this._createVirtualAccessToken(email);
+
+            this.accessToken = accessToken;
+            this._authenticated = true;
+            this._userService.user = virtualUser;
+
+            return of({ user: virtualUser, accessToken, tokenType: 'bearer' });
+        }
+
         const user = {
             userName: credentials.email,
             password: credentials.password,
@@ -102,6 +120,20 @@ export class AuthService {
                 })
             );
         }
+    }
+
+    private _createVirtualAccessToken(email: string): string {
+        const encode = (value: object): string => btoa(JSON.stringify(value))
+            .replace(/=/g, '')
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_');
+        const header = encode({ alg: 'none', typ: 'JWT' });
+        const payload = encode({
+            sub: email,
+            exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60
+        });
+
+        return `${header}.${payload}.virtual`;
     }
 
     isLoggedIn(): boolean {

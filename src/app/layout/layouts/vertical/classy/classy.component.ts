@@ -93,7 +93,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     }
 
     getSidebarNavigations(): void {
-        this.navigation = JSON.parse(localStorage.getItem('navigation'));
+        const storedNavigation = localStorage.getItem('navigation');
+        if (storedNavigation) {
+            this.navigation = JSON.parse(storedNavigation);
+            return;
+        }
+
+        this._navigationService.navigation$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((navigation) => {
+                this.navigation = navigation;
+            });
     }
     /**
      * On destroy
